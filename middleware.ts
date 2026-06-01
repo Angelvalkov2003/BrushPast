@@ -1,0 +1,82 @@
+import { createServerClient } from "@supabase/ssr";
+import { getSupabaseAnonKey, getSupabaseUrl } from "lib/supabase/config";
+import { NextResponse, type NextRequest } from "next/server";
+
+export async function middleware(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseAnonKey = getSupabaseAnonKey();
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return response;
+  }
+
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      get(name: string) {
+        return request.cookies.get(name)?.value;
+      },
+      set(name: string, value: string, options: any) {
+        request.cookies.set({
+          name,
+          value,
+          ...options,
+        });
+        response = NextResponse.next({
+          request: {
+            headers: request.headers,
+          },
+        });
+        response.cookies.set({
+          name,
+          value,
+          ...options,
+        });
+      },
+      remove(name: string, options: any) {
+        request.cookies.set({
+          name,
+          value: "",
+          ...options,
+        });
+        response = NextResponse.next({
+          request: {
+            headers: request.headers,
+          },
+        });
+        response.cookies.set({
+          name,
+          value: "",
+          ...options,
+        });
+      },
+    },
+  });
+
+  // Refresh session if expired - required for Server Components
+  await supabase.auth.getUser();
+
+  // Add pathname to headers for layout to check if we're in admin/login
+  const pathname = request.nextUrl.pathname;
+  response.headers.set("x-invoke-path", pathname);
+
+  return response;
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};

@@ -1,0 +1,459 @@
+# BrushPast — Project Brief (Next.js Stack)
+
+**Версия:** 1.0 — 2026-06-01
+**Референция:** brushpast.org (Wix demo)
+**Визуален референс:** `task/DesignStories.jpeg` · `task/designShop.jpeg`
+
+---
+
+## 1. Преглед
+
+| Поле | Стойност |
+|------|----------|
+| **Проект** | BrushPast — custom build от нулата |
+| **Тип** | Creative platform + social enterprise |
+| **Пазар** | United Kingdom |
+| **Валута** | GBP (£) |
+| **Домейн** | brushpast.org |
+| **Stack** | Next.js 14 (App Router) · Vercel · Supabase · Resend · Stripe |
+| **Logo asset** | `assets/logo.avif` |
+
+### Мисия
+
+BRUSH PAST е creative platform за истории на хора, преминали през бездомност, зависимост и животни предизвикателства — изразени чрез живопис, илюстрация, писане и фотография. Комбинира storytelling със social enterprise модел: specialty coffee gift boxes, workshops, exhibitions и mentorship. **65% от печалбите** отиват директно към създателите и организациите.
+
+---
+
+## 2. Tech Stack
+
+| Слой | Технология | Употреба |
+|------|-----------|----------|
+| Framework | Next.js 14 App Router | Цялото приложение |
+| Hosting | Vercel | Deploy, edge functions, env vars |
+| Database | Supabase (Postgres) | Продукти, поръчки, тагове, хора |
+| Auth (admin) | `.env.local` парола | Само за admin panel |
+| Payments | Stripe | Еднократни покупки; Donations — Phase 2 |
+| Email | Resend | Contact форма + Share Your Story форма |
+| Storage | Supabase Storage | Продуктни изображения, качени от admin |
+| CMS | Файлова система (MDX/JSON) | Stories + Journal — добавя developer |
+| Admin panel | Custom Next.js `/admin` | Продукти управление — клиентът |
+
+---
+
+## 3. Архитектура на данните (Supabase)
+
+### Таблици
+
+#### `people`
+Всеки човек с история в платформата.
+
+| Колона | Тип | Бележка |
+|--------|-----|---------|
+| `id` | uuid PK | |
+| `slug` | text unique | URL — `/stories/errol` |
+| `name` | text | Показва се на страницата |
+| `tag` | text unique | Точно съвпада с product tag — напр. `errol` |
+| `cover_image_url` | text | Главна снимка на story страницата |
+| `bio` | text | Кратко описание |
+| `created_at` | timestamptz | |
+
+#### `products`
+| Колона | Тип | Бележка |
+|--------|-----|---------|
+| `id` | uuid PK | |
+| `title` | text | |
+| `slug` | text unique | |
+| `description` | text | |
+| `price` | integer | В пенси (£12.50 = 1250) |
+| `category` | text | `coffee` · `apparel` · `prints` · `gift-boxes` · `story-cards` · `experimental` |
+| `person_tag` | text | FK логика → `people.tag`; може да е null |
+| `images` | text[] | Supabase Storage URLs |
+| `stripe_price_id` | text | |
+| `in_stock` | boolean | default true |
+| `created_at` | timestamptz | |
+
+#### `orders`
+| Колона | Тип | Бележка |
+|--------|-----|---------|
+| `id` | uuid PK | |
+| `stripe_session_id` | text unique | |
+| `items` | jsonb | `[{product_id, title, price, qty}]` |
+| `total` | integer | В пенси |
+| `shipping_method` | text | `tracked48` · `dpd` |
+| `shipping_address` | jsonb | |
+| `status` | text | `pending` · `paid` · `fulfilled` |
+| `created_at` | timestamptz | |
+
+#### `contact_submissions`
+| Колона | Тип | Бележка |
+|--------|-----|---------|
+| `id` | uuid PK | |
+| `type` | text | `contact` · `share_story` |
+| `first_name` | text | |
+| `last_name` | text | |
+| `email` | text | |
+| `phone` | text nullable | |
+| `message` | text | |
+| `created_at` | timestamptz | |
+
+---
+
+## 4. Stories и Journal (MDX/файлове)
+
+Stories и Journal постове се управляват от developer-а — **не** от admin panel.
+
+### Файлова структура
+
+```
+content/
+  stories/
+    errol.mdx
+    david.mdx
+    jeremy.mdx
+    ...
+  journal/
+    groundswell-x-brushpast.mdx
+    something-to-take-off-the-edge.mdx
+    ...
+```
+
+### MDX frontmatter — Story
+
+```yaml
+---
+slug: errol
+title: "Errol's Story"
+person_tag: errol        # съвпада с people.tag в Supabase
+date: 2025-03-18
+cover_image: /images/stories/errol-cover.jpg
+tags: [writing, recovery, identity]
+excerpt: "All shall be well..."
+---
+```
+
+### MDX frontmatter — Journal
+
+```yaml
+---
+slug: groundswell-x-brushpast
+title: "Groundswell x BrushPast"
+date: 2025-12-12
+cover_image: /images/journal/groundswell.jpg
+tags: [partnership, community]
+excerpt: "The art of empowerment is stronger when communities create together."
+---
+```
+
+---
+
+## 5. Routing (App Router)
+
+| Route | Описание |
+|-------|----------|
+| `/` | Homepage |
+| `/stories` | Stories grid — всички хора/истории |
+| `/stories/[slug]` | Индивидуална story страница |
+| `/journal` | Journal landing (news/events) |
+| `/journal/[slug]` | Индивидуален journal пост |
+| `/workshops` | Workshops страница (статична) |
+| `/shop` | Shop landing — THE ARCHIVE SHOP |
+| `/shop/[category]` | Колекция по категория |
+| `/products/[slug]` | Продуктна страница |
+| `/cart` | Количка |
+| `/checkout` | Stripe Checkout redirect |
+| `/order/success` | Post-payment confirmation |
+| `/about` | About страница |
+| `/contact` | Contact форма |
+| `/share-your-story` | Share Your Story форма |
+| `/admin` | Admin panel (парола protected) |
+| `/admin/products` | Списък продукти |
+| `/admin/products/new` | Нов продукт |
+| `/admin/products/[id]` | Редакция на продукт |
+| `/admin/orders` | Поръчки |
+
+### Legal pages (статични)
+
+| Route | Съдържание |
+|-------|-----------|
+| `/privacy` | Privacy Policy |
+| `/cookies` | Cookies Policy |
+| `/returns` | Returns & Refunds |
+| `/code-of-conduct` | Code of Conduct |
+| `/modern-slavery` | Modern Slavery |
+| `/whistleblowing` | Whistleblowing |
+
+---
+
+## 6. Story страница — логика
+
+`/stories/[slug]` зарежда от две места:
+
+1. **MDX файл** (`content/stories/[slug].mdx`) — текст, снимки, история
+2. **Supabase** — `products` WHERE `person_tag = people.tag` → показва продуктите на човека под историята
+
+### Layout на story страница
+
+```
+[ ← Back to Stories ]
+
+[ Cover image — full width или hero ]
+
+[ Заглавие + дата ]
+
+[ MDX съдържание — текст, снимки, цитати ]
+
+---
+
+[ "Works by {name}" — ако има продукти ]
+[ Product card grid — само продукти с person_tag на този човек ]
+```
+
+Ако човекът няма продукти → секцията не се показва.
+
+---
+
+## 7. Shop логика
+
+### Категории (collections)
+
+| Slug | Заглавие в mockup | Описание |
+|------|------------------|---------|
+| `coffee` | GIFT ME — Coffee | Coffee gift boxes |
+| `gift-boxes` | GIFT ME — Gift Boxes | Story boxes, archive collections |
+| `apparel` | WEAR ME | T-shirts, clothing |
+| `prints` | FRAME ME | Limited edition art & photography |
+| `story-cards` | Story Cards | Collectible cards |
+| `experimental` | Kettle Gallery | Small-run 3D mixed-media pieces |
+
+### Shipping (хардкоднато в checkout логиката)
+
+| Метод | Цена | Срок |
+|-------|------|------|
+| Royal Mail Tracked 48 | £3.80 (380p) | 2–3 working days |
+| DPD | £8.00 (800p) | 2–4 working days |
+| Free | £0 | Orders above £40 (4000p) |
+
+### Stripe flow
+
+1. Потребителят добавя в количка (client state — localStorage или Zustand)
+2. `/checkout` → `POST /api/checkout` → създава Stripe Checkout Session
+3. Redirect към Stripe hosted checkout
+4. Success → `/order/success?session_id=...`
+5. Webhook `checkout.session.completed` → записва order в Supabase, update `status = paid`
+
+---
+
+## 8. Admin Panel (`/admin`)
+
+**Auth:** единична парола от `ADMIN_PASSWORD` в `.env.local`. Cookie session след login.
+
+### Функционалност
+
+| Страница | Действия |
+|----------|---------|
+| `/admin/products` | Таблица с всички продукти; Edit / Delete; toggle in_stock |
+| `/admin/products/new` | Форма: title, slug (auto), description, price, category, person_tag (dropdown от `people`), images upload, stripe_price_id |
+| `/admin/products/[id]` | Същата форма, попълнена |
+| `/admin/orders` | Таблица: дата, items, total, status, shipping address; ръчна смяна на status |
+
+**Image upload:** директно към Supabase Storage от формата.
+
+**People** (`people` таблица) — добавя developer директно в Supabase; не е нужен admin UI за тях.
+
+---
+
+## 9. Email (Resend)
+
+Само два случая:
+
+| Тригер | До | Съдържание |
+|--------|----|-----------|
+| Contact форма submit | hello@brushpast.org | Всички полета от формата |
+| Share Your Story submit | hello@brushpast.org | Всички полета от формата |
+
+Клиентите **не** получават потвърдителни имейли за сега.
+
+### Форми
+
+**Contact (`/contact`):**
+- First name, Last name, Email*, Phone, Message*
+
+**Share Your Story (`/share-your-story`):**
+- First name, Last name, Email*, Message* (разказ/текст)
+
+И двете форми → записват в `contact_submissions` Supabase таблица + изпращат имейл с Resend.
+
+---
+
+## 10. Дизайн токени (от mockups)
+
+| Token | Стойност | CSS variable |
+|-------|----------|-------------|
+| Background | Warm off-white / cream | `--color-bg` |
+| Text | Bold black | `--color-text` |
+| Accent | Red / orange-red | `--color-accent` |
+| Footer bg | Near-black | `--color-footer-bg` |
+| Font — display | Bold geometric sans | Logo, H1, nav |
+| Font — accent | Handwritten / script | Субтитли, quotes |
+
+### Header
+
+- Nav: STORIES · SHOP · WORKSHOPS · JOURNAL · ABOUT
+- Primary CTA: **SHARE YOUR STORY** — solid accent (red), top-right
+- Cart icon + badge
+- Active nav: accent underline
+
+### Footer (тъмен)
+
+- Колони: Brand + tagline · EXPLORE · SHOP · CONNECT
+- Newsletter: **STAY IN THE LOOP** — email field (само collect; без изпращане за сега)
+- Social: Instagram, LinkedIn
+- Legal: © + Community Interest Company
+- Seal badge: **THE ART OF EMPOWERMENT**
+
+---
+
+## 11. Stories Page дизайн (`DesignStories.jpeg`)
+
+### Hero
+- H1: **STORIES** (display scale)
+- Sub: *Art. Writing. Photography. Real people. Real voices.*
+- Script accent: *Not spoken about. But speaking.*
+
+### Filter bar
+Pill/tab links по tags:
+`ALL` · `WRITING` · `PHOTOGRAPHY` · `ART` · `FRAGMENTS` · `RECOVERY` · `IDENTITY` · `COMMUNITY` · `WORKSHOPS`
+
+### Card grid
+- ~4 колони desktop, responsive
+- Card: cover image · name · quote/snippet (1–2 реда) · tags
+
+### Mid-page CTA band
+- Copy: *Every story shared creates connection and opportunity.*
+- CTA: **SHARE YOUR STORY** → `/share-your-story`
+
+---
+
+## 12. Shop Page дизайн (`designShop.jpeg`)
+
+### Hero — THE ARCHIVE SHOP
+- H1: **THE ARCHIVE SHOP**
+- Sub: *Art, objects and editions created through lived experience. Every piece shares a story.*
+- CTA: **EXPLORE THE ARCHIVE →**
+
+### Category pillars (3 колони)
+| Pillar | Heading | Collection |
+|--------|---------|-----------|
+| 1 | WEAR ME | `apparel` |
+| 2 | FRAME ME | `prints` |
+| 3 | GIFT ME | `gift-boxes` + `coffee` |
+
+### Kettle Gallery
+- Experimental / small-run pieces
+- Horizontal product row
+- Collection tag: `experimental`
+
+### Trust band (4 icons)
+- Real Stories · **65% of profits reinvested** · Mentorship & workshops · Every purchase unlocks opportunity
+
+---
+
+## 13. Съдържание за миграция от Wix
+
+### Stories (MDX файлове за създаване)
+
+| Slug | Човек |
+|------|-------|
+| `jeremy` | Jeremy Knight |
+| `david` | David Downes |
+| `maimouna` | Maimouna Camara |
+| `chrissie` | Chrissie |
+| `errol` | Errol |
+| `rob` | Rob |
+| `jamie` | Jamie |
+| `eneh` | Eneh |
+| `ed-beerbohm` | Ed Beerbohm |
+| `jr` | JR |
+| `little-george` | Little George |
+| `george` | George |
+
+### Journal (MDX файлове за създаване)
+
+| Slug | Заглавие |
+|------|---------|
+| `something-to-take-off-the-edge` | Stockwell Park колаборация — Errol McGlashan |
+| `groundswell-x-brushpast` | Groundswell x BrushPast |
+| `eneh-day-in-photos` | Eneh's Day in Photos |
+| `cotton-gardens-photography-workshop` | Cotton Gardens Workshop |
+
+### Workshops (статична страница `/workshops`)
+
+| Workshop | Facilitator |
+|----------|------------|
+| T-Shirt Design | — |
+| Art & Drawing | George Carty |
+| Design / Zines | TBA |
+| Writing | Elizabeth Morton |
+| Photography | George Amponsah |
+
+### Продукти (начален seed в Supabase)
+
+| Продукт | Цена | Категория | person_tag |
+|---------|------|-----------|-----------|
+| Coffee Gift Boxes | £12.50 | `coffee` | null |
+
+---
+
+## 14. Environment variables
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+# Resend
+RESEND_API_KEY=
+
+# Admin
+ADMIN_PASSWORD=
+
+# App
+NEXT_PUBLIC_SITE_URL=https://brushpast.org
+```
+
+---
+
+## 15. Build phases
+
+| Phase | Deliverables |
+|-------|-------------|
+| **0 — Setup** | Repo, Vercel project, Supabase project, env vars, Stripe account, Resend domain |
+| **1 — Foundation** | Design tokens, Header, Footer, mobile nav, logo |
+| **2 — Stories** | MDX pipeline, Stories grid, Story page (+ products под историята), Journal grid + post |
+| **3 — Shop** | Shop landing (mockup sections), Collection pages, Product page, Cart |
+| **4 — Checkout** | Stripe integration, Webhook, Order success page, Supabase orders |
+| **5 — Forms** | Contact, Share Your Story, Resend emails |
+| **6 — Admin** | Password auth, Products CRUD, Image upload, Orders view |
+| **7 — Static pages** | About, Workshops, Privacy, Cookies, Returns, Code of Conduct, Modern Slavery, Whistleblowing |
+| **8 — QA & Launch** | Mobile/tablet/desktop, Stripe test mode → live, domain, go-live |
+
+---
+
+## 16. Отворени въпроси (клиент)
+
+- Финален текст за: Code of Conduct, Modern Slavery, Whistleblowing
+- Пълен product catalog извън coffee gift box
+- Корекция "Brushed Past" → "Brush Past" навсякъде в copy
+- Stripe account setup (клиентът или developer)
+- VAT статус (accountant)
+- Newsletter — само collect emails за сега или MailChimp/Resend audience в бъдеще?
+
+---
+
+*Brief v1.0 — Next.js stack — 2026-06-01*

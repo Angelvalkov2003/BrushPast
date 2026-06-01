@@ -1,0 +1,21 @@
+#!/bin/sh
+# Only allow pushes when this repo's git identity is angel4o2003@abv.bg
+
+ALLOWED_EMAIL="angel4o2003@abv.bg"
+CURRENT_EMAIL=$(git config --get user.email)
+
+if [ "$CURRENT_EMAIL" != "$ALLOWED_EMAIL" ]; then
+  echo ""
+  echo "Push blocked: this project may only be pushed with:"
+  echo "  user.email = $ALLOWED_EMAIL"
+  echo ""
+  echo "Current user.email = ${CURRENT_EMAIL:-<not set>}"
+  echo ""
+  echo "Fix:"
+  echo "  git config --local user.email $ALLOWED_EMAIL"
+  echo "  git config --local user.name \"Your Name\""
+  echo ""
+  exit 1
+fi
+
+exit 0

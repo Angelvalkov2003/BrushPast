@@ -1,0 +1,15 @@
+#!/bin/sh
+# Reject commits if author email is not the allowed project email
+
+ALLOWED_EMAIL="angel4o2003@abv.bg"
+CURRENT_EMAIL=$(git config --get user.email)
+
+if [ "$CURRENT_EMAIL" != "$ALLOWED_EMAIL" ]; then
+  echo ""
+  echo "Commit blocked: use git identity $ALLOWED_EMAIL for this repo."
+  echo "Current user.email = ${CURRENT_EMAIL:-<not set>}"
+  echo ""
+  exit 1
+fi
+
+exit 0

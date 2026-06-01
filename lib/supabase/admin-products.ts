@@ -1,0 +1,373 @@
+import { createServerClient } from "./server";
+import type { Image } from "lib/types";
+
+// Helper to check if error is React.postpone()
+function isReactPostpone(error: unknown): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "$$typeof" in error &&
+    error.$$typeof === Symbol.for("react.postpone")
+  );
+}
+
+export interface CreateProductData {
+  handle: string;
+  title: string;
+  description?: string;
+  price: number;
+  compare_at_price?: number;
+  featured_image?: Image;
+  images?: Image[];
+  category?: string;
+  available?: boolean;
+  position?: number;
+}
+
+export interface UpdateProductData extends Partial<CreateProductData> {
+  id: string;
+}
+
+/**
+ * Get product order count (number of orders containing this product)
+ */
+export async function getProductOrderCount(productId: string): Promise<number> {
+  try {
+    const supabase = await createServerClient();
+    
+    // Query orders where products JSONB array contains this product ID
+    const { data, error } = await supabase
+      .from("orders")
+      .select("products")
+      .neq("status", "canceled"); // Exclude canceled orders
+
+    if (error) {
+      console.error("Error fetching orders for product count:", error);
+      return 0;
+    }
+
+    if (!data) {
+      return 0;
+    }
+
+    // Count how many orders contain this product
+    let count = 0;
+    for (const order of data) {
+      if (Array.isArray(order.products)) {
+        const hasProduct = order.products.some(
+          (p: any) => p.id === productId
+        );
+        if (hasProduct) {
+          count++;
+        }
+      }
+    }
+
+    return count;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in getProductOrderCount:", error);
+    return 0;
+  }
+}
+
+/**
+ * Get all products (including unavailable ones) for admin
+ */
+export async function getAllProductsForAdmin(params?: {
+  category?: string;
+  sortBy?: "price" | "sales" | "position" | "created_at";
+  sortOrder?: "asc" | "desc";
+}) {
+  try {
+    const supabase = await createServerClient();
+    
+    let query = supabase.from("products").select("*");
+
+    // Filter by category if provided
+    if (params?.category) {
+      query = query.eq("category", params.category);
+    }
+
+    // Apply sorting
+    const sortBy = params?.sortBy || "position";
+    const sortOrder = params?.sortOrder || "asc";
+
+    if (sortBy === "price") {
+      query = query.order("price", { ascending: sortOrder === "asc" });
+    } else if (sortBy === "created_at") {
+      query = query.order("created_at", { ascending: sortOrder === "asc" });
+    } else {
+      // Default: position
+      query = query.order("position", { ascending: sortOrder === "asc" });
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Error fetching products:", error);
+      throw new Error("Failed to fetch products");
+    }
+
+    const products = data || [];
+
+    // Get all orders once to calculate order counts efficiently
+    const supabaseForOrders = await createServerClient();
+    const { data: ordersData } = await supabaseForOrders
+      .from("orders")
+      .select("products")
+      .neq("status", "canceled");
+
+    // Create a map of product ID to order count
+    const productOrderCountMap = new Map<string, number>();
+    
+    if (ordersData) {
+      for (const order of ordersData) {
+        if (Array.isArray(order.products)) {
+          for (const product of order.products) {
+            if (product.id) {
+              const currentCount = productOrderCountMap.get(product.id) || 0;
+              productOrderCountMap.set(product.id, currentCount + 1);
+            }
+          }
+        }
+      }
+    }
+
+    // Add order counts to products
+    const productsWithCounts = products.map((product) => ({
+      ...product,
+      orderCount: productOrderCountMap.get(product.id) || 0,
+    }));
+
+    // If sorting by sales, sort by order count
+    if (sortBy === "sales") {
+      productsWithCounts.sort((a, b) => {
+        if (sortOrder === "asc") {
+          return a.orderCount - b.orderCount;
+        } else {
+          return b.orderCount - a.orderCount;
+        }
+      });
+    }
+
+    return productsWithCounts;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in getAllProductsForAdmin:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get product by ID for admin
+ */
+export async function getProductByIdForAdmin(productId: string) {
+  try {
+    const supabase = await createServerClient();
+    
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", productId)
+      .single();
+
+    if (error) {
+      console.error("Error fetching product:", error);
+      throw new Error("Failed to fetch product");
+    }
+
+    return data;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in getProductByIdForAdmin:", error);
+    throw error;
+  }
+}
+
+/**
+ * Check if handle already exists
+ */
+async function checkHandleExists(handle: string, excludeId?: string): Promise<boolean> {
+  try {
+    const supabase = await createServerClient();
+    const trimmedHandle = handle.trim();
+    
+    let query = supabase
+      .from("products")
+      .select("id")
+      .eq("handle", trimmedHandle)
+      .limit(1);
+
+    if (excludeId) {
+      query = query.neq("id", excludeId);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("Error checking handle:", error);
+      return false;
+    }
+
+    return (data && data.length > 0) || false;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in checkHandleExists:", error);
+    return false;
+  }
+}
+
+/**
+ * Create a new product
+ */
+export async function createProduct(data: CreateProductData) {
+  try {
+    const supabase = await createServerClient();
+    
+    const trimmedHandle = data.handle.trim();
+    
+    // Check if handle already exists
+    const handleExists = await checkHandleExists(trimmedHandle);
+    if (handleExists) {
+      throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
+    }
+    
+    const productData = {
+      handle: trimmedHandle,
+      title: data.title,
+      description: data.description || null,
+      price: data.price,
+      compare_at_price: data.compare_at_price || null,
+      featured_image: data.featured_image || null,
+      images: data.images || [],
+      category: data.category || null,
+      available: data.available !== false,
+      position: data.position ?? 0,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data: product, error } = await supabase
+      .from("products")
+      .insert(productData)
+      .select()
+      .single();
+
+    if (error) {
+      // Check for unique constraint violation
+      if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
+        throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
+      }
+      console.error("Error creating product:", error);
+      throw new Error("Failed to create product");
+    }
+
+    return product;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in createProduct:", error);
+    throw error;
+  }
+}
+
+/**
+ * Update a product
+ */
+export async function updateProduct(data: UpdateProductData) {
+  try {
+    const supabase = await createServerClient();
+    
+    const updateData: any = {
+      updated_at: new Date().toISOString(),
+    };
+
+    if (data.handle !== undefined) {
+      const trimmedHandle = data.handle.trim();
+      
+      // Check if handle already exists for another product
+      const handleExists = await checkHandleExists(trimmedHandle, data.id);
+      if (handleExists) {
+        throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
+      }
+      
+      updateData.handle = trimmedHandle;
+    }
+    if (data.title !== undefined) updateData.title = data.title;
+    if (data.description !== undefined) updateData.description = data.description || null;
+    if (data.price !== undefined) updateData.price = data.price;
+    if (data.compare_at_price !== undefined) updateData.compare_at_price = data.compare_at_price || null;
+    if (data.featured_image !== undefined) updateData.featured_image = data.featured_image || null;
+    if (data.images !== undefined) updateData.images = data.images || [];
+    if (data.category !== undefined) updateData.category = data.category || null;
+    if (data.available !== undefined) updateData.available = data.available;
+    if (data.position !== undefined) updateData.position = data.position;
+
+    const { data: product, error } = await supabase
+      .from("products")
+      .update(updateData)
+      .eq("id", data.id)
+      .select()
+      .single();
+
+    if (error) {
+      // Check for unique constraint violation
+      if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
+        throw new Error(`Slug "${updateData.handle || data.handle}" вече е зает. Моля, изберете друг slug.`);
+      }
+      console.error("Error updating product:", error);
+      throw new Error("Failed to update product");
+    }
+
+    return product;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in updateProduct:", error);
+    throw error;
+  }
+}
+
+/**
+ * Delete a product
+ */
+export async function deleteProduct(productId: string) {
+  try {
+    const supabase = await createServerClient();
+    
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", productId);
+
+    if (error) {
+      console.error("Error deleting product:", error);
+      throw new Error("Failed to delete product");
+    }
+
+    return true;
+  } catch (error) {
+    // Don't catch React.postpone() - let it propagate for PPR
+    if (isReactPostpone(error)) {
+      throw error;
+    }
+    console.error("Error in deleteProduct:", error);
+    throw error;
+  }
+}
