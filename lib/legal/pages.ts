@@ -9,13 +9,15 @@ export const legalPages: Record<string, LegalPageContent> = {
   privacy: {
     slug: "privacy",
     title: "Privacy Policy",
-    description: "How Brush Past collects, uses, and protects your personal data (UK GDPR).",
+    description:
+      "How Brush Past collects, uses, and protects your personal data when you shop, share a story, or contact us — in line with UK GDPR.",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
         title: "Who we are",
         paragraphs: [
-          "Brush Past (Community Interest Company) operates brushpast.org. We are the data controller for personal data collected through this website.",
+          "Brush Past is a Community Interest Company (CIC) based in the United Kingdom. We operate brushpast.org — a creative platform and social enterprise combining storytelling, workshops, and The Archive Shop.",
+          "We are the data controller for personal data collected through this website. Our activities are focused on supporters, customers, and partners in the UK.",
           contactBlock,
         ],
       },
@@ -24,10 +26,10 @@ export const legalPages: Record<string, LegalPageContent> = {
         paragraphs: ["We may collect:"],
         list: [
           "Identity and contact details (name, email, phone) when you contact us, share your story, or place an order",
-          "Delivery and billing details for shop orders",
-          "Order history and payment references (card payments are processed by Stripe; we do not store full card numbers)",
+          "UK delivery and billing details for shop orders",
+          "Order history and payment references (card payments are processed by Stripe in GBP; we do not store full card numbers)",
           "Technical data (IP address, browser type, device) via cookies and server logs",
-          "Communications you send us (messages, story submissions)",
+          "Communications you send us (messages, story submissions, workshop enquiries)",
         ],
       },
       {
@@ -37,7 +39,7 @@ export const legalPages: Record<string, LegalPageContent> = {
           "Process and fulfil shop orders and donations (where applicable)",
           "Respond to enquiries and story submissions",
           "Send operational emails (order updates) where relevant",
-          "Improve our website and comply with legal obligations",
+          "Improve our website and comply with UK legal obligations",
           "Protect against fraud and misuse",
         ],
       },
@@ -104,28 +106,39 @@ export const legalPages: Record<string, LegalPageContent> = {
   cookies: {
     slug: "cookies",
     title: "Cookies Policy",
-    description: "How Brush Past uses cookies and similar technologies.",
+    description:
+      "How Brush Past uses cookies and similar technologies on brushpast.org — and how you can control them (UK PECR & UK GDPR).",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
         title: "What are cookies?",
         paragraphs: [
-          "Cookies are small text files stored on your device when you visit a website. They help the site work, remember preferences, and (with your consent) understand how visitors use the site.",
+          "Cookies are small text files stored on your device when you visit a website. They help the site work, remember preferences (such as items in your bag), and — only with your consent — understand how visitors use the site.",
         ],
       },
       {
         title: "How we use cookies",
-        paragraphs: ["On brushpast.org we use:"],
+        paragraphs: [
+          "On brushpast.org we use cookies in line with UK law (PECR and UK GDPR). When you first visit, our cookie banner lets you accept all cookies, reject non-essential cookies, or choose category by category.",
+          "We use:",
+        ],
         list: [
-          "Strictly necessary cookies — required for security, checkout, cart, and admin sessions. These cannot be switched off in our cookie banner.",
-          "Analytics cookies — only if you accept them in our cookie settings (e.g. to measure traffic via Google Analytics when configured).",
+          "Strictly necessary cookies — required for security, checkout, your shopping bag, and remembering your cookie choices. These cannot be switched off in our cookie banner.",
+          "Analytics cookies — only if you accept them (e.g. to measure traffic via Google Analytics when configured). IP addresses are anonymised where possible.",
+          "Marketing cookies — only if you accept them, to measure campaigns or show more relevant content.",
           "Preference cookies — to remember choices such as cookie consent.",
+        ],
+      },
+      {
+        title: "Third-party cookies",
+        paragraphs: [
+          "Some cookies are set by services we use, such as Stripe (payments) and analytics providers. These providers have their own privacy notices. We only enable non-essential third-party cookies when you consent.",
         ],
       },
       {
         title: "Managing cookies",
         paragraphs: [
-          "You can change your choices at any time using the cookie settings control on the site, or through your browser settings. Blocking all cookies may affect shop checkout and site functionality.",
+          "You can change your choices at any time using the cookie settings button (bottom-right of the screen after your first visit), or through your browser settings. Blocking all cookies may affect shop checkout and site functionality.",
           "For more on how we use personal data, see our Privacy Policy.",
           contactBlock,
         ],
