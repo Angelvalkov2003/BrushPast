@@ -2,157 +2,190 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { Fragment, Suspense, useEffect, useState } from "react";
-
-import { Bars3Icon, XMarkIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import Search, { SearchSkeleton } from "./search";
+import { usePathname } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
+import {
+  Bars3Icon,
+  ChevronDownIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import CartModal from "components/cart/modal";
+import { NavLink } from "./nav-link";
 
 type MenuItem = {
   title: string;
   path: string;
 };
 
-interface Collection {
-  id: string;
-  handle: string;
-  title: string;
-}
+const MAIN_LINKS = [
+  { label: "Stories", href: "/stories" },
+  { label: "Workshops", href: "/workshops" },
+  { label: "Journal", href: "/journal" },
+  { label: "About", href: "/about" },
+  { label: "Get in Touch", href: "/contact" },
+] as const;
 
-export default function MobileMenu({ menu }: { menu: MenuItem[] }) {
+export default function MobileMenu({
+  collections,
+  loading,
+}: {
+  collections: MenuItem[];
+  loading: boolean;
+}) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
-  const [productsSubmenuOpen, setProductsSubmenuOpen] = useState(false);
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [loading, setLoading] = useState(true);
-  
-  const openMobileMenu = () => setIsOpen(true);
-  const closeMobileMenu = () => setIsOpen(false);
+  const [shopOpen, setShopOpen] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/collections")
-      .then((res) => res.json())
-      .then((data) => {
-        setCollections(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching collections:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [isOpen]);
-
-  useEffect(() => {
+  const close = () => {
     setIsOpen(false);
-  }, [pathname, searchParams]);
+    setShopOpen(false);
+  };
+
+  useEffect(() => {
+    close();
+  }, [pathname]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
     <>
       <button
-        onClick={openMobileMenu}
-        aria-label="Open mobile menu"
-        className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors md:hidden dark:border-neutral-700 dark:text-white"
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className="flex h-11 w-11 items-center justify-center text-bp-text"
+        aria-label="Open menu"
       >
-        <Bars3Icon className="h-4" />
+        <Bars3Icon className="h-7 w-7 stroke-[2]" />
       </button>
-      <Transition show={isOpen}>
-        <Dialog onClose={closeMobileMenu} className="relative z-50">
-          <Transition.Child
-            as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="opacity-0 backdrop-blur-none"
-            enterTo="opacity-100 backdrop-blur-[.5px]"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="opacity-100 backdrop-blur-[.5px]"
-            leaveTo="opacity-0 backdrop-blur-none"
-          >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="translate-x-[-100%]"
-            enterTo="translate-x-0"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="translate-x-0"
-            leaveTo="translate-x-[-100%]"
-          >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-black">
-              <div className="p-4">
-                <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
-                  onClick={closeMobileMenu}
-                  aria-label="Затвори мобилно меню"
-                >
-                  <XMarkIcon className="h-6" />
-                </button>
 
-                <div className="mb-4 w-full">
-                  <Suspense fallback={<SearchSkeleton />}>
-                    <Search />
-                  </Suspense>
-                </div>
-                <ul className="flex w-full flex-col">
+      <Transition show={isOpen}>
+        <Dialog onClose={close} className="relative z-[60] lg:hidden">
+          <Transition.Child
+            as={Fragment}
+            enter="transition-opacity duration-200"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-bp-text/40" aria-hidden />
+          </Transition.Child>
+
+          <Transition.Child
+            as={Fragment}
+            enter="transition-transform duration-300 ease-out"
+            enterFrom="translate-x-full"
+            enterTo="translate-x-0"
+            leave="transition-transform duration-200 ease-in"
+            leaveFrom="translate-x-0"
+            leaveTo="translate-x-full"
+          >
+            <Dialog.Panel className="fixed inset-y-0 right-0 flex w-full max-w-sm flex-col bg-bp-canvas shadow-xl">
+              <div className="flex items-center justify-end border-b border-bp-text/10 px-5 py-4">
+                <button
+                  type="button"
+                  onClick={close}
+                  className="flex h-10 w-10 items-center justify-center text-bp-text"
+                  aria-label="Close menu"
+                >
+                  <XMarkIcon className="h-7 w-7 stroke-[2]" />
+                </button>
+              </div>
+
+              <nav className="flex-1 overflow-y-auto px-6 py-8" aria-label="Mobile">
+                <ul className="space-y-1">
+                  <li>
+                    <div className="py-2">
+                      <NavLink
+                        href="/stories"
+                        className="block py-2 text-base"
+                        onClick={close}
+                      >
+                        Stories
+                      </NavLink>
+                    </div>
+                  </li>
+
                   <li>
                     <button
-                      onClick={() => setProductsSubmenuOpen(!productsSubmenuOpen)}
-                      className="flex w-full items-center justify-between py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white"
+                      type="button"
+                      onClick={() => setShopOpen((o) => !o)}
+                      className="flex w-full items-center justify-between py-3 text-base font-bold uppercase tracking-[0.12em] text-bp-text"
                     >
-                      Продукти
-                      <ChevronRightIcon
-                        className={`h-5 w-5 transition-transform ${productsSubmenuOpen ? "rotate-90" : ""}`}
+                      Shop
+                      <ChevronDownIcon
+                        className={clsx(
+                          "h-5 w-5 transition-transform",
+                          shopOpen && "rotate-180",
+                        )}
                       />
                     </button>
-                    {productsSubmenuOpen && (
-                      <ul className="ml-4 mt-2 space-y-2 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+                    {shopOpen ? (
+                      <ul className="mb-2 ml-2 space-y-1 border-l-2 border-bp-accent/40 pl-4">
                         <li>
                           <Link
-                            href="/products"
-                            prefetch={true}
-                            onClick={closeMobileMenu}
-                            className="block py-2 text-lg text-gray-700 transition-colors hover:text-black dark:text-gray-300 dark:hover:text-white"
+                            href="/shop"
+                            onClick={close}
+                            className="block py-2 text-sm font-semibold uppercase tracking-wide text-bp-text/80 hover:text-bp-accent"
                           >
-                            Всички
+                            The Archive Shop
                           </Link>
                         </li>
                         {!loading &&
-                          collections.map((collection) => (
-                            <li key={collection.id}>
+                          collections.map((item) => (
+                            <li key={item.path}>
                               <Link
-                                href={`/products?collection=${collection.handle}`}
-                                prefetch={true}
-                                onClick={closeMobileMenu}
-                                className="block py-2 text-lg text-gray-700 transition-colors hover:text-black dark:text-gray-300 dark:hover:text-white"
+                                href={item.path}
+                                onClick={close}
+                                className="block py-2 text-sm font-semibold uppercase tracking-wide text-bp-text/80 hover:text-bp-accent"
                               >
-                                {collection.title}
+                                {item.title}
                               </Link>
                             </li>
                           ))}
                       </ul>
-                    )}
+                    ) : null}
                   </li>
-                  <li className="py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white">
-                    <Link
-                      href="/contact"
-                      prefetch={true}
-                      onClick={closeMobileMenu}
-                    >
-                      Контакти
-                    </Link>
-                  </li>
+
+                  {MAIN_LINKS.slice(1).map((link) => (
+                    <li key={link.href}>
+                      <NavLink
+                        href={link.href}
+                        className="block py-3 text-base"
+                        onClick={close}
+                      >
+                        {link.label}
+                      </NavLink>
+                    </li>
+                  ))}
                 </ul>
-              </div>
+
+                <Link
+                  href="/share-your-story"
+                  onClick={close}
+                  className="mt-10 block w-full bg-bp-accent py-4 text-center text-xs font-bold uppercase tracking-[0.14em] text-bp-canvas"
+                >
+                  Share your story
+                </Link>
+
+                <div className="mt-8 flex items-center justify-between border-t border-bp-text/10 pt-6">
+                  <span className="text-xs font-bold uppercase tracking-[0.12em] text-bp-text">
+                    Your bag
+                  </span>
+                  <CartModal />
+                </div>
+              </nav>
             </Dialog.Panel>
           </Transition.Child>
         </Dialog>

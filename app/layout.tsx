@@ -1,5 +1,6 @@
 import { CartProvider } from "components/cart/cart-context";
 import { ConditionalNavbar } from "components/layout/conditional-navbar";
+import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { CookieConsent } from "components/cookie-consent";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
@@ -14,6 +15,12 @@ export const metadata = {
   title: {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
+  },
+  description:
+    "UK creative platform and social enterprise — art, stories, and The Archive Shop.",
+  icons: {
+    icon: "/logo.avif",
+    apple: "/logo.avif",
   },
   robots: {
     follow: true,
@@ -30,8 +37,11 @@ export default async function RootLayout({
   // No need to fetch from database or pass any props
 
   return (
-    <html lang="bg" className={GeistSans.variable}>
-      <body className={`${GeistSans.className} bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white`}>
+    <html lang="en-GB" className={GeistSans.variable}>
+      <body
+        className={`${GeistSans.className} antialiased selection:bg-bp-accent/30 selection:text-bp-text`}
+      >
+        <PublicBodyTheme />
         <CartProvider>
           <ConditionalNavbar />
           <main suppressHydrationWarning>

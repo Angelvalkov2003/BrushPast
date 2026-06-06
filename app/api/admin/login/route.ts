@@ -1,74 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { getSupabaseAnonKey, getSupabaseUrl } from "lib/supabase/config";
+import {
+  getAdminPassword,
+  setAdminSession,
+  verifyAdminPassword,
+} from "lib/admin-auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const supabaseUrl = getSupabaseUrl();
-    const supabaseAnonKey = getSupabaseAnonKey();
-
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!getAdminPassword()) {
       return NextResponse.json(
-        { error: "Липсват Supabase environment variables" },
-        { status: 500 }
+        { error: "ADMIN_PASSWORD is not configured on the server." },
+        { status: 500 },
       );
     }
 
     const body = await request.json();
-    const { email, password } = body;
+    const password = typeof body.password === "string" ? body.password : "";
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: "Имейл и парола са задължителни" },
-        { status: 400 }
-      );
+    if (!verifyAdminPassword(password)) {
+      return NextResponse.json({ error: "Invalid password." }, { status: 401 });
     }
 
-    const cookieStore = await cookies();
-    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: any) {
-          cookieStore.set(name, value, options);
-        },
-        remove(name: string, options: any) {
-          cookieStore.set(name, "", { ...options, maxAge: 0 });
-        },
-      },
-    });
+    await setAdminSession();
 
-    // Sign in with email and password
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      return NextResponse.json(
-        { error: error.message || "Невалиден имейл или парола" },
-        { status: 401 }
-      );
-    }
-
-    if (!data.user) {
-      return NextResponse.json(
-        { error: "Грешка при влизане" },
-        { status: 401 }
-      );
-    }
-
-    return NextResponse.json(
-      { success: true, message: "Успешно влизане", user: data.user },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error("Error processing admin login:", error);
-    return NextResponse.json(
-      { error: error.message || "Грешка при влизане" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    console.error("Admin login error:", error);
+    return NextResponse.json({ error: "Login failed." }, { status: 500 });
   }
 }

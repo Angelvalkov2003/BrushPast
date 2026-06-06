@@ -7,34 +7,26 @@ import { Product } from "lib/types";
 import { useActionState } from "react";
 import { useCart } from "./cart-context";
 
-function SubmitButton({
-  available,
-}: {
-  available: boolean;
-}) {
+function SubmitButton({ available }: { available: boolean }) {
   const buttonClasses =
-    "relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white";
-  const disabledClasses = "cursor-not-allowed opacity-60 hover:opacity-60";
+    "relative flex w-full items-center justify-center bg-bp-accent px-8 py-4 text-xs font-bold uppercase tracking-[0.22em] text-bp-canvas transition-opacity";
+  const disabledClasses = "cursor-not-allowed opacity-50";
 
   if (!available) {
     return (
       <button disabled className={clsx(buttonClasses, disabledClasses)}>
-        Изчерпан
+        Out of stock
       </button>
     );
   }
 
   return (
     <button
-      aria-label="Добави в количка"
-      className={clsx(buttonClasses, {
-        "hover:opacity-90": true,
-      })}
+      aria-label="Add to bag"
+      className={clsx(buttonClasses, "hover:opacity-90")}
     >
-      <div className="absolute left-0 ml-4">
-        <PlusIcon className="h-5" />
-      </div>
-      Добави в Количка
+      <PlusIcon className="absolute left-5 h-5 w-5" />
+      Add to bag
     </button>
   );
 }
@@ -44,8 +36,6 @@ export function AddToCart({ product }: { product: Product }) {
   const { addCartItem } = useCart();
   const [message, formAction] = useActionState(addItem, null);
 
-  // Create a simple variant-like object for compatibility with cart
-  // Since products don't have variants anymore, we create a default variant
   const variantData = {
     id: product.id,
     title: product.title,

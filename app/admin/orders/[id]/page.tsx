@@ -1,281 +1,138 @@
-import { getOrderById, updateOrderStatus } from "lib/supabase/orders";
-import { getProductByIdForAdmin } from "lib/supabase/admin-products";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { OrderEditForm } from "components/admin/order-edit-form";
-import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getOrderByIdAdmin } from "lib/supabase/admin-orders";
+import { formatPrice } from "lib/currency";
+import { AdminOrderEditForm } from "components/admin/admin-order-edit-form";
+import { adminPanelClass, adminPageTitleClass } from "components/admin/admin-form-styles";
 
-// Disable static generation for this page - always fetch fresh data
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
-export default async function OrderDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
-  
-  if (!id) {
-    notFound();
-  }
-  
-  let order;
-  try {
-    order = await getOrderById(id);
-    
-    if (!order) {
-      notFound();
-    }
-  } catch (error: any) {
-    console.error("Error fetching order:", error);
-    // If it's a not found error, show 404
-    if (error?.code === "PGRST116" || error?.message?.includes("not found")) {
-      notFound();
-    }
-    // For other errors, also show 404 but log the error
-    notFound();
-  }
+export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const order = await getOrderByIdAdmin(id);
+  if (!order) notFound();
 
-  const products = Array.isArray(order.products) ? order.products : [];
+  const address = [
+    order.address_line_1,
+    order.address_line_2,
+    order.city,
+    order.county,
+    order.postcode,
+    order.country,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-6">
-        <Link
-          href="/admin/orders"
-          className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-sm font-medium"
-        >
-          ← Назад към поръчките
-        </Link>
+    <div className="w-full">
+      <Link href="/admin/orders" className="text-sm text-indigo-600 hover:underline">
+        ← Back to orders
+      </Link>
+      <h1 className={`mt-4 ${adminPageTitleClass}`}>Order {order.order_number}</h1>
+
+      <div className={`mb-8 ${adminPanelClass}`}>
+        <h2 className="mb-4 text-lg font-semibold">Update order</h2>
+        <AdminOrderEditForm order={order} />
       </div>
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Поръчка #{order.id.substring(0, 8)}
-        </h1>
-        <div className="mt-2 space-y-1">
-          <p className="text-gray-600 dark:text-gray-400">
-            <span className="font-medium">Направена на:</span>{" "}
-            {new Date(order.created_at).toLocaleDateString("bg-BG", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-          {order.updated_at && order.updated_at !== order.created_at && (
-            <p className="text-gray-600 dark:text-gray-400">
-              <span className="font-medium">Промяна по поръчката от админ на:</span>{" "}
-              {new Date(order.updated_at).toLocaleDateString("bg-BG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Edit Order Form */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          Редактиране на поръчката
-        </h2>
-        <OrderEditForm order={order} />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {/* Customer Information (Read-only view) */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Информация за клиента
-          </h2>
-          <div className="space-y-2">
+      <div className="mb-8 grid gap-6 lg:grid-cols-2">
+        <div className={adminPanelClass}>
+          <h2 className="mb-4 text-lg font-semibold">Customer</h2>
+          <dl className="space-y-2 text-sm">
             <div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Име:
-              </span>
-              <p className="text-gray-900 dark:text-white">{order.customer_name}</p>
+              <dt className="text-gray-500">Name</dt>
+              <dd>{[order.first_name, order.last_name].filter(Boolean).join(" ") || "—"}</dd>
             </div>
             <div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Имейл:
-              </span>
-              <p className="text-gray-900 dark:text-white">
-                <a
-                  href={`mailto:${order.customer_email}`}
-                  className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400"
-                >
-                  {order.customer_email}
-                </a>
-              </p>
-            </div>
-            {order.customer_phone && (
-              <div>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Телефон:
-                </span>
-                <p className="text-gray-900 dark:text-white">
-                  <a
-                    href={`tel:${order.customer_phone}`}
-                    className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400"
-                  >
-                    {order.customer_phone}
+              <dt className="text-gray-500">Email</dt>
+              <dd>
+                {order.email ? (
+                  <a href={`mailto:${order.email}`} className="text-indigo-600">
+                    {order.email}
                   </a>
-                </p>
-              </div>
-            )}
-            <div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Адрес:
-              </span>
-              <p className="text-gray-900 dark:text-white whitespace-pre-line">
-                {order.customer_address}
-              </p>
-            </div>
-            <div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Начин на плащане:
-              </span>
-              <p className="text-gray-900 dark:text-white">
-                {order.payment_method === "cash_on_delivery"
-                  ? "Наложен платеж"
-                  : "Плащане с карта"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Order Summary */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Резюме на поръчката
-          </h2>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">Статус:</span>
-              <span
-                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                  order.status === "new"
-                    ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                    : order.status === "confirmed"
-                    ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                    : order.status === "shipped"
-                    ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
-                    : order.status === "paid"
-                    ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200"
-                    : order.status === "completed"
-                    ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                    : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                }`}
-              >
-                {order.status === "new"
-                  ? "Нова"
-                  : order.status === "confirmed"
-                  ? "Потвърждение с клиент"
-                  : order.status === "shipped"
-                  ? "Изпратена пратка"
-                  : order.status === "paid"
-                  ? "Платена пратка"
-                  : order.status === "completed"
-                  ? "Финализирано"
-                  : "Отменена"}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">
-                Брой артикули:
-              </span>
-              <span className="text-gray-900 dark:text-white font-medium">
-                {products.reduce(
-                  (sum: number, p: any) => sum + (p.quantity || 0),
-                  0
+                ) : (
+                  "—"
                 )}
-              </span>
+              </dd>
             </div>
-            <div className="flex justify-between text-lg font-bold pt-2 border-t border-gray-200 dark:border-gray-700">
-              <span className="text-gray-900 dark:text-white">Обща сума:</span>
-              <span className="text-gray-900 dark:text-white">
-                €{Number(order.total_price).toFixed(2)}
-              </span>
+            <div>
+              <dt className="text-gray-500">Phone</dt>
+              <dd>{order.phone || "—"}</dd>
             </div>
-          </div>
+            <div>
+              <dt className="text-gray-500">Address</dt>
+              <dd className="whitespace-pre-line">{address || "—"}</dd>
+            </div>
+            <div>
+              <dt className="text-gray-500">Payment</dt>
+              <dd>
+                {order.payment_method} — {order.payment_status}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div className={adminPanelClass}>
+          <h2 className="mb-4 text-lg font-semibold">Totals</h2>
+          <dl className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-gray-500">Subtotal</dt>
+              <dd>{order.subtotal != null ? formatPrice(Number(order.subtotal)) : "—"}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-gray-500">Shipping</dt>
+              <dd>
+                {order.shipping_total != null ? formatPrice(Number(order.shipping_total)) : "—"}
+                {order.shipping_method_name ? ` (${order.shipping_method_name})` : ""}
+              </dd>
+            </div>
+            <div className="flex justify-between border-t pt-2 font-semibold">
+              <dt>Grand total</dt>
+              <dd>{order.grand_total != null ? formatPrice(Number(order.grand_total)) : "—"}</dd>
+            </div>
+          </dl>
+          {order.customer_note ? (
+            <div className="mt-4">
+              <p className="text-sm text-gray-500">Customer note</p>
+              <p className="text-sm whitespace-pre-line">{order.customer_note}</p>
+            </div>
+          ) : null}
         </div>
       </div>
 
-      {/* Products */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          Продукти
-        </h2>
-        <div className="space-y-4">
-          {await Promise.all(
-            products.map(async (product: any, index: number) => {
-              // Try to get product details to show image
-              let productDetails = null;
-              try {
-                productDetails = await getProductByIdForAdmin(product.id);
-              } catch (error) {
-                // Product might not exist anymore, use order snapshot
-              }
-
-              const productImage =
-                productDetails?.featured_image?.url ||
-                productDetails?.featured_image ||
-                null;
-
-              return (
-                <div
-                  key={index}
-                  className="flex gap-4 py-3 border-b border-gray-200 dark:border-gray-700 last:border-0"
-                >
-                  {productImage && (
-                    <div className="relative h-20 w-20 flex-shrink-0 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
-                      <Image
-                        src={typeof productImage === "string" ? productImage : productImage.url || ""}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                        sizes="80px"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1 flex justify-between items-start">
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">
-                        {product.name}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Количество: {product.quantity} × €{product.price.toFixed(2)}
-                      </p>
-                    </div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      €{(product.price * product.quantity).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+      <div className={adminPanelClass}>
+        <h2 className="mb-4 text-lg font-semibold">Line items</h2>
+        {order.items.length === 0 ? (
+          <p className="text-gray-500 text-sm">No line items.</p>
+        ) : (
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr className="text-left text-gray-500">
+                <th className="pb-2">Product</th>
+                <th className="pb-2">SKU</th>
+                <th className="pb-2">Qty</th>
+                <th className="pb-2">Unit</th>
+                <th className="pb-2">Line total</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {order.items.map((item) => (
+                <tr key={item.id}>
+                  <td className="py-2">{item.product_title}</td>
+                  <td className="py-2 text-gray-500">{item.sku || "—"}</td>
+                  <td className="py-2">{item.quantity}</td>
+                  <td className="py-2">
+                    {item.unit_price != null ? formatPrice(Number(item.unit_price)) : "—"}
+                  </td>
+                  <td className="py-2">
+                    {item.line_total != null ? formatPrice(Number(item.line_total)) : "—"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
-
-      {/* Comment */}
-      {order.comment && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Коментар от клиента
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
-            {order.comment}
-          </p>
-        </div>
-      )}
     </div>
   );
 }

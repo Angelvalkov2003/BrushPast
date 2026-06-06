@@ -1,18 +1,21 @@
-import clsx from "clsx";
+/** @deprecated Use BrandLogo / LogoSquare — kept for imports migrating to logo.avif */
+import BrandLogo from "components/brand-logo";
 
-import { SITE_NAME } from "lib/site-config";
-
-export default function LogoIcon(props: React.ComponentProps<"svg">) {
+export default function LogoIcon({
+  width,
+  height,
+  className,
+}: {
+  width?: string | number;
+  height?: string | number;
+  fill?: string;
+  className?: string;
+}) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label={`${SITE_NAME} logo`}
-      viewBox="0 0 32 28"
-      {...props}
-      className={clsx("h-4 w-4 fill-black dark:fill-white", props.className)}
-    >
-      <path d="M21.5758 9.75769L16 0L0 28H11.6255L21.5758 9.75769Z" />
-      <path d="M26.2381 17.9167L20.7382 28H32L26.2381 17.9167Z" />
-    </svg>
+    <BrandLogo
+      size="sm"
+      className={className}
+      priority={false}
+    />
   );
 }

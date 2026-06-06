@@ -34,6 +34,36 @@ export type Product = {
   available: boolean;
 };
 
+export type ProductDetail = Product & {
+  shortDescription: string;
+  fullDescription: string;
+  storyNumber?: string | null;
+  productType?: string | null;
+  medium?: string | null;
+  qrStoryUrl?: string | null;
+  editionNumber?: string | null;
+  totalEditionSize?: string | null;
+  profitShareNote?: string | null;
+  impactNote?: string | null;
+  weight?: string | null;
+  dimensions?: string | null;
+  inventoryType?: string | null;
+  inventoryQuantity?: number | null;
+  variants: ProductVariant[];
+  categories: { slug: string; name: string }[];
+  creators: { name: string }[];
+  stories: { title: string; slug: string; pageUrl: string | null }[];
+};
+
+export type CartVariantOption = {
+  id: string;
+  title: string;
+  price: number;
+  available: boolean;
+  sku?: string;
+  selectedOptions?: { name: string; value: string }[];
+};
+
 export type CartItem = {
   id: string;
   productId: string;
@@ -49,7 +79,11 @@ export type CartItem = {
   variant: {
     id: string;
     title: string;
+    sku?: string;
+    selectedOptions?: { name: string; value: string }[];
   };
+  /** All purchasable variants for this product (sizes, colours, etc.) */
+  variantOptions?: CartVariantOption[];
 };
 
 export type Cart = {

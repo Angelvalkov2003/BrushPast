@@ -139,8 +139,8 @@ export function CookieConsent() {
         <button
           onClick={openSettings}
           className="fixed bottom-4 right-4 z-50 p-3 bg-gray-800 dark:bg-gray-700 text-white rounded-full shadow-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-          aria-label="Cookie настройки"
-          title="Cookie настройки"
+          aria-label="Cookie settings"
+          title="Cookie settings"
         >
           <Cog6ToothIcon className="h-5 w-5" />
         </button>
@@ -158,17 +158,24 @@ export function CookieConsent() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Използваме бисквитки
+                  We use cookies
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Използваме бисквитки, за да подобрим вашето изживяване, да анализираме трафика и да персонализираме съдържанието. 
-                  Като натиснете "Приеми всички", вие се съгласявате с използването на всички бисквитки. 
-                  Можете да промените настройките по всяко време.{" "}
+                  We use cookies to improve your experience, analyse traffic, and personalise content.
+                  By clicking &quot;Accept all&quot;, you agree to our use of all cookies.
+                  You can change your preferences at any time.{" "}
                   <Link
-                    href="/privacy-policy"
+                    href="/privacy"
                     className="text-blue-600 dark:text-blue-400 hover:underline"
                   >
-                    Политика за поверителност
+                    Privacy Policy
+                  </Link>
+                  {" · "}
+                  <Link
+                    href="/cookies"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    Cookies Policy
                   </Link>
                 </p>
               </div>
@@ -177,19 +184,19 @@ export function CookieConsent() {
                   onClick={openSettings}
                   className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
-                  Настройки
+                  Settings
                 </button>
                 <button
                   onClick={rejectAll}
                   className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
-                  Отхвърли всички
+                  Reject all
                 </button>
                 <button
                   onClick={acceptAll}
                   className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
                 >
-                  Приеми всички
+                  Accept all
                 </button>
               </div>
             </div>
@@ -204,19 +211,19 @@ export function CookieConsent() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Настройки на бисквитките
+                  Cookie settings
                 </h2>
                 <button
                   onClick={() => setShowSettings(false)}
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                  aria-label="Затвори"
+                  aria-label="Close"
                 >
                   <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                Можете да изберете кои бисквитки да приемете. Необходимите бисквитки са задължителни за функционирането на сайта и не могат да бъдат деактивирани.
+                You can choose which cookies to accept. Necessary cookies are required for the site to work and cannot be disabled.
               </p>
 
               {/* Necessary Cookies */}
@@ -224,10 +231,10 @@ export function CookieConsent() {
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Необходими бисквитки
+                      Necessary cookies
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      Тези бисквитки са задължителни за основното функциониране на уебсайта и не могат да бъдат деактивирани.
+                      These cookies are required for the website to function and cannot be disabled.
                     </p>
                   </div>
                   <div className="ml-4">
@@ -246,11 +253,11 @@ export function CookieConsent() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Аналитични бисквитки
+                      Analytics cookies
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      Тези бисквитки ни помагат да разберем как посетителите използват нашия уебсайт, като събират и докладват информация анонимно. 
-                      Използваме Google Analytics за тази цел.
+                      These cookies help us understand how visitors use our website by collecting and reporting information anonymously.
+                      We use Google Analytics for this purpose.
                     </p>
                   </div>
                   <div className="ml-4">
@@ -272,10 +279,10 @@ export function CookieConsent() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Маркетингови бисквитки
+                      Marketing cookies
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      Тези бисквитки се използват за показване на реклами, които са по-релевантни за вас и вашите интереси.
+                      These cookies are used to show ads that are more relevant to you and your interests.
                     </p>
                   </div>
                   <div className="ml-4">
@@ -297,7 +304,7 @@ export function CookieConsent() {
                   onClick={saveCustomPreferences}
                   className="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
                 >
-                  Запази настройките
+                  Save preferences
                 </button>
                 <button
                   onClick={() => {
@@ -308,13 +315,13 @@ export function CookieConsent() {
                   }}
                   className="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
-                  Отказ
+                  Cancel
                 </button>
                 <Link
-                  href="/privacy-policy"
+                  href="/cookies"
                   className="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
-                  Политика за поверителност
+                  Cookies Policy
                 </Link>
               </div>
             </div>

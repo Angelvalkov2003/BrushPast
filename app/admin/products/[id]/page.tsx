@@ -1,37 +1,35 @@
-import { getProductByIdForAdmin } from "lib/supabase/admin-products";
-import { getAllCollectionsForAdmin } from "lib/supabase/admin-collections";
-import { ProductForm } from "components/admin/product-form";
 import { notFound } from "next/navigation";
+import { getProductByIdAdmin } from "lib/supabase/admin-products";
+import { getAllCategoriesAdmin } from "lib/supabase/admin-categories";
+import { AdminProductForm } from "components/admin/admin-product-form";
+import { createProductAction, updateProductAction } from "../actions";
 
-export default async function EditProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export const dynamic = "force-dynamic";
+
+export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [product, collections] = await Promise.all([
-    getProductByIdForAdmin(id).catch(() => null),
-    getAllCollectionsForAdmin(),
+  const [product, categories] = await Promise.all([
+    getProductByIdAdmin(id),
+    getAllCategoriesAdmin(),
   ]);
 
-  if (!product) {
-    notFound();
+  if (!product) notFound();
+
+  async function updateWithId(fd: FormData) {
+    "use server";
+    fd.set("id", id);
+    return updateProductAction(fd);
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Редактирай Продукт
-        </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          {product.title}
-        </p>
-      </div>
-
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <ProductForm product={product} collections={collections} />
-      </div>
+    <div>
+      <h1 className="mb-6 text-2xl font-bold">Edit product</h1>
+      <AdminProductForm
+        product={product}
+        categories={categories}
+        createAction={createProductAction}
+        updateAction={updateWithId}
+      />
     </div>
   );
 }

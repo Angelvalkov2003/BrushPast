@@ -11,7 +11,7 @@ export default async function AdminLayout({
 }) {
   // Check if we're on the login page - if so, don't check auth
   const headersList = await headers();
-  const pathname = headersList.get("x-invoke-path") || "";
+  const pathname = headersList.get("x-pathname") || "";
   
   // If we're on /admin/login, allow access without auth check
   if (pathname === "/admin/login") {
@@ -28,7 +28,7 @@ export default async function AdminLayout({
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <AdminNavbar />
-        <main className="py-8 px-4 sm:px-6 lg:px-8">{children}</main>
+        <main className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-10">{children}</main>
       </div>
     );
   } catch (error: any) {

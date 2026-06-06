@@ -1,0 +1,7 @@
+id,name,image_url,short_description,profile_url,is_anonymous,status,sort_order
+11111111-1111-4111-8111-111111111101,Bobby,(03-bobby/hero.jpg),"Grew up on an estate where silence was safer than hope. Art became the one place he could tell the truth without apologising — bold colour over pain, humour over shame.",,false,active,50
+11111111-1111-4111-8111-111111111102,Errol,(04-errol/hero.jpg),"Raised on a South London estate; crack and custody took his twenties. A disposable camera in a hostel hallway was the first time he saw himself as human.",,false,active,45
+11111111-1111-4111-8111-111111111103,Leon,(03-bobby/supporting-leon.jpg),"Spent years between hostels and hospital beds. Drawing in biro on bus tickets kept him tethered to something gentle when everything else felt temporary.",,false,active,40
+11111111-1111-4111-8111-111111111104,Ed,(03-bobby/supporting-ed.jpg),"There were days daylight felt like a burden. Painting in a small room after prison gave him something real to hold onto — one canvas, one honest line at a time.",,false,active,35
+11111111-1111-4111-8111-111111111105,Jamie,(02-stories/featured-jamie.jpg),"Homeless at sixteen, addicted by eighteen. Zines and photography became proof he existed beyond the statistics people used to describe him.",,false,active,30
+11111111-1111-4111-8111-111111111106,Christian,(02-stories/featured-christian.jpg),"Anonymous in public, loud on the page. Christian shares work under a pseudonym so the story can travel without the cost of exposure.",,true,active,25

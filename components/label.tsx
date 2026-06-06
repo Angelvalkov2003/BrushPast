@@ -44,7 +44,7 @@ const Label = ({
                 amount={amount}
                 currencyCode={currencyCode}
                 currencyCodeClassName="hidden @[275px]/label:inline"
-                showBgn={true}
+                showBgn={false}
               />
             </div>
           ) : (
@@ -52,7 +52,7 @@ const Label = ({
               amount={amount}
               currencyCode={currencyCode}
               currencyCodeClassName="hidden @[275px]/label:inline"
-              showBgn={true}
+              showBgn={false}
             />
           )}
         </div>

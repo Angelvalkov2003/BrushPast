@@ -1,17 +1,22 @@
 "use server";
 
-import { updateOrderStatus as updateStatus, updateOrder, type UpdateOrderData } from "lib/supabase/orders";
+import { isAdmin } from "lib/supabase/auth";
+import { updateOrderAdmin } from "lib/supabase/admin-orders";
+import type { OrderStatus, PaymentStatus } from "lib/types/admin";
 
-export async function updateOrderStatus(
+export async function updateOrderAdminAction(
   orderId: string,
-  status: "new" | "confirmed" | "shipped" | "paid" | "completed" | "canceled"
+  data: {
+    order_status?: OrderStatus;
+    payment_status?: PaymentStatus;
+    admin_note?: string;
+  },
 ) {
-  return await updateStatus(orderId, status);
-}
-
-export async function updateOrderFields(
-  orderId: string,
-  data: UpdateOrderData
-) {
-  return await updateOrder(orderId, data);
+  if (!(await isAdmin())) return { error: "Unauthorized" };
+  try {
+    await updateOrderAdmin(orderId, data);
+    return {};
+  } catch (e: unknown) {
+    return { error: e instanceof Error ? e.message : "Failed to update order" };
+  }
 }

@@ -7,12 +7,12 @@ interface ImageUploadButtonProps {
   onUploadComplete: (url: string) => void;
   label?: string;
   className?: string;
-  id?: string; // Allow custom ID to avoid conflicts
+  id?: string;
 }
 
 export function ImageUploadButton({
   onUploadComplete,
-  label = "Качи Снимка",
+  label = "Upload image",
   className = "",
   id,
 }: ImageUploadButtonProps) {
@@ -25,15 +25,13 @@ export function ImageUploadButton({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith("image/")) {
-      toast.error("Моля, избери валиден файл със снимка");
+      toast.error("Please select a valid image file");
       return;
     }
 
-    // Validate file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
-      toast.error("Файлът е твърде голям. Максималният размер е 10MB");
+      toast.error("File is too large. Maximum size is 10MB");
       return;
     }
 
@@ -53,22 +51,21 @@ export function ImageUploadButton({
         data = await response.json();
       } catch (parseError) {
         console.error("Failed to parse response:", parseError);
-        throw new Error("Грешка при обработка на отговора от сървъра");
+        throw new Error("Error processing server response");
       }
 
       if (!response.ok) {
         console.error("Upload failed:", data);
-        throw new Error(data.error || `Грешка при качване на снимка (${response.status})`);
+        throw new Error(data.error || `Image upload failed (${response.status})`);
       }
 
       onUploadComplete(data.url);
-      toast.success("Снимката е качена успешно");
+      toast.success("Image uploaded successfully");
     } catch (error: any) {
       console.error("Error uploading image:", error);
-      toast.error(error.message || "Грешка при качване на снимка");
+      toast.error(error.message || "Image upload failed");
     } finally {
       setUploading(false);
-      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -90,7 +87,7 @@ export function ImageUploadButton({
         htmlFor={inputId}
         className={`inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       >
-        {uploading ? "Качване..." : label}
+        {uploading ? "Uploading..." : label}
       </label>
     </div>
   );

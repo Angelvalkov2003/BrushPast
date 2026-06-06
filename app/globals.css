@@ -3,6 +3,23 @@
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/typography";
 
+/* BrushPast brand — see lib/brand-colors.ts */
+@theme {
+  --color-bp-canvas: #f3ede6;
+  --color-bp-text: #010200;
+  --color-bp-surface: #efe7de;
+  --color-bp-accent: #bf3201;
+  --color-bp-dark: #131312;
+}
+
+:root {
+  --bp-canvas: #f3ede6;
+  --bp-text: #010200;
+  --bp-surface: #efe7de;
+  --bp-accent: #bf3201;
+  --bp-dark: #131312;
+}
+
 @layer base {
   *,
   ::after,
@@ -18,8 +35,45 @@
   }
 }
 
+/* Public storefront theme (admin routes excluded via body.bp-site) */
+body.bp-site {
+  background-color: var(--bp-canvas);
+  color: var(--bp-text);
+  color-scheme: light;
+}
+
+body.bp-site .bp-navbar {
+  background-color: var(--bp-canvas);
+  color: var(--bp-text);
+  border-bottom: 1px solid color-mix(in srgb, var(--bp-text) 8%, transparent);
+}
+
+body.bp-site .bp-surface {
+  background-color: var(--bp-surface);
+  color: var(--bp-text);
+}
+
+body.bp-site .bp-dark {
+  background-color: var(--bp-dark);
+  color: var(--bp-canvas);
+}
+
+body.bp-site .bp-accent {
+  color: var(--bp-accent);
+}
+
+body.bp-site .bp-accent-bg {
+  background-color: var(--bp-accent);
+  color: var(--bp-canvas);
+}
+
+body.bp-site a.bp-link:hover,
+body.bp-site .bp-link-hover:hover {
+  color: var(--bp-accent);
+}
+
 @media (prefers-color-scheme: dark) {
-  html {
+  html:not(:has(body.bp-site)) {
     color-scheme: dark;
   }
 }
@@ -33,5 +87,11 @@
 a,
 input,
 button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50 dark:focus-visible:ring-neutral-600 dark:focus-visible:ring-offset-neutral-900;
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50;
+}
+
+body.bp-site a,
+body.bp-site input,
+body.bp-site button {
+  @apply focus-visible:ring-bp-accent focus-visible:ring-offset-bp-canvas;
 }

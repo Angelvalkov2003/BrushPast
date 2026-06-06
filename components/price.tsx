@@ -1,48 +1,32 @@
 import clsx from "clsx";
-
-const EUR_TO_BGN_RATE = 1.95583; // Exchange rate: 1 EUR = 1.95583 BGN
+import { CURRENCY_CODE, formatPrice } from "lib/currency";
 
 const Price = ({
   amount,
   className,
-  currencyCode = "EUR",
+  currencyCode = CURRENCY_CODE,
   currencyCodeClassName,
-  showBgn = true,
+  showCurrencyCode = false,
 }: {
   amount: string;
   className?: string;
-  currencyCode: string;
+  currencyCode?: string;
   currencyCodeClassName?: string;
+  /** @deprecated BGN dual display removed — UK GBP only */
   showBgn?: boolean;
+  showCurrencyCode?: boolean;
 } & React.ComponentProps<"p">) => {
-  const eurAmount = parseFloat(amount);
-  const bgnAmount = eurAmount * EUR_TO_BGN_RATE;
-  
-  const formattedEur = new Intl.NumberFormat("bg-BG", {
-    style: "currency",
-    currency: currencyCode,
-    currencyDisplay: "narrowSymbol",
-  }).format(eurAmount);
-  
-  const formattedBgn = new Intl.NumberFormat("bg-BG", {
-    style: "currency",
-    currency: "BGN",
-    currencyDisplay: "narrowSymbol",
-  }).format(bgnAmount);
+  const pounds = parseFloat(amount);
+  const formatted = formatPrice(pounds, { currency: currencyCode });
 
   return (
-    <p suppressHydrationWarning={true} className={clsx("whitespace-nowrap", className)}>
-      <span>
-        {formattedEur}
-        <span className={clsx("ml-1 inline", currencyCodeClassName)}>
+    <p suppressHydrationWarning className={clsx("whitespace-nowrap", className)}>
+      <span>{formatted}</span>
+      {showCurrencyCode ? (
+        <span className={clsx("ml-1 inline text-xs opacity-70", currencyCodeClassName)}>
           {currencyCode}
         </span>
-      </span>
-      {showBgn && (
-        <span className="ml-1.5 text-[0.65em] opacity-70">
-          ({formattedBgn})
-        </span>
-      )}
+      ) : null}
     </p>
   );
 };

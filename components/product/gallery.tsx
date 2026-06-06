@@ -70,13 +70,13 @@ export function Gallery({
   }, [goToNext, goToPrevious]);
 
   const buttonClassName =
-    "h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black dark:hover:text-white flex items-center justify-center";
+    "h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-bp-accent flex items-center justify-center text-bp-text/70";
 
   if (!images.length) return null;
 
   return (
     <div>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden rounded-sm bg-bp-surface/80">
         {/* Main image with fade transition */}
         <div className="relative h-full w-full">
           {images.map((image, index) => (
@@ -101,19 +101,19 @@ export function Gallery({
 
         {images.length > 1 ? (
           <div className="absolute bottom-[15%] flex w-full justify-center z-20">
-            <div className="mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur-sm dark:border-black dark:bg-neutral-900/80">
+            <div className="mx-auto flex h-11 items-center rounded-full border border-bp-text/15 bg-bp-canvas/90 text-bp-text/60 backdrop-blur-sm">
               <button
                 onClick={goToPrevious}
-                aria-label="Предишна снимка на продукт"
+                aria-label="Previous product image"
                 className={buttonClassName}
                 disabled={isTransitioning}
               >
                 <ArrowLeftIcon className="h-5" />
               </button>
-              <div className="mx-1 h-6 w-px bg-neutral-500"></div>
+              <div className="mx-1 h-6 w-px bg-bp-text/20" />
               <button
                 onClick={goToNext}
-                aria-label="Следваща снимка на продукт"
+                aria-label="Next product image"
                 className={buttonClassName}
                 disabled={isTransitioning}
               >
@@ -133,7 +133,7 @@ export function Gallery({
               <li key={image.src} className="h-20 w-20">
                 <button
                   onClick={() => goToImage(index)}
-                  aria-label="Избери снимка на продукт"
+                  aria-label="Select product image"
                   className={`h-full w-full transition-opacity ${
                     isActive ? "opacity-100" : "opacity-70 hover:opacity-100"
                   }`}

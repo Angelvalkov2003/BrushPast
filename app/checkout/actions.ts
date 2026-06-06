@@ -1,14 +1,15 @@
 "use server";
 
-import { createOrder as createOrderInDb } from "lib/supabase/orders";
-import type { CreateOrderData } from "lib/supabase/orders";
+import {
+  createCheckoutOrder,
+  type CreateCheckoutOrderInput,
+} from "lib/supabase/checkout-orders";
 
-export async function createOrder(data: CreateOrderData) {
+export async function createOrder(data: CreateCheckoutOrderInput) {
   try {
-    const order = await createOrderInDb(data);
-    return order;
-  } catch (error: any) {
-    console.error("Error creating order:", error);
-    throw new Error(error.message || "Грешка при създаване на поръчката");
+    return await createCheckoutOrder(data);
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : "Failed to create order";
+    throw new Error(msg);
   }
 }

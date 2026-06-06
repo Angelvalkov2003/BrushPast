@@ -1,4 +1,5 @@
 import { ReadonlyURLSearchParams } from "next/navigation";
+import { formatPrice as formatGbpPrice } from "lib/currency";
 import { SITE_URL } from "lib/site-config";
 
 export const baseUrl =
@@ -16,9 +17,5 @@ export const createUrl = (
   return `${pathname}${queryString}`;
 };
 
-export const formatPrice = (price: number, currency: string = "EUR"): string => {
-  return new Intl.NumberFormat("bg-BG", {
-    style: "currency",
-    currency,
-  }).format(price);
-};
+/** @deprecated Use formatPrice from lib/currency */
+export const formatPrice = formatGbpPrice;

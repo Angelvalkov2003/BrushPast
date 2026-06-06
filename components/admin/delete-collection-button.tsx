@@ -16,7 +16,7 @@ export function DeleteCollectionButton({
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
-    if (!confirm(`Сигурен ли си, че искаш да изтриеш "${collectionTitle}"?`)) {
+    if (!confirm(`Are you sure you want to delete "${collectionTitle}"?`)) {
       return;
     }
 
@@ -24,14 +24,14 @@ export function DeleteCollectionButton({
     try {
       const result = await deleteCollectionAction(collectionId);
       if (result.success) {
-        toast.success("Колекцията е изтрита успешно");
+        toast.success("Collection deleted successfully");
         router.refresh();
       } else {
-        toast.error(result.error || "Грешка при изтриване на колекция");
+        toast.error(result.error || "Failed to delete collection");
       }
     } catch (error) {
       console.error("Error deleting collection:", error);
-      toast.error("Грешка при изтриване на колекция");
+      toast.error("Failed to delete collection");
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ export function DeleteCollectionButton({
       disabled={loading}
       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50"
     >
-      {loading ? "Изтриване..." : "Изтрий"}
+      {loading ? "Deleting..." : "Delete"}
     </button>
   );
 }

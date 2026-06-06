@@ -1,0 +1,2 @@
+ALTER TABLE categories ADD COLUMN IF NOT EXISTS short_description TEXT;
+ALTER TABLE categories ADD COLUMN IF NOT EXISTS shop_cta TEXT;

@@ -121,7 +121,7 @@ export async function sendNewOrderNotification(data: OrderNotificationData) {
         <p><strong>Email:</strong> ${escapeHtml(data.customerEmail)}</p>
         ${data.customerPhone ? `<p><strong>Phone:</strong> ${escapeHtml(data.customerPhone)}</p>` : ""}
         <p><strong>Address:</strong> ${escapeHtml(data.customerAddress).replace(/\n/g, "<br>")}</p>
-        <p><strong>Payment Method:</strong> ${data.paymentMethod === "cash_on_delivery" ? "Наложен платеж" : "Плащане с карта"}</p>
+        <p><strong>Payment Method:</strong> ${data.paymentMethod === "cash_on_delivery" ? "Cash on delivery" : "Card payment"}</p>
         
         <h3>Order Items</h3>
         <ul>
@@ -145,7 +145,7 @@ Name: ${data.customerName}
 Email: ${data.customerEmail}
 ${data.customerPhone ? `Phone: ${data.customerPhone}\n` : ""}
 Address: ${data.customerAddress}
-Payment Method: ${data.paymentMethod === "cash_on_delivery" ? "Наложен платеж" : "Плащане с карта"}
+Payment Method: ${data.paymentMethod === "cash_on_delivery" ? "Cash on delivery" : "Card payment"}
 
 Order Items:
 ${productsList}

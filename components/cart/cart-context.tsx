@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  enrichVariant,
+  optionsFromVariant,
+  parseVariantTitle,
+} from "lib/product-variants";
 import type {
   Cart,
   CartItem,
@@ -15,10 +20,15 @@ import React, {
 
 type UpdateType = "plus" | "minus" | "delete";
 
+type AddCartOptions = {
+  variantOptions?: ProductVariant[];
+};
+
 type CartContextType = {
   cart: Cart | null;
   updateCartItem: (itemId: string, updateType: UpdateType) => void;
-  addCartItem: (variant: ProductVariant, product: Product) => void;
+  addCartItem: (variant: ProductVariant, product: Product, options?: AddCartOptions) => void;
+  updateCartVariant: (itemId: string, variant: ProductVariant) => void;
   clearCart: () => void;
 };
 
@@ -40,12 +50,30 @@ function updateCartItemQuantity(
   };
 }
 
+function toVariantOptions(variants: ProductVariant[] | undefined) {
+  if (!variants?.length) return undefined;
+  return variants.map((v) => {
+    const enriched = enrichVariant(v);
+    return {
+      id: enriched.id,
+      title: enriched.title,
+      price: enriched.price,
+      available: enriched.available,
+      sku: enriched.sku,
+      selectedOptions: enriched.selectedOptions,
+    };
+  });
+}
+
 function createOrUpdateCartItem(
   existingItem: CartItem | undefined,
   variant: ProductVariant,
   product: Product,
+  options?: AddCartOptions,
 ): CartItem {
   const quantity = existingItem ? existingItem.quantity + 1 : 1;
+  const variantOptions =
+    toVariantOptions(options?.variantOptions) ?? existingItem?.variantOptions;
 
   return {
     id: existingItem?.id || `${product.id}-${variant.id}`,
@@ -62,7 +90,10 @@ function createOrUpdateCartItem(
     variant: {
       id: variant.id,
       title: variant.title || "Default",
+      sku: variant.sku,
+      selectedOptions: optionsFromVariant(variant),
     },
+    variantOptions,
   };
 }
 
@@ -95,7 +126,7 @@ function createEmptyCart(): Cart {
     totalQuantity: 0,
     subtotal: 0,
     total: 0,
-    currency: "EUR",
+    currency: "GBP",
   };
 }
 
@@ -110,7 +141,7 @@ function loadCartFromStorage(): Cart {
       totalQuantity: 0,
       subtotal: 0,
       total: 0,
-      currency: "EUR",
+      currency: "GBP",
     };
   }
 
@@ -119,16 +150,35 @@ function loadCartFromStorage(): Cart {
     if (stored) {
       const parsed = JSON.parse(stored);
       
-      // Validate and filter items
-      const validItems = (parsed.items || []).filter(
-        (item: any): item is CartItem =>
-          item !== null &&
-          item !== undefined &&
-          typeof item.id === 'string' &&
-          typeof item.quantity === 'number' &&
-          typeof item.price === 'number' &&
-          item.quantity > 0
-      );
+      const validItems = (parsed.items || [])
+        .filter(
+          (item: CartItem | null | undefined): item is CartItem =>
+            item != null &&
+            typeof item.id === "string" &&
+            typeof item.quantity === "number" &&
+            typeof item.price === "number" &&
+            item.quantity > 0,
+        )
+        .map((item: CartItem) => {
+          const variantOptions = item.variantOptions?.map((o) => ({
+            ...o,
+            selectedOptions:
+              o.selectedOptions?.length
+                ? o.selectedOptions
+                : parseVariantTitle(o.title),
+          }));
+          return {
+            ...item,
+            variant: {
+              ...item.variant,
+              selectedOptions:
+                item.variant.selectedOptions?.length
+                  ? item.variant.selectedOptions
+                  : parseVariantTitle(item.variant.title),
+            },
+            variantOptions,
+          };
+        });
 
       // Recalculate totals in case prices changed
       const totalQuantity = validItems.reduce(
@@ -146,7 +196,7 @@ function loadCartFromStorage(): Cart {
         totalQuantity,
         subtotal,
         total: subtotal,
-        currency: parsed.currency || "EUR",
+        currency: parsed.currency || "GBP",
       };
     }
   } catch (error) {
@@ -159,7 +209,7 @@ function loadCartFromStorage(): Cart {
     totalQuantity: 0,
     subtotal: 0,
     total: 0,
-    currency: "EUR",
+    currency: "GBP",
   };
 }
 
@@ -234,32 +284,90 @@ export function CartProvider({
     });
   };
 
-  const addCartItem = (variant: ProductVariant, product: Product) => {
+  const addCartItem = (
+    variant: ProductVariant,
+    product: Product,
+    options?: AddCartOptions,
+  ) => {
     setCart((currentCart) => {
       const cart = currentCart || createEmptyCart();
-      
-      // Filter out any invalid items first
+
       const validItems = (cart.items || []).filter(
-        (item): item is CartItem => item !== null && item !== undefined && item.id !== undefined
+        (item): item is CartItem => item !== null && item !== undefined && item.id !== undefined,
       );
-      
+
       const existingItem = validItems.find(
-        (item) => item.variantId === variant.id,
+        (item) => item.productId === product.id && item.variantId === variant.id,
       );
       const updatedItem = createOrUpdateCartItem(
         existingItem,
         variant,
         product,
+        options,
       );
 
       const updatedItems = existingItem
         ? validItems.map((item) =>
-            item.variantId === variant.id ? updatedItem : item,
+            item.productId === product.id && item.variantId === variant.id
+              ? updatedItem
+              : item,
           )
         : [...validItems, updatedItem];
 
       return {
         ...cart,
+        ...updateCartTotals(updatedItems),
+        items: updatedItems,
+      };
+    });
+  };
+
+  const updateCartVariant = (itemId: string, variant: ProductVariant) => {
+    setCart((currentCart) => {
+      if (!currentCart?.items) return currentCart;
+
+      const validItems = currentCart.items.filter(
+        (item): item is CartItem => item != null && item.id !== undefined,
+      );
+
+      const target = validItems.find((item) => item.id === itemId);
+      if (!target || !variant.available) return currentCart;
+
+      const existingSameVariant = validItems.find(
+        (item) =>
+          item.productId === target.productId &&
+          item.variantId === variant.id &&
+          item.id !== itemId,
+      );
+
+      const withoutDuplicate = validItems.filter(
+        (item) =>
+          !(
+            item.productId === target.productId &&
+            item.variantId === variant.id &&
+            item.id !== itemId
+          ),
+      );
+
+      const updatedItems = withoutDuplicate.map((item) => {
+        if (item.id !== itemId) return item;
+        return {
+          ...item,
+          id: `${item.productId}-${variant.id}`,
+          variantId: variant.id,
+          quantity: item.quantity + (existingSameVariant?.quantity ?? 0),
+          price: variant.price,
+          variant: {
+            id: variant.id,
+            title: variant.title,
+            sku: variant.sku,
+            selectedOptions: optionsFromVariant(variant),
+          },
+        };
+      });
+
+      return {
+        ...currentCart,
         ...updateCartTotals(updatedItems),
         items: updatedItems,
       };
@@ -275,7 +383,9 @@ export function CartProvider({
   };
 
   return (
-    <CartContext.Provider value={{ cart, updateCartItem, addCartItem, clearCart }}>
+    <CartContext.Provider
+      value={{ cart, updateCartItem, addCartItem, updateCartVariant, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );

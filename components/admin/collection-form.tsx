@@ -4,6 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createCollectionAction, updateCollectionAction } from "app/admin/collections/actions";
 import { toast } from "sonner";
+import {
+  adminButtonClass,
+  adminFormClass,
+  adminGridClass,
+  adminHelpClass,
+  adminInputClass,
+  adminLabelClass,
+  adminTextareaClass,
+} from "./admin-form-styles";
 
 interface CollectionFormData {
   handle: string;
@@ -89,13 +98,13 @@ export function CollectionForm({ collection }: CollectionFormProps) {
       }
 
       if (result.success) {
-        toast.success(collection ? "Колекцията е обновена успешно" : "Колекцията е създадена успешно");
+        toast.success(collection ? "Collection updated successfully" : "Collection created successfully");
         router.push("/admin/collections");
         router.refresh();
       } else {
-        const errorMessage = result.error || "Грешка при запазване на колекция";
+        const errorMessage = result.error || "Failed to save collection";
         // Check if error is about duplicate handle
-        if (errorMessage.includes("Slug") && errorMessage.includes("зает")) {
+        if (errorMessage.includes("Slug") && errorMessage.includes("already taken")) {
           setHandleError(errorMessage);
         } else {
           toast.error(errorMessage);
@@ -103,9 +112,9 @@ export function CollectionForm({ collection }: CollectionFormProps) {
       }
     } catch (error: any) {
       console.error("Error saving collection:", error);
-      const errorMessage = error.message || "Грешка при запазване на колекция";
+      const errorMessage = error.message || "Failed to save collection";
       // Check if error is about duplicate handle
-      if (errorMessage.includes("Slug") && errorMessage.includes("зает")) {
+      if (errorMessage.includes("Slug") && errorMessage.includes("already taken")) {
         setHandleError(errorMessage);
       } else {
         toast.error(errorMessage);
@@ -116,95 +125,79 @@ export function CollectionForm({ collection }: CollectionFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className={adminFormClass}>
+      <div className={adminGridClass}>
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Handle (URL slug)
-          </label>
+          <label className={adminLabelClass}>Handle (URL slug)</label>
           <input
             type="text"
             value={formData.handle}
             onChange={handleHandleChange}
-            className={`w-full px-3 py-2 border rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-              handleError 
-                ? "border-red-500 dark:border-red-500" 
-                : "border-gray-300 dark:border-gray-700"
+            className={`${adminInputClass} ${
+              handleError ? "border-red-500 focus:border-red-500 focus:ring-red-100" : ""
             }`}
             placeholder="teniskazelena"
           />
           {handleError ? (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-              {handleError}
-            </p>
+            <p className={`${adminHelpClass} text-red-600`}>{handleError}</p>
           ) : (
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Ако не се въведе, ще се генерира автоматично от името. Само малки букви, числа и без разстояния. Пример: /teniskazelena
+            <p className={adminHelpClass}>
+              If left blank, generated from the name. Lowercase letters and numbers only, no spaces.
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Име *
-          </label>
+          <label className={adminLabelClass}>Name *</label>
           <input
             type="text"
             required
             value={formData.title}
             onChange={handleTitleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className={adminInputClass}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Позиция
-          </label>
+          <label className={adminLabelClass}>Position</label>
           <input
             type="number"
             min="0"
             value={formData.position}
             onChange={(e) => setFormData({ ...formData, position: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            placeholder="0 = първа позиция"
+            className={adminInputClass}
+            placeholder="0 = first position"
           />
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            0 = първа позиция, по-големи числа = по-назад
-          </p>
+          <p className={adminHelpClass}>0 = first position; higher numbers appear later</p>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Описание
-        </label>
+        <label className={adminLabelClass}>Description</label>
         <textarea
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          rows={4}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-          placeholder="Описание на колекцията (незадължително)"
+          rows={5}
+          className={adminTextareaClass}
+          placeholder="Collection description (optional)"
         />
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          Описание, което ще се показва под заглавието на колекцията
-        </p>
+        <p className={adminHelpClass}>Shown below the collection title on the storefront</p>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-3">
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
+          className={adminButtonClass}
         >
-          {loading ? "Запазване..." : collection ? "Обнови" : "Създай"}
+          {loading ? "Saving..." : collection ? "Update" : "Create"}
         </button>
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="rounded-lg border border-gray-300 px-6 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Отказ
+          Cancel
         </button>
       </div>
     </form>

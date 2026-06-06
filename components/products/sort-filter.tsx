@@ -7,11 +7,11 @@ import { BarsArrowUpIcon, ChevronDownIcon, CheckIcon } from "@heroicons/react/24
 type SortOption = "price-asc" | "price-desc" | "discount-desc" | "name-asc" | "newest";
 
 const sortOptions: { value: SortOption; label: string }[] = [
-  { value: "price-asc", label: "Цена: Възходяща" },
-  { value: "price-desc", label: "Цена: Низходяща" },
-  { value: "discount-desc", label: "Най-голямо намаление" },
-  { value: "name-asc", label: "Азбучен ред" },
-  { value: "newest", label: "Най-нови" },
+  { value: "price-asc", label: "Price: Low to high" },
+  { value: "price-desc", label: "Price: High to low" },
+  { value: "discount-desc", label: "Biggest discount" },
+  { value: "name-asc", label: "Alphabetical" },
+  { value: "newest", label: "Newest" },
 ];
 
 export function SortFilter() {
@@ -21,7 +21,7 @@ export function SortFilter() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const currentLabel = sortOptions.find((opt) => opt.value === currentSort)?.label || "Най-нови";
+  const currentLabel = sortOptions.find((opt) => opt.value === currentSort)?.label || "Newest";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

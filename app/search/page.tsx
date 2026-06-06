@@ -3,8 +3,8 @@ import ProductGridItems from "components/layout/product-grid-items";
 import { getProducts } from "lib/supabase/products";
 
 export const metadata = {
-  title: "Търсене",
-  description: "Търсене на продукти в магазина.",
+  title: "Search",
+  description: "Search The Archive Shop.",
 };
 
 export default async function SearchPage(props: {
@@ -14,15 +14,15 @@ export default async function SearchPage(props: {
   const { q: searchValue } = searchParams as { [key: string]: string };
 
   const products = await getProducts({ query: searchValue });
-  const resultsText = products.length > 1 ? "резултата" : "резултат";
+  const resultsText = products.length === 1 ? "result" : "results";
 
   return (
     <>
       {searchValue ? (
         <p className="mb-4">
           {products.length === 0
-            ? "Няма продукти, които отговарят на "
-            : `Показване на ${products.length} ${resultsText} за `}
+            ? "No products match "
+            : `Showing ${products.length} ${resultsText} for `}
           <span className="font-bold">&quot;{searchValue}&quot;</span>
         </p>
       ) : null}

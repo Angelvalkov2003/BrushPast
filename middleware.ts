@@ -3,10 +3,12 @@ import { getSupabaseAnonKey, getSupabaseUrl } from "lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
+
   let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
+    request: { headers: requestHeaders },
   });
 
   const supabaseUrl = getSupabaseUrl();
@@ -62,9 +64,6 @@ export async function middleware(request: NextRequest) {
   await supabase.auth.getUser();
 
   // Add pathname to headers for layout to check if we're in admin/login
-  const pathname = request.nextUrl.pathname;
-  response.headers.set("x-invoke-path", pathname);
-
   return response;
 }
 

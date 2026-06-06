@@ -1,15 +1,19 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 import CartModal from "components/cart/modal";
-import LogoSquare from "components/logo-square";
+import BrandLogo from "components/brand-logo";
 import Link from "next/link";
 import { Suspense } from "react";
 import MobileMenu from "./navbar/mobile-menu";
-import Search, { SearchSkeleton } from "./navbar/search";
+import { NavLink } from "./navbar/nav-link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-
-import { SITE_NAME } from "lib/site-config";
+import clsx from "clsx";
+import {
+  dropdownItemClass,
+  dropdownPanelClass,
+} from "lib/brand-classes";
 
 interface Collection {
   id: string;
@@ -17,125 +21,158 @@ interface Collection {
   title: string;
 }
 
+const MAIN_LINKS = [
+  { label: "Stories", href: "/stories" },
+  { label: "Workshops", href: "/workshops" },
+  { label: "Journal", href: "/journal" },
+  { label: "About", href: "/about" },
+  { label: "Get in Touch", href: "/contact" },
+] as const;
+
+function isShopPath(pathname: string) {
+  return (
+    pathname.startsWith("/shop") ||
+    pathname.startsWith("/search") ||
+    pathname.startsWith("/products") ||
+    pathname.startsWith("/product")
+  );
+}
+
 export function NavbarClient() {
+  const pathname = usePathname();
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
-  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [shopOpen, setShopOpen] = useState(false);
+  const shopRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/collections")
       .then((res) => res.json())
       .then((data) => {
-        setCollections(data);
+        setCollections(Array.isArray(data) ? data : []);
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching collections:", error);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setProductsDropdownOpen(false);
+      if (shopRef.current && !shopRef.current.contains(event.target as Node)) {
+        setShopOpen(false);
       }
     };
-
-    if (productsDropdownOpen) {
+    if (shopOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [shopOpen]);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [productsDropdownOpen]);
-
-  const menu = collections.map((c) => ({ title: c.title, path: `/search/${c.handle}` }));
+  const collectionMenu = collections.map((c) => ({
+    title: c.title,
+    path: `/shop/${c.handle}`,
+  }));
 
   return (
-    <nav className="relative flex items-center justify-between p-4 lg:px-6">
-      <div className="block flex-none md:hidden">
-        <Suspense fallback={null}>
-          <MobileMenu menu={menu} />
-        </Suspense>
-      </div>
-      <div className="flex w-full items-center">
-        <div className="flex w-full md:w-1/3">
-          <Link
-            href="/"
-            prefetch={true}
-            className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6"
-          >
-            <LogoSquare />
-            <div className="ml-2 flex-none text-sm font-medium uppercase md:hidden lg:block">
-              {SITE_NAME}
-            </div>
-          </Link>
-          <ul className="hidden gap-6 text-sm md:flex md:items-center">
-            {/* Products Dropdown */}
-            <li className="relative">
-              <div ref={dropdownRef}>
-                <button
-                  onClick={() => setProductsDropdownOpen(!productsDropdownOpen)}
-                  className="flex items-center gap-1 text-neutral-500 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300"
-                >
-                  Продукти
-                  <ChevronDownIcon className={`h-4 w-4 transition-transform ${productsDropdownOpen ? "rotate-180" : ""}`} />
-                </button>
-                {productsDropdownOpen && (
-                  <div className="absolute left-0 top-full mt-2 w-48 rounded-lg bg-white shadow-lg dark:bg-gray-800 border border-gray-200 dark:border-gray-700 z-50">
-                    <ul className="py-2">
-                      <li>
-                        <Link
-                          href="/products"
-                          onClick={() => setProductsDropdownOpen(false)}
-                          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                          Всички
-                        </Link>
-                      </li>
-                      {!loading &&
-                        collections.map((collection) => (
-                          <li key={collection.id}>
-                            <Link
-                              href={`/products?collection=${collection.handle}`}
-                              onClick={() => setProductsDropdownOpen(false)}
-                              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                            >
-                              {collection.title}
-                            </Link>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </li>
+    <header className="bp-navbar sticky top-0 z-40 w-full">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 md:px-8 lg:px-10">
+        {/* Mobile: logo left */}
+        <Link
+          href="/"
+          prefetch
+          className="relative z-50 shrink-0 lg:hidden"
+          aria-label="Brush Past home"
+        >
+          <BrandLogo size="md" priority />
+        </Link>
 
-            {/* Contact Link */}
-            <li>
-              <Link
-                href="/contact"
-                prefetch={true}
-                className="text-neutral-500 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300"
-              >
-                Контакти
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="hidden justify-center md:flex md:w-1/3">
-          <Suspense fallback={<SearchSkeleton />}>
-            <Search />
+        {/* Mobile: hamburger right */}
+        <div className="flex items-center lg:hidden">
+          <Suspense fallback={null}>
+            <MobileMenu collections={collectionMenu} loading={loading} />
           </Suspense>
         </div>
-        <div className="flex justify-end md:w-1/3">
-          <CartModal />
+
+        {/* Desktop */}
+        <div className="hidden w-full items-center justify-between lg:flex">
+          <Link href="/" prefetch className="shrink-0" aria-label="Brush Past home">
+            <BrandLogo size="lg" priority />
+          </Link>
+
+          <nav
+            className="flex flex-1 items-center justify-center gap-8 xl:gap-10"
+            aria-label="Main"
+          >
+            <NavLink href="/stories">Stories</NavLink>
+
+            <div className="relative" ref={shopRef}>
+              <button
+                type="button"
+                onClick={() => setShopOpen((o) => !o)}
+                className={clsx(
+                  "flex items-center gap-1 text-sm font-bold uppercase tracking-[0.12em] text-bp-text transition-colors hover:text-bp-accent",
+                  (shopOpen || isShopPath(pathname ?? "")) &&
+                    "text-bp-accent underline decoration-bp-accent decoration-wavy decoration-2 underline-offset-[6px]",
+                )}
+                aria-expanded={shopOpen}
+                aria-haspopup="true"
+              >
+                Shop
+                <ChevronDownIcon
+                  className={clsx(
+                    "h-4 w-4 stroke-[2.5] transition-transform",
+                    shopOpen && "rotate-180",
+                  )}
+                />
+              </button>
+              {shopOpen ? (
+                <div
+                  className={`absolute left-1/2 top-full z-50 mt-3 w-52 -translate-x-1/2 ${dropdownPanelClass}`}
+                >
+                  <ul className="py-2">
+                    <li>
+                      <Link
+                        href="/shop"
+                        className={dropdownItemClass}
+                        onClick={() => setShopOpen(false)}
+                      >
+                        The Archive Shop
+                      </Link>
+                    </li>
+                    {!loading &&
+                      collections.map((c) => (
+                        <li key={c.id}>
+                          <Link
+                            href={`/shop/${c.handle}`}
+                            className={dropdownItemClass}
+                            onClick={() => setShopOpen(false)}
+                          >
+                            {c.title}
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+
+            {MAIN_LINKS.slice(1).map((link) => (
+              <NavLink key={link.href} href={link.href}>
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="flex shrink-0 items-center gap-5">
+            <Link
+              href="/share-your-story"
+              className="bg-bp-accent px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-bp-canvas transition-opacity hover:opacity-90"
+            >
+              Share your story
+            </Link>
+            <CartModal />
+          </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }

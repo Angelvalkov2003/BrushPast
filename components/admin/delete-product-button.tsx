@@ -7,31 +7,31 @@ import { toast } from "sonner";
 
 export function DeleteProductButton({
   productId,
-  productTitle,
+  productTitle = "this product",
 }: {
   productId: string;
-  productTitle: string;
+  productTitle?: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
-    if (!confirm(`Сигурен ли си, че искаш да изтриеш "${productTitle}"?`)) {
+    if (!confirm(`Delete "${productTitle}"?`)) {
       return;
     }
 
     setLoading(true);
     try {
       const result = await deleteProductAction(productId);
-      if (result.success) {
-        toast.success("Продуктът е изтрит успешно");
+      if (!result.error) {
+        toast.success("Product deleted");
         router.refresh();
       } else {
-        toast.error(result.error || "Грешка при изтриване на продукт");
+        toast.error(result.error);
       }
     } catch (error) {
       console.error("Error deleting product:", error);
-      toast.error("Грешка при изтриване на продукт");
+      toast.error("Failed to delete product");
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ export function DeleteProductButton({
       disabled={loading}
       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50"
     >
-      {loading ? "Изтриване..." : "Изтрий"}
+      {loading ? "Deleting…" : "Delete"}
     </button>
   );
 }

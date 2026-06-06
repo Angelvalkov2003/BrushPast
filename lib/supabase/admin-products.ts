@@ -1,373 +1,253 @@
-import { createServerClient } from "./server";
-import type { Image } from "lib/types";
+import { getSupabaseServiceClient } from "lib/supabase/service";
+import type {
+  AdminProduct,
+  AdminProductVariantInput,
+  ContentStatus,
+  InventoryType,
+} from "lib/types/admin";
 
-// Helper to check if error is React.postpone()
-function isReactPostpone(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "$$typeof" in error &&
-    error.$$typeof === Symbol.for("react.postpone")
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export async function getAllProductsAdmin(params?: {
+  status?: ContentStatus;
+  categoryId?: string;
+}): Promise<AdminProduct[]> {
+  const supabase = getSupabaseServiceClient();
+
+  let productIds: string[] | null = null;
+  if (params?.categoryId) {
+    const { data: links } = await supabase
+      .from("product_categories")
+      .select("product_id")
+      .eq("category_id", params.categoryId);
+    productIds = (links ?? []).map((l) => l.product_id);
+    if (productIds.length === 0) return [];
+  }
+
+  let query = supabase.from("products").select("*").order("sort_order", { ascending: false });
+
+  if (params?.status) query = query.eq("status", params.status);
+  if (productIds) query = query.in("id", productIds);
+
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+
+  const products = (data ?? []) as AdminProduct[];
+  if (products.length === 0) return [];
+
+  const ids = products.map((p) => p.id);
+  const { data: catLinks } = await supabase
+    .from("product_categories")
+    .select("product_id, category_id")
+    .in("product_id", ids);
+
+  const map = new Map<string, string[]>();
+  for (const link of catLinks ?? []) {
+    const arr = map.get(link.product_id) ?? [];
+    arr.push(link.category_id);
+    map.set(link.product_id, arr);
+  }
+
+  return products.map((p) => ({ ...p, category_ids: map.get(p.id) ?? [] }));
+}
+
+export async function getProductByIdAdmin(id: string): Promise<AdminProduct | null> {
+  const supabase = getSupabaseServiceClient();
+  const { data: product, error } = await supabase.from("products").select("*").eq("id", id).single();
+  if (error || !product) return null;
+
+  const [{ data: catLinks }, { data: images }, { data: variants }] = await Promise.all([
+    supabase.from("product_categories").select("category_id").eq("product_id", id),
+    supabase
+      .from("product_images")
+      .select("id, image_url, sort_order")
+      .eq("product_id", id)
+      .order("sort_order", { ascending: false }),
+    supabase
+      .from("product_variants")
+      .select("*")
+      .eq("product_id", id)
+      .order("sort_order", { ascending: false }),
+  ]);
+
+  return {
+    ...(product as AdminProduct),
+    category_ids: (catLinks ?? []).map((c) => c.category_id),
+    images: images ?? [],
+    variants: variants ?? [],
+  };
+}
+
+export type ProductInput = {
+  title: string;
+  slug?: string;
+  short_description?: string;
+  full_description?: string;
+  main_image_url?: string;
+  price_gbp: number;
+  inventory_type?: InventoryType;
+  inventory_quantity?: number | null;
+  status?: ContentStatus;
+  sort_order?: number;
+  category_ids?: string[];
+  gallery_urls?: string[];
+  variants?: AdminProductVariantInput[];
+};
+
+async function syncProductCategories(productId: string, categoryIds: string[]) {
+  const supabase = getSupabaseServiceClient();
+  await supabase.from("product_categories").delete().eq("product_id", productId);
+  if (categoryIds.length === 0) return;
+  await supabase.from("product_categories").insert(
+    categoryIds.map((category_id) => ({ product_id: productId, category_id })),
   );
 }
 
-export interface CreateProductData {
-  handle: string;
-  title: string;
-  description?: string;
-  price: number;
-  compare_at_price?: number;
-  featured_image?: Image;
-  images?: Image[];
-  category?: string;
-  available?: boolean;
-  position?: number;
+async function syncProductImages(productId: string, urls: string[]) {
+  const supabase = getSupabaseServiceClient();
+  await supabase.from("product_images").delete().eq("product_id", productId);
+  const filtered = urls.filter(Boolean);
+  if (filtered.length === 0) return;
+  await supabase.from("product_images").insert(
+    filtered.map((image_url, index) => ({
+      product_id: productId,
+      image_url,
+      sort_order: filtered.length - index,
+    })),
+  );
 }
 
-export interface UpdateProductData extends Partial<CreateProductData> {
-  id: string;
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function isUuid(value: string) {
+  return UUID_RE.test(value);
 }
 
-/**
- * Get product order count (number of orders containing this product)
- */
-export async function getProductOrderCount(productId: string): Promise<number> {
-  try {
-    const supabase = await createServerClient();
-    
-    // Query orders where products JSONB array contains this product ID
-    const { data, error } = await supabase
-      .from("orders")
-      .select("products")
-      .neq("status", "canceled"); // Exclude canceled orders
+export async function syncProductVariants(
+  productId: string,
+  variants: AdminProductVariantInput[],
+) {
+  const supabase = getSupabaseServiceClient();
+  const cleaned = variants
+    .map((v) => ({
+      ...v,
+      variant_name: v.variant_name.trim(),
+      sku: v.sku?.trim() || undefined,
+    }))
+    .filter((v) => v.variant_name.length > 0);
 
-    if (error) {
-      console.error("Error fetching orders for product count:", error);
-      return 0;
-    }
+  const { data: existing } = await supabase
+    .from("product_variants")
+    .select("id")
+    .eq("product_id", productId);
 
-    if (!data) {
-      return 0;
-    }
+  const keepIds = new Set(
+    cleaned.filter((v) => v.id && isUuid(v.id)).map((v) => v.id as string),
+  );
+  const deleteIds = (existing ?? [])
+    .map((row) => row.id)
+    .filter((id) => !keepIds.has(id));
 
-    // Count how many orders contain this product
-    let count = 0;
-    for (const order of data) {
-      if (Array.isArray(order.products)) {
-        const hasProduct = order.products.some(
-          (p: any) => p.id === productId
-        );
-        if (hasProduct) {
-          count++;
-        }
-      }
-    }
-
-    return count;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in getProductOrderCount:", error);
-    return 0;
+  if (deleteIds.length > 0) {
+    const { error } = await supabase.from("product_variants").delete().in("id", deleteIds);
+    if (error) throw new Error(error.message);
   }
-}
 
-/**
- * Get all products (including unavailable ones) for admin
- */
-export async function getAllProductsForAdmin(params?: {
-  category?: string;
-  sortBy?: "price" | "sales" | "position" | "created_at";
-  sortOrder?: "asc" | "desc";
-}) {
-  try {
-    const supabase = await createServerClient();
-    
-    let query = supabase.from("products").select("*");
+  for (let index = 0; index < cleaned.length; index++) {
+    const variant = cleaned[index]!;
+    const row = {
+      product_id: productId,
+      variant_name: variant.variant_name,
+      inventory_type: variant.inventory_type ?? "limited",
+      inventory_quantity: variant.inventory_quantity ?? null,
+      sku: variant.sku || null,
+      price_override: variant.price_override ?? null,
+      status: variant.status ?? "active",
+      sort_order: cleaned.length - index,
+    };
 
-    // Filter by category if provided
-    if (params?.category) {
-      query = query.eq("category", params.category);
-    }
-
-    // Apply sorting
-    const sortBy = params?.sortBy || "position";
-    const sortOrder = params?.sortOrder || "asc";
-
-    if (sortBy === "price") {
-      query = query.order("price", { ascending: sortOrder === "asc" });
-    } else if (sortBy === "created_at") {
-      query = query.order("created_at", { ascending: sortOrder === "asc" });
+    if (variant.id && isUuid(variant.id)) {
+      const { error } = await supabase.from("product_variants").update(row).eq("id", variant.id);
+      if (error) throw new Error(error.message);
     } else {
-      // Default: position
-      query = query.order("position", { ascending: sortOrder === "asc" });
+      const { error } = await supabase.from("product_variants").insert(row);
+      if (error) throw new Error(error.message);
     }
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error("Error fetching products:", error);
-      throw new Error("Failed to fetch products");
-    }
-
-    const products = data || [];
-
-    // Get all orders once to calculate order counts efficiently
-    const supabaseForOrders = await createServerClient();
-    const { data: ordersData } = await supabaseForOrders
-      .from("orders")
-      .select("products")
-      .neq("status", "canceled");
-
-    // Create a map of product ID to order count
-    const productOrderCountMap = new Map<string, number>();
-    
-    if (ordersData) {
-      for (const order of ordersData) {
-        if (Array.isArray(order.products)) {
-          for (const product of order.products) {
-            if (product.id) {
-              const currentCount = productOrderCountMap.get(product.id) || 0;
-              productOrderCountMap.set(product.id, currentCount + 1);
-            }
-          }
-        }
-      }
-    }
-
-    // Add order counts to products
-    const productsWithCounts = products.map((product) => ({
-      ...product,
-      orderCount: productOrderCountMap.get(product.id) || 0,
-    }));
-
-    // If sorting by sales, sort by order count
-    if (sortBy === "sales") {
-      productsWithCounts.sort((a, b) => {
-        if (sortOrder === "asc") {
-          return a.orderCount - b.orderCount;
-        } else {
-          return b.orderCount - a.orderCount;
-        }
-      });
-    }
-
-    return productsWithCounts;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in getAllProductsForAdmin:", error);
-    throw error;
   }
 }
 
-/**
- * Get product by ID for admin
- */
-export async function getProductByIdForAdmin(productId: string) {
-  try {
-    const supabase = await createServerClient();
-    
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("id", productId)
-      .single();
+export async function createProductAdmin(input: ProductInput) {
+  const supabase = getSupabaseServiceClient();
+  const slug = (input.slug?.trim() || slugify(input.title)) || `product-${Date.now()}`;
 
-    if (error) {
-      console.error("Error fetching product:", error);
-      throw new Error("Failed to fetch product");
-    }
+  const { data, error } = await supabase
+    .from("products")
+    .insert({
+      title: input.title,
+      slug,
+      short_description: input.short_description ?? null,
+      full_description: input.full_description ?? null,
+      main_image_url: input.main_image_url ?? null,
+      price_gbp: input.price_gbp,
+      inventory_type: input.inventory_type ?? "unlimited",
+      inventory_quantity: input.inventory_quantity ?? null,
+      status: input.status ?? "draft",
+      sort_order: input.sort_order ?? 0,
+    })
+    .select()
+    .single();
 
-    return data;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in getProductByIdForAdmin:", error);
-    throw error;
+  if (error) throw new Error(error.message);
+
+  await syncProductCategories(data.id, input.category_ids ?? []);
+  await syncProductImages(data.id, input.gallery_urls ?? []);
+  if (input.variants !== undefined) {
+    await syncProductVariants(data.id, input.variants);
   }
+
+  return getProductByIdAdmin(data.id);
 }
 
-/**
- * Check if handle already exists
- */
-async function checkHandleExists(handle: string, excludeId?: string): Promise<boolean> {
-  try {
-    const supabase = await createServerClient();
-    const trimmedHandle = handle.trim();
-    
-    let query = supabase
-      .from("products")
-      .select("id")
-      .eq("handle", trimmedHandle)
-      .limit(1);
+export async function updateProductAdmin(id: string, input: Partial<ProductInput>) {
+  const supabase = getSupabaseServiceClient();
+  const patch: Record<string, unknown> = {};
 
-    if (excludeId) {
-      query = query.neq("id", excludeId);
-    }
+  if (input.title !== undefined) patch.title = input.title;
+  if (input.slug !== undefined) patch.slug = input.slug;
+  if (input.short_description !== undefined) patch.short_description = input.short_description;
+  if (input.full_description !== undefined) patch.full_description = input.full_description;
+  if (input.main_image_url !== undefined) patch.main_image_url = input.main_image_url;
+  if (input.price_gbp !== undefined) patch.price_gbp = input.price_gbp;
+  if (input.inventory_type !== undefined) patch.inventory_type = input.inventory_type;
+  if (input.inventory_quantity !== undefined) patch.inventory_quantity = input.inventory_quantity;
+  if (input.status !== undefined) patch.status = input.status;
+  if (input.sort_order !== undefined) patch.sort_order = input.sort_order;
 
-    const { data, error } = await query;
-
-    if (error) {
-      console.error("Error checking handle:", error);
-      return false;
-    }
-
-    return (data && data.length > 0) || false;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in checkHandleExists:", error);
-    return false;
+  if (Object.keys(patch).length > 0) {
+    const { error } = await supabase.from("products").update(patch).eq("id", id);
+    if (error) throw new Error(error.message);
   }
+
+  if (input.category_ids !== undefined) await syncProductCategories(id, input.category_ids);
+  if (input.gallery_urls !== undefined) await syncProductImages(id, input.gallery_urls);
+  if (input.variants !== undefined) await syncProductVariants(id, input.variants);
+
+  return getProductByIdAdmin(id);
 }
 
-/**
- * Create a new product
- */
-export async function createProduct(data: CreateProductData) {
-  try {
-    const supabase = await createServerClient();
-    
-    const trimmedHandle = data.handle.trim();
-    
-    // Check if handle already exists
-    const handleExists = await checkHandleExists(trimmedHandle);
-    if (handleExists) {
-      throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
-    }
-    
-    const productData = {
-      handle: trimmedHandle,
-      title: data.title,
-      description: data.description || null,
-      price: data.price,
-      compare_at_price: data.compare_at_price || null,
-      featured_image: data.featured_image || null,
-      images: data.images || [],
-      category: data.category || null,
-      available: data.available !== false,
-      position: data.position ?? 0,
-      updated_at: new Date().toISOString(),
-    };
-
-    const { data: product, error } = await supabase
-      .from("products")
-      .insert(productData)
-      .select()
-      .single();
-
-    if (error) {
-      // Check for unique constraint violation
-      if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
-        throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
-      }
-      console.error("Error creating product:", error);
-      throw new Error("Failed to create product");
-    }
-
-    return product;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in createProduct:", error);
-    throw error;
-  }
+export async function deleteProductAdmin(id: string) {
+  const supabase = getSupabaseServiceClient();
+  const { error } = await supabase.from("products").delete().eq("id", id);
+  if (error) throw new Error(error.message);
 }
 
-/**
- * Update a product
- */
-export async function updateProduct(data: UpdateProductData) {
-  try {
-    const supabase = await createServerClient();
-    
-    const updateData: any = {
-      updated_at: new Date().toISOString(),
-    };
-
-    if (data.handle !== undefined) {
-      const trimmedHandle = data.handle.trim();
-      
-      // Check if handle already exists for another product
-      const handleExists = await checkHandleExists(trimmedHandle, data.id);
-      if (handleExists) {
-        throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
-      }
-      
-      updateData.handle = trimmedHandle;
-    }
-    if (data.title !== undefined) updateData.title = data.title;
-    if (data.description !== undefined) updateData.description = data.description || null;
-    if (data.price !== undefined) updateData.price = data.price;
-    if (data.compare_at_price !== undefined) updateData.compare_at_price = data.compare_at_price || null;
-    if (data.featured_image !== undefined) updateData.featured_image = data.featured_image || null;
-    if (data.images !== undefined) updateData.images = data.images || [];
-    if (data.category !== undefined) updateData.category = data.category || null;
-    if (data.available !== undefined) updateData.available = data.available;
-    if (data.position !== undefined) updateData.position = data.position;
-
-    const { data: product, error } = await supabase
-      .from("products")
-      .update(updateData)
-      .eq("id", data.id)
-      .select()
-      .single();
-
-    if (error) {
-      // Check for unique constraint violation
-      if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
-        throw new Error(`Slug "${updateData.handle || data.handle}" вече е зает. Моля, изберете друг slug.`);
-      }
-      console.error("Error updating product:", error);
-      throw new Error("Failed to update product");
-    }
-
-    return product;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in updateProduct:", error);
-    throw error;
-  }
-}
-
-/**
- * Delete a product
- */
-export async function deleteProduct(productId: string) {
-  try {
-    const supabase = await createServerClient();
-    
-    const { error } = await supabase
-      .from("products")
-      .delete()
-      .eq("id", productId);
-
-    if (error) {
-      console.error("Error deleting product:", error);
-      throw new Error("Failed to delete product");
-    }
-
-    return true;
-  } catch (error) {
-    // Don't catch React.postpone() - let it propagate for PPR
-    if (isReactPostpone(error)) {
-      throw error;
-    }
-    console.error("Error in deleteProduct:", error);
-    throw error;
-  }
+export async function toggleProductStatusAdmin(id: string, status: ContentStatus) {
+  return updateProductAdmin(id, { status });
 }

@@ -40,7 +40,7 @@ function ThreeItemGridItem({
             title: item.title,
             amount: item.price.toString(),
             compareAtAmount: item.compareAtPrice?.toString(),
-            currencyCode: "EUR",
+            currencyCode: "GBP",
           }}
         />
       </Link>

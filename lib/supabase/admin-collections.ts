@@ -135,7 +135,7 @@ export async function createCollection(data: CreateCollectionData) {
     // Check if handle already exists
     const handleExists = await checkCollectionHandleExists(trimmedHandle);
     if (handleExists) {
-      throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
+      throw new Error(`Slug "${trimmedHandle}" is already taken. Please choose another slug.`);
     }
     
     const collectionData = {
@@ -154,7 +154,7 @@ export async function createCollection(data: CreateCollectionData) {
     if (error) {
       // Check for unique constraint violation
       if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
-        throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
+        throw new Error(`Slug "${trimmedHandle}" is already taken. Please choose another slug.`);
       }
       console.error("Error creating collection:", error);
       throw new Error("Failed to create collection");
@@ -188,7 +188,7 @@ export async function updateCollection(data: UpdateCollectionData) {
       // Check if handle already exists for another collection
       const handleExists = await checkCollectionHandleExists(trimmedHandle, data.id);
       if (handleExists) {
-        throw new Error(`Slug "${trimmedHandle}" вече е зает. Моля, изберете друг slug.`);
+        throw new Error(`Slug "${trimmedHandle}" is already taken. Please choose another slug.`);
       }
       
       updateData.handle = trimmedHandle;
@@ -207,7 +207,7 @@ export async function updateCollection(data: UpdateCollectionData) {
     if (error) {
       // Check for unique constraint violation
       if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
-        throw new Error(`Slug "${updateData.handle || data.handle}" вече е зает. Моля, изберете друг slug.`);
+        throw new Error(`Slug "${updateData.handle || data.handle}" is already taken. Please choose another slug.`);
       }
       console.error("Error updating collection:", error);
       throw new Error("Failed to update collection");

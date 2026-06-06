@@ -23,7 +23,7 @@ export default function ProductGridItems({
                 title: product.title,
                 amount: product.price.toString(),
                 compareAtAmount: product.compareAtPrice?.toString(),
-                currencyCode: "EUR",
+                currencyCode: "GBP",
               }}
               src={product.featuredImage?.url}
               fill

@@ -6,7 +6,7 @@ export type SortFilterItem = {
 };
 
 export const defaultSort: SortFilterItem = {
-  title: "Релевантност",
+  title: "Relevance",
   slug: null,
   sortKey: "RELEVANCE",
   reverse: false,
@@ -15,19 +15,19 @@ export const defaultSort: SortFilterItem = {
 export const sorting: SortFilterItem[] = [
   defaultSort,
   {
-    title: "Най-нови",
+    title: "Newest",
     slug: "latest-desc",
     sortKey: "CREATED_AT",
     reverse: true,
   },
   {
-    title: "Цена: Ниска към висока",
+    title: "Price: low to high",
     slug: "price-asc",
     sortKey: "PRICE",
     reverse: false,
   },
   {
-    title: "Цена: Висока към ниска",
+    title: "Price: high to low",
     slug: "price-desc",
     sortKey: "PRICE",
     reverse: true,

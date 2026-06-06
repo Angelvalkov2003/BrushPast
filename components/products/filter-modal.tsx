@@ -80,11 +80,11 @@ export function FilterModal({
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Филтри</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Filters</h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              aria-label="Затвори"
+              aria-label="Close"
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
@@ -93,12 +93,12 @@ export function FilterModal({
           {/* Price Range */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Ценови диапазон (EUR)
+              Price range (GBP)
             </h3>
             <div className="flex items-center gap-4">
               <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  От
+                  From
                 </label>
                 <input
                   type="number"
@@ -112,7 +112,7 @@ export function FilterModal({
               </div>
               <div className="flex-1">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  До
+                  To
                 </label>
                 <input
                   type="number"
@@ -130,7 +130,7 @@ export function FilterModal({
           {/* Categories */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Категории
+              Categories
             </h3>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {collections.map((collection) => (
@@ -162,7 +162,7 @@ export function FilterModal({
                 className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Само продукти на намаление
+                On sale only
               </span>
             </label>
           </div>
@@ -173,19 +173,19 @@ export function FilterModal({
               onClick={handleApply}
               className="flex-1 px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
             >
-              Приложи
+              Apply
             </button>
             <button
               onClick={handleReset}
               className="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             >
-              Изчисти
+              Clear
             </button>
             <button
               onClick={onClose}
               className="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             >
-              Отказ
+              Cancel
             </button>
           </div>
         </div>

@@ -104,7 +104,7 @@ export function FilterDropdown({
       >
         <div className="flex items-center gap-2">
           <FunnelIcon className="h-5 w-5" />
-          <span>Филтри</span>
+          <span>Filters</span>
           {hasActiveFilters && (
             <span className="ml-1 rounded-full bg-white/20 dark:bg-white/10 px-2 py-0.5 text-xs font-semibold">
               {[
@@ -126,11 +126,11 @@ export function FilterDropdown({
         <div className="absolute top-full right-0 sm:right-0 left-0 sm:left-auto mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-[80vh] overflow-y-auto">
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Филтри</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                aria-label="Затвори"
+                aria-label="Close"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
@@ -139,12 +139,12 @@ export function FilterDropdown({
             {/* Price Range */}
             <div className="mb-4">
               <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                Ценови диапазон (EUR)
+                Price range (GBP)
               </h4>
               <div className="flex items-center gap-3">
                 <div className="flex-1">
                   <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    От
+                    From
                   </label>
                   <input
                     type="number"
@@ -158,7 +158,7 @@ export function FilterDropdown({
                 </div>
                 <div className="flex-1">
                   <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    До
+                    To
                   </label>
                   <input
                     type="number"
@@ -176,7 +176,7 @@ export function FilterDropdown({
             {/* Categories */}
             <div className="mb-4">
               <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                Категории
+                Categories
               </h4>
               <div className="space-y-1 max-h-40 overflow-y-auto">
                 {collections.map((collection) => (
@@ -208,7 +208,7 @@ export function FilterDropdown({
                   className="h-4 w-4 text-stone-600 rounded border-gray-300 focus:ring-stone-500"
                 />
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Само продукти на намаление
+                  On sale only
                 </span>
               </label>
             </div>
@@ -219,13 +219,13 @@ export function FilterDropdown({
                 onClick={handleApply}
                 className="flex-1 px-4 py-2 text-sm font-medium text-white bg-stone-400 dark:bg-stone-600 rounded-md hover:bg-stone-500 dark:hover:bg-stone-700 transition-colors"
               >
-                Приложи
+                Apply
               </button>
               <button
                 onClick={handleReset}
                 className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
-                Изчисти
+                Clear
               </button>
             </div>
           </div>
