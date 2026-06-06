@@ -43,30 +43,29 @@ export function AdminNavbar() {
   };
 
   const linkClass = (path: string) => {
-    const base = "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium";
+    const base = "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-gray-900";
     return isActive(path)
-      ? `${base} border-indigo-500 text-gray-900`
+      ? `${base} border-gray-900 text-gray-900`
       : `${base} border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700`;
   };
 
   const mobileLinkClass = (path: string) => {
-    const base = "block px-3 py-2 text-base font-medium rounded-md";
+    const base = "block rounded-lg px-3 py-3 text-base font-medium";
     return isActive(path)
-      ? `${base} bg-indigo-50 text-indigo-700`
-      : `${base} text-gray-700 hover:bg-gray-50`;
+      ? `${base} bg-gray-100 text-gray-900`
+      : `${base} text-gray-700 hover:bg-gray-50 active:bg-gray-100`;
   };
 
   return (
-    <nav className="bg-white shadow">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 justify-between">
-          <div className="flex">
-            <div className="flex flex-shrink-0 items-center">
-              <Link href="/admin" className="text-xl font-bold text-gray-900">
-                Brush Past Admin
-              </Link>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-6">
+    <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        <div className="flex h-14 items-center justify-between sm:h-16">
+          <div className="flex min-w-0 items-center gap-2">
+            <Link href="/admin" className="truncate text-base font-bold text-gray-900 sm:text-xl">
+              <span className="sm:hidden">Admin</span>
+              <span className="hidden sm:inline">Brush Past Admin</span>
+            </Link>
+            <div className="hidden lg:ml-6 lg:flex lg:gap-5 xl:gap-6">
               {LINKS.map((l) => (
                 <Link key={l.href} href={l.href} className={linkClass(l.href)}>
                   {l.label}
@@ -74,12 +73,12 @@ export function AdminNavbar() {
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
             <Link
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden items-center gap-2 text-sm text-gray-500 hover:text-gray-700 sm:flex"
+              className="hidden items-center gap-2 text-sm text-gray-500 hover:text-gray-700 md:flex"
             >
               <HomeIcon className="h-5 w-5" />
               <span>View site</span>
@@ -87,14 +86,15 @@ export function AdminNavbar() {
             <button
               type="button"
               onClick={handleLogout}
-              className="hidden text-sm text-gray-500 hover:text-gray-700 sm:block"
+              className="hidden text-sm text-gray-500 hover:text-gray-700 md:block"
             >
               Log out
             </button>
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 sm:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
@@ -103,9 +103,9 @@ export function AdminNavbar() {
         </div>
       </div>
 
-      {mobileMenuOpen && (
-        <div className="border-t sm:hidden">
-          <div className="space-y-1 pt-2 pb-3">
+      {mobileMenuOpen ? (
+        <div className="border-t border-gray-200 lg:hidden">
+          <div className="max-h-[calc(100dvh-3.5rem)] space-y-1 overflow-y-auto px-2 py-3">
             {LINKS.map((l) => (
               <Link
                 key={l.href}
@@ -120,7 +120,7 @@ export function AdminNavbar() {
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-2 text-base font-medium text-gray-700"
+              className="flex items-center gap-2 rounded-lg px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50"
               onClick={() => setMobileMenuOpen(false)}
             >
               <HomeIcon className="h-5 w-5" />
@@ -132,13 +132,13 @@ export function AdminNavbar() {
                 setMobileMenuOpen(false);
                 handleLogout();
               }}
-              className="block w-full px-3 py-2 text-left text-base font-medium text-gray-700"
+              className="block w-full rounded-lg px-3 py-3 text-left text-base font-medium text-gray-700 hover:bg-gray-50"
             >
               Log out
             </button>
           </div>
         </div>
-      )}
+      ) : null}
     </nav>
   );
 }

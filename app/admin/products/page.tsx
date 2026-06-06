@@ -4,6 +4,11 @@ import { getAllCategoriesAdmin } from "lib/supabase/admin-categories";
 import { DeleteProductButton } from "components/admin/delete-product-button";
 import { formatPrice } from "lib/currency";
 import { toggleProductStatusAction } from "./actions";
+import { AdminTableShell } from "components/admin/admin-table-shell";
+import {
+  adminPageHeaderClass,
+  adminPrimaryLinkClass,
+} from "components/admin/admin-form-styles";
 
 export const dynamic = "force-dynamic";
 
@@ -20,49 +25,61 @@ export default async function AdminProductsPage({
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Products</h1>
-        <Link href="/admin/products/new" className="rounded bg-gray-900 px-4 py-2 text-white">
+      <div className={adminPageHeaderClass}>
+        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">Products</h1>
+        <Link href="/admin/products/new" className={adminPrimaryLinkClass}>
           New product
         </Link>
       </div>
 
       <div className="mb-4 flex flex-wrap gap-2">
-        <Link href="/admin/products" className="rounded border px-3 py-1 text-sm">All</Link>
+        <Link href="/admin/products" className="rounded border px-3 py-2 text-sm">
+          All
+        </Link>
         {categories.map((c) => (
-          <Link key={c.id} href={`/admin/products?category=${c.id}`} className="rounded border px-3 py-1 text-sm">
+          <Link
+            key={c.id}
+            href={`/admin/products?category=${c.id}`}
+            className="rounded border px-3 py-2 text-sm"
+          >
             {c.name || c.slug}
           </Link>
         ))}
       </div>
 
-      <div className="overflow-x-auto rounded-lg bg-white shadow">
-        <table className="min-w-full text-sm">
+      <AdminTableShell>
+        <table className="admin-data-table min-w-full">
           <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500">
             <tr>
-              <th className="px-4 py-3">Image</th>
-              <th className="px-4 py-3">Title</th>
-              <th className="px-4 py-3">Slug</th>
-              <th className="px-4 py-3">Price</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Actions</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Slug</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {products.length === 0 ? (
-              <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-500">No products yet.</td></tr>
+              <tr>
+                <td colSpan={6} className="py-8 text-center text-gray-500">
+                  No products yet.
+                </td>
+              </tr>
             ) : (
               products.map((p) => (
                 <tr key={p.id}>
-                  <td className="px-4 py-3">
+                  <td>
                     {p.main_image_url ? (
-                      <img src={p.main_image_url} alt="" className="h-12 w-12 rounded object-cover" />
-                    ) : "—"}
+                      <img src={p.main_image_url} alt="" className="h-10 w-10 rounded object-cover sm:h-12 sm:w-12" />
+                    ) : (
+                      "—"
+                    )}
                   </td>
-                  <td className="px-4 py-3 font-medium">{p.title}</td>
-                  <td className="px-4 py-3 text-gray-500">{p.slug}</td>
-                  <td className="px-4 py-3">{p.price_gbp != null ? formatPrice(Number(p.price_gbp)) : "—"}</td>
-                  <td className="px-4 py-3">
+                  <td className="font-medium">{p.title}</td>
+                  <td className="text-gray-500">{p.slug}</td>
+                  <td>{p.price_gbp != null ? formatPrice(Number(p.price_gbp)) : "—"}</td>
+                  <td>
                     <form
                       action={async () => {
                         "use server";
@@ -80,8 +97,10 @@ export default async function AdminProductsPage({
                       </button>
                     </form>
                   </td>
-                  <td className="px-4 py-3 space-x-2">
-                    <Link href={`/admin/products/${p.id}`} className="text-indigo-600 hover:underline">Edit</Link>
+                  <td className="space-x-2 whitespace-nowrap">
+                    <Link href={`/admin/products/${p.id}`} className="text-indigo-600 hover:underline">
+                      Edit
+                    </Link>
                     <DeleteProductButton productId={p.id} productTitle={p.title ?? undefined} />
                   </td>
                 </tr>
@@ -89,7 +108,7 @@ export default async function AdminProductsPage({
             )}
           </tbody>
         </table>
-      </div>
+      </AdminTableShell>
     </div>
   );
 }

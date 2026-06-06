@@ -12,7 +12,7 @@ type BrandLogoProps = {
 
 const sizeMap = {
   sm: { width: 100, height: 36, className: "h-8 w-auto max-w-[100px]" },
-  md: { width: 140, height: 48, className: "h-10 w-auto max-w-[140px]" },
+  md: { width: 185, height: 56, className: "h-14 w-auto max-w-[185px]" },
   lg: { width: 220, height: 80, className: "h-[72px] w-auto max-w-[220px]" },
 } as const;
 

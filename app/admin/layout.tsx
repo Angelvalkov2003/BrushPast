@@ -26,9 +26,9 @@ export default async function AdminLayout({
     }
 
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-gray-50">
         <AdminNavbar />
-        <main className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-10">{children}</main>
+        <main className="mx-auto w-full max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-10">{children}</main>
       </div>
     );
   } catch (error: any) {

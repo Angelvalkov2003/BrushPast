@@ -41,7 +41,7 @@ export function DeleteProductButton({
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50"
+      className="text-red-600 hover:text-red-900 disabled:opacity-50"
     >
       {loading ? "Deleting…" : "Delete"}
     </button>

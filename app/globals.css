@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark: utilities only when .dark is set — never from OS/body settings */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/typography";
 
@@ -76,8 +79,66 @@ body.bp-site .bp-link-hover:hover {
 }
 
 @media (prefers-color-scheme: dark) {
-  html:not(:has(body.bp-site)) {
-    color-scheme: dark;
+  html:not(:has(body.bp-site)):not(:has(body.admin-site)) {
+    color-scheme: light;
+  }
+}
+
+/* Admin panel — always light, never follows OS dark mode */
+html:has(body.admin-site),
+html[data-admin-theme="light"] {
+  color-scheme: light only;
+}
+
+body.admin-site {
+  background-color: #f9fafb !important;
+  color: #111827 !important;
+  color-scheme: light only;
+}
+
+body.admin-site main {
+  background-color: transparent;
+  color: inherit;
+}
+
+body.admin-site input,
+body.admin-site textarea,
+body.admin-site select {
+  color: #111827;
+  background-color: #ffffff;
+  -webkit-text-fill-color: #111827;
+  caret-color: #111827;
+}
+
+body.admin-site input::placeholder,
+body.admin-site textarea::placeholder {
+  color: #9ca3af;
+  -webkit-text-fill-color: #9ca3af;
+  opacity: 1;
+}
+
+body.admin-site .admin-table-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+body.admin-site .admin-data-table {
+  font-size: 0.8125rem;
+}
+
+body.admin-site .admin-data-table th,
+body.admin-site .admin-data-table td {
+  padding: 0.625rem 0.75rem;
+}
+
+@media (min-width: 640px) {
+  body.admin-site .admin-data-table {
+    font-size: 0.875rem;
+  }
+
+  body.admin-site .admin-data-table th,
+  body.admin-site .admin-data-table td {
+    padding: 0.75rem 1rem;
   }
 }
 

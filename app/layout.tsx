@@ -1,6 +1,7 @@
 import { CartProvider } from "components/cart/cart-context";
 import { ConditionalNavbar } from "components/layout/conditional-navbar";
 import { PublicBodyTheme } from "components/layout/public-body-theme";
+import { AdminThemeScript } from "components/layout/admin-theme-script";
 import { CookieConsent } from "components/cookie-consent";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
@@ -41,12 +42,13 @@ export default async function RootLayout({
       <body
         className={`${GeistSans.className} antialiased selection:bg-bp-accent/30 selection:text-bp-text`}
       >
+        <AdminThemeScript />
         <PublicBodyTheme />
         <CartProvider>
           <ConditionalNavbar />
           <main suppressHydrationWarning>
             {children}
-            <Toaster closeButton />
+            <Toaster closeButton theme="light" />
           </main>
           <CookieConsent />
         </CartProvider>

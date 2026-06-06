@@ -1,6 +1,7 @@
 import { getAllCustomerMessages } from "lib/supabase/admin-messages";
 import { DeleteMessageButton } from "components/admin/delete-message-button";
 import { CONTACT_SOURCE } from "lib/contact-config";
+import { adminPageTitleClass } from "components/admin/admin-form-styles";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +22,8 @@ export default async function AdminMessagesPage() {
 
   return (
     <div>
-      <h1 className="mb-2 text-2xl font-bold">Messages</h1>
-      <p className="mb-6 text-sm text-gray-500">
+      <h1 className={adminPageTitleClass}>Messages</h1>
+      <p className="mb-4 text-sm text-gray-500 sm:mb-6">
         {messages.length} total · {getInTouch.length} from Get in Touch
       </p>
       <div className="space-y-4">
@@ -30,7 +31,7 @@ export default async function AdminMessagesPage() {
           <p className="text-gray-500">No messages yet.</p>
         ) : (
           messages.map((m) => (
-            <div key={m.id} className="rounded-lg bg-white p-6 shadow">
+            <div key={m.id} className="rounded-lg bg-white p-4 shadow sm:p-6">
               <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <p className="font-medium">{m.customer_info || "Unknown"}</p>

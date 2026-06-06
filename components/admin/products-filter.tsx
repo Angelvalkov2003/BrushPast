@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { adminLabelClass, adminSelectClass } from "./admin-form-styles";
 
 interface ProductsFilterProps {
   collections: Array<{ id: string; title: string; handle: string }>;
@@ -35,16 +36,10 @@ export function ProductsFilter({ collections }: ProductsFilterProps) {
   }, [category, sortBy, sortOrder, router]);
 
   return (
-    <div className="mb-6 flex flex-wrap gap-4 items-end">
-      <div className="flex-1 min-w-[200px]">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Filter by category
-        </label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        >
+    <div className="mb-6 flex flex-wrap items-end gap-4">
+      <div className="min-w-[200px] flex-1">
+        <label className={adminLabelClass}>Filter by category</label>
+        <select value={category} onChange={(e) => setCategory(e.target.value)} className={adminSelectClass}>
           <option value="">All categories</option>
           {collections.map((collection) => (
             <option key={collection.id} value={collection.handle}>
@@ -55,14 +50,8 @@ export function ProductsFilter({ collections }: ProductsFilterProps) {
       </div>
 
       <div className="min-w-[180px]">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Sort by
-        </label>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        >
+        <label className={adminLabelClass}>Sort by</label>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className={adminSelectClass}>
           <option value="position">Position</option>
           <option value="price">Price</option>
           <option value="sales">Sales</option>
@@ -71,14 +60,8 @@ export function ProductsFilter({ collections }: ProductsFilterProps) {
       </div>
 
       <div className="min-w-[120px]">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Order
-        </label>
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        >
+        <label className={adminLabelClass}>Order</label>
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className={adminSelectClass}>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
