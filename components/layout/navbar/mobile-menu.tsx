@@ -10,7 +10,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import CartModal from "components/cart/modal";
 import { NavLink } from "./nav-link";
 
 type MenuItem = {
@@ -178,13 +177,6 @@ export default function MobileMenu({
                 >
                   Share your story
                 </Link>
-
-                <div className="mt-8 flex items-center justify-between border-t border-bp-text/10 pt-6">
-                  <span className="text-xs font-bold uppercase tracking-[0.12em] text-bp-text">
-                    Your bag
-                  </span>
-                  <CartModal />
-                </div>
               </nav>
             </Dialog.Panel>
           </Transition.Child>

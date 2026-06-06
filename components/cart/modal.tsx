@@ -18,7 +18,7 @@ import OpenCart from "./open-cart";
 import { UK_SHIPPING_SUMMARY } from "lib/uk-copy";
 
 export default function CartModal() {
-  const { cart, updateCartItem } = useCart();
+  const { cart, cartPulse, updateCartItem } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
@@ -28,8 +28,8 @@ export default function CartModal() {
 
   return (
     <>
-      <button aria-label="Open cart" onClick={openCart}>
-        <OpenCart quantity={cart?.totalQuantity} />
+      <button aria-label="Open cart" onClick={openCart} type="button">
+        <OpenCart quantity={cart?.totalQuantity} pulseKey={cartPulse} />
       </button>
       <Transition show={isOpen}>
         <Dialog onClose={closeCart} className="relative z-50">

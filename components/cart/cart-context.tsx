@@ -26,6 +26,8 @@ type AddCartOptions = {
 
 type CartContextType = {
   cart: Cart | null;
+  /** Increments on each add-to-bag — drives cart icon animation */
+  cartPulse: number;
   updateCartItem: (itemId: string, updateType: UpdateType) => void;
   addCartItem: (variant: ProductVariant, product: Product, options?: AddCartOptions) => void;
   updateCartVariant: (itemId: string, variant: ProductVariant) => void;
@@ -233,6 +235,7 @@ export function CartProvider({
   children: React.ReactNode;
 }) {
   const [cart, setCart] = useState<Cart | null>(null);
+  const [cartPulse, setCartPulse] = useState(0);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -320,6 +323,7 @@ export function CartProvider({
         items: updatedItems,
       };
     });
+    setCartPulse((n) => n + 1);
   };
 
   const updateCartVariant = (itemId: string, variant: ProductVariant) => {
@@ -384,7 +388,7 @@ export function CartProvider({
 
   return (
     <CartContext.Provider
-      value={{ cart, updateCartItem, addCartItem, updateCartVariant, clearCart }}
+      value={{ cart, cartPulse, updateCartItem, addCartItem, updateCartVariant, clearCart }}
     >
       {children}
     </CartContext.Provider>

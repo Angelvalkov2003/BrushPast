@@ -85,8 +85,9 @@ export function NavbarClient() {
           <BrandLogo size="md" priority />
         </Link>
 
-        {/* Mobile: hamburger right */}
-        <div className="flex items-center lg:hidden">
+        {/* Mobile: cart + menu (right) */}
+        <div className="flex items-center gap-0.5 lg:hidden">
+          <CartModal />
           <Suspense fallback={null}>
             <MobileMenu collections={collectionMenu} loading={loading} />
           </Suspense>
