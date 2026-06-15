@@ -164,12 +164,6 @@ export function NavbarClient() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-5">
-            <Link
-              href="/share-your-story"
-              className="bg-bp-accent px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-bp-canvas transition-opacity hover:opacity-90"
-            >
-              Share your story
-            </Link>
             <CartModal />
           </div>
         </div>

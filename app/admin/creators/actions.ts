@@ -7,13 +7,14 @@ import {
   parseSortOrder,
   parseStatus,
 } from "lib/admin/parse-form";
+import { normalizeCreatorProfileUrl } from "lib/creator-profile-url";
 
 function parseCreator(fd: FormData) {
   return {
     name: parseOptionalText(fd, "name"),
     image_url: (fd.get("image_url") as string) || undefined,
     short_description: (fd.get("short_description") as string) || undefined,
-    profile_url: parseOptionalText(fd, "profile_url"),
+    profile_url: normalizeCreatorProfileUrl(parseOptionalText(fd, "profile_url")),
     is_anonymous: fd.get("is_anonymous") === "on",
     status: parseStatus(fd),
     sort_order: parseSortOrder(fd),

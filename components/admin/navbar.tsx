@@ -12,9 +12,10 @@ const LINKS = [
   { href: "/admin/products", label: "Products" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/creators", label: "Creators" },
-  { href: "/admin/organisations", label: "Organisations" },
   { href: "/admin/stories", label: "Stories" },
+  { href: "/admin/journal", label: "Journal" },
   { href: "/admin/messages", label: "Messages" },
+  { href: "/admin/newsletter", label: "Newsletter" },
 ];
 
 export function AdminNavbar() {

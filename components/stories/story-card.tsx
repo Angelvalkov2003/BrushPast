@@ -2,10 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { Caveat } from "next/font/google";
-import { displayImageUrl } from "lib/image-url";
 import type { PublicStory } from "lib/supabase/stories";
 import type { StoryCardLayout } from "lib/stories-config";
-import { storyDisplayName, storyHref, storyQuote, storyTagsLabel } from "lib/story-display";
+import { storyCardImageUrl, storyDisplayName, storyHref, storyQuote, storyTagsLabel } from "lib/story-display";
 
 const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -103,7 +102,7 @@ function CardContent({
   tags: string;
 }) {
   const isTextCard = layout === "text-accent" || layout === "text-dark";
-  const imageSrc = displayImageUrl(story.image_url);
+  const imageSrc = storyCardImageUrl(story);
   const useImage = Boolean(imageSrc) && !isTextCard;
 
   if (isTextCard) {

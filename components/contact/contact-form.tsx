@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { CONTACT_SUBJECTS } from "lib/contact-config";
+import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -38,6 +38,7 @@ export function ContactForm() {
           subject: subjectLabel,
           message: formData.message,
           source: "get-in-touch",
+          privacy_policy_accepted: true,
         }),
       });
       const data = await res.json();
@@ -144,24 +145,13 @@ export function ContactForm() {
               className="mt-1 w-full border border-bp-text/20 bg-transparent px-3 py-2 text-sm focus:border-bp-accent focus:outline-none"
             />
           </div>
-          <label className="flex cursor-pointer items-start gap-3 text-sm text-bp-text/80">
-            <input
-              type="checkbox"
-              required
-              checked={formData.privacy_policy_accepted}
-              onChange={(e) =>
-                setFormData({ ...formData, privacy_policy_accepted: e.target.checked })
-              }
-              className="mt-1"
-            />
-            <span>
-              I agree to the{" "}
-              <Link href="/privacy" className="text-bp-accent underline" target="_blank">
-                Privacy Policy
-              </Link>
-              . *
-            </span>
-          </label>
+          <PrivacyPolicyCheckbox
+            checked={formData.privacy_policy_accepted}
+            onChange={(checked) =>
+              setFormData({ ...formData, privacy_policy_accepted: checked })
+            }
+            id="contact-privacy"
+          />
           <button
             type="submit"
             disabled={isSubmitting || !formData.privacy_policy_accepted}

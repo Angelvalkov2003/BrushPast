@@ -13,14 +13,14 @@ export function StoriesCta() {
         </div>
 
         <Link
-          href="/share-your-story"
+          href="/contact#contact-form"
           className="inline-flex justify-center border-2 border-bp-text px-10 py-3 text-sm font-bold uppercase tracking-[0.2em] text-bp-text transition-colors hover:bg-bp-text hover:text-bp-canvas"
         >
           Share your story
         </Link>
 
         <Link
-          href="/share-your-story"
+          href="/contact#contact-form"
           className="group flex items-center justify-end gap-3 text-right text-sm text-bp-text/80 hover:text-bp-accent md:text-base"
         >
           <span className="max-w-xs">

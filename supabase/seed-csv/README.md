@@ -2,7 +2,7 @@
 
 Aligned with the client content brief: four shop collections, six creators, story–product links.
 
-**Fastest:** run `reset-and-seed.sql` in **Supabase Dashboard → SQL Editor** (clears catalog + inserts everything in one go).
+**Fastest:** run `reset-and-seed.sql` in **Supabase Dashboard → SQL Editor** (clears catalog + inserts everything in one go, including sample **Journal** posts).
 
 Or import via **Table Editor → Insert → Import data from CSV**.
 
@@ -31,6 +31,7 @@ Optional: `product_variants.csv` (after products).
 | Product types | `products.product_type` | t-shirt, print, coffee-edition, gift-box, story-card, … |
 | Creators | `creators.csv` | Bobby, Errol, Leon, Ed, Jamie, Christian |
 | Stories | `stories.csv` | `page_url` → hand-built pages under `app/stories/…` |
+| Journal | `reset-and-seed.sql` | `journal_posts` + `journal_post_images` — managed in **Admin → Journal** |
 | Links | `product_*` junction CSVs | Every product → creator + story + collection |
 
 Tags on stories (`tags` column) match filters in `lib/stories-config.ts`: photography, writing, art, recovery, workshops, community-stories, limited-editions, coffee-editions, anonymous.

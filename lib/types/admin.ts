@@ -145,3 +145,31 @@ export type CustomerMessage = {
   message: string | null;
   created_at: string;
 };
+
+export type NewsletterSubscriber = {
+  id: string;
+  email: string;
+  source: string;
+  created_at: string;
+};
+
+export type AdminJournalPostImage = {
+  id: string;
+  journal_post_id: string;
+  image_url: string | null;
+  sort_order: number;
+};
+
+export type AdminJournalPost = {
+  id: string;
+  title: string | null;
+  slug: string | null;
+  description: string | null;
+  main_image_url: string | null;
+  body: string | null;
+  status: ContentStatus;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  images?: AdminJournalPostImage[];
+};

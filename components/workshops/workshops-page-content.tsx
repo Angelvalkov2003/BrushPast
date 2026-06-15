@@ -98,7 +98,7 @@ export function WorkshopsPageContent() {
           </div>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-bp-surface lg:aspect-[5/4]">
             <Image
-              src="/workshops-hero.png"
+              src="/workshops.png"
               alt="Brush Past creative workshop"
               fill
               className="object-cover object-center"
@@ -106,7 +106,7 @@ export function WorkshopsPageContent() {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
             <div
-              className="absolute bottom-4 right-4 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-bp-dark text-center text-[0.55rem] font-bold uppercase leading-tight tracking-wider text-bp-canvas md:bottom-6 md:right-6 md:h-28 md:w-28 md:text-[0.6rem]"
+              className="absolute bottom-3 right-3 flex h-[4.5rem] w-[4.5rem] flex-col items-center justify-center rounded-full border border-bp-text/10 bg-bp-canvas text-center text-[0.48rem] font-bold uppercase leading-tight tracking-wider text-bp-text md:bottom-4 md:right-4 md:h-20 md:w-20 md:text-[0.5rem]"
               aria-hidden
             >
               <span className="text-bp-accent">★</span>

@@ -169,14 +169,6 @@ export default function MobileMenu({
                     </li>
                   ))}
                 </ul>
-
-                <Link
-                  href="/share-your-story"
-                  onClick={close}
-                  className="mt-10 block w-full bg-bp-accent py-4 text-center text-xs font-bold uppercase tracking-[0.14em] text-bp-canvas"
-                >
-                  Share your story
-                </Link>
               </nav>
             </Dialog.Panel>
           </Transition.Child>

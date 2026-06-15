@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   CONTACT_CONNECT_CARDS,
+  CONTACT_HERO_IMAGE,
   CONTACT_SPACES_ICONS,
 } from "lib/contact-config";
 import {
@@ -45,12 +46,13 @@ export function ContactPageContent() {
               built in public with real people and real spaces.
             </p>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-bp-surface lg:aspect-auto lg:min-h-[420px]">
+          <div className="relative h-[clamp(22rem,58vw,36rem)] w-full overflow-hidden rounded-sm bg-bp-surface lg:h-[clamp(24rem,42vw,38rem)]">
             <Image
-              src="/contact-hero.png"
-              alt="Brush Past community and workshops"
+              src={CONTACT_HERO_IMAGE.src}
+              alt={CONTACT_HERO_IMAGE.alt}
               fill
-              className="object-cover object-top"
+              className="object-cover [mask-image:linear-gradient(to_right,transparent_0%,black_18%)]"
+              style={{ objectPosition: "50% 42%" }}
               priority
               sizes="(max-width: 1024px) 100vw, 60vw"
             />
@@ -194,10 +196,10 @@ export function ContactPageContent() {
               Email us
             </a>
             <Link
-              href="/share-your-story"
+              href="#contact-form"
               className="inline-flex border-2 border-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] text-bp-accent hover:bg-bp-accent hover:text-bp-canvas"
             >
-              Share a story
+              Send a message
             </Link>
             <a
               href={INSTAGRAM_URL}

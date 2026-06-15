@@ -1,5 +1,10 @@
 export const CONTACT_SOURCE = "get-in-touch" as const;
 
+export const CONTACT_HERO_IMAGE = {
+  src: "/getintouch.png",
+  alt: "Community workshop at Brush Past — people collaborating around a table",
+} as const;
+
 export const CONTACT_SUBJECTS = [
   { value: "general", label: "General enquiry" },
   { value: "collaborate", label: "Collaboration" },
@@ -13,7 +18,7 @@ export const CONTACT_CONNECT_CARDS = [
     title: "Share something",
     description: "Tell us your story — art, writing, photography or lived experience.",
     cta: "Share your story",
-    href: "/share-your-story",
+    href: "/contact#contact-form",
     color: "bg-[#e8dff5]",
     icon: "brush" as const,
   },

@@ -40,3 +40,16 @@ export const STORY_LAYOUT_PATTERN: StoryCardLayout[] = [
 export function layoutForIndex(index: number): StoryCardLayout {
   return STORY_LAYOUT_PATTERN[index % STORY_LAYOUT_PATTERN.length] ?? "standard";
 }
+
+/** Text-only masonry slots skip stories that have a displayable image */
+export function layoutForStory(
+  story: { image_url: string | null; slug: string },
+  index: number,
+  hasImage: boolean,
+): StoryCardLayout {
+  const layout = layoutForIndex(index);
+  if (hasImage && (layout === "text-accent" || layout === "text-dark")) {
+    return "standard";
+  }
+  return layout;
+}

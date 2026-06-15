@@ -271,7 +271,7 @@ export async function JamiePage() {
             </p>
           </div>
           <Link
-            href="/share-your-story"
+            href="/contact#contact-form"
             className={`${caveat.className} text-right text-3xl leading-none text-bp-canvas transition-opacity hover:opacity-80 md:text-4xl`}
           >
             {COPY.cta.right}

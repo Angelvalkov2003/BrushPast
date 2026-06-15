@@ -14,6 +14,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import {
+  ABOUT_HERO_IMAGE,
   ABOUT_IMPACT_STATS,
   ABOUT_MENTORING_POINTS,
   ABOUT_PROCESS,
@@ -84,12 +85,13 @@ export function AboutPageContent() {
               Not spoken about. <span className="text-bp-accent">But speaking.</span>
             </p>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-bp-surface lg:aspect-[5/4]">
+          <div className="relative h-[clamp(22rem,58vw,36rem)] w-full overflow-hidden rounded-sm bg-bp-surface lg:h-[clamp(24rem,42vw,38rem)]">
             <Image
-              src="/about-hero.png"
-              alt="Brush Past founders — Jeremy and David"
+              src={ABOUT_HERO_IMAGE.src}
+              alt={ABOUT_HERO_IMAGE.alt}
               fill
-              className="object-cover object-center [mask-image:linear-gradient(to_right,transparent_0%,black_18%)]"
+              className="object-cover [mask-image:linear-gradient(to_right,transparent_0%,black_18%)]"
+              style={{ objectPosition: "50% 44%" }}
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
@@ -221,7 +223,7 @@ export function AboutPageContent() {
           </ol>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <Link
-              href="/share-your-story"
+              href="/contact#contact-form"
               className="inline-flex border-2 border-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-accent transition-colors hover:bg-bp-accent hover:text-bp-canvas"
             >
               Share your story

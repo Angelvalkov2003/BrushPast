@@ -5,8 +5,9 @@ import type { PublicStory } from "lib/supabase/stories";
 import {
   STORY_FILTER_TABS,
   type StoryFilterId,
-  layoutForIndex,
+  layoutForStory,
 } from "lib/stories-config";
+import { storyCardImageUrl } from "lib/story-display";
 import { StoryCard } from "./story-card";
 import { StoriesCta } from "./stories-cta";
 import { StoriesSort, type StorySortKey } from "./stories-sort";
@@ -85,7 +86,11 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
         ) : (
           <div className="grid auto-rows-min grid-cols-1 gap-4 py-8 md:grid-cols-12 md:gap-5 md:py-10">
             {visible.map((story, index) => (
-              <StoryCard key={story.id} story={story} layout={layoutForIndex(index)} />
+              <StoryCard
+                key={story.id}
+                story={story}
+                layout={layoutForStory(story, index, Boolean(storyCardImageUrl(story)))}
+              />
             ))}
           </div>
         )}

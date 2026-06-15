@@ -20,6 +20,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
     }
 
+    if (body.privacy_policy_accepted !== true) {
+      return NextResponse.json(
+        { error: "You must accept the Privacy Policy to continue." },
+        { status: 400 },
+      );
+    }
+
     const sourceForm = source === CONTACT_SOURCE ? CONTACT_SOURCE : "contact";
     const subjectLine = subject?.trim() || "General enquiry";
     const phonePart = phone?.trim() ? ` · ${phone.trim()}` : "";

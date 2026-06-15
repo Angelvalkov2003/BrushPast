@@ -22,6 +22,12 @@ export interface ContactFormData {
   subject?: string;
 }
 
+export interface NewsletterSignupData {
+  email: string;
+  source: string;
+  sourceLabel: string;
+}
+
 export interface OrderNotificationData {
   orderId: string;
   customerName: string;
@@ -83,6 +89,45 @@ This email was sent from the contact form on ${siteName}
     return { success: true };
   } catch (error) {
     console.error("Failed to send contact form email:", error);
+    throw error;
+  }
+}
+
+/**
+ * Notify team when someone joins the newsletter
+ */
+export async function sendNewsletterSignupEmail(data: NewsletterSignupData) {
+  try {
+    const { error } = await resend.emails.send({
+      from: `Newsletter <noreply@${getDomainFromEmail(contactEmail)}>`,
+      to: [contactEmail],
+      replyTo: data.email,
+      subject: `New newsletter signup — ${data.sourceLabel}`,
+      html: `
+        <h2>New newsletter signup</h2>
+        <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+        <p><strong>Source:</strong> ${escapeHtml(data.sourceLabel)} (${escapeHtml(data.source)})</p>
+        <hr>
+        <p><small>View subscribers in the admin panel: ${siteUrl}/admin/newsletter</small></p>
+      `,
+      text: `
+New newsletter signup
+
+Email: ${data.email}
+Source: ${data.sourceLabel} (${data.source})
+
+View subscribers: ${siteUrl}/admin/newsletter
+      `,
+    });
+
+    if (error) {
+      console.error("Error sending newsletter signup email:", error);
+      throw error;
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to send newsletter signup email:", error);
     throw error;
   }
 }

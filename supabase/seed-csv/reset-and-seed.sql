@@ -18,6 +18,8 @@ TRUNCATE TABLE
   product_variants,
   product_images,
   products,
+  journal_post_images,
+  journal_posts,
   stories,
   categories,
   creators,
@@ -34,12 +36,14 @@ RESTART IDENTITY CASCADE;
 
 -- Creators
 INSERT INTO creators (id, name, image_url, short_description, profile_url, is_anonymous, status, sort_order) VALUES
-('11111111-1111-4111-8111-111111111101', 'Bobby', '(03-bobby/hero.jpg)', 'Grew up on an estate where silence was safer than hope. Art became the one place he could tell the truth without apologising — bold colour over pain, humour over shame.', NULL, FALSE, 'active', 50),
+('11111111-1111-4111-8111-111111111101', 'Bobby', '/bobby.png', 'Grew up on an estate where silence was safer than hope. Art became the one place he could tell the truth without apologising — bold colour over pain, humour over shame.', '/stories/bobby', FALSE, 'active', 50),
 ('11111111-1111-4111-8111-111111111102', 'Errol', '(04-errol/hero.jpg)', 'Raised on a South London estate; crack and custody took his twenties. A disposable camera in a hostel hallway was the first time he saw himself as human.', NULL, FALSE, 'active', 45),
 ('11111111-1111-4111-8111-111111111103', 'Leon', '(03-bobby/supporting-leon.jpg)', 'Spent years between hostels and hospital beds. Drawing in biro on bus tickets kept him tethered to something gentle when everything else felt temporary.', NULL, FALSE, 'active', 40),
 ('11111111-1111-4111-8111-111111111104', 'Ed', '(03-bobby/supporting-ed.jpg)', 'There were days daylight felt like a burden. Painting in a small room after prison gave him something real to hold onto — one canvas, one honest line at a time.', NULL, FALSE, 'active', 35),
-('11111111-1111-4111-8111-111111111105', 'Jamie', '(02-stories/featured-jamie.jpg)', 'Homeless at sixteen, addicted by eighteen. Zines and photography became proof he existed beyond the statistics people used to describe him.', NULL, FALSE, 'active', 30),
-('11111111-1111-4111-8111-111111111106', 'Christian', '(02-stories/featured-christian.jpg)', 'Anonymous in public, loud on the page. Christian shares work under a pseudonym so the story can travel without the cost of exposure.', NULL, TRUE, 'active', 25);
+('11111111-1111-4111-8111-111111111105', 'Jamie', '/Jamie.png', 'Homeless at sixteen, addicted by eighteen. Zines and photography became proof he existed beyond the statistics people used to describe him.', NULL, FALSE, 'active', 30),
+('11111111-1111-4111-8111-111111111106', 'Christian', '(02-stories/featured-christian.jpg)', 'Anonymous in public, loud on the page. Christian shares work under a pseudonym so the story can travel without the cost of exposure.', NULL, TRUE, 'active', 25),
+('11111111-1111-4111-8111-111111111107', 'JR', '/jr.png', 'Painted the word love when court and loss left him searching for something to hold onto — art as a lifeline and a reminder of his son.', '/stories/jr', FALSE, 'active', 55),
+('11111111-1111-4111-8111-111111111108', 'David', '/david.png', 'Founder of BrushPast — from prison cells to recovery rooms, conversation and creativity as freedom.', '/stories/david', FALSE, 'active', 58);
 
 -- Organisations
 INSERT INTO organisations (id, name, image_url, short_description, slug, external_url, status, sort_order) VALUES
@@ -58,11 +62,48 @@ INSERT INTO categories (id, name, slug, image_url, short_description, shop_cta, 
 
 -- Stories (requires page_url column — run migration 20260305120000 if missing)
 INSERT INTO stories (id, title, slug, image_url, page_url, short_description, tags, creator_id, organisation_id, status, sort_order) VALUES
-('33333333-3333-4333-8333-333333333301', 'Bobby', 'bobby', '(03-bobby/hero.jpg)', '/stories/bobby', 'Art that refuses to whisper — Bobby paints survival in colour.', ARRAY['art','recovery'], '11111111-1111-4111-8111-111111111101', '22222222-2222-4222-8222-222222222201', 'active', 50),
+('33333333-3333-4333-8333-333333333301', 'Bobby', 'bobby', '/bobby.png', '/stories/bobby', 'I don''t see myself as the product of my crime. I see myself as the product of my creativity.', ARRAY['writing','painting','survival','creativity','art','recovery'], '11111111-1111-4111-8111-111111111101', '22222222-2222-4222-8222-222222222201', 'active', 50),
 ('33333333-3333-4333-8333-333333333302', 'Errol', 'errol', '(04-errol/hero.jpg)', '/stories/errol', 'Photography as love letters to people the city walks past.', ARRAY['photography','community-stories'], '11111111-1111-4111-8111-111111111102', '22222222-2222-4222-8222-222222222204', 'active', 45),
 ('33333333-3333-4333-8333-333333333303', 'Leon', 'leon', '(03-bobby/supporting-leon.jpg)', '/stories/leon', 'Small drawings on scraps of paper — a quiet record of rebuilding.', ARRAY['art','recovery'], '11111111-1111-4111-8111-111111111103', '22222222-2222-4222-8222-222222222201', 'active', 40),
 ('33333333-3333-4333-8333-333333333304', 'Ed', 'ed', '(03-bobby/supporting-ed.jpg)', '/stories/ed', 'There were days daylight felt like a burden. Art pulled him back.', ARRAY['art','writing','recovery'], '11111111-1111-4111-8111-111111111104', '22222222-2222-4222-8222-222222222203', 'active', 35),
-('33333333-3333-4333-8333-333333333305', 'Jamie', 'jamie', '(02-stories/featured-jamie.jpg)', '/stories/jamie', 'Fragments of estate life — told through zines and photographs.', ARRAY['photography','writing','community-stories'], '11111111-1111-4111-8111-111111111105', '22222222-2222-4222-8222-222222222202', 'active', 30);
+('33333333-3333-4333-8333-333333333305', 'Jamie', 'jamie', '/Jamie.png', '/stories/jamie', 'Fragments of estate life — told through zines and photographs.', ARRAY['photography','writing','community-stories'], '11111111-1111-4111-8111-111111111105', '22222222-2222-4222-8222-222222222202', 'active', 30),
+('33333333-3333-4333-8333-333333333306', 'JR', 'jr', '/jr.png', '/stories/jr', 'I painted the word love because I needed something to hold onto.', ARRAY['art','recovery','community-stories'], '11111111-1111-4111-8111-111111111107', '22222222-2222-4222-8222-222222222201', 'active', 55),
+('33333333-3333-4333-8333-333333333307', 'David', 'david', '/david.png', '/stories/david', 'Conversation = Freedom!', ARRAY['writing','recovery','community-stories'], '11111111-1111-4111-8111-111111111108', '22222222-2222-4222-8222-222222222201', 'active', 58);
+
+-- Journal posts
+INSERT INTO journal_posts (id, title, slug, description, main_image_url, body, status, sort_order) VALUES
+(
+  '88888888-8888-4888-8888-888888888801',
+  'Workshops return to Peckham',
+  'workshops-return-peckham',
+  'Creative sessions are back at London Coffee Factory — open to anyone rebuilding through art, writing and photography.',
+  '/workshops.png',
+  'BrushPast workshops create space for people to make something real — without performing recovery or explaining their past.
+
+This spring we are running sessions in Peckham focused on photography, zine-making and conversation. No experience needed. Everyone is welcome exactly as they are.
+
+If you would like to join or host a session, get in touch through our contact page.',
+  'active',
+  50
+),
+(
+  '88888888-8888-4888-8888-888888888802',
+  'New prints from the archive',
+  'new-prints-from-the-archive',
+  'Limited edition prints from Errol and Bobby are now in The Archive Shop.',
+  '/home-hero.png',
+  'Two new giclée prints have joined Frame the Story — each linked to a lived experience and paid fairly to the creator.
+
+Every purchase reinvests in workshops, mentoring and recovery organisations across the UK. Thank you for keeping these voices in circulation.',
+  'active',
+  40
+);
+
+INSERT INTO journal_post_images (id, journal_post_id, image_url, sort_order) VALUES
+('99999999-9999-4999-8999-999999999901', '88888888-8888-4888-8888-888888888801', '/workshops.png', 50),
+('99999999-9999-4999-8999-999999999902', '88888888-8888-4888-8888-888888888801', '/home-hero.png', 40),
+('99999999-9999-4999-8999-999999999903', '88888888-8888-4888-8888-888888888802', '(06-shop/print-errol-peckham.jpg)', 50),
+('99999999-9999-4999-8999-999999999904', '88888888-8888-4888-8888-888888888802', '(06-shop/print-errol-peckham-frame.jpg)', 40);
 
 -- Products
 INSERT INTO products (

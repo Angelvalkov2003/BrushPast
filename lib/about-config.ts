@@ -1,5 +1,10 @@
 /** About page copy — aligned with brushpast.org / design mockup */
 
+export const ABOUT_HERO_IMAGE = {
+  src: "/about1.png",
+  alt: "Brush Past founders — Jeremy and David",
+} as const;
+
 export const ABOUT_VALUES = [
   {
     title: "Dignity",

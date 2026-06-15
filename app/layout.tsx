@@ -38,11 +38,14 @@ export default async function RootLayout({
   // No need to fetch from database or pass any props
 
   return (
-    <html lang="en-GB" className={GeistSans.variable}>
+    <html lang="en-GB" className={GeistSans.variable} suppressHydrationWarning>
+      <head>
+        <AdminThemeScript />
+      </head>
       <body
         className={`${GeistSans.className} antialiased selection:bg-bp-accent/30 selection:text-bp-text`}
+        suppressHydrationWarning
       >
-        <AdminThemeScript />
         <PublicBodyTheme />
         <CartProvider>
           <ConditionalNavbar />

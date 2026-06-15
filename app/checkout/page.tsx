@@ -10,6 +10,7 @@ import { createOrder } from "app/checkout/actions";
 import LoadingDots from "components/loading-dots";
 import { CONTACT_PHONE, SHIPPING_UK } from "lib/site-config";
 import { UK_SHIPPING_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
+import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 
 const inputClass =
   "w-full border border-bp-text/20 bg-bp-canvas px-4 py-2 text-bp-text focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent";
@@ -58,6 +59,12 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!formData.privacy_policy_accepted) {
+      setError("Please accept the Privacy Policy to continue.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -83,6 +90,7 @@ export default function CheckoutPage() {
         courier_name: formData.shipping_method === "dpd" ? "DPD" : "Royal Mail",
         payment_method: formData.payment_method,
         customer_note: formData.comment || undefined,
+        privacy_policy_accepted: true,
         items: cart.items.map((item) => ({
           product_id: item.productId,
           variant_id: item.variantId !== item.productId ? item.variantId : undefined,
@@ -320,32 +328,17 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="pt-4">
-                  <label className="flex items-start space-x-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      required
-                      checked={formData.privacy_policy_accepted}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          privacy_policy_accepted: e.target.checked,
-                        })
-                      }
-                      className="mt-1 h-4 w-4 rounded border-bp-text/25 accent-bp-accent"
-                    />
-                    <span className="text-sm text-bp-text/80">
-                      I agree to the{" "}
-                      <a
-                        href="/privacy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-bp-accent underline hover:opacity-80"
-                      >
-                        Privacy Policy
-                      </a>{" "}
-                      for processing my data for this order. *
-                    </span>
-                  </label>
+                  <PrivacyPolicyCheckbox
+                    checked={formData.privacy_policy_accepted}
+                    onChange={(checked) =>
+                      setFormData({
+                        ...formData,
+                        privacy_policy_accepted: checked,
+                      })
+                    }
+                    id="checkout-privacy"
+                    suffix="for processing my data for this order"
+                  />
                 </div>
 
                 <button

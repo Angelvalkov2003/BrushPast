@@ -5,9 +5,9 @@ import type { ShopCategory } from "lib/supabase/categories";
 import { HOME_SHOP_WAYS } from "lib/home-config";
 
 function resolveWays(categories: ShopCategory[]) {
-  return HOME_SHOP_WAYS.map((fallback, i) => {
-    const cat = categories[i];
-    const href = cat ? `/shop/${cat.slug}` : "/shop";
+  return HOME_SHOP_WAYS.map((fallback) => {
+    const cat = categories.find((c) => c.slug === fallback.slug);
+    const href = cat ? `/shop/${cat.slug}` : `/shop/${fallback.slug}`;
     return {
       href,
       title: cat?.name ?? fallback.title,

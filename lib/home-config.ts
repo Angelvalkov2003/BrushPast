@@ -2,7 +2,11 @@
 
 import { SHOP_COLLECTIONS } from "lib/shop-config";
 
-export const HOME_SHOP_WAYS = SHOP_COLLECTIONS.map((c, i) => ({
+const HOME_SHOP_SLUGS = ["wear-the-story", "drink-the-story", "frame-the-story"] as const;
+
+export const HOME_SHOP_WAYS = SHOP_COLLECTIONS.filter((c) =>
+  (HOME_SHOP_SLUGS as readonly string[]).includes(c.slug),
+).map((c, i) => ({
   slug: c.slug,
   title: c.name,
   description: c.short_description,

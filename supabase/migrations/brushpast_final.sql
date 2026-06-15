@@ -1,4 +1,4 @@
-﻿-- BrushPast FINAL: schema + RLS (run once)
+-- BrushPast FINAL: schema + RLS (run once)
 -- Supabase Dashboard -> SQL Editor -> New query -> paste -> Run
 -- Local terminal only if using Supabase CLI: supabase link && supabase db push
 -- WARNING: drops legacy template tables if present
@@ -21,6 +21,9 @@ DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS stories CASCADE;
 DROP TABLE IF EXISTS organisations CASCADE;
 DROP TABLE IF EXISTS creators CASCADE;
+DROP TABLE IF EXISTS journal_post_images CASCADE;
+DROP TABLE IF EXISTS journal_posts CASCADE;
+DROP TABLE IF EXISTS newsletter_subscribers CASCADE;
 DROP TABLE IF EXISTS customer_messages CASCADE;
 DROP TABLE IF EXISTS collections CASCADE;
 
@@ -372,6 +375,51 @@ CREATE INDEX idx_customer_messages_created_at ON customer_messages (created_at D
 CREATE INDEX idx_customer_messages_source ON customer_messages (source_form);
 
 -- =============================================================================
+-- Newsletter subscribers
+-- =============================================================================
+CREATE TABLE newsletter_subscribers (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email TEXT NOT NULL,
+  source TEXT NOT NULL DEFAULT 'join-the-story',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT newsletter_subscribers_email_unique UNIQUE (email)
+);
+
+CREATE INDEX idx_newsletter_subscribers_created_at ON newsletter_subscribers (created_at DESC);
+CREATE INDEX idx_newsletter_subscribers_source ON newsletter_subscribers (source);
+
+-- =============================================================================
+-- Journal posts
+-- =============================================================================
+CREATE TABLE journal_posts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT,
+  slug TEXT UNIQUE,
+  description TEXT,
+  main_image_url TEXT,
+  body TEXT,
+  status content_status NOT NULL DEFAULT 'draft',
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_journal_posts_slug ON journal_posts (slug);
+CREATE INDEX idx_journal_posts_status ON journal_posts (status);
+CREATE INDEX idx_journal_posts_sort_order ON journal_posts (sort_order DESC);
+
+CREATE TABLE journal_post_images (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  journal_post_id UUID NOT NULL REFERENCES journal_posts (id) ON DELETE CASCADE,
+  image_url TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_journal_post_images_post ON journal_post_images (journal_post_id);
+CREATE INDEX idx_journal_post_images_sort ON journal_post_images (journal_post_id, sort_order DESC);
+
+-- =============================================================================
 -- Inventory on payment_status -> paid
 -- =============================================================================
 CREATE OR REPLACE FUNCTION decrement_inventory_for_order(p_order_id UUID)
@@ -495,6 +543,8 @@ CREATE TRIGGER product_variants_updated_at BEFORE UPDATE ON product_variants
   FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
 CREATE TRIGGER orders_updated_at BEFORE UPDATE ON orders
   FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
+CREATE TRIGGER journal_posts_updated_at BEFORE UPDATE ON journal_posts
+  FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
 
 -- =============================================================================
 -- Helper: upsert paid order from Stripe (call from webhook with service role)
@@ -599,6 +649,24 @@ CREATE POLICY product_variants_public_read ON product_variants
 CREATE POLICY customer_messages_anon_insert ON customer_messages
   FOR INSERT TO anon, authenticated
   WITH CHECK (true);
+
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE journal_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE journal_post_images ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY journal_posts_public_read ON journal_posts
+  FOR SELECT TO anon, authenticated
+  USING (status = 'active');
+
+CREATE POLICY journal_post_images_public_read ON journal_post_images
+  FOR SELECT TO anon, authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM journal_posts jp
+      WHERE jp.id = journal_post_images.journal_post_id AND jp.status = 'active'
+    )
+  );
 
 ALTER TABLE creators ENABLE ROW LEVEL SECURITY;
 ALTER TABLE organisations ENABLE ROW LEVEL SECURITY;
