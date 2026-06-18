@@ -4,9 +4,6 @@ import Link from "next/link";
 import { Lora } from "next/font/google";
 import {
   ArrowRightIcon,
-  BookOpenIcon,
-  CalendarDaysIcon,
-  CurrencyPoundIcon,
   HandRaisedIcon,
   HeartIcon,
   PencilSquareIcon,
@@ -15,7 +12,6 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   ABOUT_HERO_IMAGE,
-  ABOUT_IMPACT_STATS,
   ABOUT_MENTORING_POINTS,
   ABOUT_PROCESS,
   ABOUT_QUOTE,
@@ -23,6 +19,7 @@ import {
   ABOUT_VALUES,
 } from "lib/about-config";
 import { MISSION_SUMMARY } from "lib/site-config";
+import { AboutLaunchBanner } from "./about-launch-banner";
 import { AboutNewsletter } from "./about-newsletter";
 
 const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
@@ -38,13 +35,6 @@ const PROCESS_ICONS = {
   share: UserGroupIcon,
   create: PencilSquareIcon,
   fund: HeartIcon,
-};
-
-const STAT_ICONS = {
-  people: UserGroupIcon,
-  pound: CurrencyPoundIcon,
-  calendar: CalendarDaysIcon,
-  stories: BookOpenIcon,
 };
 
 function BrushUnderline({ children }: { children: React.ReactNode }) {
@@ -223,12 +213,6 @@ export function AboutPageContent() {
           </ol>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <Link
-              href="/contact#contact-form"
-              className="inline-flex border-2 border-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-accent transition-colors hover:bg-bp-accent hover:text-bp-canvas"
-            >
-              Share your story
-            </Link>
-            <Link
               href="/shop"
               className="inline-flex bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas hover:opacity-90"
             >
@@ -238,38 +222,7 @@ export function AboutPageContent() {
         </div>
       </section>
 
-      {/* Impact stats — full bleed */}
-      <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-bp-dark text-bp-canvas">
-        <div className="mx-auto max-w-[1400px] px-4 py-14 md:px-10 md:py-20">
-          <div className="grid gap-12 lg:grid-cols-[1fr_2fr] lg:items-center">
-            <div>
-              <p className="text-2xl font-bold uppercase leading-snug tracking-wide md:text-3xl">
-                Real impact.
-                <br />
-                Real people.
-                <br />
-                <span className="text-bp-accent">Real change.</span>
-              </p>
-            </div>
-            <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {ABOUT_IMPACT_STATS.map((stat) => {
-                const Icon = STAT_ICONS[stat.icon];
-                return (
-                  <li key={stat.label} className="text-center lg:text-left">
-                    <Icon className="mx-auto h-8 w-8 text-bp-accent lg:mx-0" strokeWidth={1.25} />
-                    <p className="mt-3 text-3xl font-bold text-bp-accent md:text-4xl">
-                      {stat.value}
-                    </p>
-                    <p className="mt-1 text-xs uppercase tracking-wide text-bp-canvas/70">
-                      {stat.label}
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <AboutLaunchBanner />
 
       <AboutNewsletter />
     </>

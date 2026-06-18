@@ -63,24 +63,29 @@ export type AdminCategory = {
   sort_order: number;
 };
 
-export type AdminCreator = {
-  id: string;
-  name: string | null;
-  image_url: string | null;
-  short_description: string | null;
-  profile_url: string | null;
-  is_anonymous: boolean;
-  status: ContentStatus;
-  sort_order: number;
-};
-
 export type AdminOrganisation = {
   id: string;
   name: string | null;
   image_url: string | null;
   short_description: string | null;
+  location_label: string | null;
   slug: string | null;
+  page_url: string | null;
   external_url: string | null;
+  status: ContentStatus;
+  sort_order: number;
+};
+
+export type AdminWorkshop = {
+  id: string;
+  title: string | null;
+  slug: string | null;
+  image_url: string | null;
+  short_description: string | null;
+  location_label: string | null;
+  page_url: string | null;
+  workshop_category: string | null;
+  organisation_id: string | null;
   status: ContentStatus;
   sort_order: number;
 };
@@ -93,8 +98,8 @@ export type AdminStory = {
   short_description: string | null;
   page_url: string | null;
   tags: string[] | null;
-  creator_id: string | null;
   organisation_id: string | null;
+  is_anonymous: boolean;
   status: ContentStatus;
   sort_order: number;
 };

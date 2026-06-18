@@ -39,9 +39,7 @@ export const MISSION_SUMMARY =
 export const PROFIT_REINVESTMENT =
   "65% of profits are reinvested directly with creators and partner organisations.";
 
-/** UK shipping (from project brief) — prices in GBP */
+/** UK shipping — prices in GBP; paid by the customer */
 export const SHIPPING_UK = {
-  tracked48: { label: "Royal Mail Tracked 48", price: 3.8, days: "2–3 working days" },
   dpd: { label: "DPD", price: 8.0, days: "2–4 working days" },
-  freeOver: 40,
 } as const;

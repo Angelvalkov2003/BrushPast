@@ -42,13 +42,8 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
         <p className="mt-4 text-base leading-relaxed text-bp-text/80">{product.shortDescription}</p>
       ) : null}
 
-      {product.creators.length > 0 || product.stories.length > 0 ? (
+      {product.stories.length > 0 ? (
         <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm text-bp-text/75">
-          {product.creators.map((c) => (
-            <span key={c.name}>
-              By <strong className="text-bp-text">{c.name}</strong>
-            </span>
-          ))}
           {product.stories.map((s) =>
             s.pageUrl ? (
               <Link
@@ -58,7 +53,11 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
               >
                 Read {s.title}&apos;s story →
               </Link>
-            ) : null,
+            ) : (
+              <span key={s.slug}>
+                By <strong className="text-bp-text">{s.title}</strong>
+              </span>
+            ),
           )}
         </div>
       ) : null}

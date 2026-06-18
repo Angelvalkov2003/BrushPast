@@ -15,7 +15,7 @@ import { CartLineVariant } from "./cart-line-variant";
 import { DeleteItemButton } from "./delete-item-button";
 import { EditItemQuantityButton } from "./edit-item-quantity-button";
 import OpenCart from "./open-cart";
-import { UK_SHIPPING_SUMMARY } from "lib/uk-copy";
+import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY } from "lib/uk-copy";
 
 export default function CartModal() {
   const { cart, cartPulse, updateCartItem } = useCart();
@@ -163,6 +163,7 @@ export default function CartModal() {
                     </div>
                     <div className="mt-3 text-xs text-bp-text/45">
                       <p className="text-center leading-snug">{UK_SHIPPING_SUMMARY}</p>
+                      <p className="mt-2 text-center leading-snug">{UK_RETURNS_SUMMARY}</p>
                     </div>
                   </div>
                   <Link

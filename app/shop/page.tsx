@@ -1,5 +1,6 @@
 import Footer from "components/layout/footer";
 import { CategoryRow } from "components/shop/category-row";
+import { KettleGalleryAnnounce } from "components/shop/kettle-gallery-announce";
 import { ShopHero } from "components/shop/shop-hero";
 import { ShopValuesBar } from "components/shop/shop-values-bar";
 import { getShopCategories } from "lib/supabase/categories";
@@ -28,6 +29,7 @@ export default async function ShopPage() {
           ))
         )}
       </section>
+      <KettleGalleryAnnounce />
       <ShopValuesBar />
       <Footer />
     </div>

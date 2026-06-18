@@ -29,7 +29,7 @@ export function ShopHero() {
         </div>
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-bp-surface md:aspect-[5/4]">
           <Image
-            src="/shop-hero.png"
+            src="/shop1.png"
             alt="Archive shop — art, coffee and editions"
             fill
             className="object-cover"

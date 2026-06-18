@@ -4,20 +4,21 @@ import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
 import {
   ArrowPathIcon,
-  BookOpenIcon,
-  CalendarDaysIcon,
-  CurrencyPoundIcon,
   HeartIcon,
   LockClosedIcon,
   PencilSquareIcon,
   UserGroupIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { AboutNewsletter } from "components/about/about-newsletter";
+import { LaunchTransparencyBanner } from "components/shared/launch-transparency-banner";
+import { WorkshopArchiveCard } from "components/workshops/workshop-archive-card";
+import type { PublicWorkshop } from "lib/supabase/workshops";
+import { hasWorkshopPage } from "lib/workshop-display";
 import {
   WORKSHOP_CATEGORIES,
   WORKSHOPS_CORE_VALUES,
   WORKSHOPS_HERO_INTRO,
-  WORKSHOPS_IMPACT_STATS,
   WORKSHOPS_MISSION_COLUMNS,
   WORKSHOPS_PROCESS,
 } from "lib/workshops-config";
@@ -31,13 +32,6 @@ const VALUE_ICONS = {
   connect: UsersIcon,
   opportunity: ArrowPathIcon,
   ownership: LockClosedIcon,
-};
-
-const STAT_ICONS = {
-  people: UserGroupIcon,
-  pound: CurrencyPoundIcon,
-  calendar: CalendarDaysIcon,
-  stories: BookOpenIcon,
 };
 
 function BrushUnderline({ children }: { children: ReactNode }) {
@@ -71,7 +65,9 @@ function HeroButtons({ className }: { className?: string }) {
   );
 }
 
-export function WorkshopsPageContent() {
+export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[] }) {
+  const archiveWorkshops = workshops.filter(hasWorkshopPage);
+
   return (
     <>
       {/* Hero */}
@@ -136,6 +132,26 @@ export function WorkshopsPageContent() {
           </ul>
         </div>
       </section>
+
+      {archiveWorkshops.length > 0 ? (
+        <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+          <div className="mx-auto max-w-[1400px]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bp-text/60">
+              Workshop archive
+            </p>
+            <h2 className="mt-3 text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
+              Past workshops
+            </h2>
+            <ul className="mt-10 flex flex-col gap-6">
+              {archiveWorkshops.map((workshop) => (
+                <li key={workshop.id}>
+                  <WorkshopArchiveCard workshop={workshop} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
       {/* Mission three columns */}
       <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
@@ -206,34 +222,7 @@ export function WorkshopsPageContent() {
         </div>
       </section>
 
-      {/* Stats banner */}
-      <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-bp-dark text-bp-canvas">
-        <div className="mx-auto max-w-[1400px] px-4 py-14 md:px-10 md:py-20">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_1.9fr] lg:items-center">
-            <p className="text-xl font-bold uppercase leading-snug tracking-wide md:text-2xl lg:text-3xl">
-              Not spoken about.
-              <br />
-              But speaking.
-              <br />
-              <span className="text-bp-canvas/90">Real people. Real change.</span>
-            </p>
-            <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {WORKSHOPS_IMPACT_STATS.map((stat) => {
-                const Icon = STAT_ICONS[stat.icon];
-                return (
-                  <li key={stat.label} className="text-center lg:text-left">
-                    <Icon className="mx-auto h-7 w-7 text-bp-canvas/60 lg:mx-0" strokeWidth={1.25} />
-                    <p className="mt-3 text-3xl font-bold text-bp-accent md:text-4xl">{stat.value}</p>
-                    <p className="mt-1 text-xs uppercase tracking-wide text-bp-canvas/65">
-                      {stat.label}
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <LaunchTransparencyBanner />
 
       {/* Bottom CTA */}
       <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
@@ -265,6 +254,8 @@ export function WorkshopsPageContent() {
           </p>
         </div>
       </section>
+
+      <AboutNewsletter />
     </>
   );
 }

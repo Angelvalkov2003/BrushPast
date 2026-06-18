@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -119,7 +118,7 @@ export async function JamiePage() {
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <h1 className="text-[clamp(3.5rem,12vw,6.5rem)] font-black uppercase leading-[0.85] tracking-tighter text-bp-text">
-              Jamie
+              {COPY.title}
             </h1>
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75">
               {COPY.tags}
@@ -134,7 +133,7 @@ export async function JamiePage() {
                 }}
               />
               <p
-                className={`${caveat.className} relative z-10 text-[1.75rem] uppercase leading-snug text-bp-text md:text-[2rem]`}
+                className={`${caveat.className} relative z-10 text-[1.55rem] leading-snug text-bp-text md:text-[1.75rem]`}
               >
                 {quoteBefore}
                 {highlightIdx >= 0 ? (
@@ -259,23 +258,6 @@ export async function JamiePage() {
               <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
             </p>
           </div>
-        </div>
-      </section>
-
-      <section className="bg-bp-dark text-bp-canvas">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-10 md:py-12">
-          <div className="flex items-start gap-4">
-            <ChatBubbleLeftRightIcon className="h-10 w-10 shrink-0 text-bp-canvas/70" strokeWidth={1.2} />
-            <p className="max-w-md text-xs font-semibold uppercase leading-relaxed tracking-[0.18em] text-bp-canvas/90 md:text-sm">
-              {COPY.cta.left}
-            </p>
-          </div>
-          <Link
-            href="/contact#contact-form"
-            className={`${caveat.className} text-right text-3xl leading-none text-bp-canvas transition-opacity hover:opacity-80 md:text-4xl`}
-          >
-            {COPY.cta.right}
-          </Link>
         </div>
       </section>
 

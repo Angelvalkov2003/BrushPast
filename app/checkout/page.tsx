@@ -9,7 +9,7 @@ import { orderLineTitle } from "lib/product-variants";
 import { createOrder } from "app/checkout/actions";
 import LoadingDots from "components/loading-dots";
 import { CONTACT_PHONE, SHIPPING_UK } from "lib/site-config";
-import { UK_SHIPPING_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
+import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 
 const inputClass =
@@ -18,9 +18,8 @@ const labelClass = "mb-1 block text-sm font-medium text-bp-text/80";
 const radioCardClass =
   "flex cursor-pointer items-center border border-bp-text/15 p-4 transition-colors hover:border-bp-accent/40";
 
-function ukShippingPrice(subtotal: number, method: "tracked48" | "dpd") {
-  if (subtotal >= SHIPPING_UK.freeOver) return 0;
-  return method === "dpd" ? SHIPPING_UK.dpd.price : SHIPPING_UK.tracked48.price;
+function ukShippingPrice() {
+  return SHIPPING_UK.dpd.price;
 }
 
 export default function CheckoutPage() {
@@ -34,7 +33,6 @@ export default function CheckoutPage() {
     customer_phone: "",
     customer_address: "",
     payment_method: "cash_on_delivery" as "cash_on_delivery" | "card",
-    shipping_method: "tracked48" as "tracked48" | "dpd",
     comment: "",
     privacy_policy_accepted: false,
   });
@@ -71,12 +69,8 @@ export default function CheckoutPage() {
       const nameParts = formData.customer_name.trim().split(/\s+/);
       const first_name = nameParts[0] || "";
       const last_name = nameParts.slice(1).join(" ") || first_name;
-      const shipping_total = ukShippingPrice(cart.subtotal, formData.shipping_method);
+      const shipping_total = ukShippingPrice();
       const grand_total = cart.subtotal + shipping_total;
-      const shippingLabel =
-        formData.shipping_method === "dpd"
-          ? SHIPPING_UK.dpd.label
-          : SHIPPING_UK.tracked48.label;
 
       const order = await createOrder({
         first_name,
@@ -85,9 +79,9 @@ export default function CheckoutPage() {
         phone: formData.customer_phone || undefined,
         address_line_1: formData.customer_address,
         country: "GB",
-        shipping_method_name: shippingLabel,
+        shipping_method_name: SHIPPING_UK.dpd.label,
         shipping_price: shipping_total,
-        courier_name: formData.shipping_method === "dpd" ? "DPD" : "Royal Mail",
+        courier_name: "DPD",
         payment_method: formData.payment_method,
         customer_note: formData.comment || undefined,
         privacy_policy_accepted: true,
@@ -143,7 +137,7 @@ export default function CheckoutPage() {
     }
   };
 
-  const shippingCost = ukShippingPrice(cart.subtotal, formData.shipping_method);
+  const shippingCost = ukShippingPrice();
   const orderTotal = cart.subtotal + shippingCost;
 
   return (
@@ -244,38 +238,11 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className={`${labelClass} mb-3`}>UK delivery *</label>
-                  <div className="mb-4 space-y-2">
-                    <label className={radioCardClass}>
-                      <input
-                        type="radio"
-                        name="shipping_method"
-                        value="tracked48"
-                        checked={formData.shipping_method === "tracked48"}
-                        onChange={() =>
-                          setFormData({ ...formData, shipping_method: "tracked48" })
-                        }
-                        className="mr-3 accent-bp-accent"
-                      />
-                      <span className="text-sm">
-                        {SHIPPING_UK.tracked48.label} — £{SHIPPING_UK.tracked48.price.toFixed(2)}
-                        {cart.subtotal >= SHIPPING_UK.freeOver ? " (free over £40)" : ""}
-                      </span>
-                    </label>
-                    <label className={radioCardClass}>
-                      <input
-                        type="radio"
-                        name="shipping_method"
-                        value="dpd"
-                        checked={formData.shipping_method === "dpd"}
-                        onChange={() => setFormData({ ...formData, shipping_method: "dpd" })}
-                        className="mr-3 accent-bp-accent"
-                      />
-                      <span className="text-sm">
-                        {SHIPPING_UK.dpd.label} — £{SHIPPING_UK.dpd.price.toFixed(2)}
-                      </span>
-                    </label>
-                  </div>
+                  <label className={labelClass}>UK delivery *</label>
+                  <p className="mt-2 border border-bp-text/15 p-4 text-sm text-bp-text/80">
+                    {SHIPPING_UK.dpd.label} — £{SHIPPING_UK.dpd.price.toFixed(2)} ({SHIPPING_UK.dpd.days}
+                    ). Shipping is paid by the customer.
+                  </p>
                 </div>
 
                 <div>
@@ -400,11 +367,7 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-bp-text/65">UK delivery</span>
-                  <span className="text-right text-xs text-bp-text/55">See rates below</span>
-                </div>
-                <div className="flex justify-between pt-2 text-sm">
-                  <span className="text-bp-text/65">Delivery</span>
+                  <span className="text-bp-text/65">Delivery (DPD)</span>
                   <Price
                     amount={shippingCost.toString()}
                     currencyCode={cart.currency}
@@ -422,6 +385,9 @@ export default function CheckoutPage() {
                 <div className="mt-4 border-t border-bp-text/10 pt-4">
                   <p className="text-center text-xs leading-snug text-bp-text/55">
                     {UK_SHIPPING_SUMMARY}
+                  </p>
+                  <p className="mt-2 text-center text-xs leading-snug text-bp-text/55">
+                    {UK_RETURNS_SUMMARY}
                   </p>
                   <p className="mt-2 text-center text-xs text-bp-text/55">{UK_VAT_NOTE}</p>
                 </div>

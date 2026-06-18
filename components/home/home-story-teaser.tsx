@@ -2,31 +2,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { displayImageUrl } from "lib/image-url";
 import type { PublicStory } from "lib/supabase/stories";
-import { storyDisplayName, storyHref, storyQuote } from "lib/story-display";
+import { storyCardImageUrl, storyDisplayName, storyHref } from "lib/story-display";
 
 export function HomeStoryTeaser({ story }: { story: PublicStory }) {
   const href = storyHref(story);
   const name = storyDisplayName(story);
-  const quote = storyQuote(story);
+  const image = storyCardImageUrl(story);
 
   const inner = (
-    <article className="group relative aspect-square overflow-hidden rounded-sm bg-bp-text/10">
-      {displayImageUrl(story.image_url) ? (
-        <Image
-          src={displayImageUrl(story.image_url)!}
-          alt=""
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          sizes="(max-width: 768px) 50vw, 25vw"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-bp-accent" />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 p-5 text-bp-canvas">
-        {quote ? <p className="text-sm leading-snug md:text-base">{quote}</p> : null}
-        <p className="mt-3 text-xs font-bold uppercase tracking-[0.15em]">— {name}</p>
+    <article className="group flex flex-col bg-bp-canvas">
+      <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
+        {image ? (
+          <Image
+            src={image}
+            alt=""
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center bg-bp-accent/15 text-xs uppercase tracking-widest text-bp-text/40">
+            {name}
+          </div>
+        )}
       </div>
+      <h3 className="p-6 text-xl font-bold uppercase tracking-wide text-bp-text">{name}</h3>
     </article>
   );
 

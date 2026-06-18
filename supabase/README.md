@@ -1,42 +1,54 @@
 # BrushPast — Supabase
 
-## Как да пуснеш миграцията
+## Fresh database (2 steps)
 
-**Не** е „терминал в Supabase“. Правиш едно от двете:
+### 1. Schema
 
-### A) SQL Editor (най-лесно)
+Supabase Dashboard → **SQL Editor** → paste and run:
 
-1. [Supabase Dashboard](https://supabase.com/dashboard) → проект → **SQL Editor**
-2. **New query**
-3. Копирай целия файл `migrations/brushpast_final.sql`
-4. **Run** (или „Run and enable RLS“ — OK и двете, RLS вече е в скрипта)
+`migrations/20260601000000_brushpast_schema.sql`
 
-### B) Supabase CLI (локален терминал)
+This **drops all legacy tables** and creates the full schema (stories, journal, shop, orders, RLS).
+
+CLI alternative:
 
 ```bash
-cd d:\mine\BrushPast
 supabase link --project-ref YOUR_PROJECT_REF
 supabase db push
 ```
 
-(CLI чете файловете от `supabase/migrations/`. За чист старт ползвай само `brushpast_final.sql`; старите `20260301*` са placeholder-и.)
+### 2. Data import
 
-**Внимание:** `brushpast_final.sql` изтрива legacy таблици (`collections`, стари `orders` и т.н.) и създава схемата отново.
+SQL Editor → run:
 
-## Вече пуснал само първата миграция (без RLS)?
+`data.sql`
 
-Пусни само секцията **RLS** от края на `brushpast_final.sql` (от `-- BrushPast RLS` надолу). Не пускай целия final отново — ще дропне данни.
+Inserts organisations, stories, workshops, journal posts, products, and junction tables. Safe to re-run (truncates catalog only; keeps orders and contact messages).
+
+---
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `migrations/20260601000000_brushpast_schema.sql` | **Only migration** — schema + RLS |
+| `data.sql` | **Catalog import** — stories, journal, shop, workshops, … |
+
+## Model
+
+- **`stories`** — listing on `/stories` (title, image, quote, `page_url` → hand-coded page in app)
+- **`journal_posts`** — `/journal`
+- **`organisations`**, **`workshops`**, **`products`**, **`categories`**
+- **`product_stories`** — links products to stories
+
+Story **pages** are in the app (`app/stories/…`, `lib/stories/*-content.ts`), not in the database body.
 
 ## Stripe
 
 | Field | Purpose |
 |-------|---------|
-| `orders.order_number` | `BP-20260301-000001` |
-| `stripe_checkout_session_id` | UNIQUE — една поръчка на Checkout Session |
+| `orders.order_number` | `BP-YYYYMMDD-######` |
+| `stripe_checkout_session_id` | UNIQUE per Checkout Session |
 | `stripe_webhook_events` | idempotent webhook |
 
-App: `STRIPE_WEBHOOK_SECRET` → `POST /api/stripe/webhook` (`checkout.session.completed`).
-
-## Tables
-
-See `content/dbprompt.md`.
+App: `STRIPE_WEBHOOK_SECRET` → `POST /api/stripe/webhook`

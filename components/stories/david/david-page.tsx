@@ -2,14 +2,10 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
-import {
-  CalendarDaysIcon,
-  ChatBubbleLeftRightIcon,
-  MapPinIcon,
-} from "@heroicons/react/24/outline";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
+import type { DavidParagraph } from "lib/stories/david-content";
 import { DAVID_STORY } from "lib/stories/david-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
@@ -23,27 +19,70 @@ function BrushUnderline({ children }: { children: ReactNode }) {
     <span className="relative inline-block">
       {children}
       <span
-        className="pointer-events-none absolute -bottom-0.5 left-0 h-[0.35em] w-full -skew-x-6 bg-bp-accent/75"
+        className="pointer-events-none absolute -bottom-0.5 left-0 h-[0.35em] w-full -skew-x-6 bg-bp-accent/80"
         aria-hidden
       />
     </span>
   );
 }
 
-function CoffeeCupIcon({ className }: { className?: string }) {
+function HandDivider() {
   return (
-    <svg viewBox="0 0 64 64" className={className} aria-hidden>
+    <svg
+      className="my-6 w-full max-w-[120px] text-bp-accent/70"
+      viewBox="0 0 120 8"
+      fill="none"
+      aria-hidden
+    >
       <path
-        d="M14 22h32v28c0 4-3 7-7 7H21c-4 0-7-3-7-7V22z"
-        fill="none"
+        d="M2 5C28 2 52 7 78 4C96 2 108 3 118 5"
         stroke="currentColor"
-        strokeWidth="2.5"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
-      <path d="M46 26h6c4 0 7 3 7 7s-3 7-7 7h-6" fill="none" stroke="currentColor" strokeWidth="2.5" />
-      <path d="M22 14c0-4 3-7 10-7s10 3 10 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
+
+function renderHighlightedText(text: string, highlight?: string) {
+  if (!highlight) return text;
+  const idx = text.toLowerCase().indexOf(highlight.toLowerCase());
+  if (idx < 0) return text;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <BrushUnderline>{text.slice(idx, idx + highlight.length)}</BrushUnderline>
+      {text.slice(idx + highlight.length)}
+    </>
+  );
+}
+
+function StoryParagraph({ block }: { block: DavidParagraph }) {
+  if (block.pull) {
+    return (
+      <blockquote
+        className={`${caveat.className} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
+      >
+        <span className="absolute -left-2 top-2 text-2xl text-bp-accent/40" aria-hidden>
+          ❝
+        </span>
+        {renderHighlightedText(block.text, block.highlight)}
+      </blockquote>
+    );
+  }
+
+  const sizeClass = block.emphasis
+    ? "text-[1.35rem] leading-snug md:text-[1.5rem]"
+    : "text-[1.2rem] leading-relaxed md:text-[1.3rem]";
+
+  return (
+    <p className={`${caveat.className} ${sizeClass} text-bp-text/92`}>
+      {renderHighlightedText(block.text, block.highlight)}
+    </p>
+  );
+}
+
+const COLUMN_MARKERS = ["I", "II"];
 
 export async function DavidPage() {
   const [story, products] = await Promise.all([
@@ -52,6 +91,12 @@ export async function DavidPage() {
   ]);
 
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
+
+  const heroQuote = COPY.heroQuote;
+  const highlight = COPY.heroQuoteHighlight;
+  const highlightIdx = heroQuote.toLowerCase().indexOf(highlight.toLowerCase());
+  const quoteBefore = highlightIdx >= 0 ? heroQuote.slice(0, highlightIdx) : heroQuote;
+  const quoteAfter = highlightIdx >= 0 ? heroQuote.slice(highlightIdx + highlight.length) : "";
 
   return (
     <div className="bg-bp-canvas text-bp-text">
@@ -66,163 +111,152 @@ export async function DavidPage() {
         </div>
       </div>
 
-      {/* Hero */}
       <section className="border-b border-bp-text/10">
-        <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-4 py-12 md:px-10 md:py-16 lg:py-20">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Story</p>
-            <h1 className="mt-3 text-[clamp(3rem,10vw,5.5rem)] font-bold uppercase leading-[0.9] tracking-tight">
-              {COPY.headline}
+        <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
+          <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
+              David&apos;s Story
+            </p>
+            <h1 className="mt-2 text-[clamp(3rem,10vw,5.5rem)] font-black uppercase leading-[0.88] tracking-tighter text-bp-text">
+              {COPY.title}
             </h1>
-            <p className="mt-2 text-lg font-bold uppercase tracking-[0.12em] text-bp-text md:text-xl">
+            <p className="mt-3 text-lg font-bold uppercase tracking-[0.14em] text-bp-text/80 md:text-xl">
               {COPY.subtitle}
             </p>
-            <p className={`${lora.className} mt-8 text-2xl leading-snug md:text-3xl`}>
-              &ldquo;{COPY.heroQuote}&rdquo;
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75">
+              {COPY.tags}
             </p>
-            <ul className="mt-8 flex flex-wrap gap-6 text-xs font-semibold uppercase tracking-[0.12em] text-bp-text/70">
-              <li className="flex items-center gap-2">
-                <MapPinIcon className="h-4 w-4 text-bp-accent" />
-                {COPY.location}
-              </li>
-              <li className="flex items-center gap-2">
-                <CalendarDaysIcon className="h-4 w-4 text-bp-accent" />
-                {COPY.year}
-              </li>
-            </ul>
-            <a
-              href="#story-body"
-              className="mt-10 inline-flex w-fit bg-bp-text px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] text-bp-canvas hover:opacity-90"
+            <div className="relative mt-8 max-w-lg rotate-[-0.15deg] border border-bp-text/25 bg-[#f5f0e8] p-6 shadow-[6px_6px_0_rgba(191,50,1,0.1)] md:p-8">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.32]"
+                aria-hidden
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(transparent, transparent 27px, #ddd2c4 27px, #ddd2c4 28px)",
+                }}
+              />
+              <p
+                className={`${caveat.className} relative z-10 text-[1.4rem] leading-snug text-bp-text md:text-[1.6rem]`}
+              >
+                {quoteBefore}
+                {highlightIdx >= 0 ? <BrushUnderline>{highlight}</BrushUnderline> : null}
+                {quoteAfter}
+              </p>
+            </div>
+          </div>
+
+          <div className="relative flex items-center justify-center bg-[#ebe3d8] px-4 py-8 md:px-10 lg:py-12">
+            <div
+              className="relative aspect-[4/5] w-full max-w-md overflow-hidden shadow-[8px_8px_0_rgba(1,2,0,0.08)]"
+              style={{
+                clipPath: "polygon(6% 0%, 100% 2%, 96% 100%, 3% 98%, 0% 70%, 4% 38%)",
+              }}
             >
-              Read David&apos;s story →
-            </a>
-          </div>
-          <div className="relative min-h-[400px] lg:min-h-[560px]">
-            <Image
-              src={heroImage}
-              alt="David"
-              fill
-              className="object-cover object-center grayscale"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* The Rooms — three columns */}
-      <section
-        id="story-body"
-        className="scroll-mt-24 border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20"
-      >
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
-          <div className="border border-bp-text/10 bg-[#f5f0e8] p-6 shadow-sm md:p-8">
-            <p className={`${caveat.className} text-xl leading-snug text-bp-text md:text-2xl`}>
-              &ldquo;{COPY.handwrittenQuote}&rdquo;
-            </p>
-            <p className="mt-4 text-sm font-semibold text-bp-text/70">— David</p>
-          </div>
-          <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
-            {COPY.narrativeMiddle.map((p) => (
-              <p key={p.slice(0, 48)}>{p}</p>
-            ))}
-          </div>
-          <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
-            {COPY.narrativeRight.map((p) => (
-              <p key={p.slice(0, 48)}>{p}</p>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Portrait + pull quote */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-start">
-          <div className="relative aspect-square max-w-md overflow-hidden rounded-sm bg-bp-text/5">
-            <Image
-              src={COPY.portraitImage}
-              alt="David at a Brush Past event"
-              fill
-              className="object-cover object-top"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-            />
-          </div>
-          <div>
-            <p className={`${lora.className} text-[1.65rem] leading-snug text-bp-text md:text-[2rem]`}>
-              &ldquo;{COPY.pullQuote}&rdquo;
-            </p>
-            <div className="mt-8 space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
-              {COPY.reflectionParagraphs.map((p) => (
-                <p key={p.slice(0, 48)}>{p}</p>
-              ))}
+              <Image
+                src={heroImage}
+                alt="David — The Rooms"
+                fill
+                className="object-cover object-center"
+                priority
+                sizes="(max-width: 1024px) 90vw, 45vw"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Feature grid */}
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {COPY.features.map((feature) => (
-            <article key={feature.id} className="flex flex-col">
-              <div className="relative mb-5 aspect-[4/3] overflow-hidden rounded-sm bg-bp-text/5">
-                {"image" in feature && feature.image ? (
-                  <Image
-                    src={feature.image}
-                    alt=""
-                    fill
-                    className={`object-cover ${"imageGrayscale" in feature && feature.imageGrayscale ? "grayscale" : ""}`}
-                    sizes="25vw"
-                  />
-                ) : feature.icon === "chat" ? (
-                  <div className="flex h-full items-center justify-center text-bp-accent">
-                    <ChatBubbleLeftRightIcon className="h-20 w-20" strokeWidth={1.1} />
-                  </div>
-                ) : (
-                  <div className="flex h-full items-center justify-center text-bp-accent">
-                    <CoffeeCupIcon className="h-20 w-20" />
-                  </div>
-                )}
-              </div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-bp-accent">
-                {feature.title}
-              </h3>
-              <p className="mt-3 flex-1 font-serif text-sm leading-relaxed text-bp-text/80">
-                {feature.body}
-              </p>
-              {"href" in feature && feature.href ? (
-                <Link
-                  href={feature.href}
-                  className="mt-4 text-xs font-bold uppercase tracking-[0.12em] text-bp-text hover:text-bp-accent"
+      <section className="relative overflow-hidden border-b border-bp-text/10">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.2]"
+          aria-hidden
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(transparent, transparent 31px, #d9cfc0 31px, #d9cfc0 32px)",
+          }}
+        />
+        <div className="relative mx-auto max-w-[1400px] px-4 py-14 md:px-10 md:py-20">
+          <p
+            className={`${lora.className} mx-auto mb-14 max-w-2xl text-center text-xl text-bp-text/80 md:text-2xl`}
+          >
+            {COPY.storyIntro}
+          </p>
+
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-10">
+            {COPY.storyColumns.map((column, colIdx) => (
+              <div
+                key={colIdx}
+                className="relative border-t-2 border-bp-text/10 bg-bp-canvas/80 px-5 py-8 md:px-6 md:py-10"
+              >
+                <span
+                  className={`${caveat.className} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
+                  aria-hidden
                 >
-                  View shop →
-                </Link>
-              ) : null}
-            </article>
-          ))}
+                  {COLUMN_MARKERS[colIdx]}
+                </span>
+                <div className="space-y-5">
+                  {column.paragraphs.map((block, i) => (
+                    <div key={block.text.slice(0, 32)}>
+                      {i > 0 && i % 2 === 0 ? <HandDivider /> : null}
+                      <StoryParagraph block={block} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Footer CTA */}
-      <section className="bg-bp-accent text-bp-canvas">
-        <div className="mx-auto grid max-w-[1400px] gap-8 px-4 py-12 md:grid-cols-[1fr_1.4fr_auto] md:items-center md:gap-10 md:px-10 md:py-14">
-          <p className={`${caveat.className} text-3xl leading-none md:text-4xl`}>
-            <BrushUnderline>{COPY.footerCta.left}</BrushUnderline>
-          </p>
-          <p className="text-sm leading-relaxed text-bp-canvas/95 md:text-base">
-            {COPY.footerCta.center}
-          </p>
-          <Link
-            href={COPY.footerCta.href}
-            className="inline-flex shrink-0 justify-center border-2 border-bp-canvas bg-bp-canvas px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] text-bp-text hover:opacity-90"
-          >
-            {COPY.footerCta.button} →
-          </Link>
+      <section className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-12 md:px-10 md:py-16">
+        <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-3 lg:gap-8">
+          <div className="flex flex-col border border-bp-text/15 bg-bp-canvas">
+            <div className="bg-bp-text px-4 py-3">
+              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas">
+                {COPY.rooms.title}
+              </h2>
+            </div>
+            <div className="flex flex-1 flex-col justify-between p-6 md:p-8">
+              <div className="space-y-5">
+                {COPY.rooms.paragraphs.map((p) => (
+                  <p
+                    key={p.slice(0, 48)}
+                    className={`${caveat.className} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.35rem]`}
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
+              <p
+                className={`${caveat.className} mt-8 text-[1.75rem] leading-tight text-bp-text md:text-[2rem]`}
+              >
+                <BrushUnderline>{COPY.rooms.quote}</BrushUnderline>
+              </p>
+            </div>
+          </div>
+
+          <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden border border-bp-text/15 bg-[#f0e8dc] p-8 shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]">
+            <div className="absolute inset-0 opacity-40" aria-hidden>
+              <div className="h-full w-full bg-[linear-gradient(#d4c4b0_1px,transparent_1px)] bg-[length:100%_28px]" />
+            </div>
+            <p
+              className={`${caveat.className} relative z-10 max-w-xs rotate-[-1deg] text-center text-[1.55rem] leading-snug text-bp-text/90 md:text-[1.8rem]`}
+            >
+              {COPY.notebookQuote}
+            </p>
+          </div>
+
+          <div className="flex min-h-[300px] items-center justify-center bg-bp-text p-8 md:p-10">
+            <p
+              className={`${caveat.className} text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
+            >
+              <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
+            </p>
+          </div>
         </div>
       </section>
 
       {products.length > 0 ? (
-        <section className="px-4 py-14 md:px-10 md:py-20">
+        <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               From this story

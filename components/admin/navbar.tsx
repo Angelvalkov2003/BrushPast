@@ -11,9 +11,10 @@ const LINKS = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/categories", label: "Categories" },
-  { href: "/admin/creators", label: "Creators" },
   { href: "/admin/stories", label: "Stories" },
   { href: "/admin/journal", label: "Journal" },
+  { href: "/admin/workshops", label: "Workshops" },
+  { href: "/admin/organisations", label: "Organisations" },
   { href: "/admin/messages", label: "Messages" },
   { href: "/admin/newsletter", label: "Newsletter" },
 ];

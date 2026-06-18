@@ -6,7 +6,10 @@ import { INSTAGRAM_URL, LINKEDIN_URL } from "lib/site-config";
 
 export function AboutNewsletter() {
   return (
-    <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-12 md:px-10 md:py-16">
+    <section
+      id="newsletter"
+      className="border-b border-bp-text/10 bg-bp-surface px-4 py-12 md:px-10 md:py-16"
+    >
       <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-center md:justify-between">
         <div className="max-w-xl">
           <h2 className="text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl">

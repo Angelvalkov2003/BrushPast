@@ -68,6 +68,12 @@ export const ABOUT_IMPACT_STATS = [
   { value: "120+", label: "stories in circulation", icon: "stories" as const },
 ] as const;
 
+export const ABOUT_LAUNCH_OVERLAY = {
+  eyebrow: "Transparency",
+  headline: "We've just launched — help us out!",
+  buttonLabel: "Join the newsletter",
+} as const;
+
 export const ABOUT_QUOTE =
   "We came from different sides of the street, but met on the same roundabout.";
 

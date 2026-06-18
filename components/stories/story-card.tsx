@@ -27,7 +27,39 @@ const imageAspect: Record<StoryCardLayout, string> = {
 type Props = {
   story: PublicStory;
   layout: StoryCardLayout;
+  compact?: boolean;
 };
+
+function CompactCardContent({
+  story,
+  name,
+}: {
+  story: PublicStory;
+  name: string;
+}) {
+  const imageSrc = storyCardImageUrl(story);
+
+  return (
+    <article className="group flex h-full w-full flex-col overflow-hidden rounded-sm border border-bp-text/10 bg-bp-surface/80">
+      {imageSrc ? (
+        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-bp-text/5">
+          <Image
+            src={imageSrc}
+            alt=""
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            sizes="50vw"
+          />
+        </div>
+      ) : (
+        <div className="aspect-[3/4] w-full shrink-0 bg-bp-accent/20" aria-hidden />
+      )}
+      <h2 className="px-2.5 py-3 text-[11px] font-bold uppercase leading-snug tracking-[0.1em] text-bp-text">
+        {name}
+      </h2>
+    </article>
+  );
+}
 
 function CardTextBlock({
   name,
@@ -146,24 +178,36 @@ function CardContent({
   );
 }
 
-export function StoryCard({ story, layout }: Props) {
+export function StoryCard({ story, layout, compact = false }: Props) {
   const href = storyHref(story);
   const name = storyDisplayName(story);
   const quote = storyQuote(story);
   const tags = storyTagsLabel(story.tags);
-  const wrapClass = clsx("block h-full", layoutClass[layout]);
+  const wrapClass = clsx(
+    "block h-full",
+    compact ? "col-span-1 md:col-span-3" : layoutClass[layout],
+  );
 
-  if (!href) {
-    return (
-      <div className={wrapClass}>
+  const inner = compact ? (
+    <>
+      <div className="md:hidden">
+        <CompactCardContent story={story} name={name} />
+      </div>
+      <div className="hidden md:block">
         <CardContent story={story} layout={layout} name={name} quote={quote} tags={tags} />
       </div>
-    );
+    </>
+  ) : (
+    <CardContent story={story} layout={layout} name={name} quote={quote} tags={tags} />
+  );
+
+  if (!href) {
+    return <div className={wrapClass}>{inner}</div>;
   }
 
   return (
     <Link href={href} className={clsx(wrapClass, "focus-visible:outline-offset-4")}>
-      <CardContent story={story} layout={layout} name={name} quote={quote} tags={tags} />
+      {inner}
     </Link>
   );
 }

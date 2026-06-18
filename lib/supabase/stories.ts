@@ -11,6 +11,7 @@ export type PublicStory = {
   tags: string[] | null;
   sort_order: number;
   created_at: string;
+  /** @deprecated Use title — kept for story card display helpers */
   creator_name: string | null;
   creator_is_anonymous: boolean;
 };
@@ -21,23 +22,23 @@ const STORY_SELECT = `
   title,
   short_description,
   image_url,
+  page_url,
   tags,
   sort_order,
   created_at,
-  creators ( name, is_anonymous )
+  is_anonymous
 `;
 
-const STORY_SELECT_WITH_PAGE_URL = `
+const STORY_SELECT_LEGACY = `
   id,
   slug,
   title,
   short_description,
   image_url,
-  page_url,
   tags,
   sort_order,
   created_at,
-  creators ( name, is_anonymous )
+  is_anonymous
 `;
 
 type StoryRow = {
@@ -50,7 +51,7 @@ type StoryRow = {
   tags: string[] | null;
   sort_order: number;
   created_at: string;
-  creators: { name: string | null; is_anonymous: boolean } | { name: string | null; is_anonymous: boolean }[] | null;
+  is_anonymous: boolean;
 };
 
 function defaultPageUrl(slug: string | null): string | null {
@@ -59,7 +60,6 @@ function defaultPageUrl(slug: string | null): string | null {
 }
 
 function mapStoryRow(row: StoryRow): PublicStory {
-  const creator = Array.isArray(row.creators) ? row.creators[0] : row.creators;
   const slug = row.slug;
   return {
     id: row.id,
@@ -71,8 +71,8 @@ function mapStoryRow(row: StoryRow): PublicStory {
     tags: row.tags ?? [],
     sort_order: row.sort_order,
     created_at: row.created_at,
-    creator_name: creator?.name ?? null,
-    creator_is_anonymous: creator?.is_anonymous ?? false,
+    creator_name: row.title,
+    creator_is_anonymous: row.is_anonymous ?? false,
   };
 }
 
@@ -83,8 +83,9 @@ function isMissingPageUrlColumn(message: string | undefined): boolean {
 async function fetchActiveStories(supabase: Awaited<ReturnType<typeof createServerClient>>) {
   const withUrl = await supabase
     .from("stories")
-    .select(STORY_SELECT_WITH_PAGE_URL)
+    .select(STORY_SELECT)
     .eq("status", "active")
+    .eq("is_anonymous", false)
     .order("sort_order", { ascending: false })
     .order("created_at", { ascending: false });
 
@@ -97,8 +98,9 @@ async function fetchActiveStories(supabase: Awaited<ReturnType<typeof createServ
 
   const fallback = await supabase
     .from("stories")
-    .select(STORY_SELECT)
+    .select(STORY_SELECT_LEGACY)
     .eq("status", "active")
+    .eq("is_anonymous", false)
     .order("sort_order", { ascending: false })
     .order("created_at", { ascending: false });
 
@@ -122,7 +124,7 @@ export async function getPublicStoryBySlug(slug: string): Promise<PublicStory | 
 
   const withUrl = await supabase
     .from("stories")
-    .select(STORY_SELECT_WITH_PAGE_URL)
+    .select(STORY_SELECT)
     .eq("slug", trimmed)
     .eq("status", "active")
     .maybeSingle();
@@ -138,7 +140,7 @@ export async function getPublicStoryBySlug(slug: string): Promise<PublicStory | 
 
   const fallback = await supabase
     .from("stories")
-    .select(STORY_SELECT)
+    .select(STORY_SELECT_LEGACY)
     .eq("slug", trimmed)
     .eq("status", "active")
     .maybeSingle();

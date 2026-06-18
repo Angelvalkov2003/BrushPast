@@ -9,7 +9,7 @@ import {
 } from "lib/stories-config";
 import { storyCardImageUrl } from "lib/story-display";
 import { StoryCard } from "./story-card";
-import { StoriesCta } from "./stories-cta";
+import { StoriesGridToggle } from "./stories-grid-toggle";
 import { StoriesSort, type StorySortKey } from "./stories-sort";
 
 function filterStories(stories: PublicStory[], filter: StoryFilterId): PublicStory[] {
@@ -35,6 +35,7 @@ function sortStories(stories: PublicStory[], sort: StorySortKey): PublicStory[] 
 export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
   const [filter, setFilter] = useState<StoryFilterId>("all");
   const [sort, setSort] = useState<StorySortKey>("latest");
+  const [compactGrid, setCompactGrid] = useState(false);
 
   const visible = useMemo(
     () => sortStories(filterStories(stories, filter), sort),
@@ -76,7 +77,10 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
             </span>{" "}
             {visible.length === 1 ? "Story" : "Stories"}
           </p>
-          <StoriesSort value={sort} onChange={setSort} />
+          <div className="flex items-center gap-2">
+            <StoriesGridToggle compact={compactGrid} onChange={setCompactGrid} />
+            <StoriesSort value={sort} onChange={setSort} />
+          </div>
         </div>
 
         {visible.length === 0 ? (
@@ -84,19 +88,24 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
             No stories in this category yet. Check back soon.
           </p>
         ) : (
-          <div className="grid auto-rows-min grid-cols-1 gap-4 py-8 md:grid-cols-12 md:gap-5 md:py-10">
+          <div
+            className={
+              compactGrid
+                ? "grid grid-cols-2 gap-3 py-6 md:grid-cols-12 md:gap-5 md:py-10"
+                : "grid auto-rows-min grid-cols-1 gap-4 py-8 md:grid-cols-12 md:gap-5 md:py-10"
+            }
+          >
             {visible.map((story, index) => (
               <StoryCard
                 key={story.id}
                 story={story}
+                compact={compactGrid}
                 layout={layoutForStory(story, index, Boolean(storyCardImageUrl(story)))}
               />
             ))}
           </div>
         )}
       </div>
-
-      <StoriesCta />
     </>
   );
 }

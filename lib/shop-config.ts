@@ -1,32 +1,26 @@
 /**
- * Shop structure — aligned with client brief (four core collections).
- * DB: `categories` table. Products link via `product_categories` + creators/stories.
+ * Shop structure — three core collections (DB: `categories` table).
+ * Products link via `product_categories` + stories.
  */
 
 export const SHOP_COLLECTIONS = [
   {
     slug: "wear-the-story",
-    name: "Wear the Story",
+    name: "Wear it",
     short_description: "T-shirts and apparel featuring original artwork from our community.",
     shop_cta: "Explore apparel",
   },
   {
     slug: "drink-the-story",
-    name: "Drink the Story",
+    name: "Drink it",
     short_description: "Curated coffee editions and story cards — meaningful conversations.",
     shop_cta: "Discover coffee",
   },
   {
     slug: "frame-the-story",
-    name: "Frame the Story",
+    name: "Frame it",
     short_description: "Prints and original artwork to keep a voice on your wall.",
     shop_cta: "View prints",
-  },
-  {
-    slug: "gift-the-story",
-    name: "Gift the Story",
-    short_description: "Gift boxes and story cards — give something real.",
-    shop_cta: "Shop gifts",
   },
 ] as const;
 

@@ -86,10 +86,4 @@ export const JR_STORY = {
     ] satisfies JrFragment[],
   },
   closingQuote: "I paint to stay present. Art helps me keep showing up.",
-  cta: {
-    left: "Every story shared creates",
-    highlight: "connection",
-    right: "and opportunity.",
-    button: "Share your story",
-  },
 } as const;

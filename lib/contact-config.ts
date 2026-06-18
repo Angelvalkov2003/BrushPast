@@ -15,36 +15,25 @@ export const CONTACT_SUBJECTS = [
 
 export const CONTACT_CONNECT_CARDS = [
   {
-    title: "Share something",
-    description: "Tell us your story — art, writing, photography or lived experience.",
-    cta: "Share your story",
-    href: "/contact#contact-form",
-    color: "bg-[#e8dff5]",
-    icon: "brush" as const,
-  },
-  {
     title: "Join a workshop",
     description: "Creative sessions rooted in real spaces and community.",
     cta: "See upcoming workshops",
     href: "/workshops",
-    color: "bg-[#f5e6dc]",
-    icon: "person" as const,
+    image: "/workshops.png",
   },
   {
     title: "Collaborate",
     description: "Partnerships, venues, programmes and joint projects.",
     cta: "Let's talk",
     href: "#contact-form",
-    color: "bg-[#dfe8e0]",
-    icon: "handshake" as const,
+    image: "/home-hero.png",
   },
   {
     title: "Support the work",
     description: "Every purchase and donation helps creators and programmes.",
     cta: "Support Brush Past",
     href: "/shop",
-    color: "bg-[#dce8f2]",
-    icon: "heart" as const,
+    image: "/shop1.png",
   },
 ] as const;
 

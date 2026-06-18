@@ -159,15 +159,22 @@ export const legalPages: Record<string, LegalPageContent> = {
         ],
       },
       {
+        title: "Delivery",
+        paragraphs: [
+          "UK orders are sent via DPD. Delivery charges are paid by the customer at checkout and are not refundable unless we sent the wrong item or the entire order was faulty.",
+        ],
+      },
+      {
         title: "Faulty or damaged items",
         paragraphs: [
-          "If your order arrives faulty or damaged, contact us within 14 days of delivery with your order number and photos. We will offer a replacement or refund where appropriate.",
+          "If your order arrives faulty or damaged, contact us within 30 days of delivery with your order number and photos. We will offer a replacement or refund where appropriate.",
         ],
       },
       {
         title: "Change of mind",
         paragraphs: [
-          "Unless stated otherwise on the product page, you may return unused items in original packaging within 14 days of receipt for a refund of the product price. You are responsible for return postage unless the item was faulty.",
+          "Unless stated otherwise on the product page, you may return items within 30 days of receipt for a refund of the product price, provided they are unopened and unused and in their original packaging.",
+          "You are responsible for return postage unless the item was faulty or we sent the wrong item.",
           "Custom or personalised items may not be eligible for return unless faulty.",
         ],
       },

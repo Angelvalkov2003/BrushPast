@@ -5,7 +5,6 @@ import { Caveat } from "next/font/google";
 import {
   CalendarDaysIcon,
   MapPinIcon,
-  UserGroupIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 import Footer from "components/layout/footer";
@@ -291,25 +290,6 @@ export async function JrPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="border-b border-bp-text/10 bg-bp-canvas/80">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-10 md:py-12">
-          <div className="flex items-start gap-4">
-            <UserGroupIcon className="h-9 w-9 shrink-0 text-bp-accent/80" strokeWidth={1.2} />
-            <p className="max-w-lg text-sm leading-relaxed text-bp-text/85 md:text-base">
-              {COPY.cta.left}{" "}
-              <BrushUnderline>{COPY.cta.highlight}</BrushUnderline> {COPY.cta.right}
-            </p>
-          </div>
-          <Link
-            href="/contact#contact-form"
-            className="shrink-0 border-2 border-bp-accent px-8 py-3 text-center text-xs font-bold uppercase tracking-[0.15em] text-bp-accent hover:bg-bp-accent hover:text-bp-canvas"
-          >
-            {COPY.cta.button}
-          </Link>
         </div>
       </section>
 

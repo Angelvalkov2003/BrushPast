@@ -18,8 +18,8 @@ function parseStory(fd: FormData) {
     short_description: (fd.get("short_description") as string) || undefined,
     page_url: (fd.get("page_url") as string)?.trim() || null,
     tags,
-    creator_id: parseOptionalId(fd, "creator_id"),
     organisation_id: parseOptionalId(fd, "organisation_id"),
+    is_anonymous: fd.get("is_anonymous") === "on",
     status: parseStatus(fd),
     sort_order: parseSortOrder(fd),
   };

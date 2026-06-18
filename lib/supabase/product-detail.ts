@@ -86,29 +86,19 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
     const galleries = await loadGalleries(supabase, [data.id]);
     const base = transformProduct(data, galleries.get(data.id) ?? []);
 
-    const [
-      variants,
-      { data: catLinks },
-      { data: creatorLinks },
-      { data: storyLinks },
-    ] = await Promise.all([
+    const [variants, { data: catLinks }, { data: storyLinks }] = await Promise.all([
       loadProductVariants(data.id, base.price),
       supabase.from("product_categories").select("category_id").eq("product_id", data.id),
-      supabase.from("product_creators").select("creator_id").eq("product_id", data.id),
       supabase.from("product_stories").select("story_id").eq("product_id", data.id),
     ]);
 
     const categoryIds = (catLinks ?? []).map((l) => l.category_id);
-    const creatorIds = (creatorLinks ?? []).map((l) => l.creator_id);
     const storyIds = (storyLinks ?? []).map((l) => l.story_id);
 
-    const [{ data: categories }, { data: creators }, { data: stories }] = await Promise.all([
+    const [{ data: categories }, { data: stories }] = await Promise.all([
       categoryIds.length
         ? supabase.from("categories").select("slug, name").in("id", categoryIds).eq("status", "active")
         : Promise.resolve({ data: [] as { slug: string | null; name: string | null }[] }),
-      creatorIds.length
-        ? supabase.from("creators").select("name").in("id", creatorIds).eq("status", "active")
-        : Promise.resolve({ data: [] as { name: string | null }[] }),
       storyIds.length
         ? supabase
             .from("stories")
@@ -146,7 +136,7 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
         slug: c.slug || "",
         name: c.name || c.slug || "",
       })),
-      creators: (creators ?? []).map((c) => ({ name: c.name || "Creator" })),
+      creators: [],
       stories: (stories ?? []).map((s) => ({
         title: s.title || s.slug || "Story",
         slug: s.slug || "",

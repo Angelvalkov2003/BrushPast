@@ -25,8 +25,8 @@ type StoryWriteInput = {
   short_description?: string;
   page_url?: string | null;
   tags?: string[];
-  creator_id?: string | null;
   organisation_id?: string | null;
+  is_anonymous?: boolean;
   status?: ContentStatus;
   sort_order?: number;
 };

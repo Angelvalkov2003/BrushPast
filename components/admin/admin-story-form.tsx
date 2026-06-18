@@ -15,12 +15,11 @@ import {
   adminSelectClass,
   adminTextareaClass,
 } from "./admin-form-styles";
-import type { AdminCreator, AdminOrganisation, AdminStory } from "lib/types/admin";
+import type { AdminOrganisation, AdminStory } from "lib/types/admin";
 import { STORY_TAG_OPTIONS } from "lib/stories-config";
 
 type Props = {
   story?: AdminStory | null;
-  creators: AdminCreator[];
   organisations: AdminOrganisation[];
   createAction: (fd: FormData) => Promise<{ error?: string }>;
   updateAction?: (fd: FormData) => Promise<{ error?: string }>;
@@ -28,7 +27,6 @@ type Props = {
 
 export function AdminStoryForm({
   story,
-  creators,
   organisations,
   createAction,
   updateAction,
@@ -117,22 +115,6 @@ export function AdminStoryForm({
       </div>
       <div className={adminGrid2Class}>
         <div>
-          <label className={adminLabelClass}>Creator</label>
-          <select
-            name="creator_id"
-            defaultValue={story?.creator_id ?? ""}
-            className={adminSelectClass}
-          >
-            <option value="">— None —</option>
-            {creators.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name || c.id}
-                {c.is_anonymous ? " (anonymous)" : ""}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
           <label className={adminLabelClass}>Organisation</label>
           <select
             name="organisation_id"
@@ -146,6 +128,16 @@ export function AdminStoryForm({
               </option>
             ))}
           </select>
+        </div>
+        <div className="flex items-end pb-2">
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              name="is_anonymous"
+              defaultChecked={story?.is_anonymous}
+            />
+            Anonymous (hidden from public /stories listing)
+          </label>
         </div>
       </div>
       <AdminImageField

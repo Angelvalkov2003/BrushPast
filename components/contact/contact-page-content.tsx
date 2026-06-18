@@ -3,9 +3,6 @@ import Link from "next/link";
 import { Caveat } from "next/font/google";
 import {
   ChatBubbleLeftRightIcon,
-  HeartIcon,
-  PaintBrushIcon,
-  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import {
   CONTACT_CONNECT_CARDS,
@@ -22,13 +19,6 @@ import {
 import { ContactForm } from "./contact-form";
 
 const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-
-const CARD_ICONS = {
-  brush: PaintBrushIcon,
-  person: UserGroupIcon,
-  handshake: UserGroupIcon,
-  heart: HeartIcon,
-};
 
 export function ContactPageContent() {
   return (
@@ -98,35 +88,47 @@ export function ContactPageContent() {
         </div>
       </section>
 
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <h2 className="text-center text-2xl font-bold uppercase tracking-[0.15em] text-bp-text md:text-3xl">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
+            Get involved
+          </p>
+          <h2 className="mt-3 text-center text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
             How you can connect
           </h2>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {CONTACT_CONNECT_CARDS.map((card) => {
-              const Icon = CARD_ICONS[card.icon];
-              return (
-                <Link
-                  key={card.title}
-                  href={card.href}
-                  className={`group flex flex-col rounded-sm p-6 ${card.color}`}
-                >
-                  <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border-2 border-bp-text/20 bg-bp-canvas/80">
-                    <Icon className="h-6 w-6 text-bp-text" strokeWidth={1.25} />
-                  </div>
-                  <h3 className="text-center text-sm font-bold uppercase tracking-wide text-bp-text">
+          <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
+            {CONTACT_CONNECT_CARDS.map((card) => (
+              <Link
+                key={card.title}
+                href={card.href}
+                className="group flex flex-col border border-bp-text/10 bg-bp-canvas transition-colors hover:border-bp-accent/35"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
+                  <Image
+                    src={card.image}
+                    alt=""
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bp-text/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    aria-hidden
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="text-xl font-bold uppercase tracking-wide text-bp-text">
                     {card.title}
                   </h3>
-                  <p className="mt-3 flex-1 text-center text-xs leading-relaxed text-bp-text/75">
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-bp-text/75">
                     {card.description}
                   </p>
-                  <p className="mt-6 text-center text-[10px] font-bold uppercase tracking-[0.15em] text-bp-text group-hover:text-bp-accent">
+                  <p className="mt-6 text-xs font-bold uppercase tracking-[0.15em] text-bp-text transition-colors group-hover:text-bp-accent">
                     {card.cta} →
                   </p>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
