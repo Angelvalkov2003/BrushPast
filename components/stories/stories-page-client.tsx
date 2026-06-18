@@ -100,7 +100,7 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
                 key={story.id}
                 story={story}
                 compact={compactGrid}
-                layout={layoutForStory(story, index, Boolean(storyCardImageUrl(story)))}
+                layout={layoutForStory(index, Boolean(storyCardImageUrl(story)))}
               />
             ))}
           </div>

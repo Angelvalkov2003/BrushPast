@@ -31,7 +31,8 @@ const STORY_IMAGE_FALLBACKS: Record<string, string> = {
 };
 
 export function storyCardImageUrl(story: PublicStory): string | undefined {
-  return displayImageUrl(story.image_url) ?? STORY_IMAGE_FALLBACKS[story.slug];
+  const slug = story.slug?.trim();
+  return displayImageUrl(story.image_url) ?? (slug ? STORY_IMAGE_FALLBACKS[slug] : undefined);
 }
 
 export function storyDisplayName(story: PublicStory): string {
