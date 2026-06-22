@@ -1,6 +1,5 @@
 "use client";
 
-import { TEXTURE_IMAGES } from "components/shared/texture-section";
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { NEWSLETTER_SOURCE_ABOUT } from "lib/newsletter-config";
@@ -13,11 +12,11 @@ export function AboutNewsletter() {
       className="relative overflow-hidden border-b border-bp-text/10 bg-bp-dark text-bp-canvas"
     >
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-30"
-        style={{ backgroundImage: `url(${TEXTURE_IMAGES.secondary})` }}
+        className="absolute inset-0 bg-cover bg-center opacity-40"
+        style={{ backgroundImage: "url(/home-hero.png)" }}
         aria-hidden
       />
-      <div className="absolute inset-0 bg-bp-dark/82" aria-hidden />
+      <div className="absolute inset-0 bg-bp-dark/75" aria-hidden />
 
       <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-10 md:py-20">
         <div className="max-w-xl">
