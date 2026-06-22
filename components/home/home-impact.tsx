@@ -1,5 +1,5 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
-import { Reveal } from "components/shared/reveal";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { PROFIT_REINVESTMENT } from "lib/site-config";
 import { HOME_IMPACT_PILLARS } from "lib/home-config";
 import { IndexCard } from "./home-decor";
@@ -27,7 +27,7 @@ export function HomeImpact() {
             <ul className="mt-8 grid gap-4 sm:grid-cols-3">
               {HOME_IMPACT_PILLARS.map((item, i) => (
                 <li key={item.title}>
-                  <Reveal delay={i * 70}>
+                  <Reveal delay={i * REVEAL_STAGGER_MS}>
                     <div className="border border-dashed border-bp-text/15 bg-bp-canvas/60 px-4 py-5 text-center">
                       <span className={`${homeHandClass} text-xl text-bp-text`}>{item.title}</span>
                     </div>
@@ -38,7 +38,7 @@ export function HomeImpact() {
           </IndexCard>
         </Reveal>
 
-        <Reveal delay={120}>
+        <Reveal delay={REVEAL_STAGGER_MS + 40}>
           <div className="flex flex-col justify-center lg:pt-6">
             <p
               className={`${homeHandClass} text-center text-[clamp(2rem,5vw,3rem)] leading-snug text-bp-text lg:text-right`}

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
+import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -126,7 +127,7 @@ export async function MaimounaPage() {
       </div>
 
       {/* Hero */}
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
@@ -179,10 +180,10 @@ export async function MaimounaPage() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Lyrics */}
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-10 md:py-14">
           <p
             className={`${lora.className} mx-auto max-w-2xl text-center text-xl text-bp-text/75 md:text-2xl`}
@@ -202,10 +203,10 @@ export async function MaimounaPage() {
             />
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* Footnote + closing */}
-      <section className="border-b border-bp-text/10 bg-bp-surface/50 px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-surface/50 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-2 lg:gap-10">
           <div className="border border-bp-text/12 bg-bp-canvas p-8 md:p-10">
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent">
@@ -223,10 +224,10 @@ export async function MaimounaPage() {
             </p>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {products.length > 0 ? (
-        <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+        <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               From this story
@@ -242,7 +243,7 @@ export async function MaimounaPage() {
               ))}
             </ul>
           </div>
-        </section>
+        </RevealSection>
       ) : null}
 
       <Footer />

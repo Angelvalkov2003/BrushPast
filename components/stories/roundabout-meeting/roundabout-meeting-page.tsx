@@ -8,6 +8,7 @@ import {
   TagIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -66,7 +67,7 @@ export async function RoundaboutMeetingPage() {
       </div>
 
       {/* Hero */}
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-4 py-12 md:px-10 md:py-16 lg:py-20">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
@@ -106,10 +107,10 @@ export async function RoundaboutMeetingPage() {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Bio */}
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div className="border border-bp-text/10 bg-bp-canvas p-6 shadow-sm md:p-8">
             <p className={`${caveat.className} text-xl leading-snug md:text-2xl`}>
@@ -130,14 +131,14 @@ export async function RoundaboutMeetingPage() {
             </p>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {artwork.length > 0 ? (
         <StoryArtworkCarousel images={artwork} title={COPY.artworkTitle} />
       ) : null}
 
       {/* In his words */}
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
@@ -165,10 +166,10 @@ export async function RoundaboutMeetingPage() {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Products */}
-      <section className="px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
             From this story
@@ -193,7 +194,7 @@ export async function RoundaboutMeetingPage() {
             </p>
           )}
         </div>
-      </section>
+      </RevealSection>
 
       <Footer />
     </div>

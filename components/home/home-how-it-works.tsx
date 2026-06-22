@@ -4,7 +4,7 @@ import {
   HeartIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
-import { Reveal } from "components/shared/reveal";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { HOME_HOW_IT_WORKS } from "lib/home-config";
 import { HomeSectionTitle, IndexCard } from "./home-decor";
 import { homeHandClass } from "./home-typography";
@@ -32,7 +32,7 @@ export function HomeHowItWorks() {
 
             return (
               <li key={step.title}>
-                <Reveal delay={i * 70}>
+                <Reveal delay={i * REVEAL_STAGGER_MS}>
                   <IndexCard className="flex h-full flex-col items-center text-center">
                     <span className={`${homeHandClass} text-3xl font-bold text-bp-accent`}>
                       {stepNum}

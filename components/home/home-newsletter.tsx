@@ -1,6 +1,6 @@
 "use client";
 
-import { Reveal } from "components/shared/reveal";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import { NEWSLETTER_SOURCE_HOME } from "lib/newsletter-config";
 import { homeHandClass, homeSerifClass } from "./home-typography";
@@ -35,7 +35,7 @@ export function HomeNewsletter() {
             />
           </div>
         </Reveal>
-        <Reveal delay={100}>
+        <Reveal delay={REVEAL_STAGGER_MS}>
           <p
             className={`${homeHandClass} text-center text-[clamp(1.75rem,4vw,2.75rem)] leading-snug text-bp-canvas md:text-right`}
           >

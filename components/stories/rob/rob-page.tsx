@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
+import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -117,7 +118,7 @@ export async function RobPage() {
         </div>
       </div>
 
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-bp-accent">
@@ -156,9 +157,9 @@ export async function RobPage() {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-10 md:py-12">
           <p
             className={`${lora.className} text-center text-2xl text-bp-text/80 md:text-3xl`}
@@ -186,9 +187,9 @@ export async function RobPage() {
             );
           })}
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="relative overflow-hidden border-b border-bp-text/10 bg-bp-surface/30">
+      <RevealSection className="relative overflow-hidden border-b border-bp-text/10 bg-bp-surface/30">
         <div className="mx-auto max-w-[1400px] px-4 py-12 md:px-10 md:py-16">
           <h2 className="text-center text-[clamp(2rem,6vw,3.5rem)] font-black uppercase tracking-tight">
             {COPY.storyHeading}
@@ -230,9 +231,9 @@ export async function RobPage() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-3 lg:gap-8">
           <div className="flex flex-col border border-bp-text/15 bg-bp-canvas">
             <div className="bg-bp-text px-4 py-3">
@@ -265,10 +266,10 @@ export async function RobPage() {
             </p>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {products.length > 0 ? (
-        <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+        <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               From this story
@@ -284,7 +285,7 @@ export async function RobPage() {
               ))}
             </ul>
           </div>
-        </section>
+        </RevealSection>
       ) : null}
 
       <Footer />

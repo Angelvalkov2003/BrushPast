@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Reveal } from "components/shared/reveal";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { HOME_SHOP_WAYS } from "lib/home-config";
@@ -36,7 +36,7 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
         </Reveal>
         <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
           {ways.map((way, index) => (
-            <Reveal key={way.href + way.title} variant="fade-scale" delay={index * 80}>
+            <Reveal key={way.href + way.title} variant="fade-scale" delay={index * REVEAL_STAGGER_MS}>
               <Link
                 href={way.href}
                 className="group block focus-visible:outline-offset-4"

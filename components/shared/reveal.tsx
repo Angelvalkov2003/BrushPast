@@ -5,6 +5,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export type RevealVariant = "fade-up" | "fade-scale";
 
+export const REVEAL_STAGGER_MS = 130;
+
 type RevealProps = {
   children: ReactNode;
   className?: string;
@@ -53,7 +55,7 @@ export function Reveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" },
     );
 
     observer.observe(el);

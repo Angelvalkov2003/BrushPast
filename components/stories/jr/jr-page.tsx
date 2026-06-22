@@ -7,6 +7,7 @@ import {
   MapPinIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -128,7 +129,7 @@ export async function JrPage() {
       </div>
 
       {/* Hero */}
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
@@ -177,10 +178,10 @@ export async function JrPage() {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Three columns + gallery */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 xl:grid-cols-[1.6fr_1fr]">
           <div className="grid gap-0 md:grid-cols-3">
             <div className="border-b border-dashed border-bp-text/20 px-4 py-6 md:border-b-0 md:border-r md:py-0 md:pr-6">
@@ -246,10 +247,10 @@ export async function JrPage() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Fragments + portrait */}
-      <section className="relative overflow-hidden border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="relative overflow-hidden border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div
           className="pointer-events-none absolute right-[8%] top-[12%] h-24 w-24 rounded-full bg-bp-accent/10 blur-2xl"
           aria-hidden
@@ -291,10 +292,10 @@ export async function JrPage() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Closing quote */}
-      <section className="relative overflow-hidden border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="relative overflow-hidden border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div
           className="pointer-events-none absolute inset-x-0 top-1/2 h-24 -translate-y-1/2 bg-[#e8dfd0] opacity-80 [clip-path:polygon(0_35%,3%_28%,8%_40%,14%_25%,22%_38%,30%_22%,40%_36%,50%_20%,60%_34%,70%_24%,78%_38%,86%_26%,94%_36%,100%_30%,100%_70%,0_68%)]"
           aria-hidden
@@ -316,10 +317,10 @@ export async function JrPage() {
             <span className="h-4 w-4 rounded-full bg-yellow-600/50" />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {products.length > 0 ? (
-        <section className="px-4 py-14 md:px-10 md:py-20">
+        <RevealSection className="px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               From this story
@@ -335,7 +336,7 @@ export async function JrPage() {
               ))}
             </ul>
           </div>
-        </section>
+        </RevealSection>
       ) : null}
 
       <Footer />

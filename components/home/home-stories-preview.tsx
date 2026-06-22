@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Reveal } from "components/shared/reveal";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import type { PublicStory } from "lib/supabase/stories";
 import { HomeSectionTitle } from "./home-decor";
 import { homeHandClass } from "./home-typography";
@@ -37,7 +37,7 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
         ) : (
           <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
             {featured.map((story, index) => (
-              <Reveal key={story.id} variant="fade-scale" delay={index * 80}>
+              <Reveal key={story.id} variant="fade-scale" delay={index * REVEAL_STAGGER_MS}>
                 <HomeStoryTeaser story={story} index={index} />
               </Reveal>
             ))}

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { HomeCta, IndexCard, PolaroidFrame } from "components/home/home-decor";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { RevealSection } from "components/shared/reveal-section";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { displayImageUrl } from "lib/image-url";
 import {
   formatJournalDate,
@@ -29,26 +31,28 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
             Back to Journal
           </Link>
 
-          <p className={`${homeHandClass} mt-8 text-xl text-bp-accent`}>
-            {formatJournalDate(post.created_at)}
-          </p>
-          <h1
-            className={`${homeHandClass} mt-2 max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] text-bp-text`}
-          >
-            {post.title}
-          </h1>
-          {post.description ? (
-            <p
-              className={`${homeSerifClass} mt-6 max-w-3xl text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
-            >
-              {post.description}
+          <Reveal>
+            <p className={`${homeHandClass} mt-8 text-xl text-bp-accent`}>
+              {formatJournalDate(post.created_at)}
             </p>
-          ) : null}
+            <h1
+              className={`${homeHandClass} mt-2 max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] text-bp-text`}
+            >
+              {post.title}
+            </h1>
+            {post.description ? (
+              <p
+                className={`${homeSerifClass} mt-6 max-w-3xl text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
+              >
+                {post.description}
+              </p>
+            ) : null}
+          </Reveal>
         </div>
       </TextureSection>
 
       {hero ? (
-        <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-10 md:px-10 md:py-14">
+        <RevealSection variant="fade-scale" className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-10 md:px-10 md:py-14">
           <PolaroidFrame index={0} className="mx-auto max-w-3xl">
             <div className="relative aspect-[16/10] overflow-hidden bg-bp-surface">
               <Image
@@ -61,10 +65,10 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
               />
             </div>
           </PolaroidFrame>
-        </section>
+        </RevealSection>
       ) : null}
 
-      <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-3xl">
           <IndexCard>
             <div className={`${homeSerifClass} space-y-6 text-base leading-relaxed text-bp-text/85 md:text-lg`}>
@@ -78,35 +82,41 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
 
           {gallery.length > 0 ? (
             <div className="mt-14">
-              <p className={`${homeHandClass} text-center text-2xl text-bp-accent`}>Gallery</p>
+              <Reveal>
+                <p className={`${homeHandClass} text-center text-2xl text-bp-accent`}>Gallery</p>
+              </Reveal>
               <div className="mt-8 grid gap-8 sm:grid-cols-2">
                 {gallery.map((url, index) => (
-                  <PolaroidFrame key={url} index={index + 1}>
-                    <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface">
-                      <Image
-                        src={url}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    </div>
-                  </PolaroidFrame>
+                  <Reveal key={url} variant="fade-scale" delay={index * REVEAL_STAGGER_MS}>
+                    <PolaroidFrame index={index + 1}>
+                      <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface">
+                        <Image
+                          src={url}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    </PolaroidFrame>
+                  </Reveal>
                 ))}
               </div>
             </div>
           ) : null}
 
-          <div className="mt-14 flex flex-wrap justify-center gap-4 border-t border-bp-text/10 pt-12">
-            <HomeCta href="/journal" variant="outline">
-              ← All journal entries
-            </HomeCta>
-            <HomeCta href="/shop" variant="primary">
-              Visit the shop →
-            </HomeCta>
-          </div>
+          <Reveal delay={REVEAL_STAGGER_MS}>
+            <div className="mt-14 flex flex-wrap justify-center gap-4 border-t border-bp-text/10 pt-12">
+              <HomeCta href="/journal" variant="outline">
+                ← All journal entries
+              </HomeCta>
+              <HomeCta href="/shop" variant="primary">
+                Visit the shop →
+              </HomeCta>
+            </div>
+          </Reveal>
         </div>
-      </section>
+      </RevealSection>
     </article>
   );
 }

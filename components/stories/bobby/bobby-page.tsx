@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
+import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -66,7 +67,7 @@ export async function BobbyPage() {
       </div>
 
       {/* Hero */}
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Story</p>
@@ -94,10 +95,10 @@ export async function BobbyPage() {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Intro */}
-      <section id="story-body" className="scroll-mt-24 border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection id="story-body" className="scroll-mt-24 border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div>
             <p className={`${caveat.className} text-[1.65rem] leading-snug text-bp-text md:text-[1.9rem]`}>
@@ -119,10 +120,10 @@ export async function BobbyPage() {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* In his words */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-start">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">In his words</p>
@@ -137,10 +138,10 @@ export async function BobbyPage() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* Fragments + support */}
-      <section className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
           <h2 className={`${caveat.className} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent`}>
             {COPY.fragments.title}
@@ -171,10 +172,10 @@ export async function BobbyPage() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* CTA */}
-      <section className="border-b border-bp-text/10 bg-bp-canvas/80">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-canvas/80">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-10 md:py-12">
           <div className="flex items-start gap-4">
             <UserGroupIcon className="h-9 w-9 shrink-0 text-bp-accent/80" strokeWidth={1.2} />
@@ -192,10 +193,10 @@ export async function BobbyPage() {
             {COPY.cta.button}
           </Link>
         </div>
-      </section>
+      </RevealSection>
 
       {products.length > 0 ? (
-        <section className="px-4 py-14 md:px-10 md:py-20">
+        <RevealSection className="px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">From this story</p>
             <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide md:text-3xl">Take a piece home</h2>
@@ -207,7 +208,7 @@ export async function BobbyPage() {
               ))}
             </ul>
           </div>
-        </section>
+        </RevealSection>
       ) : null}
 
       <Footer />

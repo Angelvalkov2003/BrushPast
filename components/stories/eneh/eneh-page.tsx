@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat, Lora } from "next/font/google";
+import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
@@ -74,7 +75,7 @@ export async function EnehPage() {
         </div>
       </div>
 
-      <section className="border-b border-bp-text/10">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
@@ -109,9 +110,9 @@ export async function EnehPage() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
             {COPY.photos.map((photo, i) => (
@@ -119,9 +120,9 @@ export async function EnehPage() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto flex max-w-[1400px] justify-center">
           <p
             className={`${caveat.className} max-w-2xl text-center text-[1.75rem] leading-snug text-bp-text md:text-[2rem]`}
@@ -129,10 +130,10 @@ export async function EnehPage() {
             <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
           </p>
         </div>
-      </section>
+      </RevealSection>
 
       {products.length > 0 ? (
-        <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+        <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               From this story
@@ -148,7 +149,7 @@ export async function EnehPage() {
               ))}
             </ul>
           </div>
-        </section>
+        </RevealSection>
       ) : null}
 
       <Footer />

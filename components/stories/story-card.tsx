@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
+import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { IndexCard, PolaroidFrame } from "components/home/home-decor";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import type { PublicStory } from "lib/supabase/stories";
@@ -195,13 +196,23 @@ export function StoryCard({ story, layout, compact = false, index = 0 }: Props) 
     />
   );
 
+  const variant =
+    layout === "text-accent" || layout === "text-dark" ? "fade-up" : "fade-scale";
+  const revealDelay = (index % 6) * REVEAL_STAGGER_MS;
+
   if (!href) {
-    return <div className={wrapClass}>{inner}</div>;
+    return (
+      <Reveal variant={variant} delay={revealDelay} className={wrapClass}>
+        {inner}
+      </Reveal>
+    );
   }
 
   return (
-    <Link href={href} className={clsx(wrapClass, "focus-visible:outline-offset-4")}>
-      {inner}
-    </Link>
+    <Reveal variant={variant} delay={revealDelay} className={wrapClass}>
+      <Link href={href} className="block h-full focus-visible:outline-offset-4">
+        {inner}
+      </Link>
+    </Reveal>
   );
 }
