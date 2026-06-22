@@ -7,7 +7,7 @@ import {
   type StoryFilterId,
   layoutForStory,
 } from "lib/stories-config";
-import { storyCardImageUrl } from "lib/story-display";
+import { hasStoryCardImage } from "lib/story-display";
 import { homeHandClass } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 import { StoryCard } from "./story-card";
@@ -102,7 +102,7 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
                   story={story}
                   compact={compactGrid}
                   index={index}
-                  layout={layoutForStory(index, Boolean(storyCardImageUrl(story)))}
+                  layout={layoutForStory(index, hasStoryCardImage(story))}
                 />
               ))}
             </div>

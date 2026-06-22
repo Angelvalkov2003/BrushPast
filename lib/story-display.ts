@@ -35,6 +35,10 @@ export function storyCardImageUrl(story: PublicStory): string | undefined {
   return displayImageUrl(story.image_url) ?? (slug ? STORY_IMAGE_FALLBACKS[slug] : undefined);
 }
 
+export function hasStoryCardImage(story: PublicStory): boolean {
+  return storyCardImageUrl(story) !== undefined;
+}
+
 export function storyDisplayName(story: PublicStory): string {
   if (story.creator_is_anonymous) return "Anonymous";
   return story.title || story.creator_name || "Story";
