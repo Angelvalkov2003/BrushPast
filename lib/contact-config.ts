@@ -6,12 +6,14 @@ export const CONTACT_HERO_IMAGE = {
 } as const;
 
 export const CONTACT_SUBJECTS = [
-  { value: "general", label: "General enquiry" },
-  { value: "collaborate", label: "Collaboration" },
-  { value: "workshop", label: "Workshops" },
-  { value: "support", label: "Support the work" },
-  { value: "story", label: "Share a story" },
+  { value: "general", label: "General enquiry", hint: "Questions, hello, or anything else" },
+  { value: "collaborate", label: "Collaboration", hint: "Partnerships, venues and programmes" },
+  { value: "workshop", label: "Workshops", hint: "Join or host a creative session" },
+  { value: "support", label: "Support the work", hint: "Shop, donations and sponsorship" },
+  { value: "story", label: "Share a story", hint: "Art, writing, photography and voice" },
 ] as const;
+
+export type ContactSubjectValue = (typeof CONTACT_SUBJECTS)[number]["value"];
 
 export const CONTACT_CONNECT_CARDS = [
   {

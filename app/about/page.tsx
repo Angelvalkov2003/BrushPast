@@ -1,5 +1,6 @@
 import Footer from "components/layout/footer";
 import { AboutPageContent } from "components/about/about-page-content";
+import { homeHand, homeSerif } from "components/home/home-typography";
 
 export const metadata = {
   title: "About",
@@ -9,7 +10,9 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <div
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+    >
       <AboutPageContent />
       <Footer />
     </div>

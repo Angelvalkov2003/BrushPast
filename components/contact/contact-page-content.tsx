@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat } from "next/font/google";
 import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
@@ -16,200 +15,246 @@ import {
   LINKEDIN_URL,
   PUBLIC_CONTACT_EMAIL,
 } from "lib/site-config";
+import {
+  HomeCta,
+  HomeSectionTitle,
+  IndexCard,
+  PolaroidFrame,
+} from "components/home/home-decor";
+import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { TEXTURE_IMAGES, TextureSection } from "components/shared/texture-section";
 import { ContactForm } from "./contact-form";
-
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
 export function ContactPageContent() {
   return (
     <>
-      <section className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[2fr_3fr] lg:items-start">
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
+        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Get in touch</p>
-            <h1 className="mt-3 text-[clamp(2rem,5vw,3.75rem)] font-bold uppercase leading-tight tracking-tight text-bp-text">
+            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              Get in touch
+            </p>
+            <h1
+              className={`${homeHandClass} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
+            >
               Let&apos;s start a conversation.
             </h1>
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-bp-text/80">
+            <p
+              className={`${homeSerifClass} mt-6 max-w-lg text-lg leading-relaxed text-bp-text/85 md:text-xl`}
+            >
               Whether you want to share a story, collaborate, join a workshop, or simply say hello —
               we&apos;d love to hear from you. Brush Past is a creative movement for second chances,
               built in public with real people and real spaces.
             </p>
+            <p className={`${homeHandClass} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
+              ☕ No perfect pitch needed — just say hello.
+            </p>
           </div>
-          <div className="relative h-[clamp(22rem,58vw,36rem)] w-full overflow-hidden rounded-sm bg-bp-surface lg:h-[clamp(24rem,42vw,38rem)]">
-            <Image
-              src={CONTACT_HERO_IMAGE.src}
-              alt={CONTACT_HERO_IMAGE.alt}
-              fill
-              className="object-cover [mask-image:linear-gradient(to_right,transparent_0%,black_18%)]"
-              style={{ objectPosition: "50% 42%" }}
-              priority
-              sizes="(max-width: 1024px) 100vw, 60vw"
-            />
-          </div>
-        </div>
-      </section>
 
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+          <PolaroidFrame index={0} className="mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
+              <Image
+                src={CONTACT_HERO_IMAGE.src}
+                alt={CONTACT_HERO_IMAGE.alt}
+                fill
+                className="object-cover"
+                style={{ objectPosition: "50% 42%" }}
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75`}>
+              Real people, real spaces
+            </p>
+          </PolaroidFrame>
+        </div>
+      </TextureSection>
+
+      <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-bp-text/5 lg:aspect-auto lg:min-h-[320px]">
-            <Image
-              src="/home-hero.png"
-              alt="London Coffee Factory space"
-              fill
-              className="object-cover"
-              sizes="33vw"
-            />
-          </div>
-          <div className="lg:col-span-1">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bp-accent">Rooted in real spaces</p>
-            <h2 className="mt-2 text-2xl font-bold uppercase leading-snug text-bp-text">
+          <PolaroidFrame index={1} className="h-fit">
+            <div className="relative aspect-[4/3] overflow-hidden bg-bp-text/5 lg:aspect-auto lg:min-h-[280px]">
+              <Image
+                src="/home-hero.png"
+                alt="London Coffee Factory space"
+                fill
+                className="object-cover"
+                sizes="33vw"
+              />
+            </div>
+            <p className={`${homeHandClass} mt-3 text-center text-lg text-bp-text/70`}>
+              Peckham, London
+            </p>
+          </PolaroidFrame>
+
+          <div className="flex flex-col justify-center">
+            <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
+              Rooted in real spaces
+            </p>
+            <h2
+              className={`${homeHandClass} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
+            >
               London Coffee Factory
-              <br />
-              <span className="text-lg font-semibold normal-case text-bp-text/70">Peckham, London</span>
             </h2>
-            <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {CONTACT_SPACES_ICONS.map((label) => (
-                <li key={label} className="flex flex-col items-center text-center">
-                  <ChatBubbleLeftRightIcon className="mb-2 h-6 w-6 text-bp-text/50" strokeWidth={1.25} />
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-bp-text/70">
-                    {label}
-                  </span>
+                <li
+                  key={label}
+                  className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
+                >
+                  <ChatBubbleLeftRightIcon
+                    className="mb-2 h-5 w-5 text-bp-text/45"
+                    strokeWidth={1.5}
+                  />
+                  <span className={`${homeHandClass} text-base text-bp-text/75`}>{label}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className={`${caveat.className} flex items-center rounded-sm border border-bp-text/10 bg-bp-canvas p-6 text-xl leading-relaxed text-bp-text md:text-2xl`}>
-            <p>
+
+          <IndexCard className="flex items-center">
+            <p className={`${homeHandClass} text-2xl leading-relaxed text-bp-text md:text-3xl`}>
               We&apos;re building this in public — with honesty, creativity and care.
-              <span className="mt-4 block text-lg">— Jeremy &amp; David</span>
+              <span className={`${homeSerifClass} mt-4 block text-lg italic text-bp-text/70`}>
+                — Jeremy &amp; David
+              </span>
             </p>
-          </div>
+          </IndexCard>
         </div>
       </section>
 
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <p className="text-center text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
-            Get involved
-          </p>
-          <h2 className="mt-3 text-center text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-            How you can connect
-          </h2>
-          <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
-            {CONTACT_CONNECT_CARDS.map((card) => (
+          <HomeSectionTitle eyebrow="Get involved" title="How you can connect" />
+
+          <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+            {CONTACT_CONNECT_CARDS.map((card, index) => (
               <Link
                 key={card.title}
                 href={card.href}
-                className="group flex flex-col border border-bp-text/10 bg-bp-canvas transition-colors hover:border-bp-accent/35"
+                className="group block focus-visible:outline-offset-4"
               >
-                <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
-                  <Image
-                    src={card.image}
-                    alt=""
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bp-text/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    aria-hidden
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-xl font-bold uppercase tracking-wide text-bp-text">
+                <PolaroidFrame index={index + 2}>
+                  <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
+                    <Image
+                      src={card.image}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                  <p
+                    className={`${homeHandClass} mt-3 text-center text-2xl font-bold text-bp-text`}
+                  >
                     {card.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-bp-text/75">
-                    {card.description}
                   </p>
-                  <p className="mt-6 text-xs font-bold uppercase tracking-[0.15em] text-bp-text transition-colors group-hover:text-bp-accent">
-                    {card.cta} →
-                  </p>
-                </div>
+                </PolaroidFrame>
+                <p
+                  className={`${homeSerifClass} mt-4 text-center text-sm leading-relaxed text-bp-text/75`}
+                >
+                  {card.description}
+                </p>
+                <p
+                  className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
+                >
+                  {card.cta} →
+                </p>
               </Link>
             ))}
           </div>
         </div>
-      </section>
+      </TextureSection>
 
-      <section className="px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2">
+      <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-14 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="space-y-8">
-            <div>
-              <h2 className="text-xl font-bold uppercase tracking-wide text-bp-text">
+            <IndexCard>
+              <h2 className={`${homeHandClass} text-3xl font-bold text-bp-text`}>
                 We&apos;re figuring this out in public
               </h2>
-              <p className="mt-4 text-sm leading-relaxed text-bp-text/80">
+              <p className={`${homeSerifClass} mt-4 text-base leading-relaxed text-bp-text/80`}>
                 Brush Past is not a finished product — it&apos;s a living creative platform. Reach out
                 with questions, ideas, partnerships or simply to introduce yourself.
               </p>
-              <p className={`${caveat.className} mt-4 text-xl text-bp-text`}>— Jeremy &amp; David</p>
-            </div>
+              <p className={`${homeHandClass} mt-4 text-xl text-bp-accent`}>— Jeremy &amp; David</p>
+            </IndexCard>
 
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-bp-text">Get in touch</h3>
-              <ul className="mt-4 space-y-4 text-sm">
+            <IndexCard>
+              <h3 className={`${homeHandClass} text-2xl text-bp-accent`}>Direct contact</h3>
+              <ul className={`${homeSerifClass} mt-5 space-y-5 text-base`}>
                 <li>
-                  <span className="font-semibold uppercase tracking-wide text-bp-text/50">Email</span>
-                  <br />
-                  <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`} className="text-bp-accent hover:underline">
+                  <span className={`${homeHandClass} block text-lg text-bp-text`}>Email</span>
+                  <a
+                    href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
+                    className="text-bp-accent hover:underline"
+                  >
                     {PUBLIC_CONTACT_EMAIL}
                   </a>
                 </li>
                 <li>
-                  <span className="font-semibold uppercase tracking-wide text-bp-text/50">Phone</span>
-                  <br />
-                  <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:underline">
+                  <span className={`${homeHandClass} block text-lg text-bp-text`}>Phone</span>
+                  <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-bp-accent hover:underline">
                     {CONTACT_PHONE}
                   </a>
                 </li>
                 <li>
-                  <span className="font-semibold uppercase tracking-wide text-bp-text/50">Social</span>
-                  <br />
-                  <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-bp-accent">
+                  <span className={`${homeHandClass} block text-lg text-bp-text`}>Social</span>
+                  <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-bp-accent"
+                  >
                     Instagram
                   </a>
                   {" · "}
-                  <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-bp-accent">
+                  <a
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-bp-accent"
+                  >
                     LinkedIn
                   </a>
                 </li>
               </ul>
-              <p className={`${caveat.className} mt-4 text-lg text-bp-text/80`}>
+              <p className={`${homeHandClass} mt-5 text-lg text-bp-text/75`}>
                 Follow the journey as it unfolds →
               </p>
-            </div>
+            </IndexCard>
           </div>
+
           <ContactForm />
         </div>
       </section>
 
-      <section className="border-t border-bp-text/10 bg-bp-surface px-4 py-10 md:px-10">
-        <div className="mx-auto max-w-[1400px] text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.12em] text-bp-text md:text-base">
+      <section className="relative overflow-hidden border-t border-bp-text/10 bg-bp-dark px-4 py-14 text-bp-canvas md:px-10 md:py-16">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: `url(${TEXTURE_IMAGES.secondary})` }}
+          aria-hidden
+        />
+        <div className="absolute inset-0 bg-bp-dark/80" aria-hidden />
+
+        <div className="relative mx-auto max-w-[1400px] text-center">
+          <p className={`${homeHandClass} text-2xl leading-snug md:text-3xl`}>
             You don&apos;t need to have it all figured out to get in touch.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a
-              href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
-              className="inline-flex border-2 border-bp-text px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] text-bp-text hover:bg-bp-text hover:text-bp-canvas"
-            >
-              Email us
-            </a>
-            <Link
-              href="#contact-form"
-              className="inline-flex border-2 border-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] text-bp-accent hover:bg-bp-accent hover:text-bp-canvas"
-            >
-              Send a message
-            </Link>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <HomeCta href={`mailto:${PUBLIC_CONTACT_EMAIL}`} variant="outline">
+              Email us →
+            </HomeCta>
+            <HomeCta href="#contact-form" variant="primary">
+              Send a message →
+            </HomeCta>
             <a
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex bg-bp-text px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] text-bp-canvas hover:opacity-90"
+              className={`${homeHandClass} inline-flex items-center px-7 py-3 text-lg font-bold text-bp-canvas/85 underline decoration-bp-accent/60 underline-offset-4 transition-colors hover:text-bp-accent`}
             >
-              Follow the journey
+              Follow the journey →
             </a>
           </div>
         </div>

@@ -3,6 +3,8 @@ import { CategoryRow } from "components/shop/category-row";
 import { KettleGalleryAnnounce } from "components/shop/kettle-gallery-announce";
 import { ShopHero } from "components/shop/shop-hero";
 import { ShopValuesBar } from "components/shop/shop-values-bar";
+import { homeHand, homeSerif, homeHandClass } from "components/home/home-typography";
+import { TextureSection } from "components/shared/texture-section";
 import { getShopCategories } from "lib/supabase/categories";
 
 export const metadata = {
@@ -16,19 +18,23 @@ export default async function ShopPage() {
   const categories = await getShopCategories();
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <div
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+    >
       <ShopHero />
-      <section id="categories" className="mx-auto max-w-[1400px] px-4 md:px-10">
-        {categories.length === 0 ? (
-          <p className="py-20 text-center text-bp-text/60">
-            Categories coming soon. Add them in the admin panel.
-          </p>
-        ) : (
-          categories.map((category, index) => (
-            <CategoryRow key={category.id} category={category} index={index} />
-          ))
-        )}
-      </section>
+      <TextureSection texture="primary" className="px-4 md:px-10">
+        <div id="categories" className="mx-auto max-w-[1400px]">
+          {categories.length === 0 ? (
+            <p className={`${homeHandClass} py-20 text-center text-2xl text-bp-text/50`}>
+              Categories coming soon. Add them in the admin panel.
+            </p>
+          ) : (
+            categories.map((category, index) => (
+              <CategoryRow key={category.id} category={category} index={index} />
+            ))
+          )}
+        </div>
+      </TextureSection>
       <KettleGalleryAnnounce />
       <ShopValuesBar />
       <Footer />

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PolaroidFrame } from "components/home/home-decor";
+import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import {
   formatJournalDate,
@@ -7,47 +9,64 @@ import {
   type PublicJournalPost,
 } from "lib/supabase/journal";
 
-export function JournalPostCard({ post }: { post: PublicJournalPost }) {
+export function JournalPostCard({
+  post,
+  index = 0,
+}: {
+  post: PublicJournalPost;
+  index?: number;
+}) {
   const href = journalPostHref(post.slug);
   const image = displayImageUrl(post.main_image_url);
 
   const inner = (
-    <article className="group flex h-full flex-col overflow-hidden border border-bp-text/10 bg-bp-canvas">
-      <div className="relative aspect-[16/10] overflow-hidden bg-bp-surface">
-        {image ? (
-          <Image
-            src={image}
-            alt=""
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-xs uppercase tracking-widest text-bp-text/30">
-            Journal
-          </div>
-        )}
-      </div>
-      <div className="flex flex-1 flex-col p-6 md:p-8">
-        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-bp-accent">
-          {formatJournalDate(post.created_at)}
-        </p>
-        <h2 className="mt-3 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl">
+  <>
+      <PolaroidFrame index={index + 1} className="group-hover:rotate-0">
+        <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
+          {image ? (
+            <Image
+              src={image}
+              alt=""
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          ) : (
+            <div
+              className={`${homeHandClass} flex h-full items-center justify-center text-xl text-bp-text/35`}
+            >
+              Journal
+            </div>
+          )}
+        </div>
+        <p className={`${homeHandClass} mt-3 text-center text-2xl font-bold text-bp-text`}>
           {post.title || "Untitled"}
-        </h2>
-        {post.description ? (
-          <p className="mt-3 flex-1 text-sm leading-relaxed text-bp-text/75">{post.description}</p>
-        ) : null}
-        <p className="mt-6 text-xs font-bold uppercase tracking-[0.15em] text-bp-text group-hover:text-bp-accent">
-          Read more →
         </p>
-      </div>
-    </article>
+      </PolaroidFrame>
+      <p className={`${homeHandClass} mt-4 text-center text-base text-bp-accent`}>
+        {formatJournalDate(post.created_at)}
+      </p>
+      {post.description ? (
+        <p
+          className={`${homeSerifClass} mt-3 text-center text-sm leading-relaxed text-bp-text/75`}
+        >
+          {post.description}
+        </p>
+      ) : null}
+      <p
+        className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
+      >
+        Read more →
+      </p>
+    </>
   );
 
-  if (!href) return inner;
+  if (!href) {
+    return <article className="group">{inner}</article>;
+  }
+
   return (
-    <Link href={href} className="block h-full focus-visible:outline-offset-4">
+    <Link href={href} className="group block h-full focus-visible:outline-offset-4">
       {inner}
     </Link>
   );

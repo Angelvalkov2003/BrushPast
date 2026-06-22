@@ -12,7 +12,7 @@ export function StoriesGridToggle({ compact, onChange }: Props) {
     <button
       type="button"
       onClick={() => onChange(!compact)}
-      className="flex h-[38px] w-[38px] items-center justify-center border border-bp-text/20 bg-bp-surface/60 text-bp-text transition-colors hover:border-bp-accent/40 hover:text-bp-accent md:hidden"
+      className="flex h-[42px] w-[42px] items-center justify-center border border-bp-text/20 bg-bp-canvas/60 text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.04)] transition-colors hover:border-bp-accent/40 hover:text-bp-accent md:hidden"
       aria-pressed={compact}
       aria-label={compact ? "Show full story cards" : "Show compact grid"}
       title={compact ? "Full cards" : "Compact grid"}

@@ -76,7 +76,8 @@ export function Gallery({
 
   return (
     <div>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden rounded-sm bg-bp-surface/80">
+      <div className="relative border border-bp-text/10 bg-[#faf6f0] p-2.5 shadow-[4px_5px_0_rgba(1,2,0,0.14)]">
+        <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden bg-bp-surface/80">
         {/* Main image with fade transition */}
         <div className="relative h-full w-full">
           {images.map((image, index) => (
@@ -122,6 +123,7 @@ export function Gallery({
             </div>
           </div>
         ) : null}
+        </div>
       </div>
 
       {images.length > 1 ? (

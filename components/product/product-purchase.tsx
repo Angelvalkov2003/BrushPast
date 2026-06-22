@@ -5,6 +5,7 @@ import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { addItem } from "components/cart/actions";
 import Price from "components/price";
+import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { enrichVariants, formatVariantLabel, optionsFromVariant } from "lib/product-variants";
 import type { ProductDetail, ProductVariant } from "lib/types";
 import { useActionState } from "react";
@@ -76,14 +77,14 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
       <div className="mb-6 flex items-baseline gap-3">
         <Price
           amount={variant.price.toString()}
-          className="text-3xl font-bold tracking-tight text-bp-text"
+          className={`${homeHandClass} text-4xl font-bold text-bp-text`}
         />
         {variant.inventory != null && variant.inventory > 0 ? (
-          <span className="text-xs font-semibold uppercase tracking-[0.15em] text-bp-accent">
+          <span className={`${homeHandClass} text-base text-bp-accent`}>
             {variant.inventory} left
           </span>
         ) : product.inventoryType === "limited" && product.inventoryQuantity != null ? (
-          <span className="text-xs font-semibold uppercase tracking-[0.15em] text-bp-accent">
+          <span className={`${homeHandClass} text-base text-bp-accent`}>
             {product.inventoryQuantity} left
           </span>
         ) : null}
@@ -97,7 +98,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
             onVariantChange={(v) => setSelectedVariantId(v.id)}
           />
           {selectedLabel ? (
-            <p className="mt-3 text-xs text-bp-text/60">
+            <p className={`${homeSerifClass} mt-3 text-sm text-bp-text/60`}>
               Selected: <span className="font-semibold text-bp-text">{selectedLabel}</span>
             </p>
           ) : null}
@@ -110,12 +111,12 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
         onClick={handleAdd}
         aria-label="Add to bag"
         className={clsx(
-          "relative flex w-full items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-[0.22em] transition-colors duration-300",
+          `${homeHandClass} relative flex w-full items-center justify-center px-8 py-4 text-lg font-bold transition-all`,
           justAdded
-            ? "animate-add-success bg-bp-text text-bp-canvas"
+            ? "animate-add-success bg-bp-text text-bp-canvas shadow-none"
             : canAdd
-              ? "bg-bp-accent text-bp-canvas hover:opacity-90 active:scale-[0.98]"
-              : "cursor-not-allowed bg-bp-accent/50 text-bp-canvas opacity-50",
+              ? "bg-bp-accent text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:scale-[0.98]"
+              : "cursor-not-allowed bg-bp-accent/50 text-bp-canvas opacity-50 shadow-none",
         )}
       >
         {justAdded ? (
@@ -126,7 +127,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
         ) : (
           <>
             <PlusIcon className="absolute left-5 h-5 w-5" aria-hidden />
-            {canAdd ? "Add to bag" : "Out of stock"}
+            {canAdd ? "Add to bag →" : "Out of stock"}
           </>
         )}
       </button>

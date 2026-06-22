@@ -1,14 +1,13 @@
 "use client";
 
-import { Caveat } from "next/font/google";
+import { Reveal } from "components/shared/reveal";
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import { NEWSLETTER_SOURCE_HOME } from "lib/newsletter-config";
-
-const caveat = Caveat({ subsets: ["latin"], weight: ["400"] });
+import { homeHandClass, homeSerifClass } from "./home-typography";
 
 export function HomeNewsletter() {
   return (
-    <section className="relative overflow-hidden bg-bp-dark text-bp-canvas">
+    <section className="relative overflow-hidden border-t border-bp-text/10 bg-bp-dark text-bp-canvas">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-40"
         style={{ backgroundImage: "url(/home-hero.png)" }}
@@ -17,20 +16,34 @@ export function HomeNewsletter() {
       <div className="absolute inset-0 bg-bp-dark/75" aria-hidden />
 
       <div className="relative mx-auto grid max-w-[1400px] gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:px-10 md:py-24">
-        <div>
-          <h2 className="text-3xl font-bold uppercase tracking-wide md:text-4xl">Join the story</h2>
-          <NewsletterSignupForm
-            source={NEWSLETTER_SOURCE_HOME}
-            buttonLabel="Join us"
-            variant="dark"
-            className="mt-8"
-          />
-        </div>
-        <p className={`${caveat.className} text-center text-2xl md:text-right md:text-3xl`}>
-          A community that listens.
-          <br />
-          A movement that acts.
-        </p>
+        <Reveal>
+          <div>
+            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              Stay in the loop
+            </p>
+            <h2 className={`${homeHandClass} mt-2 text-4xl font-bold md:text-5xl`}>
+              Join the story
+            </h2>
+            <p className={`${homeSerifClass} mt-4 max-w-md text-base italic text-bp-canvas/75`}>
+              Workshops, shop drops and moments from the journey — no spam, just the real stuff.
+            </p>
+            <NewsletterSignupForm
+              source={NEWSLETTER_SOURCE_HOME}
+              buttonLabel="Join us"
+              variant="dark"
+              className="mt-8"
+            />
+          </div>
+        </Reveal>
+        <Reveal delay={100}>
+          <p
+            className={`${homeHandClass} text-center text-[clamp(1.75rem,4vw,2.75rem)] leading-snug text-bp-canvas md:text-right`}
+          >
+            A community that listens.
+            <br />
+            A movement that acts.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

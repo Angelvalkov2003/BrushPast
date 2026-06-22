@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { AboutNewsletter } from "components/about/about-newsletter";
 import { LaunchTransparencyBanner } from "components/shared/launch-transparency-banner";
+import { TextureSection } from "components/shared/texture-section";
 import { WorkshopArchiveCard } from "components/workshops/workshop-archive-card";
 import type { PublicWorkshop } from "lib/supabase/workshops";
 import { hasWorkshopPage } from "lib/workshop-display";
@@ -71,7 +72,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
+      <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
           <div>
             <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-bold uppercase leading-[1.05] tracking-tight text-bp-text">
@@ -113,7 +114,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </div>
           </div>
         </div>
-      </section>
+      </TextureSection>
 
       <section className="border-b border-bp-text/10 px-4 py-8 md:px-10">
         <div className="mx-auto max-w-[1400px]">
@@ -132,26 +133,6 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
           </ul>
         </div>
       </section>
-
-      {archiveWorkshops.length > 0 ? (
-        <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
-          <div className="mx-auto max-w-[1400px]">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bp-text/60">
-              Workshop archive
-            </p>
-            <h2 className="mt-3 text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-              Past workshops
-            </h2>
-            <ul className="mt-10 flex flex-col gap-6">
-              {archiveWorkshops.map((workshop) => (
-                <li key={workshop.id}>
-                  <WorkshopArchiveCard workshop={workshop} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ) : null}
 
       {/* Mission three columns */}
       <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
@@ -221,6 +202,26 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
           </ul>
         </div>
       </section>
+
+      {archiveWorkshops.length > 0 ? (
+        <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+          <div className="mx-auto max-w-[1400px]">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bp-text/60">
+              Workshop archive
+            </p>
+            <h2 className="mt-3 text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
+              Past workshops
+            </h2>
+            <ul className="mt-10 flex flex-col gap-6">
+              {archiveWorkshops.map((workshop) => (
+                <li key={workshop.id}>
+                  <WorkshopArchiveCard workshop={workshop} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
       <LaunchTransparencyBanner />
 

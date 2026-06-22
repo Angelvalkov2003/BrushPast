@@ -1,9 +1,5 @@
-import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Lora } from "next/font/google";
 import {
-  ArrowRightIcon,
   HandRaisedIcon,
   HeartIcon,
   PencilSquareIcon,
@@ -19,10 +15,16 @@ import {
   ABOUT_VALUES,
 } from "lib/about-config";
 import { MISSION_SUMMARY } from "lib/site-config";
+import {
+  HomeCta,
+  HomeSectionTitle,
+  IndexCard,
+  PolaroidFrame,
+} from "components/home/home-decor";
+import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { TextureSection } from "components/shared/texture-section";
 import { AboutLaunchBanner } from "./about-launch-banner";
 import { AboutNewsletter } from "./about-newsletter";
-
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 
 const VALUE_ICONS = {
   dignity: UsersIcon,
@@ -52,175 +54,193 @@ function BrushUnderline({ children }: { children: React.ReactNode }) {
 export function AboutPageContent() {
   return (
     <>
-      {/* Hero */}
-      <section className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
+        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
-              About BrushPast
+            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              About Brush Past
             </p>
-            <h1 className="mt-3 text-[clamp(2rem,5vw,3.5rem)] font-bold uppercase leading-tight tracking-tight text-bp-text">
+            <h1
+              className={`${homeHandClass} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
+            >
               Our mission.
               <br />
               Our purpose.
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-bp-text/80 md:text-lg">
+            <p
+              className={`${homeSerifClass} mt-6 max-w-xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}
+            >
               BrushPast exists to unlock overlooked creativity in people rebuilding from
               homelessness, addiction, incarceration and life&apos;s hardest chapters. Through
               art, writing, photography and design, we help people rebuild identity, gain
               confidence and connect with community — while a social enterprise model funds the
               next opportunity.
             </p>
-            <p className="mt-6 text-lg font-bold text-bp-text">
+            <p className={`${homeHandClass} mt-8 text-2xl text-bp-text md:text-3xl`}>
               Not spoken about. <span className="text-bp-accent">But speaking.</span>
             </p>
           </div>
-          <div className="relative h-[clamp(22rem,58vw,36rem)] w-full overflow-hidden rounded-sm bg-bp-surface lg:h-[clamp(24rem,42vw,38rem)]">
-            <Image
-              src={ABOUT_HERO_IMAGE.src}
-              alt={ABOUT_HERO_IMAGE.alt}
-              fill
-              className="object-cover [mask-image:linear-gradient(to_right,transparent_0%,black_18%)]"
-              style={{ objectPosition: "50% 44%" }}
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
-        </div>
-      </section>
 
-      {/* Quote */}
+          <PolaroidFrame index={0} className="mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
+              <Image
+                src={ABOUT_HERO_IMAGE.src}
+                alt={ABOUT_HERO_IMAGE.alt}
+                fill
+                className="object-cover"
+                style={{ objectPosition: "50% 44%" }}
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75`}>
+              Jeremy &amp; David
+            </p>
+          </PolaroidFrame>
+        </div>
+      </TextureSection>
+
       <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
-          <blockquote className={`${lora.className} text-[clamp(1.75rem,4vw,2.75rem)] leading-snug text-bp-text`}>
-            &ldquo;{ABOUT_QUOTE.slice(0, ABOUT_QUOTE.indexOf("same"))}
-            <BrushUnderline>same</BrushUnderline>
-            {ABOUT_QUOTE.slice(ABOUT_QUOTE.indexOf("same") + 4)}&rdquo;
-          </blockquote>
-          <p className="text-base leading-relaxed text-bp-text/75">{ABOUT_QUOTE_ASIDE}</p>
+          <IndexCard>
+            <blockquote
+              className={`${homeSerifClass} text-[clamp(1.75rem,4vw,2.5rem)] italic leading-snug text-bp-text`}
+            >
+              &ldquo;{ABOUT_QUOTE.slice(0, ABOUT_QUOTE.indexOf("same"))}
+              <BrushUnderline>same</BrushUnderline>
+              {ABOUT_QUOTE.slice(ABOUT_QUOTE.indexOf("same") + 4)}&rdquo;
+            </blockquote>
+          </IndexCard>
+          <p className={`${homeSerifClass} text-base leading-relaxed text-bp-text/80 md:text-lg`}>
+            {ABOUT_QUOTE_ASIDE}
+          </p>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
-            What we believe
-          </p>
-          <ul className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-bp-text/15">
+          <HomeSectionTitle eyebrow="What we believe" title="Our values" />
+
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {ABOUT_VALUES.map((item) => {
               const Icon = VALUE_ICONS[item.icon];
               return (
-                <li
-                  key={item.title}
-                  className="flex flex-col px-0 lg:px-8 first:lg:pl-0 last:lg:pr-0"
-                >
-                  <Icon className="h-10 w-10 text-bp-text/80" strokeWidth={1.25} />
-                  <h3 className="mt-4 text-sm font-bold uppercase tracking-[0.12em] text-bp-text">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-bp-text/70">
-                    {item.description}
-                  </p>
+                <li key={item.title}>
+                  <IndexCard className="flex h-full flex-col">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-dashed border-bp-text/20 bg-bp-canvas">
+                      <Icon className="h-5 w-5 text-bp-text/70" strokeWidth={1.5} />
+                    </div>
+                    <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text`}>
+                      {item.title}
+                    </h3>
+                    <p
+                      className={`${homeSerifClass} mt-3 flex-1 text-sm leading-relaxed text-bp-text/75`}
+                    >
+                      {item.description}
+                    </p>
+                  </IndexCard>
                 </li>
               );
             })}
           </ul>
         </div>
-      </section>
+      </TextureSection>
 
-      {/* Intervention & mentoring */}
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1fr_1.2fr_0.9fr] lg:items-stretch">
+      <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1fr_1.1fr_0.95fr] lg:items-stretch">
           <div>
-            <h2 className="text-2xl font-bold uppercase leading-snug tracking-tight text-bp-text md:text-3xl">
-              Intervention
-              <br />
-              &amp; mentoring
+            <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
+              On the ground
+            </p>
+            <h2
+              className={`${homeHandClass} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
+            >
+              Intervention &amp; mentoring
             </h2>
             <ul className="mt-8 space-y-4">
               {ABOUT_MENTORING_POINTS.map((point) => (
                 <li
                   key={point}
-                  className="flex gap-3 text-sm leading-relaxed text-bp-text/80 md:text-base"
+                  className={`${homeSerifClass} flex gap-3 text-sm leading-relaxed text-bp-text/80 md:text-base`}
                 >
-                  <span
-                    className="mt-2 h-2 w-2 shrink-0 rounded-full bg-bp-accent"
-                    aria-hidden
-                  />
+                  <span className={`${homeHandClass} shrink-0 text-lg text-bp-accent`}>✦</span>
                   {point}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="relative min-h-[240px] overflow-hidden rounded-sm bg-bp-text/5 lg:min-h-[320px]">
-            <Image
-              src="/home-hero.png"
-              alt="Creative workshop at Brush Past"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-            />
-          </div>
-          <div className="flex flex-col justify-center border border-bp-text/10 bg-bp-canvas p-6 md:p-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-bp-accent">
-              Lived experience
+
+          <PolaroidFrame index={2} className="h-fit">
+            <div className="relative min-h-[240px] overflow-hidden bg-bp-text/5 lg:min-h-[300px]">
+              <Image
+                src="/home-hero.png"
+                alt="Creative workshop at Brush Past"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 40vw"
+              />
+            </div>
+            <p className={`${homeHandClass} mt-3 text-center text-lg text-bp-text/70`}>
+              Workshop moments
             </p>
-            <p className="mt-4 text-base leading-relaxed text-bp-text/80">
+          </PolaroidFrame>
+
+          <IndexCard className="flex flex-col justify-center">
+            <p className={`${homeHandClass} text-xl text-bp-accent`}>Lived experience</p>
+            <p className={`${homeSerifClass} mt-4 text-base leading-relaxed text-bp-text/80`}>
               Our mentors and facilitators bring real understanding — recovery, creativity,
               prison, homelessness and second chances. That trust is what makes the work honest
               and safe enough for people to show up fully.
             </p>
-            <p className="mt-6 text-sm text-bp-text/60">{MISSION_SUMMARY}</p>
-          </div>
+            <p className={`${homeSerifClass} mt-6 text-sm italic text-bp-text/60`}>
+              {MISSION_SUMMARY}
+            </p>
+          </IndexCard>
         </div>
       </section>
 
-      {/* How we create change */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <h2 className="text-center text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-            How we create change
-          </h2>
-          <ol className="mt-12 flex flex-col gap-10 md:flex-row md:items-start md:justify-between md:gap-6">
-            {ABOUT_PROCESS.map((step, i) => {
+          <HomeSectionTitle eyebrow="The model" title="How we create change" />
+
+          <ol className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {ABOUT_PROCESS.map((step) => {
               const Icon = PROCESS_ICONS[step.icon];
+              const stepNum = String(step.step).padStart(2, "0");
+
               return (
-                <li
-                  key={step.title}
-                  className="relative flex flex-1 flex-col items-center text-center md:max-w-[280px]"
-                >
-                  {i > 0 ? (
-                    <ArrowRightIcon
-                      className="absolute -left-4 top-8 hidden h-6 w-6 text-bp-accent/50 md:-left-8 md:block lg:-left-10"
-                      aria-hidden
-                    />
-                  ) : null}
-                  <span className="text-xs font-bold text-bp-accent">{step.step}</span>
-                  <Icon className="mt-3 h-10 w-10 text-bp-text/70" strokeWidth={1.25} />
-                  <p className="mt-4 text-xs font-bold uppercase tracking-[0.12em] text-bp-text">
-                    {step.title}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-bp-text/70">
-                    {step.description}
-                  </p>
-                  {i < ABOUT_PROCESS.length - 1 ? (
-                    <ArrowRightIcon className="mt-6 h-5 w-5 text-bp-accent md:hidden" />
-                  ) : null}
+                <li key={step.title}>
+                  <IndexCard className="flex h-full flex-col items-center text-center">
+                    <span className={`${homeHandClass} text-3xl font-bold text-bp-accent`}>
+                      {stepNum}
+                    </span>
+                    <div className="mx-auto mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-bp-text/20 bg-bp-canvas">
+                      <Icon className="h-5 w-5 text-bp-text/70" strokeWidth={1.5} />
+                    </div>
+                    <p className={`${homeHandClass} mt-5 text-xl leading-snug text-bp-text`}>
+                      {step.title}
+                    </p>
+                    <p
+                      className={`${homeSerifClass} mt-3 text-sm leading-relaxed text-bp-text/75`}
+                    >
+                      {step.description}
+                    </p>
+                  </IndexCard>
                 </li>
               );
             })}
           </ol>
+
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/shop"
-              className="inline-flex bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas hover:opacity-90"
-            >
-              Visit the shop
-            </Link>
+            <HomeCta href="/shop" variant="primary">
+              Visit the shop →
+            </HomeCta>
+            <HomeCta href="/stories" variant="outline">
+              Read the stories →
+            </HomeCta>
           </div>
         </div>
-      </section>
+      </TextureSection>
 
       <AboutLaunchBanner />
 

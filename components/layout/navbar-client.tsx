@@ -7,13 +7,11 @@ import BrandLogo from "components/brand-logo";
 import Link from "next/link";
 import { Suspense } from "react";
 import MobileMenu from "./navbar/mobile-menu";
-import { NavLink } from "./navbar/nav-link";
+import { NavLink, activeNavClass } from "./navbar/nav-link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import {
-  dropdownItemClass,
-  dropdownPanelClass,
-} from "lib/brand-classes";
+import { homeHandClass } from "components/home/home-typography";
+import { TEXTURE_IMAGES } from "components/shared/texture-section";
 
 interface Collection {
   id: string;
@@ -72,9 +70,19 @@ export function NavbarClient() {
     path: `/shop/${c.handle}`,
   }));
 
+  const shopActive = shopOpen || isShopPath(pathname ?? "");
+
   return (
-    <header className="bp-navbar sticky top-0 z-40 w-full">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 md:px-8 lg:px-10">
+    <header className="bp-navbar sticky top-0 z-50 w-full">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
+        />
+        <div className="absolute inset-0 bg-bp-canvas/90 backdrop-blur-[2px]" />
+      </div>
+
+      <div className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between px-4 py-3 md:px-8 md:py-3.5 lg:px-10">
         {/* Mobile: logo left */}
         <Link
           href="/"
@@ -100,19 +108,18 @@ export function NavbarClient() {
           </Link>
 
           <nav
-            className="flex flex-1 items-center justify-center gap-8 xl:gap-10"
+            className="flex flex-1 items-center justify-center gap-7 overflow-visible xl:gap-9"
             aria-label="Main"
           >
             <NavLink href="/stories">Stories</NavLink>
 
-            <div className="relative" ref={shopRef}>
+            <div className="relative z-[60]" ref={shopRef}>
               <button
                 type="button"
                 onClick={() => setShopOpen((o) => !o)}
                 className={clsx(
-                  "flex items-center gap-1 text-sm font-bold uppercase tracking-[0.12em] text-bp-text transition-colors hover:text-bp-accent",
-                  (shopOpen || isShopPath(pathname ?? "")) &&
-                    "text-bp-accent underline decoration-bp-accent decoration-wavy decoration-2 underline-offset-[6px]",
+                  `${homeHandClass} flex items-center gap-1 text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl`,
+                  shopActive && activeNavClass,
                 )}
                 aria-expanded={shopOpen}
                 aria-haspopup="true"
@@ -120,20 +127,24 @@ export function NavbarClient() {
                 Shop
                 <ChevronDownIcon
                   className={clsx(
-                    "h-4 w-4 stroke-[2.5] transition-transform",
+                    "h-5 w-5 stroke-[2] transition-transform",
                     shopOpen && "rotate-180",
                   )}
                 />
               </button>
               {shopOpen ? (
-                <div
-                  className={`absolute left-1/2 top-full z-50 mt-3 w-52 -translate-x-1/2 ${dropdownPanelClass}`}
-                >
-                  <ul className="py-2">
+                <div className="absolute left-1/2 top-full z-[70] mt-3 w-56 -translate-x-1/2 overflow-hidden border border-bp-text/12 bg-[#faf7f2] shadow-[4px_5px_0_rgba(1,2,0,0.12)]">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center opacity-40"
+                    style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
+                    aria-hidden
+                  />
+                  <div className="absolute inset-0 bg-[#faf7f2]/92" aria-hidden />
+                  <ul className="relative py-2">
                     <li>
                       <Link
                         href="/shop"
-                        className={dropdownItemClass}
+                        className={`${homeHandClass} block px-5 py-2.5 text-lg text-bp-text transition-colors hover:bg-bp-canvas/80 hover:text-bp-accent`}
                         onClick={() => setShopOpen(false)}
                       >
                         The Archive Shop
@@ -144,7 +155,7 @@ export function NavbarClient() {
                         <li key={c.id}>
                           <Link
                             href={`/shop/${c.handle}`}
-                            className={dropdownItemClass}
+                            className={`${homeHandClass} block px-5 py-2.5 text-lg text-bp-text/85 transition-colors hover:bg-bp-canvas/80 hover:text-bp-accent`}
                             onClick={() => setShopOpen(false)}
                           >
                             {c.title}

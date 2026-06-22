@@ -2,7 +2,10 @@ import Footer from "components/layout/footer";
 import { Gallery } from "components/product/gallery";
 import { BackButton } from "components/product/back-button";
 import { ProductDescription } from "components/product/product-description";
+import { HomeSectionTitle } from "components/home/home-decor";
+import { homeHand, homeSerif } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
+import { TextureSection } from "components/shared/texture-section";
 import { getProductDetail } from "lib/supabase/product-detail";
 import { getProducts } from "lib/supabase/products";
 import type { Image } from "lib/types";
@@ -77,7 +80,9 @@ export default async function ProductPage(props: {
   };
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <div
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -85,19 +90,21 @@ export default async function ProductPage(props: {
         }}
       />
 
-      <div className="mx-auto max-w-[1400px] px-4 py-8 md:px-10 md:py-12">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
-          <div>
-            <BackButton />
-            <Gallery images={galleryImages} />
+      <TextureSection texture="primary" className="px-4 py-8 md:px-10 md:py-12">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
+            <div>
+              <BackButton />
+              <Gallery images={galleryImages} />
+            </div>
+            <div className="lg:py-2">
+              <ProductDescription product={product} />
+            </div>
           </div>
-          <div className="lg:py-2">
-            <ProductDescription product={product} />
-          </div>
-        </div>
 
-        <RelatedProducts category={product.category} currentId={product.id} />
-      </div>
+          <RelatedProducts category={product.category} currentId={product.id} />
+        </div>
+      </TextureSection>
 
       <Footer />
     </div>
@@ -123,16 +130,11 @@ async function RelatedProducts({
 
   return (
     <section className="mt-16 border-t border-bp-text/10 pt-12 md:mt-20 md:pt-16">
-      <h2 className="text-xs font-bold uppercase tracking-[0.25em] text-bp-accent">
-        From the same collection
-      </h2>
-      <p className="mt-2 text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-        You may also like
-      </p>
-      <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {relatedProducts.map((item) => (
+      <HomeSectionTitle eyebrow="From the same collection" title="You may also like" align="left" />
+      <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {relatedProducts.map((item, index) => (
           <li key={item.id}>
-            <ShopProductCard product={item} />
+            <ShopProductCard product={item} index={index} />
           </li>
         ))}
       </ul>

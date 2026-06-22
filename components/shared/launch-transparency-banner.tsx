@@ -6,6 +6,7 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import { ABOUT_IMPACT_STATS, ABOUT_LAUNCH_OVERLAY } from "lib/about-config";
+import { homeHandClass } from "components/home/home-typography";
 
 const STAT_ICONS = {
   people: UserGroupIcon,
@@ -32,7 +33,7 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-8">
             <p
               id="launch-transparency-heading"
-              className="text-lg font-bold uppercase leading-snug tracking-wide md:text-xl"
+              className={`${homeHandClass} text-2xl font-bold leading-snug md:text-3xl`}
             >
               Real impact.
               <br />
@@ -46,8 +47,10 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
                 return (
                   <li key={stat.label} className="text-center lg:text-left">
                     <Icon className="mx-auto h-5 w-5 text-bp-accent/80 lg:mx-0" strokeWidth={1.25} />
-                    <p className="mt-1.5 text-xl font-bold text-bp-accent md:text-2xl">{stat.value}</p>
-                    <p className="mt-0.5 text-[10px] uppercase tracking-wide text-bp-canvas/65">
+                    <p className={`${homeHandClass} mt-1.5 text-2xl font-bold text-bp-accent md:text-3xl`}>
+                      {stat.value}
+                    </p>
+                    <p className={`${homeHandClass} mt-0.5 text-sm text-bp-canvas/65`}>
                       {stat.label}
                     </p>
                   </li>
@@ -58,18 +61,18 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center bg-bp-dark/55 px-4 backdrop-blur-[2px]">
-          <div className="flex w-full max-w-xl flex-col items-center gap-3 rounded-sm border border-bp-canvas/15 bg-bp-dark/75 px-5 py-4 text-center shadow-lg md:max-w-2xl md:flex-row md:justify-between md:gap-6 md:px-6 md:py-3 md:text-left">
+          <div className="flex w-full max-w-xl flex-col items-center gap-3 rounded-sm border border-bp-canvas/15 bg-bp-dark/75 px-5 py-5 text-center shadow-lg md:max-w-2xl md:flex-row md:justify-between md:gap-6 md:px-6 md:py-4 md:text-left">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-bp-accent">
+              <p className={`${homeHandClass} text-lg text-bp-accent`}>
                 {ABOUT_LAUNCH_OVERLAY.eyebrow}
               </p>
-              <p className="mt-1 text-sm font-bold uppercase leading-snug tracking-wide text-bp-canvas md:text-base">
+              <p className={`${homeHandClass} mt-1 text-xl font-bold leading-snug text-bp-canvas md:text-2xl`}>
                 {ABOUT_LAUNCH_OVERLAY.headline}
               </p>
             </div>
             <Link
               href={newsletterHref}
-              className="inline-flex shrink-0 bg-bp-accent px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-bp-canvas transition-opacity hover:opacity-90"
+              className={`${homeHandClass} inline-flex shrink-0 bg-bp-accent px-6 py-3 text-lg font-bold text-bp-canvas shadow-[3px_3px_0_rgba(0,0,0,0.25)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none`}
             >
               {ABOUT_LAUNCH_OVERLAY.buttonLabel}
             </Link>

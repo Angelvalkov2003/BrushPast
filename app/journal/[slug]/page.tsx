@@ -1,5 +1,6 @@
 import Footer from "components/layout/footer";
 import { JournalPostDetail } from "components/journal/journal-post-detail";
+import { homeHand, homeSerif } from "components/home/home-typography";
 import { getPublicJournalPostBySlug } from "lib/supabase/journal";
 import { notFound } from "next/navigation";
 
@@ -21,7 +22,9 @@ export default async function JournalPostPage({ params }: { params: Promise<{ sl
   if (!post) notFound();
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <div
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+    >
       <JournalPostDetail post={post} />
       <Footer />
     </div>

@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Reveal } from "components/shared/reveal";
 import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { HOME_SHOP_WAYS } from "lib/home-config";
+import { HomeSectionTitle, PolaroidFrame } from "./home-decor";
+import { homeHandClass, homeSerifClass } from "./home-typography";
+import { HomeTextureSection } from "./home-texture-section";
 
 function resolveWays(categories: ShopCategory[]) {
   return HOME_SHOP_WAYS.map((fallback) => {
@@ -22,44 +26,58 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
   const ways = resolveWays(categories);
 
   return (
-    <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+    <HomeTextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto max-w-[1400px]">
-        <h2 className="text-center text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-          Three ways to keep a story close
-        </h2>
-        <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
-          {ways.map((way) => (
-            <Link
-              key={way.href + way.title}
-              href={way.href}
-              className="group flex flex-col bg-bp-canvas"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
-                {displayImageUrl(way.image) ? (
-                  <Image
-                    src={displayImageUrl(way.image)!}
-                    alt=""
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center text-xs uppercase tracking-widest text-bp-text/30">
-                    {way.title}
+        <Reveal>
+          <HomeSectionTitle
+            eyebrow="The archive shop"
+            title="Three ways to keep a story close"
+          />
+        </Reveal>
+        <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+          {ways.map((way, index) => (
+            <Reveal key={way.href + way.title} variant="fade-scale" delay={index * 80}>
+              <Link
+                href={way.href}
+                className="group block focus-visible:outline-offset-4"
+              >
+                <PolaroidFrame index={index + 1}>
+                  <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
+                    {displayImageUrl(way.image) ? (
+                      <Image
+                        src={displayImageUrl(way.image)!}
+                        alt=""
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    ) : (
+                      <div
+                        className={`${homeHandClass} flex h-full items-center justify-center text-xl text-bp-text/35`}
+                      >
+                        {way.title}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-xl font-bold uppercase tracking-wide text-bp-text">{way.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-bp-text/75">{way.description}</p>
-                <p className="mt-6 text-xs font-bold uppercase tracking-[0.15em] text-bp-text group-hover:text-bp-accent">
+                  <p
+                    className={`${homeHandClass} mt-3 text-center text-2xl font-bold text-bp-text`}
+                  >
+                    {way.title}
+                  </p>
+                </PolaroidFrame>
+                <p className={`${homeSerifClass} mt-4 text-center text-sm leading-relaxed text-bp-text/75`}>
+                  {way.description}
+                </p>
+                <p
+                  className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
+                >
                   {way.cta} →
                 </p>
-              </div>
-            </Link>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </div>
-    </section>
+    </HomeTextureSection>
   );
 }

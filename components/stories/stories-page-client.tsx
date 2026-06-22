@@ -8,6 +8,8 @@ import {
   layoutForStory,
 } from "lib/stories-config";
 import { storyCardImageUrl } from "lib/story-display";
+import { homeHandClass } from "components/home/home-typography";
+import { TextureSection } from "components/shared/texture-section";
 import { StoryCard } from "./story-card";
 import { StoriesGridToggle } from "./stories-grid-toggle";
 import { StoriesSort, type StorySortKey } from "./stories-sort";
@@ -43,23 +45,23 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
   );
 
   return (
-    <>
+  <>
       <nav
         className="sticky top-[65px] z-30 border-b border-bp-text/10 bg-bp-canvas/95 backdrop-blur-sm"
         aria-label="Story categories"
       >
         <div className="mx-auto max-w-[1400px] overflow-x-auto px-4 md:px-10">
-          <ul className="flex min-w-max gap-6 py-4 text-xs font-semibold uppercase tracking-[0.15em] md:gap-8 md:text-sm">
+          <ul className="flex min-w-max gap-5 py-4 md:gap-7">
             {STORY_FILTER_TABS.map((tab) => (
               <li key={tab.id}>
                 <button
                   type="button"
                   onClick={() => setFilter(tab.id)}
-                  className={
+                  className={`${homeHandClass} text-lg transition-colors md:text-xl ${
                     filter === tab.id
-                      ? "border-b-2 border-bp-text pb-1 text-bp-text"
-                      : "text-bp-text/50 hover:text-bp-text"
-                  }
+                      ? "border-b-2 border-bp-accent pb-0.5 font-bold text-bp-text"
+                      : "text-bp-text/50 hover:text-bp-accent"
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -69,43 +71,44 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
         </div>
       </nav>
 
-      <div className="mx-auto max-w-[1400px] px-4 md:px-10">
-        <div className="flex flex-wrap items-center justify-between gap-5 border-b border-bp-text/10 py-5 md:py-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bp-text">
-            <span className="text-lg font-bold tracking-tight text-bp-text md:text-xl">
-              {visible.length}
-            </span>{" "}
-            {visible.length === 1 ? "Story" : "Stories"}
-          </p>
-          <div className="flex items-center gap-2">
-            <StoriesGridToggle compact={compactGrid} onChange={setCompactGrid} />
-            <StoriesSort value={sort} onChange={setSort} />
+      <TextureSection texture="secondary" className="px-4 md:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="flex flex-wrap items-center justify-between gap-5 border-b border-bp-text/10 py-5 md:py-6">
+            <p className={`${homeHandClass} text-xl text-bp-text md:text-2xl`}>
+              <span className="font-bold text-bp-accent">{visible.length}</span>{" "}
+              {visible.length === 1 ? "story" : "stories"}
+            </p>
+            <div className="flex items-center gap-2">
+              <StoriesGridToggle compact={compactGrid} onChange={setCompactGrid} />
+              <StoriesSort value={sort} onChange={setSort} />
+            </div>
           </div>
-        </div>
 
-        {visible.length === 0 ? (
-          <p className="py-20 text-center text-bp-text/60">
-            No stories in this category yet. Check back soon.
-          </p>
-        ) : (
-          <div
-            className={
-              compactGrid
-                ? "grid grid-cols-2 gap-3 py-6 md:grid-cols-12 md:gap-5 md:py-10"
-                : "grid auto-rows-min grid-cols-1 gap-4 py-8 md:grid-cols-12 md:gap-5 md:py-10"
-            }
-          >
-            {visible.map((story, index) => (
-              <StoryCard
-                key={story.id}
-                story={story}
-                compact={compactGrid}
-                layout={layoutForStory(index, Boolean(storyCardImageUrl(story)))}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+          {visible.length === 0 ? (
+            <p className={`${homeHandClass} py-20 text-center text-2xl text-bp-text/50`}>
+              No stories in this category yet. Check back soon.
+            </p>
+          ) : (
+            <div
+              className={
+                compactGrid
+                  ? "grid grid-cols-2 gap-3 py-6 md:grid-cols-12 md:gap-5 md:py-10"
+                  : "grid auto-rows-min grid-cols-1 gap-5 py-8 md:grid-cols-12 md:gap-6 md:py-10"
+              }
+            >
+              {visible.map((story, index) => (
+                <StoryCard
+                  key={story.id}
+                  story={story}
+                  compact={compactGrid}
+                  index={index}
+                  layout={layoutForStory(index, Boolean(storyCardImageUrl(story)))}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </TextureSection>
     </>
   );
 }

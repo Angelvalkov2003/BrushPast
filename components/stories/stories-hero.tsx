@@ -1,31 +1,35 @@
-import { Caveat } from "next/font/google";
+import { ScribbleDivider } from "components/home/home-decor";
+import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { TextureSection } from "components/shared/texture-section";
 
-const caveat = Caveat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+const STORIES_TAGLINE = "Art. Writing. Photography. Real people. Real voices.";
 
 export function StoriesHero() {
   return (
-    <header className="border-b border-bp-text/10 px-4 pb-10 pt-8 md:px-10 md:pb-14 md:pt-12">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+    <TextureSection as="header" texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="text-[clamp(3.5rem,12vw,9rem)] font-bold uppercase leading-[0.9] tracking-tight text-bp-text">
+          <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>Brush Past</p>
+          <h1
+            className={`${homeHandClass} mt-1 text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.88] text-bp-text`}
+          >
             Stories
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-bp-text/80 md:text-xl">
-            Art. Writing. Photography. Real people. Real voices.
+          <p className={`${homeSerifClass} mt-5 max-w-xl text-lg italic text-bp-text/85 md:text-xl`}>
+            {STORIES_TAGLINE}
           </p>
         </div>
-        <p
-          className={`${caveat.className} max-w-xs text-2xl leading-snug text-bp-text md:text-3xl lg:max-w-sm lg:text-right`}
-        >
-          Not spoken about.
-          <br />
-          But speaking.
-          <span className="mt-2 block h-0.5 w-full max-w-[200px] bg-bp-text/30 lg:ml-auto" aria-hidden />
-        </p>
+        <div className="lg:text-right">
+          <p
+            className={`${homeHandClass} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
+          >
+            Not spoken about.
+            <br />
+            <span className="text-bp-accent">But speaking.</span>
+          </p>
+          <ScribbleDivider className="lg:ml-auto" />
+        </div>
       </div>
-    </header>
+    </TextureSection>
   );
 }

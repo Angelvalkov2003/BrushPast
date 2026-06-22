@@ -1,45 +1,56 @@
 import Image from "next/image";
-import Link from "next/link";
+import { HomeCta, PolaroidFrame } from "./home-decor";
+import { homeHandClass, homeSerifClass } from "./home-typography";
+import { HomeTextureSection } from "./home-texture-section";
 
 export function HomeHero() {
   return (
-    <section className="border-b border-bp-text/10 bg-bp-canvas">
-      <div className="mx-auto grid max-w-[1400px] gap-10 px-4 py-12 md:grid-cols-2 md:items-center md:gap-14 md:px-10 md:py-20">
+    <HomeTextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
+      <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:items-center md:gap-16">
         <div>
-          <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-bold uppercase leading-[1.05] tracking-tight text-bp-text">
+          <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+            Welcome in — take your time
+          </p>
+          <h1
+            className={`${homeHandClass} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
+          >
             Stories that stay with you.
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-bp-text/80 md:text-lg">
-            Real stories shared through art, writing, photography and design. Created with
-            people rebuilding from homelessness, addiction, incarceration and life&apos;s hardest
-            chapters.
+          <p
+            className={`${homeSerifClass} mt-6 max-w-xl text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
+          >
+            Real voices through art, writing, photography and design — made with people
+            rebuilding from life&apos;s hardest chapters.
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/stories"
-              className="inline-flex bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas transition-opacity hover:opacity-90"
-            >
-              Explore stories
-            </Link>
-            <Link
-              href="/shop"
-              className="inline-flex border-2 border-bp-text px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-text transition-colors hover:bg-bp-text hover:text-bp-canvas"
-            >
-              Start a collection
-            </Link>
+          <div className="mt-9 flex flex-wrap gap-4">
+            <HomeCta href="/stories" variant="primary">
+              Explore stories →
+            </HomeCta>
+            <HomeCta href="/shop" variant="outline">
+              Start a collection →
+            </HomeCta>
           </div>
+          <p className={`${homeHandClass} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
+            ☕ Pull up a chair. Everyone belongs here.
+          </p>
         </div>
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-bp-surface md:aspect-square">
-          <Image
-            src="/home-hero.png"
-            alt="Brush Past — coffee, gift box and story card"
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </div>
+
+        <PolaroidFrame index={0} className="mx-auto w-full max-w-md md:max-w-none">
+          <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
+            <Image
+              src="/home-hero.png"
+              alt="Brush Past — coffee, gift box and story card"
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+          <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75`}>
+            Drink the story
+          </p>
+        </PolaroidFrame>
       </div>
-    </section>
+    </HomeTextureSection>
   );
 }
