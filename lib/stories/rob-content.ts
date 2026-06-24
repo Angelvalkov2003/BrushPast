@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/rob — Glitch + Rob's story */
+/** Hand-coded copy for /stories/rob - Glitch + Rob's story */
 
 export type RobPoemLine = {
   text: string;
@@ -78,7 +78,7 @@ export const ROB_STORY = {
   ] satisfies RobPoemStanza[],
   storyHeading: "Rob's story",
   storyIntro:
-    "Homelessness is devastating — mentally, emotionally and physically. In Rob's own words.",
+    "Homelessness is devastating - mentally, emotionally and physically. In Rob's own words.",
   storyColumns: [
     {
       paragraphs: [

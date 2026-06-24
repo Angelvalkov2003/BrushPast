@@ -5,7 +5,7 @@ import { homeHand, homeSerif } from "components/home/home-typography";
 export const metadata = {
   title: "Get in Touch",
   description:
-    "Contact Brush Past — share a story, collaborate, join a workshop, or start a conversation.",
+    "Contact Brush Past - share a story, collaborate, join a workshop, or start a conversation.",
 };
 
 export default function ContactPage() {

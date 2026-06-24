@@ -171,7 +171,7 @@ export async function MaimounaPage() {
             >
               <Image
                 src={heroImage}
-                alt="Maimouna Camara — Mighty Culture"
+                alt="Maimouna Camara - Mighty Culture"
                 fill
                 className="object-cover object-center"
                 priority

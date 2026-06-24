@@ -15,7 +15,7 @@ export function WelcomeToast() {
         onDismiss: () => {
           document.cookie = "welcome-toast=2; max-age=31536000; path=/";
         },
-        description: "Explore The Archive Shop — every purchase supports our creators.",
+        description: "Explore The Archive Shop - every purchase supports our creators.",
       });
     }
   }, []);

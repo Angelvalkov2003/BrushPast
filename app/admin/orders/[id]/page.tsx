@@ -41,7 +41,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           <dl className="space-y-2 text-sm">
             <div>
               <dt className="text-gray-500">Name</dt>
-              <dd>{[order.first_name, order.last_name].filter(Boolean).join(" ") || "—"}</dd>
+              <dd>{[order.first_name, order.last_name].filter(Boolean).join(" ") || "-"}</dd>
             </div>
             <div>
               <dt className="text-gray-500">Email</dt>
@@ -51,22 +51,22 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                     {order.email}
                   </a>
                 ) : (
-                  "—"
+                  "-"
                 )}
               </dd>
             </div>
             <div>
               <dt className="text-gray-500">Phone</dt>
-              <dd>{order.phone || "—"}</dd>
+              <dd>{order.phone || "-"}</dd>
             </div>
             <div>
               <dt className="text-gray-500">Address</dt>
-              <dd className="whitespace-pre-line">{address || "—"}</dd>
+              <dd className="whitespace-pre-line">{address || "-"}</dd>
             </div>
             <div>
               <dt className="text-gray-500">Payment</dt>
               <dd>
-                {order.payment_method} — {order.payment_status}
+                {order.payment_method} - {order.payment_status}
               </dd>
             </div>
           </dl>
@@ -77,18 +77,18 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-gray-500">Subtotal</dt>
-              <dd>{order.subtotal != null ? formatPrice(Number(order.subtotal)) : "—"}</dd>
+              <dd>{order.subtotal != null ? formatPrice(Number(order.subtotal)) : "-"}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-gray-500">Shipping</dt>
               <dd>
-                {order.shipping_total != null ? formatPrice(Number(order.shipping_total)) : "—"}
+                {order.shipping_total != null ? formatPrice(Number(order.shipping_total)) : "-"}
                 {order.shipping_method_name ? ` (${order.shipping_method_name})` : ""}
               </dd>
             </div>
             <div className="flex justify-between border-t pt-2 font-semibold">
               <dt>Grand total</dt>
-              <dd>{order.grand_total != null ? formatPrice(Number(order.grand_total)) : "—"}</dd>
+              <dd>{order.grand_total != null ? formatPrice(Number(order.grand_total)) : "-"}</dd>
             </div>
           </dl>
           {order.customer_note ? (
@@ -119,13 +119,13 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               {order.items.map((item) => (
                 <tr key={item.id}>
                   <td className="py-2">{item.product_title}</td>
-                  <td className="py-2 text-gray-500">{item.sku || "—"}</td>
+                  <td className="py-2 text-gray-500">{item.sku || "-"}</td>
                   <td className="py-2">{item.quantity}</td>
                   <td className="py-2">
-                    {item.unit_price != null ? formatPrice(Number(item.unit_price)) : "—"}
+                    {item.unit_price != null ? formatPrice(Number(item.unit_price)) : "-"}
                   </td>
                   <td className="py-2">
-                    {item.line_total != null ? formatPrice(Number(item.line_total)) : "—"}
+                    {item.line_total != null ? formatPrice(Number(item.line_total)) : "-"}
                   </td>
                 </tr>
               ))}

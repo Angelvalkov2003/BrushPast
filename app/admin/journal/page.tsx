@@ -38,8 +38,8 @@ export default async function AdminJournalPage() {
             ) : (
               items.map((p) => (
                 <tr key={p.id}>
-                  <td className="font-medium">{p.title || "—"}</td>
-                  <td className="text-gray-500">{p.slug || "—"}</td>
+                  <td className="font-medium">{p.title || "-"}</td>
+                  <td className="text-gray-500">{p.slug || "-"}</td>
                   <td>{p.sort_order}</td>
                   <td>{p.status}</td>
                   <td className="space-x-2 whitespace-nowrap">

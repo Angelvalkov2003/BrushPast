@@ -1,13 +1,13 @@
 import { Caveat, Lora } from "next/font/google";
 
-/** Handwritten display — headlines, labels, flourishes */
+/** Handwritten display - headlines, labels, flourishes */
 export const homeHand = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-home-hand",
 });
 
-/** Warm literary body — cozy retro serif */
+/** Warm literary body - cozy retro serif */
 export const homeSerif = Lora({
   subsets: ["latin"],
   weight: ["400", "500", "600"],

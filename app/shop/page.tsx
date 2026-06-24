@@ -9,7 +9,7 @@ import { getShopCategories } from "lib/supabase/categories";
 
 export const metadata = {
   title: "The Archive Shop",
-  description: "Art, objects and editions created through lived experience — Brush Past (UK).",
+  description: "Art, objects and editions created through lived experience - Brush Past (UK).",
 };
 
 export const dynamic = "force-dynamic";

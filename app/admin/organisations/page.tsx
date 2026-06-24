@@ -36,8 +36,8 @@ export default async function AdminOrganisationsPage() {
             ) : (
               items.map((o) => (
                 <tr key={o.id}>
-                  <td className="font-medium">{o.name || "—"}</td>
-                  <td className="text-gray-500">{o.slug || "—"}</td>
+                  <td className="font-medium">{o.name || "-"}</td>
+                  <td className="text-gray-500">{o.slug || "-"}</td>
                   <td>{o.status}</td>
                   <td className="space-x-2 whitespace-nowrap">
                     <Link href={`/admin/organisations/${o.id}`} className="text-indigo-600 hover:underline">

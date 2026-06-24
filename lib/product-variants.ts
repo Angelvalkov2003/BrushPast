@@ -45,11 +45,14 @@ function parseSinglePart(part: string): VariantOption {
   const lower = trimmed.toLowerCase();
   if (COLOR_NAMES.has(lower)) return { name: "Colour", value: trimmed };
   if (lower === "framed" || lower === "unframed") return { name: "Style", value: trimmed };
+  if (/^(xxs|xs|s|m|l|xl|xxl|2xl|3xl|\d+)$/i.test(trimmed)) {
+    return { name: "Size", value: trimmed };
+  }
 
   return { name: "Option", value: trimmed };
 }
 
-/** Parse `variant_name` from DB — e.g. "Size M", "Black", "Size M / Colour Red". */
+/** Parse `variant_name` from DB - e.g. "Size M", "Black", "Size M / Colour Red". */
 export function parseVariantTitle(title: string): VariantOption[] {
   const trimmed = title.trim();
   if (!trimmed || trimmed === "Default") return [];
@@ -177,5 +180,5 @@ export function isOptionValueAvailable(
 
 export function orderLineTitle(productTitle: string, variant: ProductVariant): string {
   const label = formatVariantLabel(optionsFromVariant(variant), variant.title);
-  return label ? `${productTitle} — ${label}` : productTitle;
+  return label ? `${productTitle} - ${label}` : productTitle;
 }

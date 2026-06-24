@@ -1,4 +1,4 @@
-/** Kettle Gallery — shop teaser + journal link */
+/** Kettle Gallery - shop teaser + journal link */
 
 export const KETTLE_GALLERY = {
   journalSlug: "kettle-gallery",
@@ -7,6 +7,6 @@ export const KETTLE_GALLERY = {
   eyebrow: "Coming soon",
   title: "Kettle Gallery",
   teaser:
-    "A new chapter for Frame the Story — build your own frame and keep a voice on your wall.",
+    "A new chapter for Frame the Story - build your own frame and keep a voice on your wall.",
   cta: "Read about building your frame",
 } as const;

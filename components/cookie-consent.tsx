@@ -187,7 +187,7 @@ export function CookieConsent() {
                 </p>
                 <h3 className="mt-1 text-lg font-bold text-bp-text">We use cookies</h3>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-bp-text/75">
-                  We use cookies to run our shop, remember your bag, and — only if you agree —
+                  We use cookies to run our shop, remember your bag, and - only if you agree -
                   understand how people use our site. This helps us improve {SITE_NAME} for
                   supporters across the UK.{" "}
                   <Link href="/privacy" className="font-semibold text-bp-accent underline hover:opacity-80">
@@ -255,7 +255,7 @@ export function CookieConsent() {
               </div>
               <p className="mt-3 text-sm leading-relaxed text-bp-text/70">
                 Necessary cookies keep the site and checkout working. Analytics and marketing
-                cookies are optional — switch them on only if you are happy for us to use them.
+                cookies are optional - switch them on only if you are happy for us to use them.
               </p>
             </div>
 

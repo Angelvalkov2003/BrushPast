@@ -102,7 +102,7 @@ export async function sendNewsletterSignupEmail(data: NewsletterSignupData) {
       from: `Newsletter <noreply@${getDomainFromEmail(contactEmail)}>`,
       to: [contactEmail],
       replyTo: data.email,
-      subject: `New newsletter signup — ${data.sourceLabel}`,
+      subject: `New newsletter signup - ${data.sourceLabel}`,
       html: `
         <h2>New newsletter signup</h2>
         <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>

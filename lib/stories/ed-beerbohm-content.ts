@@ -15,7 +15,7 @@ export const ED_BEERBOHM_STORY = {
   slug: "ed-beerbohm",
   title: "Ed Beerbohm",
   tags: "Art. Film. Recovery.",
-  heroQuote: "My flat — my home — has itself become a canvas.",
+  heroQuote: "My flat - my home - has itself become a canvas.",
   heroQuoteHighlight: "canvas",
   heroImage: "/stories/ED-BEERBOHM/1.jpg",
   galleryImages: [
@@ -28,7 +28,7 @@ export const ED_BEERBOHM_STORY = {
     {
       paragraphs: [
         {
-          text: "Fairly late on in my life, I was afflicted with a neurological condition which slowly but surely eroded my ability to move about. Walking — previously an automatic function that I didn't really think about — became perplexing, exhausting and painful.",
+          text: "Fairly late on in my life, I was afflicted with a neurological condition which slowly but surely eroded my ability to move about. Walking - previously an automatic function that I didn't really think about - became perplexing, exhausting and painful.",
         },
         {
           text: "And so with disability and immobility I became increasingly confined to my flat and increasingly isolated.",
@@ -64,7 +64,7 @@ export const ED_BEERBOHM_STORY = {
     {
       paragraphs: [
         {
-          text: "It's a continual process — there's no fixed goal. Instead, by continually altering the interior of my home, I find myself negotiating and renegotiating my relationship with space.",
+          text: "It's a continual process - there's no fixed goal. Instead, by continually altering the interior of my home, I find myself negotiating and renegotiating my relationship with space.",
         },
         {
           text: "It's not a solution or panacea, but the dominant language in which I search for one.",
@@ -77,9 +77,9 @@ export const ED_BEERBOHM_STORY = {
   interior: {
     title: "The flat as studio",
     paragraphs: [
-      "Walls, doors and stairs became more barrier-like — distances stretched while everyday navigation grew more complex.",
+      "Walls, doors and stairs became more barrier-like - distances stretched while everyday navigation grew more complex.",
       "Painting transforms those walls from exclusion into vista. Film turns the bathroom into somewhere fish might chat.",
-      "A continual process with no fixed goal — only negotiation, again and again, with the space that holds him.",
+      "A continual process with no fixed goal - only negotiation, again and again, with the space that holds him.",
     ],
     quote: "A means of escape more literal than a flight of fancy.",
   },

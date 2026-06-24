@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/jeremy — A fish named Jeremy */
+/** Hand-coded copy for /stories/jeremy - A fish named Jeremy */
 
 export type JeremyParagraph = {
   text: string;
@@ -22,7 +22,7 @@ export const JEREMY_STORY = {
   heroQuoteHighlight: "my name on it",
   heroImage: "/stories/Jeremy/1.webp",
   storyIntro:
-    "Ohio State Prison was never on the map — until hope showed up behind glass, with my name on the label.",
+    "Ohio State Prison was never on the map - until hope showed up behind glass, with my name on the label.",
   storyColumns: [
     {
       paragraphs: [
@@ -74,12 +74,12 @@ export const JEREMY_STORY = {
   fishTank: {
     title: "The fish",
     paragraphs: [
-      "A name on a tank in Ohio — unexpected, almost absurd — and yet exactly the kind of symbol recovery keeps offering when you stop looking away.",
+      "A name on a tank in Ohio - unexpected, almost absurd - and yet exactly the kind of symbol recovery keeps offering when you stop looking away.",
       "Collaboration across prison walls, art that travels further than words alone, and the quiet reminder that connection can surface anywhere.",
     ],
     quote: "Hope can swim in the unlikeliest of places.",
   },
   notebookQuote:
-    "Pause with your coffee, and remember — we're all just trying to find our way.",
+    "Pause with your coffee, and remember - we're all just trying to find our way.",
   closingQuote: "We're all just trying to find our way.",
 } as const;

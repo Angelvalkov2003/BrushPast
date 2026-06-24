@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import {
   ArrowPathIcon,
   HeartIcon,
@@ -11,6 +9,13 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { AboutNewsletter } from "components/about/about-newsletter";
+import {
+  HomeCta,
+  HomeSectionTitle,
+  IndexCard,
+  PolaroidFrame,
+} from "components/home/home-decor";
+import { homeHandClass } from "components/home/home-typography";
 import { LaunchTransparencyBanner } from "components/shared/launch-transparency-banner";
 import { TextureSection } from "components/shared/texture-section";
 import { WorkshopArchiveCard } from "components/workshops/workshop-archive-card";
@@ -19,13 +24,9 @@ import { hasWorkshopPage } from "lib/workshop-display";
 import {
   WORKSHOP_CATEGORIES,
   WORKSHOPS_CORE_VALUES,
-  WORKSHOPS_HERO_INTRO,
   WORKSHOPS_MISSION_COLUMNS,
   WORKSHOPS_PROCESS,
 } from "lib/workshops-config";
-
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400"] });
 
 const VALUE_ICONS = {
   safe: UserGroupIcon,
@@ -47,21 +48,18 @@ function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
+const workshopBodyHandClass = `${homeHandClass} text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.55rem] md:leading-relaxed`;
+const workshopBodyHandSmClass = `${homeHandClass} text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed`;
+
 function HeroButtons({ className }: { className?: string }) {
   return (
     <div className={`flex flex-wrap gap-4 ${className ?? ""}`}>
-      <Link
-        href="/contact"
-        className="inline-flex bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas transition-opacity hover:opacity-90"
-      >
-        Join a workshop
-      </Link>
-      <Link
-        href="/contact"
-        className="inline-flex border-2 border-bp-text px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-text transition-colors hover:bg-bp-text hover:text-bp-canvas"
-      >
-        Host or sponsor
-      </Link>
+      <HomeCta href="/contact" variant="primary">
+        Join a workshop →
+      </HomeCta>
+      <HomeCta href="/contact" variant="outline">
+        Host or sponsor →
+      </HomeCta>
     </div>
   );
 }
@@ -71,132 +69,155 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
 
   return (
     <>
-      {/* Hero */}
-      <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-24">
+        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-bold uppercase leading-[1.05] tracking-tight text-bp-text">
+            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              Brush Past workshops
+            </p>
+            <h1
+              className={`${homeHandClass} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
+            >
               Make space. Make something.
               <br />
-              <span className={`${caveat.className} text-[clamp(2.5rem,7vw,4.5rem)] normal-case text-bp-accent`}>
-                Be yourself.
-              </span>
+              <span className="text-bp-accent">Be yourself.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-bp-text/80 md:text-lg">
-              {WORKSHOPS_HERO_INTRO}
-            </p>
+            <IndexCard className="mt-6 max-w-xl">
+              <p className={workshopBodyHandClass}>
+                A space to <span className="text-bp-accent">breathe, make something</span>, and be
+                yourself - without pressure to perform or explain. Creative workshops for anyone
+                with a story, at any skill level.
+              </p>
+            </IndexCard>
             <HeroButtons className="mt-8" />
             <p
-              className={`${caveat.className} mt-8 flex items-center gap-2 text-xl text-bp-text md:text-2xl`}
+              className={`${homeHandClass} mt-8 flex items-center gap-2 text-2xl text-bp-text md:text-3xl`}
             >
-              <HeartIcon className="h-6 w-6 shrink-0 text-bp-accent" strokeWidth={1.5} />
+              <HeartIcon className="h-7 w-7 shrink-0 text-bp-accent" strokeWidth={1.5} />
               Everyone is welcome. Exactly as you are.
             </p>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-bp-surface lg:aspect-[5/4]">
-            <Image
-              src="/workshops.png"
-              alt="Brush Past creative workshop"
-              fill
-              className="object-cover object-center"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div
-              className="absolute bottom-3 right-3 flex h-[4.5rem] w-[4.5rem] flex-col items-center justify-center rounded-full border border-bp-text/10 bg-bp-canvas text-center text-[0.48rem] font-bold uppercase leading-tight tracking-wider text-bp-text md:bottom-4 md:right-4 md:h-20 md:w-20 md:text-[0.5rem]"
-              aria-hidden
-            >
-              <span className="text-bp-accent">★</span>
-              Art of
-              <br />
-              empowerment
-              <span className="text-bp-accent">★</span>
+
+          <PolaroidFrame index={0} className="mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface lg:aspect-[5/4]">
+              <Image
+                src="/workshops.png"
+                alt="Brush Past creative workshop"
+                fill
+                className="object-cover object-center"
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
-          </div>
+            <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75`}>
+              Art of empowerment ★
+            </p>
+          </PolaroidFrame>
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 px-4 py-8 md:px-10">
+      <TextureSection texture="primary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-[1400px]">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bp-text/60">
+          <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>What we run</p>
+          <h2 className={`${homeHandClass} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}>
             Workshop types
-          </p>
-          <ul className="mt-4 flex flex-wrap gap-3">
+          </h2>
+          <ul className="mt-8 flex flex-wrap gap-3">
             {WORKSHOP_CATEGORIES.map((name) => (
               <li
                 key={name}
-                className="border border-bp-text/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-bp-text"
+                className={`${homeHandClass} border border-bp-text/15 bg-bp-canvas/80 px-5 py-2.5 text-lg text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.06)]`}
               >
                 {name}
               </li>
             ))}
           </ul>
         </div>
-      </section>
+      </TextureSection>
 
-      {/* Mission three columns */}
-      <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
-          <p className="text-base leading-relaxed text-bp-text/80">
-            {WORKSHOPS_MISSION_COLUMNS.origin}{" "}
-            <strong className="text-bp-accent">{WORKSHOPS_MISSION_COLUMNS.originHighlight}</strong>
-          </p>
-          <p className={`${lora.className} text-xl leading-relaxed text-bp-text md:text-2xl`}>
-            <BrushUnderline>If</BrushUnderline> you have a story.{" "}
-            <BrushUnderline>If</BrushUnderline> you can make something. You belong here.
-          </p>
-          <div className="flex flex-col justify-center border border-bp-accent/20 bg-bp-canvas/80 p-6 md:p-8">
-            <HeartIcon className="h-8 w-8 text-bp-accent" strokeWidth={1.25} />
-            <p className="mt-4 text-base leading-relaxed text-bp-text">
-              <strong className="font-bold">{WORKSHOPS_MISSION_COLUMNS.choiceLead}</strong>{" "}
-              {WORKSHOPS_MISSION_COLUMNS.choiceBody}
+      <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-3">
+          <IndexCard>
+            <p className={workshopBodyHandClass}>
+              BrushPast began working with people in recovery, homelessness and incarceration -
+              using creativity to{" "}
+              <span className="text-bp-accent">rebuild identity and confidence</span>.{" "}
+              <span className="font-bold">{WORKSHOPS_MISSION_COLUMNS.originHighlight}</span>
             </p>
-          </div>
+          </IndexCard>
+          <IndexCard className="flex flex-col justify-center">
+            <p className={`${homeHandClass} text-[1.45rem] leading-snug text-bp-text md:text-[1.75rem]`}>
+              <BrushUnderline>If</BrushUnderline> you have a story.{" "}
+              <BrushUnderline>If</BrushUnderline> you can make something.{" "}
+              <span className="text-bp-accent">You belong here.</span>
+            </p>
+          </IndexCard>
+          <IndexCard className="flex flex-col justify-center border-bp-accent/25">
+            <HeartIcon className="h-8 w-8 text-bp-accent" strokeWidth={1.25} />
+            <p className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
+              {WORKSHOPS_MISSION_COLUMNS.choiceLead}
+            </p>
+            <p className={`${workshopBodyHandClass} mt-3`}>
+              Share your work, sell your work, or keep it private.{" "}
+              <span className="text-bp-accent">It&apos;s your choice. Always.</span>
+            </p>
+          </IndexCard>
         </div>
       </section>
 
-      {/* Core values */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+          <HomeSectionTitle eyebrow="Why it matters" title="What you get" />
+
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {WORKSHOPS_CORE_VALUES.map((item) => {
               const Icon = VALUE_ICONS[item.icon];
               return (
-                <li key={item.title} className="text-center lg:text-left">
-                  <Icon className="mx-auto h-9 w-9 text-bp-text/75 lg:mx-0" strokeWidth={1.25} />
-                  <h3 className="mt-3 text-xs font-bold uppercase tracking-[0.12em] text-bp-text">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-bp-text/70">{item.description}</p>
+                <li key={item.title}>
+                  <IndexCard className="flex h-full flex-col text-center lg:text-left">
+                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-dashed border-bp-text/20 bg-bp-canvas lg:mx-0">
+                      <Icon className="h-5 w-5 text-bp-text/70" strokeWidth={1.5} />
+                    </div>
+                    <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text`}>
+                      {item.title}
+                    </h3>
+                    <p className={`${workshopBodyHandSmClass} mt-3 flex-1`}>{item.description}</p>
+                  </IndexCard>
                 </li>
               );
             })}
           </ul>
         </div>
-      </section>
+      </TextureSection>
 
-      {/* What happens */}
       <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <h2 className="text-center text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-            What happens in our workshops?
-          </h2>
-          <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-4">
-            {WORKSHOPS_PROCESS.map((step) => (
-              <li key={step.title} className="flex flex-col">
-                <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-bp-surface">
-                  <Image
-                    src={step.image}
-                    alt={step.title}
-                    fill
-                    className="object-cover"
-                    sizes="20vw"
-                  />
-                </div>
-                <p className="mt-3 text-xs font-bold uppercase tracking-[0.1em] text-bp-text">
+          <HomeSectionTitle eyebrow="Inside the room" title="What happens in our workshops?" />
+
+          <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+            {WORKSHOPS_PROCESS.map((step, index) => (
+              <li key={step.title}>
+                <p
+                  className={`${homeHandClass} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
+                >
                   {step.title}
                 </p>
-                <p className="mt-1 text-sm leading-relaxed text-bp-text/70">{step.caption}</p>
+                <PolaroidFrame index={index + 1} tilt={index % 2 === 0} className="mt-3">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
+                    <Image
+                      src={step.image}
+                      alt={step.title}
+                      fill
+                      className="object-cover"
+                      sizes="20vw"
+                    />
+                  </div>
+                </PolaroidFrame>
+                <p
+                  className={`${workshopBodyHandSmClass} mt-3 text-center lg:text-left`}
+                >
+                  {step.caption}
+                </p>
               </li>
             ))}
           </ul>
@@ -204,41 +225,35 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
       </section>
 
       {archiveWorkshops.length > 0 ? (
-        <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+        <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1400px]">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bp-text/60">
-              Workshop archive
-            </p>
-            <h2 className="mt-3 text-2xl font-bold uppercase tracking-wide text-bp-text md:text-3xl">
-              Past workshops
-            </h2>
-            <ul className="mt-10 flex flex-col gap-6">
-              {archiveWorkshops.map((workshop) => (
+            <HomeSectionTitle eyebrow="From the archive" title="Past workshops" align="left" />
+            <ul className="mt-12 flex flex-col gap-8">
+              {archiveWorkshops.map((workshop, index) => (
                 <li key={workshop.id}>
-                  <WorkshopArchiveCard workshop={workshop} />
+                  <WorkshopArchiveCard workshop={workshop} index={index} />
                 </li>
               ))}
             </ul>
           </div>
-        </section>
+        </TextureSection>
       ) : null}
 
       <LaunchTransparencyBanner />
 
-      {/* Bottom CTA */}
-      <section className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-center">
-          <p className="text-lg leading-relaxed text-bp-text/80">
-            Everyone has a story worth telling — and a place to make something real. There&apos;s a
-            place for you here.
+          <p className={`${workshopBodyHandClass} max-w-md`}>
+            Everyone has a story worth telling - and a place to make something real.{" "}
+            <span className="text-bp-accent">There&apos;s a place for you here.</span>
           </p>
-          <HeroButtons className="justify-center lg:justify-center" />
+          <HeroButtons className="justify-center" />
           <p
-            className={`${caveat.className} relative text-center text-2xl text-bp-text lg:text-right lg:text-3xl`}
+            className={`${homeHandClass} relative text-center text-3xl leading-snug text-bp-text lg:text-right lg:text-4xl`}
           >
             Come as you are.
             <br />
-            Leave differently.
+            <span className="text-bp-accent">Leave differently.</span>
             <svg
               className="absolute -left-2 top-1/2 hidden h-12 w-16 text-bp-accent lg:block lg:-translate-x-full"
               viewBox="0 0 64 48"
@@ -254,7 +269,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </svg>
           </p>
         </div>
-      </section>
+      </TextureSection>
 
       <AboutNewsletter />
     </>

@@ -19,7 +19,7 @@ export const CHRISSIE_STORY = {
   heroQuoteHighlight: "grateful",
   heroImage: "/stories/CHRISSIE/1.jpeg",
   storyIntro:
-    "A rainy morning, devastating news — and three story cards that changed the shape of the day.",
+    "A rainy morning, devastating news - and three story cards that changed the shape of the day.",
   storyColumns: [
     {
       paragraphs: [
@@ -109,8 +109,8 @@ export const CHRISSIE_STORY = {
   giftBox: {
     title: "The gift box",
     paragraphs: [
-      "A packet of delicious smelling coffee and three story cards — a present from the day before, waiting on the table while grief pressed in at the window.",
-      "Each card was a doorway into another life: daily battles, pain, suffering and struggle — shared openly, without performance.",
+      "A packet of delicious smelling coffee and three story cards - a present from the day before, waiting on the table while grief pressed in at the window.",
+      "Each card was a doorway into another life: daily battles, pain, suffering and struggle - shared openly, without performance.",
       "In the field of addiction, you learn to recognise that moment when the will to survive finally outweighs the lure of the drugs.",
     ],
     quote: "All thoughts of going back to bed vanished.",

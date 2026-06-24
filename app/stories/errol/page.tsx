@@ -2,7 +2,7 @@ import { ErrolPage } from "components/stories/errol/errol-page";
 import { ERROL_STORY } from "lib/stories/errol-content";
 
 export const metadata = {
-  title: `${ERROL_STORY.fullName} — ${ERROL_STORY.title}`,
+  title: `${ERROL_STORY.fullName} - ${ERROL_STORY.title}`,
   description: ERROL_STORY.heroQuote,
 };
 

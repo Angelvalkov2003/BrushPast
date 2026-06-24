@@ -18,9 +18,12 @@ import OpenCart from "./open-cart";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY } from "lib/uk-copy";
 
 export default function CartModal() {
-  const { cart, cartPulse, updateCartItem } = useCart();
+  const { cart, cartPulse, updateCartItem, stockError, clearStockError } = useCart();
   const [isOpen, setIsOpen] = useState(false);
-  const openCart = () => setIsOpen(true);
+  const openCart = () => {
+    clearStockError();
+    setIsOpen(true);
+  };
   const closeCart = () => setIsOpen(false);
 
   // Cart is now managed in localStorage, no need to create in database
@@ -60,6 +63,12 @@ export default function CartModal() {
                   <CloseCart />
                 </button>
               </div>
+
+              {stockError ? (
+                <p className="mt-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+                  {stockError}
+                </p>
+              ) : null}
 
               {!cart || cart.items.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">

@@ -155,7 +155,7 @@ export async function JeremyPage() {
             >
               <Image
                 src={heroImage}
-                alt="Jeremy — A fish named Jeremy"
+                alt="Jeremy - A fish named Jeremy"
                 fill
                 className="object-cover object-center"
                 priority

@@ -87,7 +87,7 @@ export async function BobbyPage() {
           <div className="relative min-h-[420px] lg:min-h-[560px]">
             <Image
               src={heroImage}
-              alt="Bobby — portrait"
+              alt="Bobby - portrait"
               fill
               className="object-cover object-center"
               priority
@@ -113,7 +113,7 @@ export async function BobbyPage() {
           <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-bp-text/5 shadow-sm">
             <Image
               src={COPY.introArtwork}
-              alt="Bobby artwork — storefront scene"
+              alt="Bobby artwork - storefront scene"
               fill
               className="object-cover object-center"
               sizes="33vw"

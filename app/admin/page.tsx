@@ -63,7 +63,7 @@ export default async function AdminDashboard() {
                       <span className="text-xs text-gray-500">{o.email}</span>
                     </td>
                     <td>
-                      {o.grand_total != null ? formatPrice(Number(o.grand_total)) : "—"}
+                      {o.grand_total != null ? formatPrice(Number(o.grand_total)) : "-"}
                     </td>
                     <td>
                       <span className="rounded bg-gray-100 px-2 py-1 text-xs">{o.order_status}</span>

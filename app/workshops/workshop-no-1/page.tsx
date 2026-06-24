@@ -2,7 +2,7 @@ import { WorkshopNo1Page } from "components/workshops/workshop-no-1/workshop-no-
 import { WORKSHOP_NO_1 } from "lib/workshops/workshop-no-1-content";
 
 export const metadata = {
-  title: `${WORKSHOP_NO_1.title} — ${WORKSHOP_NO_1.location}`,
+  title: `${WORKSHOP_NO_1.title} - ${WORKSHOP_NO_1.location}`,
   description: WORKSHOP_NO_1.tagline,
 };
 

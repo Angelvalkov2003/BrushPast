@@ -1,6 +1,5 @@
 "use client";
 
-import { ScribbleDivider } from "components/home/home-decor";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
@@ -33,7 +32,6 @@ export function StoriesHero() {
               <br />
               <span className="text-bp-accent">But speaking.</span>
             </p>
-            <ScribbleDivider className="lg:ml-auto" />
           </div>
         </Reveal>
       </div>

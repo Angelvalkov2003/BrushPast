@@ -1,7 +1,6 @@
 "use client";
 
 import { JOURNAL_HERO_TAGLINE } from "lib/journal-config";
-import { ScribbleDivider } from "components/home/home-decor";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
@@ -32,7 +31,6 @@ export function JournalHero() {
               <br />
               the journey.
             </p>
-            <ScribbleDivider className="lg:ml-auto" />
           </div>
         </Reveal>
       </div>

@@ -13,14 +13,21 @@ import {
   type PublicJournalPost,
 } from "lib/supabase/journal";
 import { TextureSection } from "components/shared/texture-section";
+import {
+  JournalLightboxProvider,
+  JournalLightboxTrigger,
+} from "components/journal/journal-lightbox";
+import { buildJournalImageList } from "lib/journal-images";
 
 export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
   const hero = displayImageUrl(post.main_image_url);
   const gallery = journalGalleryUrls(post);
+  const images = buildJournalImageList(hero, gallery);
   const paragraphs = journalBodyParagraphs(post.body);
 
   return (
-    <article>
+    <JournalLightboxProvider images={images} title={post.title ?? "Journal"}>
+      <article>
       <TextureSection texture="primary" className="px-4 py-10 md:px-10 md:py-14">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -52,30 +59,48 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
       </TextureSection>
 
       {hero ? (
-        <RevealSection variant="fade-scale" className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-10 md:px-10 md:py-14">
-          <PolaroidFrame index={0} className="mx-auto max-w-3xl">
-            <div className="relative aspect-[16/10] overflow-hidden bg-bp-surface">
-              <Image
-                src={hero}
-                alt=""
-                fill
-                className="object-cover object-center"
-                priority
-                sizes="(max-width: 768px) 100vw, 900px"
-              />
-            </div>
-          </PolaroidFrame>
-        </RevealSection>
+        <TextureSection texture="secondary" className="px-4 py-10 md:px-10 md:py-14">
+          <Reveal variant="fade-scale" className="mx-auto w-full max-w-3xl">
+            <JournalLightboxTrigger
+              index={images.indexOf(hero)}
+              className="w-full cursor-zoom-in transition-opacity hover:opacity-95 focus-visible:outline-offset-4"
+            >
+              <PolaroidFrame index={0} className="w-full">
+                <div className="relative aspect-[16/10] w-full min-h-[12rem] overflow-hidden bg-bp-surface sm:min-h-[16rem]">
+                  <Image
+                    src={hero}
+                    alt=""
+                    fill
+                    className="object-cover object-center"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 900px"
+                  />
+                </div>
+              </PolaroidFrame>
+            </JournalLightboxTrigger>
+          </Reveal>
+        </TextureSection>
       ) : null}
 
       <RevealSection className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-3xl">
           <IndexCard>
-            <div className={`${homeSerifClass} space-y-6 text-base leading-relaxed text-bp-text/85 md:text-lg`}>
+            <div
+              className={`${homeSerifClass} space-y-7 text-[1.1rem] italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9]`}
+            >
               {paragraphs.length > 0 ? (
-                paragraphs.map((p) => <p key={p.slice(0, 48)}>{p}</p>)
+                paragraphs.map((p, index) => (
+                  <p
+                    key={p.slice(0, 48)}
+                    className={index === 0 ? "text-bp-text/95 first-letter:float-left first-letter:mr-2 first-letter:font-semibold first-letter:text-[2.4em] first-letter:leading-none first-letter:text-bp-accent" : undefined}
+                  >
+                    {p}
+                  </p>
+                ))
               ) : (
-                <p className={`${homeHandClass} text-xl text-bp-text/50`}>No content yet.</p>
+                <p className={`${homeHandClass} text-xl not-italic text-bp-text/50`}>
+                  No content yet.
+                </p>
               )}
             </div>
           </IndexCard>
@@ -88,17 +113,19 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
               <div className="mt-8 grid gap-8 sm:grid-cols-2">
                 {gallery.map((url, index) => (
                   <Reveal key={url} variant="fade-scale" delay={index * REVEAL_STAGGER_MS}>
-                    <PolaroidFrame index={index + 1}>
-                      <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface">
-                        <Image
-                          src={url}
-                          alt=""
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      </div>
-                    </PolaroidFrame>
+                    <JournalLightboxTrigger index={images.indexOf(url)} className="w-full">
+                      <PolaroidFrame index={index + 1} className="w-full">
+                        <div className="relative aspect-[4/3] w-full min-h-[10rem] overflow-hidden bg-bp-surface">
+                          <Image
+                            src={url}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+                      </PolaroidFrame>
+                    </JournalLightboxTrigger>
                   </Reveal>
                 ))}
               </div>
@@ -117,6 +144,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
           </Reveal>
         </div>
       </RevealSection>
-    </article>
+      </article>
+    </JournalLightboxProvider>
   );
 }

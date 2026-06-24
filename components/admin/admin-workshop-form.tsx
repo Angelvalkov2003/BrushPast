@@ -81,7 +81,7 @@ export function AdminWorkshopForm({
             defaultValue={workshop?.workshop_category ?? ""}
             className={adminSelectClass}
           >
-            <option value="">—</option>
+            <option value="">-</option>
             {WORKSHOP_CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -116,7 +116,7 @@ export function AdminWorkshopForm({
           defaultValue={workshop?.organisation_id ?? ""}
           className={adminSelectClass}
         >
-          <option value="">—</option>
+          <option value="">-</option>
           {organisations.map((o) => (
             <option key={o.id} value={o.id}>
               {o.name || o.slug || o.id}

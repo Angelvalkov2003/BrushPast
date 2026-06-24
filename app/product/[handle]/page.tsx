@@ -2,6 +2,7 @@ import Footer from "components/layout/footer";
 import { Gallery } from "components/product/gallery";
 import { BackButton } from "components/product/back-button";
 import { ProductDescription } from "components/product/product-description";
+import { ProductRelations } from "components/product/product-relations";
 import { HomeSectionTitle } from "components/home/home-decor";
 import { homeHand, homeSerif } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -90,15 +91,18 @@ export default async function ProductPage(props: {
         }}
       />
 
-      <TextureSection texture="primary" className="px-4 py-8 md:px-10 md:py-12">
+      <TextureSection texture="primary" className="overflow-x-clip px-4 py-8 md:px-10 md:py-12">
         <div className="mx-auto max-w-[1400px]">
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-16">
-            <div>
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-14 xl:gap-16">
+            <div className="min-w-0">
               <BackButton />
               <Gallery images={galleryImages} />
             </div>
-            <div className="lg:py-2">
+            <div className="min-w-0 lg:row-span-2 lg:row-start-1 lg:col-start-2">
               <ProductDescription product={product} />
+            </div>
+            <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+              <ProductRelations product={product} />
             </div>
           </div>
 

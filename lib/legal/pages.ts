@@ -10,13 +10,13 @@ export const legalPages: Record<string, LegalPageContent> = {
     slug: "privacy",
     title: "Privacy Policy",
     description:
-      "How Brush Past collects, uses, and protects your personal data when you shop, share a story, or contact us — in line with UK GDPR.",
+      "How Brush Past collects, uses, and protects your personal data when you shop, share a story, or contact us - in line with UK GDPR.",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
         title: "Who we are",
         paragraphs: [
-          "Brush Past is a Community Interest Company (CIC) based in the United Kingdom. We operate brushpast.org — a creative platform and social enterprise combining storytelling, workshops, and The Archive Shop.",
+          "Brush Past is a Community Interest Company (CIC) based in the United Kingdom. We operate brushpast.org - a creative platform and social enterprise combining storytelling, workshops, and The Archive Shop.",
           "We are the data controller for personal data collected through this website. Our activities are focused on supporters, customers, and partners in the UK.",
           contactBlock,
         ],
@@ -47,10 +47,10 @@ export const legalPages: Record<string, LegalPageContent> = {
         title: "Legal bases (UK GDPR)",
         paragraphs: ["We rely on:"],
         list: [
-          "Contract — to fulfil orders and provide services you request",
-          "Legitimate interests — to operate our social enterprise, improve the site, and communicate with supporters (balanced against your rights)",
-          "Consent — for non-essential cookies and optional marketing (where offered)",
-          "Legal obligation — where law requires us to retain or disclose data",
+          "Contract - to fulfil orders and provide services you request",
+          "Legitimate interests - to operate our social enterprise, improve the site, and communicate with supporters (balanced against your rights)",
+          "Consent - for non-essential cookies and optional marketing (where offered)",
+          "Legal obligation - where law requires us to retain or disclose data",
         ],
       },
       {
@@ -107,13 +107,13 @@ export const legalPages: Record<string, LegalPageContent> = {
     slug: "cookies",
     title: "Cookies Policy",
     description:
-      "How Brush Past uses cookies and similar technologies on brushpast.org — and how you can control them (UK PECR & UK GDPR).",
+      "How Brush Past uses cookies and similar technologies on brushpast.org - and how you can control them (UK PECR & UK GDPR).",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
         title: "What are cookies?",
         paragraphs: [
-          "Cookies are small text files stored on your device when you visit a website. They help the site work, remember preferences (such as items in your bag), and — only with your consent — understand how visitors use the site.",
+          "Cookies are small text files stored on your device when you visit a website. They help the site work, remember preferences (such as items in your bag), and - only with your consent - understand how visitors use the site.",
         ],
       },
       {
@@ -123,10 +123,10 @@ export const legalPages: Record<string, LegalPageContent> = {
           "We use:",
         ],
         list: [
-          "Strictly necessary cookies — required for security, checkout, your shopping bag, and remembering your cookie choices. These cannot be switched off in our cookie banner.",
-          "Analytics cookies — only if you accept them (e.g. to measure traffic via Google Analytics when configured). IP addresses are anonymised where possible.",
-          "Marketing cookies — only if you accept them, to measure campaigns or show more relevant content.",
-          "Preference cookies — to remember choices such as cookie consent.",
+          "Strictly necessary cookies - required for security, checkout, your shopping bag, and remembering your cookie choices. These cannot be switched off in our cookie banner.",
+          "Analytics cookies - only if you accept them (e.g. to measure traffic via Google Analytics when configured). IP addresses are anonymised where possible.",
+          "Marketing cookies - only if you accept them, to measure campaigns or show more relevant content.",
+          "Preference cookies - to remember choices such as cookie consent.",
         ],
       },
       {
@@ -154,7 +154,7 @@ export const legalPages: Record<string, LegalPageContent> = {
       {
         title: "Overview",
         paragraphs: [
-          "We want you to be happy with purchases from The Archive Shop. Many items are limited editions or made with creators — please read below before ordering.",
+          "We want you to be happy with purchases from The Archive Shop. Many items are limited editions or made with creators - please read below before ordering.",
           contactBlock,
         ],
       },

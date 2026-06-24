@@ -97,7 +97,7 @@ function FragmentCard({
       />
       <h3 className={`${caveat.className} text-2xl font-bold text-bp-accent`}>{title}</h3>
       <p className={`${caveat.className} mt-3 text-lg leading-snug text-bp-text/85`}>&ldquo;{quote}&rdquo;</p>
-      <p className={`${caveat.className} mt-4 text-base text-bp-text/60`}>— JR</p>
+      <p className={`${caveat.className} mt-4 text-base text-bp-text/60`}>- JR</p>
     </article>
   );
 }
@@ -170,7 +170,7 @@ export async function JrPage() {
           <div className="relative min-h-[320px] lg:min-h-[480px]">
             <Image
               src={heroImage}
-              alt="JR — Love painting"
+              alt="JR - Love painting"
               fill
               className="object-cover object-center"
               priority
@@ -225,7 +225,7 @@ export async function JrPage() {
             <div className="relative aspect-[5/3] overflow-hidden rounded-sm bg-bp-text/5 shadow-sm">
               <Image
                 src={COPY.gallery.main}
-                alt="JR artwork — Love painting"
+                alt="JR artwork - Love painting"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1280px) 100vw, 40vw"
@@ -309,7 +309,7 @@ export async function JrPage() {
           </svg>
           <p className={`${caveat.className} max-w-3xl text-[1.65rem] leading-snug text-bp-text md:text-[2rem]`}>
             &ldquo;{COPY.closingQuote}&rdquo;
-            <span className="mt-2 block text-lg text-bp-text/70">— JR</span>
+            <span className="mt-2 block text-lg text-bp-text/70">- JR</span>
           </p>
           <div className="flex gap-2" aria-hidden>
             <span className="h-3 w-3 rounded-full bg-bp-text/80" />

@@ -155,7 +155,7 @@ export async function GeorgePage() {
             >
               <Image
                 src={heroImage}
-                alt="George — artist image for Brush Past"
+                alt="George - artist image for Brush Past"
                 fill
                 className="object-cover object-center"
                 priority

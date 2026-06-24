@@ -1,15 +1,15 @@
-/** About page copy — aligned with brushpast.org / design mockup */
+/** About page copy - aligned with brushpast.org / design mockup */
 
 export const ABOUT_HERO_IMAGE = {
   src: "/about1.png",
-  alt: "Brush Past founders — Jeremy and David",
+  alt: "Brush Past founders - Jeremy and David",
 } as const;
 
 export const ABOUT_VALUES = [
   {
     title: "Dignity",
     description:
-      "Everyone deserves to be seen as a whole person — not defined by their hardest chapter.",
+      "Everyone deserves to be seen as a whole person - not defined by their hardest chapter.",
     icon: "dignity" as const,
   },
   {
@@ -27,7 +27,7 @@ export const ABOUT_VALUES = [
   {
     title: "Community",
     description:
-      "Real spaces, mentors and peers — recovery and creativity happen together.",
+      "Real spaces, mentors and peers - recovery and creativity happen together.",
     icon: "community" as const,
   },
 ] as const;
@@ -70,7 +70,7 @@ export const ABOUT_IMPACT_STATS = [
 
 export const ABOUT_LAUNCH_OVERLAY = {
   eyebrow: "Transparency",
-  headline: "We've just launched — help us out!",
+  headline: "We've just launched - help us out!",
   buttonLabel: "Join the newsletter",
 } as const;
 
@@ -78,4 +78,4 @@ export const ABOUT_QUOTE =
   "We came from different sides of the street, but met on the same roundabout.";
 
 export const ABOUT_QUOTE_ASIDE =
-  "A chance conversation between two people with very different backgrounds became a shared belief: creativity can rebuild identity, confidence and connection — and that belief became Brush Past.";
+  "A chance conversation between two people with very different backgrounds became a shared belief: creativity can rebuild identity, confidence and connection - and that belief became Brush Past.";

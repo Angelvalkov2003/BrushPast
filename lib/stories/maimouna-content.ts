@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/maimouna — Sleeping pills */
+/** Hand-coded copy for /stories/maimouna - Sleeping pills */
 
 export type MaimounaLyricLine = {
   text: string;
@@ -23,7 +23,7 @@ export const MAIMOUNA_STORY = {
   heroImage: "/stories/maimouna/1.webp",
   secondaryImage: "/stories/maimouna/2.webp",
   intro:
-    "A song from Mighty Culture — written in the space between rest and unrest, pills and poetry.",
+    "A song from Mighty Culture - written in the space between rest and unrest, pills and poetry.",
   sections: [
     {
       label: "Verse 1",
@@ -74,5 +74,5 @@ export const MAIMOUNA_STORY = {
   ] satisfies MaimounaSection[],
   inspirationNote:
     '*Inspired by the book "Need to Know? Sleep" by Doctor Chris Idzikowski ISBN: 9780007202232',
-  closingQuote: "Temporary answers — many of them have side-effects.",
+  closingQuote: "Temporary answers - many of them have side-effects.",
 } as const;

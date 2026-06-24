@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/jr — artist story layout */
+/** Hand-coded copy for /stories/jr - artist story layout */
 
 export type JrStoryLine = {
   text: string;
@@ -27,7 +27,7 @@ export const JR_STORY = {
       { text: "This painting meant so much in the time of despair for me." },
       { text: "I had been through court fighting for access to my son." },
       { text: "I soon lost contact again." },
-      { text: "This destroyed my world — leading to suicidal thoughts.", emphasis: true },
+      { text: "This destroyed my world - leading to suicidal thoughts.", emphasis: true },
       { text: "I had to do something to distract my mind." },
       { text: "Focus one step at a time.", emphasis: true },
       { text: "I painted the word 'love' as a reminder.", highlight: "love" },
@@ -39,16 +39,16 @@ export const JR_STORY = {
     title: "In my words",
     paragraphs: [
       "Court took everything I thought I had left. Losing contact with my son again broke me in ways I still struggle to name. Some days the only thing between me and giving up was finding one small task I could finish.",
-      "Painting became that task. Not a grand project — just a word, one letter at a time, until the canvas said something I could read back to myself when the room went quiet.",
-      "Having gone to court a second time, I won my case against adversity. That word on the canvas gave me the drive and strength I needed to keep showing up — for my son, for myself, for the next ordinary day.",
+      "Painting became that task. Not a grand project - just a word, one letter at a time, until the canvas said something I could read back to myself when the room went quiet.",
+      "Having gone to court a second time, I won my case against adversity. That word on the canvas gave me the drive and strength I needed to keep showing up - for my son, for myself, for the next ordinary day.",
     ],
   },
   aboutTheArtwork: {
     title: "About the artwork",
     paragraphs: [
-      "The love painting is raw on purpose — black and white ground, red and yellow pushed into the letters like they were scraped out of feeling rather than planned.",
+      "The love painting is raw on purpose - black and white ground, red and yellow pushed into the letters like they were scraped out of feeling rather than planned.",
       "It is not decoration. It is a lifeline I made when language failed. Every mark is a step I took when I could not see the next one.",
-      "The sketches alongside it — dogs, faces, small studies — are how I practise staying present. Art helps me keep showing up.",
+      "The sketches alongside it - dogs, faces, small studies - are how I practise staying present. Art helps me keep showing up.",
     ],
   },
   gallery: {
@@ -73,7 +73,7 @@ export const JR_STORY = {
       },
       {
         title: "One day",
-        quote: "Focus one step at a time — that was all I could manage.",
+        quote: "Focus one step at a time - that was all I could manage.",
       },
       {
         title: "Art",
@@ -81,7 +81,7 @@ export const JR_STORY = {
       },
       {
         title: "Reiley",
-        quote: "Every stroke was for my son — a reminder of why the fight mattered.",
+        quote: "Every stroke was for my son - a reminder of why the fight mattered.",
       },
     ] satisfies JrFragment[],
   },

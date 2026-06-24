@@ -37,9 +37,9 @@ export default async function AdminWorkshopsPage() {
             ) : (
               items.map((w) => (
                 <tr key={w.id}>
-                  <td className="font-medium">{w.title || "—"}</td>
-                  <td className="text-gray-500">{w.slug || "—"}</td>
-                  <td className="text-gray-500">{w.location_label || "—"}</td>
+                  <td className="font-medium">{w.title || "-"}</td>
+                  <td className="text-gray-500">{w.slug || "-"}</td>
+                  <td className="text-gray-500">{w.location_label || "-"}</td>
                   <td>{w.status}</td>
                   <td className="space-x-2 whitespace-nowrap">
                     <Link href={`/admin/workshops/${w.id}`} className="text-indigo-600 hover:underline">

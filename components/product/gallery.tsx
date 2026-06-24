@@ -127,7 +127,7 @@ export function Gallery({
       </div>
 
       {images.length > 1 ? (
-        <ul className="my-12 flex items-center flex-wrap justify-center gap-2 overflow-auto py-1 lg:mb-0">
+        <ul className="mt-6 flex flex-wrap items-center justify-center gap-2 py-1 lg:mt-8">
           {images.map((image, index) => {
             const isActive = index === currentIndex;
 

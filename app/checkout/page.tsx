@@ -240,7 +240,7 @@ export default function CheckoutPage() {
                 <div>
                   <label className={labelClass}>UK delivery *</label>
                   <p className="mt-2 border border-bp-text/15 p-4 text-sm text-bp-text/80">
-                    {SHIPPING_UK.dpd.label} — £{SHIPPING_UK.dpd.price.toFixed(2)} ({SHIPPING_UK.dpd.days}
+                    {SHIPPING_UK.dpd.label} - £{SHIPPING_UK.dpd.price.toFixed(2)} ({SHIPPING_UK.dpd.days}
                     ). Shipping is paid by the customer.
                   </p>
                 </div>

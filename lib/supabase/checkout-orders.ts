@@ -1,4 +1,10 @@
 import { getSupabaseServiceClient } from "lib/supabase/service";
+import {
+  decrementInventoryForOrder,
+  markOrderInventoryDecremented,
+  rollbackCheckoutOrder,
+  validateCheckoutInventory,
+} from "lib/inventory";
 
 export type CheckoutLineItem = {
   product_id: string;
@@ -32,6 +38,8 @@ export type CreateCheckoutOrderInput = {
 };
 
 export async function createCheckoutOrder(input: CreateCheckoutOrderInput) {
+  await validateCheckoutInventory(input.items);
+
   const supabase = getSupabaseServiceClient();
   const { data: order, error } = await supabase
     .from("orders")
@@ -74,7 +82,18 @@ export async function createCheckoutOrder(input: CreateCheckoutOrderInput) {
   }));
 
   const { error: itemsError } = await supabase.from("order_items").insert(rows);
-  if (itemsError) throw new Error(itemsError.message);
+  if (itemsError) {
+    await rollbackCheckoutOrder(order.id);
+    throw new Error(itemsError.message);
+  }
+
+  try {
+    await decrementInventoryForOrder(order.id);
+    await markOrderInventoryDecremented(order.id);
+  } catch (inventoryError) {
+    await rollbackCheckoutOrder(order.id);
+    throw inventoryError;
+  }
 
   return order;
 }

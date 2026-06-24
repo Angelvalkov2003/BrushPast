@@ -1,4 +1,4 @@
-/** @deprecated storefront — use checkout-orders */
+/** @deprecated storefront - use checkout-orders */
 export {
   createCheckoutOrder as createOrder,
   getCheckoutOrderById as getOrderById,

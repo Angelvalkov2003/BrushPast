@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/eneh — Eneh's Day in Photos */
+/** Hand-coded copy for /stories/eneh - Eneh's Day in Photos */
 
 export type EnehPhoto = {
   src: string;

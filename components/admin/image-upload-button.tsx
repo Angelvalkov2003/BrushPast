@@ -1,25 +1,21 @@
 "use client";
 
-import { useState, useRef, useId } from "react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
 
 interface ImageUploadButtonProps {
   onUploadComplete: (url: string) => void;
   label?: string;
   className?: string;
-  id?: string;
 }
 
 export function ImageUploadButton({
   onUploadComplete,
   label = "Upload image",
   className = "",
-  id,
 }: ImageUploadButtonProps) {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const generatedId = useId();
-  const inputId = id || `image-upload-${generatedId}`;
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -61,9 +57,9 @@ export function ImageUploadButton({
 
       onUploadComplete(data.url);
       toast.success("Image uploaded successfully");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error uploading image:", error);
-      toast.error(error.message || "Image upload failed");
+      toast.error(error instanceof Error ? error.message : "Image upload failed");
     } finally {
       setUploading(false);
       if (fileInputRef.current) {
@@ -80,15 +76,18 @@ export function ImageUploadButton({
         accept="image/*"
         onChange={handleFileSelect}
         className="hidden"
-        id={inputId}
         disabled={uploading}
+        tabIndex={-1}
+        aria-hidden
       />
-      <label
-        htmlFor={inputId}
-        className={`inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      <button
+        type="button"
+        disabled={uploading}
+        onClick={() => fileInputRef.current?.click()}
+        className={`inline-block rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       >
         {uploading ? "Uploading..." : label}
-      </label>
+      </button>
     </div>
   );
 }

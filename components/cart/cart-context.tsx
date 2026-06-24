@@ -5,6 +5,7 @@ import {
   optionsFromVariant,
   parseVariantTitle,
 } from "lib/product-variants";
+import { checkStockQuantity } from "lib/cart-stock";
 import type {
   Cart,
   CartItem,
@@ -26,10 +27,12 @@ type AddCartOptions = {
 
 type CartContextType = {
   cart: Cart | null;
-  /** Increments on each add-to-bag — drives cart icon animation */
+  /** Increments on each add-to-bag - drives cart icon animation */
   cartPulse: number;
-  updateCartItem: (itemId: string, updateType: UpdateType) => void;
-  addCartItem: (variant: ProductVariant, product: Product, options?: AddCartOptions) => void;
+  stockError: string | null;
+  clearStockError: () => void;
+  updateCartItem: (itemId: string, updateType: UpdateType) => boolean;
+  addCartItem: (variant: ProductVariant, product: Product, options?: AddCartOptions) => boolean;
   updateCartVariant: (itemId: string, variant: ProductVariant) => void;
   clearCart: () => void;
 };
@@ -63,6 +66,7 @@ function toVariantOptions(variants: ProductVariant[] | undefined) {
       available: enriched.available,
       sku: enriched.sku,
       selectedOptions: enriched.selectedOptions,
+      maxQuantity: enriched.maxQuantity,
     };
   });
 }
@@ -76,6 +80,7 @@ function createOrUpdateCartItem(
   const quantity = existingItem ? existingItem.quantity + 1 : 1;
   const variantOptions =
     toVariantOptions(options?.variantOptions) ?? existingItem?.variantOptions;
+  const maxQuantity = variant.maxQuantity ?? existingItem?.maxQuantity;
 
   return {
     id: existingItem?.id || `${product.id}-${variant.id}`,
@@ -96,6 +101,7 @@ function createOrUpdateCartItem(
       selectedOptions: optionsFromVariant(variant),
     },
     variantOptions,
+    maxQuantity,
   };
 }
 
@@ -236,6 +242,9 @@ export function CartProvider({
 }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [cartPulse, setCartPulse] = useState(0);
+  const [stockError, setStockError] = useState<string | null>(null);
+
+  const clearStockError = () => setStockError(null);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -250,20 +259,41 @@ export function CartProvider({
     }
   }, [cart]);
 
-  const updateCartItem = (itemId: string, updateType: UpdateType) => {
+  const updateCartItem = (itemId: string, updateType: UpdateType): boolean => {
+    let blocked = false;
+
     setCart((currentCart) => {
       if (!currentCart || !currentCart.items) return currentCart;
 
-      // Filter out any invalid items first
       const validItems = currentCart.items.filter(
         (item): item is CartItem => item !== null && item !== undefined && item.id !== undefined
       );
+
+      const target = validItems.find((item) => item.id === itemId);
+      if (!target) return currentCart;
+
+      if (updateType === "plus") {
+        const check = checkStockQuantity(
+          target.quantity,
+          1,
+          target.maxQuantity,
+          target.product.title,
+          target.variant.title,
+        );
+        if (!check.ok) {
+          blocked = true;
+          setStockError(check.error);
+          return currentCart;
+        }
+      }
+
+      setStockError(null);
 
       const updatedItems = validItems
         .map((item) => {
           if (item.id === itemId) {
             const updated = updateCartItemQuantity(item, updateType);
-            return updated; // Can be null if quantity becomes 0 or delete
+            return updated;
           }
           return item;
         })
@@ -285,13 +315,17 @@ export function CartProvider({
         items: updatedItems,
       };
     });
+
+    return !blocked;
   };
 
   const addCartItem = (
     variant: ProductVariant,
     product: Product,
     options?: AddCartOptions,
-  ) => {
+  ): boolean => {
+    let added = false;
+
     setCart((currentCart) => {
       const cart = currentCart || createEmptyCart();
 
@@ -302,6 +336,21 @@ export function CartProvider({
       const existingItem = validItems.find(
         (item) => item.productId === product.id && item.variantId === variant.id,
       );
+
+      const check = checkStockQuantity(
+        existingItem?.quantity ?? 0,
+        1,
+        variant.maxQuantity ?? existingItem?.maxQuantity,
+        product.title,
+        variant.title,
+      );
+      if (!check.ok) {
+        setStockError(check.error);
+        return currentCart ?? cart;
+      }
+
+      setStockError(null);
+
       const updatedItem = createOrUpdateCartItem(
         existingItem,
         variant,
@@ -317,13 +366,17 @@ export function CartProvider({
           )
         : [...validItems, updatedItem];
 
+      added = true;
+
       return {
         ...cart,
         ...updateCartTotals(updatedItems),
         items: updatedItems,
       };
     });
-    setCartPulse((n) => n + 1);
+
+    if (added) setCartPulse((n) => n + 1);
+    return added;
   };
 
   const updateCartVariant = (itemId: string, variant: ProductVariant) => {
@@ -353,14 +406,30 @@ export function CartProvider({
           ),
       );
 
+      const mergedQuantity = target.quantity + (existingSameVariant?.quantity ?? 0);
+      const check = checkStockQuantity(
+        0,
+        mergedQuantity,
+        variant.maxQuantity,
+        target.product.title,
+        variant.title,
+      );
+      if (!check.ok) {
+        setStockError(check.error);
+        return currentCart;
+      }
+
+      setStockError(null);
+
       const updatedItems = withoutDuplicate.map((item) => {
         if (item.id !== itemId) return item;
         return {
           ...item,
           id: `${item.productId}-${variant.id}`,
           variantId: variant.id,
-          quantity: item.quantity + (existingSameVariant?.quantity ?? 0),
+          quantity: mergedQuantity,
           price: variant.price,
+          maxQuantity: variant.maxQuantity ?? item.maxQuantity,
           variant: {
             id: variant.id,
             title: variant.title,
@@ -388,7 +457,16 @@ export function CartProvider({
 
   return (
     <CartContext.Provider
-      value={{ cart, cartPulse, updateCartItem, addCartItem, updateCartVariant, clearCart }}
+      value={{
+        cart,
+        cartPulse,
+        stockError,
+        clearStockError,
+        updateCartItem,
+        addCartItem,
+        updateCartVariant,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>

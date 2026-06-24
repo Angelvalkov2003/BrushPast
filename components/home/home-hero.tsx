@@ -9,7 +9,7 @@ export function HomeHero() {
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:items-center md:gap-16">
         <div>
           <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
-            Welcome in — take your time
+            Welcome in - take your time
           </p>
           <h1
             className={`${homeHandClass} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
@@ -19,7 +19,7 @@ export function HomeHero() {
           <p
             className={`${homeSerifClass} mt-6 max-w-xl text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
           >
-            Real voices through art, writing, photography and design — made with people
+            Real voices through art, writing, photography and design - made with people
             rebuilding from life&apos;s hardest chapters.
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
@@ -39,7 +39,7 @@ export function HomeHero() {
           <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
             <Image
               src="/home-hero.png"
-              alt="Brush Past — coffee, gift box and story card"
+              alt="Brush Past - coffee, gift box and story card"
               fill
               className="object-cover"
               priority

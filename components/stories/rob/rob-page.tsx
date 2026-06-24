@@ -149,7 +149,7 @@ export async function RobPage() {
           <div className="relative min-h-[420px] lg:min-h-[560px]">
             <Image
               src={heroImage}
-              alt="Rob — Glitch"
+              alt="Rob - Glitch"
               fill
               className="object-cover object-center"
               priority

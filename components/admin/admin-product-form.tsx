@@ -19,11 +19,14 @@ import {
   adminTextareaClass,
   adminTextareaLgClass,
 } from "./admin-form-styles";
-import type { AdminCategory, AdminProduct, AdminProductVariantInput, ContentStatus, InventoryType } from "lib/types/admin";
+import type { AdminCategory, AdminOrganisation, AdminProduct, AdminProductVariantInput, AdminStory, AdminWorkshop, ContentStatus, InventoryType } from "lib/types/admin";
 
 type Props = {
   product?: AdminProduct | null;
   categories: AdminCategory[];
+  stories: AdminStory[];
+  workshops: AdminWorkshop[];
+  organisations: AdminOrganisation[];
   createAction: (formData: FormData) => Promise<{ error?: string }>;
   updateAction?: (formData: FormData) => Promise<{ error?: string }>;
 };
@@ -31,7 +34,15 @@ type Props = {
 const STATUSES: ContentStatus[] = ["draft", "active", "hidden", "archived"];
 const INVENTORY_TYPES: InventoryType[] = ["single", "limited", "unlimited"];
 
-export function AdminProductForm({ product, categories, createAction, updateAction }: Props) {
+export function AdminProductForm({
+  product,
+  categories,
+  stories,
+  workshops,
+  organisations,
+  createAction,
+  updateAction,
+}: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [mainImage, setMainImage] = useState(product?.main_image_url ?? "");
@@ -39,6 +50,11 @@ export function AdminProductForm({ product, categories, createAction, updateActi
     product?.images?.map((i) => i.image_url ?? "").filter(Boolean) ?? [],
   );
   const [categoryIds, setCategoryIds] = useState<string[]>(product?.category_ids ?? []);
+  const [storyIds, setStoryIds] = useState<string[]>(product?.story_ids ?? []);
+  const [organisationIds, setOrganisationIds] = useState<string[]>(
+    product?.organisation_ids ?? [],
+  );
+  const [workshopId, setWorkshopId] = useState(product?.workshop_id ?? "");
   const [variants, setVariants] = useState<AdminProductVariantInput[]>(() =>
     initialVariantsFromProduct(product?.variants),
   );
@@ -49,24 +65,46 @@ export function AdminProductForm({ product, categories, createAction, updateActi
     );
   };
 
+  const toggleStory = (id: string) => {
+    setStoryIds((prev) =>
+      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id],
+    );
+  };
+
+  const toggleOrganisation = (id: string) => {
+    setOrganisationIds((prev) =>
+      prev.includes(id) ? prev.filter((o) => o !== id) : [...prev, id],
+    );
+  };
+
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setLoading(true);
-    const fd = new FormData(e.currentTarget);
-    fd.set("main_image_url", mainImage);
-    fd.set("category_ids", JSON.stringify(categoryIds));
-    fd.set("gallery_urls", JSON.stringify(gallery));
-    fd.set("variants", JSON.stringify(variants));
 
-    const result = product && updateAction ? await updateAction(fd) : await createAction(fd);
-    if (result?.error) {
-      toast.error(result.error);
+    try {
+      const fd = new FormData(form);
+      fd.set("main_image_url", mainImage);
+      fd.set("category_ids", JSON.stringify(categoryIds));
+      fd.set("story_ids", JSON.stringify(storyIds));
+      fd.set("organisation_ids", JSON.stringify(organisationIds));
+      fd.set("workshop_id", workshopId);
+      fd.set("gallery_urls", JSON.stringify(gallery));
+      fd.set("variants", JSON.stringify(variants));
+
+      const result = product && updateAction ? await updateAction(fd) : await createAction(fd);
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      toast.success(product ? "Product updated" : "Product created");
+      router.replace("/admin/products");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
       setLoading(false);
-      return;
     }
-    toast.success(product ? "Product updated" : "Product created");
-    router.push("/admin/products");
-    router.refresh();
   };
 
   return (
@@ -119,6 +157,109 @@ export function AdminProductForm({ product, categories, createAction, updateActi
         <textarea name="full_description" rows={8} defaultValue={product?.full_description ?? ""} className={adminTextareaLgClass} />
       </div>
 
+      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 md:p-6">
+        <h2 className="text-lg font-semibold text-gray-900">Details (product page)</h2>
+        <p className="mt-1 text-sm text-gray-600">
+          Optional specs shown under &ldquo;Details&rdquo; on the shop product page. Leave blank to
+          hide each row.
+        </p>
+        <div className={`${adminGridClass} mt-5`}>
+          <div>
+            <label className={adminLabelClass}>Story number</label>
+            <input
+              name="story_number"
+              placeholder="e.g. BP-003"
+              defaultValue={product?.story_number ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div>
+            <label className={adminLabelClass}>Product type</label>
+            <input
+              name="product_type"
+              placeholder="e.g. t-shirt, print, gift-box"
+              defaultValue={product?.product_type ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div>
+            <label className={adminLabelClass}>Medium</label>
+            <input
+              name="medium"
+              placeholder="e.g. cotton, mixed media"
+              defaultValue={product?.medium ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div>
+            <label className={adminLabelClass}>Edition number</label>
+            <input
+              name="edition_number"
+              placeholder="e.g. 12"
+              defaultValue={product?.edition_number ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div>
+            <label className={adminLabelClass}>Total edition size</label>
+            <input
+              name="total_edition_size"
+              placeholder="e.g. 50"
+              defaultValue={product?.total_edition_size ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div>
+            <label className={adminLabelClass}>Weight</label>
+            <input
+              name="weight"
+              placeholder="e.g. 220g"
+              defaultValue={product?.weight ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className={adminLabelClass}>Dimensions</label>
+            <input
+              name="dimensions"
+              placeholder="e.g. 30×40cm, Size M"
+              defaultValue={product?.dimensions ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className={adminLabelClass}>Story link (QR / URL)</label>
+            <input
+              name="qr_story_url"
+              type="url"
+              placeholder="https://brushpast.org/stories/..."
+              defaultValue={product?.qr_story_url ?? ""}
+              className={adminInputClass}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className={adminLabelClass}>Profit share note</label>
+            <textarea
+              name="profit_share_note"
+              rows={2}
+              placeholder="Shown in Your impact section"
+              defaultValue={product?.profit_share_note ?? ""}
+              className={adminTextareaClass}
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className={adminLabelClass}>Impact note</label>
+            <textarea
+              name="impact_note"
+              rows={2}
+              placeholder="Shown in Your impact section"
+              defaultValue={product?.impact_note ?? ""}
+              className={adminTextareaClass}
+            />
+          </div>
+        </div>
+      </div>
+
       <div>
         <label className={`${adminLabelClass} mb-3`}>Categories</label>
         <div className="flex flex-wrap gap-2">
@@ -128,6 +269,76 @@ export function AdminProductForm({ product, categories, createAction, updateActi
               {c.name || c.slug}
             </label>
           ))}
+        </div>
+      </div>
+
+      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 md:p-6">
+        <h2 className="text-lg font-semibold text-gray-900">Connections (product page)</h2>
+        <p className="mt-1 text-sm text-gray-600">
+          Link this product to a story, workshop, or partner organisation. Cards appear on the
+          public product page.
+        </p>
+
+        <div className="mt-5">
+          <label className={adminLabelClass}>Linked stories</label>
+          <div className="mt-2 flex max-h-48 flex-wrap gap-2 overflow-y-auto">
+            {stories.length === 0 ? (
+              <p className="text-sm text-gray-500">No stories in admin yet.</p>
+            ) : (
+              stories.map((s) => (
+                <label
+                  key={s.id}
+                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={storyIds.includes(s.id)}
+                    onChange={() => toggleStory(s.id)}
+                  />
+                  {s.title || s.slug}
+                </label>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <label className={adminLabelClass}>Workshop</label>
+          <select
+            value={workshopId}
+            onChange={(e) => setWorkshopId(e.target.value)}
+            className={adminSelectClass}
+          >
+            <option value="">None</option>
+            {workshops.map((w) => (
+              <option key={w.id} value={w.id}>
+                {w.title || w.slug}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="mt-5">
+          <label className={adminLabelClass}>Partner organisations</label>
+          <div className="mt-2 flex max-h-48 flex-wrap gap-2 overflow-y-auto">
+            {organisations.length === 0 ? (
+              <p className="text-sm text-gray-500">No organisations in admin yet.</p>
+            ) : (
+              organisations.map((o) => (
+                <label
+                  key={o.id}
+                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={organisationIds.includes(o.id)}
+                    onChange={() => toggleOrganisation(o.id)}
+                  />
+                  {o.name || o.slug}
+                </label>
+              ))
+            )}
+          </div>
         </div>
       </div>
 

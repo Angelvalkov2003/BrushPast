@@ -25,7 +25,7 @@ export function HomeNewsletter() {
               Join the story
             </h2>
             <p className={`${homeSerifClass} mt-4 max-w-md text-base italic text-bp-canvas/75`}>
-              Workshops, shop drops and moments from the journey — no spam, just the real stuff.
+              Workshops, shop drops and moments from the journey - no spam, just the real stuff.
             </p>
             <NewsletterSignupForm
               source={NEWSLETTER_SOURCE_HOME}

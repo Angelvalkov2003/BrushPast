@@ -1,5 +1,5 @@
 /**
- * Shop structure — three core collections (DB: `categories` table).
+ * Shop structure - three core collections (DB: `categories` table).
  * Products link via `product_categories` + stories.
  */
 
@@ -13,7 +13,7 @@ export const SHOP_COLLECTIONS = [
   {
     slug: "drink-the-story",
     name: "Drink it",
-    short_description: "Curated coffee editions and story cards — meaningful conversations.",
+    short_description: "Curated coffee editions and story cards - meaningful conversations.",
     shop_cta: "Discover coffee",
   },
   {

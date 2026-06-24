@@ -1,7 +1,7 @@
-/** Workshops page copy — design mockup + client brief */
+/** Workshops page copy - design mockup + client brief */
 
 export const WORKSHOPS_HERO_INTRO =
-  "A space to breathe, make something, and be yourself — without pressure to perform or explain. Creative workshops for anyone with a story, at any skill level.";
+  "A space to breathe, make something, and be yourself - without pressure to perform or explain. Creative workshops for anyone with a story, at any skill level.";
 
 /** Client workshop categories */
 export const WORKSHOP_CATEGORIES = [
@@ -15,7 +15,7 @@ export const WORKSHOP_CATEGORIES = [
 
 export const WORKSHOPS_MISSION_COLUMNS = {
   origin:
-    "BrushPast began working with people in recovery, homelessness and incarceration — using creativity to rebuild identity and confidence.",
+    "BrushPast began working with people in recovery, homelessness and incarceration - using creativity to rebuild identity and confidence.",
   originHighlight: "But the model works for anyone.",
   choiceLead: "You choose your path.",
   choiceBody: "Share your work, sell your work, or keep it private. It's your choice. Always.",
@@ -24,12 +24,12 @@ export const WORKSHOPS_MISSION_COLUMNS = {
 export const WORKSHOPS_CORE_VALUES = [
   {
     title: "Safe space",
-    description: "No judgment, no pressure — show up exactly as you are.",
+    description: "No judgment, no pressure - show up exactly as you are.",
     icon: "safe" as const,
   },
   {
     title: "Be creative",
-    description: "Any medium, any skill level — art, writing, photography, design.",
+    description: "Any medium, any skill level - art, writing, photography, design.",
     icon: "creative" as const,
   },
   {
@@ -44,7 +44,7 @@ export const WORKSHOPS_CORE_VALUES = [
   },
   {
     title: "Ownership",
-    description: "Your work, your rights — we never take that away from you.",
+    description: "Your work, your rights - we never take that away from you.",
     icon: "ownership" as const,
   },
 ] as const;
@@ -52,7 +52,7 @@ export const WORKSHOPS_CORE_VALUES = [
 export const WORKSHOPS_PROCESS = [
   {
     title: "Create",
-    caption: "Draw, write, photograph or design — guided, unhurried sessions.",
+    caption: "Draw, write, photograph or design - guided, unhurried sessions.",
     image: "/workshops-hero.png",
   },
   {
@@ -62,7 +62,7 @@ export const WORKSHOPS_PROCESS = [
   },
   {
     title: "Capture",
-    caption: "Document your work — digital or print, your choice.",
+    caption: "Document your work - digital or print, your choice.",
     image: "/contact-hero.png",
   },
   {
@@ -72,7 +72,7 @@ export const WORKSHOPS_PROCESS = [
   },
   {
     title: "Opportunity",
-    caption: "If work sells through our shop, creators earn fairly — 65% reinvested with creators and partners.",
+    caption: "If work sells through our shop, creators earn fairly - 65% reinvested with creators and partners.",
     image: "/shop-hero.png",
   },
 ] as const;

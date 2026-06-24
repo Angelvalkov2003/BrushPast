@@ -1,4 +1,9 @@
 import { enrichVariants } from "lib/product-variants";
+import {
+  mapOrganisationRowToLink,
+  mapStoryRowToLink,
+  mapWorkshopRowToLink,
+} from "lib/product-relations-display";
 import type { ProductDetail, ProductVariant } from "lib/types";
 import { cache } from "react";
 import { createServerClient } from "./server";
@@ -29,7 +34,7 @@ function mapVariants(
     .filter((v) => v.status === "active")
     .map((v) => {
       const qty = v.inventory_quantity ?? 0;
-      const limited = v.inventory_type === "limited" || v.inventory_type === "single";
+      const limited = v.inventory_type !== "unlimited";
       const available = v.inventory_type === "unlimited" || qty > 0;
       const name = v.variant_name?.trim() || "Default";
       return {
@@ -38,12 +43,13 @@ function mapVariants(
         price: v.price_override != null ? Number(v.price_override) : basePrice,
         sku: v.sku ?? undefined,
         inventory: qty,
+        maxQuantity: limited ? qty : undefined,
         available,
       };
     });
 }
 
-/** Active variants for a public product (service role — RLS may block anon reads). */
+/** Active variants for a public product (service role - RLS may block anon reads). */
 async function loadProductVariants(
   productId: string,
   basePrice: number,
@@ -86,31 +92,79 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
     const galleries = await loadGalleries(supabase, [data.id]);
     const base = transformProduct(data, galleries.get(data.id) ?? []);
 
-    const [variants, { data: catLinks }, { data: storyLinks }] = await Promise.all([
+    const [variants, { data: catLinks }, { data: storyLinks }, { data: orgLinks }] =
+      await Promise.all([
       loadProductVariants(data.id, base.price),
       supabase.from("product_categories").select("category_id").eq("product_id", data.id),
       supabase.from("product_stories").select("story_id").eq("product_id", data.id),
+      supabase.from("product_organisations").select("organisation_id").eq("product_id", data.id),
     ]);
 
     const categoryIds = (catLinks ?? []).map((l) => l.category_id);
     const storyIds = (storyLinks ?? []).map((l) => l.story_id);
+    const organisationIds = (orgLinks ?? []).map((l) => l.organisation_id);
+    const workshopId = (data.workshop_id as string | null) ?? null;
 
-    const [{ data: categories }, { data: stories }] = await Promise.all([
+    const [{ data: categories }, { data: stories }, { data: organisations }, { data: workshop }] =
+      await Promise.all([
       categoryIds.length
         ? supabase.from("categories").select("slug, name").in("id", categoryIds).eq("status", "active")
         : Promise.resolve({ data: [] as { slug: string | null; name: string | null }[] }),
       storyIds.length
         ? supabase
             .from("stories")
-            .select("title, slug, page_url")
+            .select("title, slug, page_url, image_url, short_description, is_anonymous")
             .in("id", storyIds)
             .eq("status", "active")
-        : Promise.resolve({ data: [] as { title: string | null; slug: string | null; page_url: string | null }[] }),
+        : Promise.resolve({
+            data: [] as {
+              title: string | null;
+              slug: string | null;
+              page_url: string | null;
+              image_url: string | null;
+              short_description: string | null;
+              is_anonymous: boolean | null;
+            }[],
+          }),
+      organisationIds.length
+        ? supabase
+            .from("organisations")
+            .select("name, slug, page_url, external_url, image_url, short_description")
+            .in("id", organisationIds)
+            .eq("status", "active")
+        : Promise.resolve({
+            data: [] as {
+              name: string | null;
+              slug: string | null;
+              page_url: string | null;
+              external_url: string | null;
+              image_url: string | null;
+              short_description: string | null;
+            }[],
+          }),
+      workshopId
+        ? supabase
+            .from("workshops")
+            .select("title, slug, page_url, image_url, location_label")
+            .eq("id", workshopId)
+            .eq("status", "active")
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
     ]);
 
     const hasAvailableVariant = variants.some((v) => v.available);
     const productAvailable = isAvailable(data) && (variants.length === 0 || hasAvailableVariant);
     const primaryCategory = categories?.[0]?.slug ?? undefined;
+
+    const linkedStories = (stories ?? [])
+      .map((s) => mapStoryRowToLink(s))
+      .filter((s): s is NonNullable<typeof s> => s !== null);
+
+    const linkedOrganisations = (organisations ?? [])
+      .map((o) => mapOrganisationRowToLink(o))
+      .filter((o): o is NonNullable<typeof o> => o !== null);
+
+    const linkedWorkshop = workshop ? mapWorkshopRowToLink(workshop) : null;
 
     return {
       ...base,
@@ -137,11 +191,14 @@ export const getProductDetail = cache(async (slug: string): Promise<ProductDetai
         name: c.name || c.slug || "",
       })),
       creators: [],
-      stories: (stories ?? []).map((s) => ({
-        title: s.title || s.slug || "Story",
-        slug: s.slug || "",
-        pageUrl: s.page_url?.trim() || (s.slug ? `/stories/${s.slug}` : null),
+      stories: linkedStories.map((s) => ({
+        title: s.title,
+        slug: s.slug,
+        pageUrl: s.pageUrl,
       })),
+      linkedStories,
+      linkedWorkshop,
+      linkedOrganisations,
     };
   } catch (error) {
     console.error("getProductDetail:", error);

@@ -1,4 +1,4 @@
-/** UK shop — prices in pounds (GBP), not pence, in database and cart. */
+/** UK shop - prices in pounds (GBP), not pence, in database and cart. */
 
 export const CURRENCY_CODE = "GBP" as const;
 export const STRIPE_CURRENCY = "gbp" as const;

@@ -11,7 +11,7 @@ export type PublicStory = {
   tags: string[] | null;
   sort_order: number;
   created_at: string;
-  /** @deprecated Use title — kept for story card display helpers */
+  /** @deprecated Use title - kept for story card display helpers */
   creator_name: string | null;
   creator_is_anonymous: boolean;
 };

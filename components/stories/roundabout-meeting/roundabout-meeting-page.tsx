@@ -116,7 +116,7 @@ export async function RoundaboutMeetingPage() {
             <p className={`${caveat.className} text-xl leading-snug md:text-2xl`}>
               &ldquo;{COPY.stickyQuote}&rdquo;
             </p>
-            <p className="mt-4 text-sm font-semibold text-bp-text/70">— {firstName}</p>
+            <p className="mt-4 text-sm font-semibold text-bp-text/70">- {firstName}</p>
           </div>
           <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
             {COPY.bioParagraphs.map((p) => (

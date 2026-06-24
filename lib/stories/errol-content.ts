@@ -23,7 +23,7 @@ export const ERROL_STORY = {
   heroQuoteHighlight: "Forgive List",
   heroImage: "/stories/ERROL/1.webp",
   storyIntro:
-    "Wronged, wronging, reckoning — and the long road from a kill list to forgiveness.",
+    "Wronged, wronging, reckoning - and the long road from a kill list to forgiveness.",
   storyColumns: [
     {
       paragraphs: [
@@ -74,7 +74,7 @@ export const ERROL_STORY = {
           text: "I also wrote a semi biographical one-man theatre show Something To Take Off The Edge (two mismatched cellmates develop an unlikely relationship as they flirt with heroin, chocolate Hobnobs and Shakespeare)) I have toured it extensively to prisons and hostels across the UK.",
         },
         {
-          text: "The book version was published by Insurgent Press — copies available from the publisher, or purchase from me in person if you wanna avoid the postage fee.",
+          text: "The book version was published by Insurgent Press - copies available from the publisher, or purchase from me in person if you wanna avoid the postage fee.",
         },
         {
           text: "And after many decades of resistance I relented and gave my life to Christ and was baptised two years ago.",
@@ -96,7 +96,7 @@ export const ERROL_STORY = {
   killList: {
     title: "The Kill List",
     paragraphs: [
-      "Compiled on a restless night in prison — names added as they came to mind. It let him sleep. It also held everything he had not yet forgiven.",
+      "Compiled on a restless night in prison - names added as they came to mind. It let him sleep. It also held everything he had not yet forgiven.",
       "Years of therapy at Stockwell, forensic counselling with Tamara, and the slow work of naming anger, care, addiction and love.",
       "The list did not disappear. It changed shape.",
     ],

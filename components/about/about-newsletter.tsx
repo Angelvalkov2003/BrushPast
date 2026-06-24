@@ -27,7 +27,7 @@ export function AboutNewsletter() {
             Join the story
           </h2>
           <p className={`${homeSerifClass} mt-4 text-base italic text-bp-canvas/75`}>
-            Workshops, stories and shop drops — no spam, just the journey.
+            Workshops, stories and shop drops - no spam, just the journey.
           </p>
           <NewsletterSignupForm
             source={NEWSLETTER_SOURCE_ABOUT}

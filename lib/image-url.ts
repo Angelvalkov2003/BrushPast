@@ -25,7 +25,7 @@ export function sanitizeImageUrl(url: string | null | undefined): string | null 
   return url!.trim();
 }
 
-/** For next/image src — undefined when not displayable */
+/** For next/image src - undefined when not displayable */
 export function displayImageUrl(url: string | null | undefined): string | undefined {
   return sanitizeImageUrl(url) ?? undefined;
 }

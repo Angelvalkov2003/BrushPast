@@ -202,7 +202,7 @@ export async function EdBeerbohmPage() {
             >
               <Image
                 src={src}
-                alt={`Ed Beerbohm — artwork ${i + 2}`}
+                alt={`Ed Beerbohm - artwork ${i + 2}`}
                 fill
                 className="object-cover object-center"
                 sizes="(max-width: 768px) 100vw, 50vw"

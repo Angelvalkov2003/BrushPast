@@ -3,24 +3,6 @@ import Link from "next/link";
 import clsx from "clsx";
 import { homeHandClass } from "./home-typography";
 
-export function ScribbleDivider({ className }: { className?: string }) {
-  return (
-    <svg
-      className={clsx("mx-auto mt-4 h-3 w-28 text-bp-accent/75", className)}
-      viewBox="0 0 112 12"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M2 7C22 3 42 10 62 6C82 2 98 8 110 5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export function HomeSectionTitle({
   eyebrow,
   title,
@@ -51,7 +33,6 @@ export function HomeSectionTitle({
       >
         {title}
       </h2>
-      <ScribbleDivider className={align === "left" ? "mx-0" : undefined} />
     </div>
   );
 }

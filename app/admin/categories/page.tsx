@@ -38,7 +38,7 @@ export default async function AdminCategoriesPage() {
             ) : (
               categories.map((c) => (
                 <tr key={c.id}>
-                  <td className="font-medium">{c.name || "—"}</td>
+                  <td className="font-medium">{c.name || "-"}</td>
                   <td className="text-gray-500">{c.slug}</td>
                   <td>{c.status}</td>
                   <td>{c.sort_order}</td>

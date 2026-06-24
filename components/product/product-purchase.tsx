@@ -3,12 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { addItem } from "components/cart/actions";
 import Price from "components/price";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { enrichVariants, formatVariantLabel, optionsFromVariant } from "lib/product-variants";
+import { resolveVariantMaxQuantity } from "lib/cart-stock";
 import type { ProductDetail, ProductVariant } from "lib/types";
-import { useActionState } from "react";
 import { useCart } from "components/cart/cart-context";
 import { VariantPicker } from "./variant-picker";
 
@@ -29,8 +28,7 @@ function pickVariant(product: ProductDetail, selectedId: string | null): Product
 }
 
 export function ProductPurchase({ product }: { product: ProductDetail }) {
-  const { addCartItem } = useCart();
-  const [message, formAction] = useActionState(addItem, null);
+  const { addCartItem, stockError, clearStockError } = useCart();
   const [justAdded, setJustAdded] = useState(false);
   const variants = useMemo(() => enrichVariants(product.variants), [product.variants]);
   const hasVariants = variants.length > 0;
@@ -58,18 +56,18 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
     ? formatVariantLabel(optionsFromVariant(variant), variant.title)
     : "";
 
-  const handleAdd = async () => {
+  const handleAdd = () => {
     if (!canAdd) return;
+    clearStockError();
+    const variantForCart = {
+      ...variant,
+      maxQuantity: resolveVariantMaxQuantity(variant, product),
+    };
     const productForCart = { ...product, price: variant.price, available: variant.available };
-    addCartItem(variant, productForCart, {
+    const added = addCartItem(variantForCart, productForCart, {
       variantOptions: hasVariants ? variants : undefined,
     });
-    setJustAdded(true);
-    await formAction({
-      productId: product.id,
-      variantId: variant.id,
-      price: variant.price,
-    });
+    if (added) setJustAdded(true);
   };
 
   return (
@@ -131,8 +129,16 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
           </>
         )}
       </button>
+      {(stockError || (!canAdd && variant.maxQuantity === 0)) && (
+        <p className={`${homeSerifClass} mt-3 text-sm text-red-700`} role="alert">
+          {stockError ??
+            (selectedLabel
+              ? `${selectedLabel} is out of stock.`
+              : "This item is out of stock.")}
+        </p>
+      )}
       <p aria-live="polite" className="sr-only" role="status">
-        {justAdded ? "Item added to your bag" : message}
+        {justAdded ? "Item added to your bag" : null}
       </p>
     </div>
   );

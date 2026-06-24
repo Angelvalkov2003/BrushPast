@@ -73,12 +73,12 @@ export default async function AdminProductsPage({
                     {p.main_image_url ? (
                       <img src={p.main_image_url} alt="" className="h-10 w-10 rounded object-cover sm:h-12 sm:w-12" />
                     ) : (
-                      "—"
+                      "-"
                     )}
                   </td>
                   <td className="font-medium">{p.title}</td>
                   <td className="text-gray-500">{p.slug}</td>
-                  <td>{p.price_gbp != null ? formatPrice(Number(p.price_gbp)) : "—"}</td>
+                  <td>{p.price_gbp != null ? formatPrice(Number(p.price_gbp)) : "-"}</td>
                   <td>
                     <form
                       action={async () => {

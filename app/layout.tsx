@@ -18,7 +18,7 @@ export const metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "UK creative platform and social enterprise — art, stories, and The Archive Shop.",
+    "UK creative platform and social enterprise - art, stories, and The Archive Shop.",
   icons: {
     icon: "/logo.avif",
     apple: "/logo.avif",

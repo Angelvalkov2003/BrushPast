@@ -75,7 +75,7 @@ export function ContactForm() {
 
       {success ? (
         <p className="mt-6 rounded-sm border border-green-200/80 bg-green-50/90 p-4 text-sm text-green-800">
-          Thank you — your message was sent. We&apos;ll be in touch soon.
+          Thank you - your message was sent. We&apos;ll be in touch soon.
         </p>
       ) : null}
       {error ? (

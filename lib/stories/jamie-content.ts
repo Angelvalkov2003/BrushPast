@@ -19,7 +19,7 @@ export const JAMIE_STORY = {
     "This is not a sob story. I consider myself to be one of the very fortunate ones.",
   heroQuoteHighlight: "fortunate ones",
   heroImage: "/stories/JAMIE/1.png",
-  storyIntro: "Ten years clean — a survivor story told in his own words.",
+  storyIntro: "Ten years clean - a survivor story told in his own words.",
   storyColumns: [
     {
       paragraphs: [
@@ -84,8 +84,8 @@ export const JAMIE_STORY = {
   reachingBack: {
     title: "A hand reaching back",
     paragraphs: [
-      "Recovery taught me that survival isn't the finish line. The real work is what you do with the second chance — how you show up for the next person who thinks they're out of options.",
-      "Mind-altering substances offered a veneer — passion, purpose, focus — while underneath they mined shame, disconnection and emptiness.",
+      "Recovery taught me that survival isn't the finish line. The real work is what you do with the second chance - how you show up for the next person who thinks they're out of options.",
+      "Mind-altering substances offered a veneer - passion, purpose, focus - while underneath they mined shame, disconnection and emptiness.",
       "When help was finally there and I was ready to accept it, everything could begin again.",
     ],
     quote: "The fallen need someone to reach back.",

@@ -5,7 +5,7 @@ export default function Error({ reset }: { reset: () => void }) {
     <div className="mx-auto my-4 flex max-w-xl flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 dark:border-neutral-800 dark:bg-black">
       <h2 className="text-xl font-bold">Something went wrong</h2>
       <p className="my-2">
-        There was a problem loading the shop. This may be temporary — please try
+        There was a problem loading the shop. This may be temporary - please try
         again.
       </p>
       <button

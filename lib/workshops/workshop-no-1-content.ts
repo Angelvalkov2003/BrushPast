@@ -1,4 +1,4 @@
-/** Hand-coded copy for /workshops/workshop-no-1 — Edward Allsop Court */
+/** Hand-coded copy for /workshops/workshop-no-1 - Edward Allsop Court */
 
 export const WORKSHOP_NO_1 = {
   slug: "workshop-no-1",
@@ -11,15 +11,15 @@ export const WORKSHOP_NO_1 = {
   narrativeColumns: [
     {
       title: "The beginning",
-      body: "BrushPast began with a simple belief: everyone has a story, and everyone can make something real. Workshop No.1 at Edward Allsop Court was where that belief left the page — nine people around one table, markers in hand, no pressure to perform or explain.",
+      body: "BrushPast began with a simple belief: everyone has a story, and everyone can make something real. Workshop No.1 at Edward Allsop Court was where that belief left the page - nine people around one table, markers in hand, no pressure to perform or explain.",
     },
     {
       title: "More than a t-shirt",
-      body: "Each design is evidence — not of talent reserved for studios, but of creativity showing up in an ordinary afternoon. Every shirt is original, every mark made by hand. Nothing copied, nothing manufactured without a person behind it.",
+      body: "Each design is evidence - not of talent reserved for studios, but of creativity showing up in an ordinary afternoon. Every shirt is original, every mark made by hand. Nothing copied, nothing manufactured without a person behind it.",
     },
     {
       title: "Why it matters",
-      body: "We make space for connection — between neighbours, between strangers who become collaborators, between a lived moment and something you can hold. Creativity is not reserved for galleries. It belongs in community rooms, at kitchen tables, wherever people gather.",
+      body: "We make space for connection - between neighbours, between strangers who become collaborators, between a lived moment and something you can hold. Creativity is not reserved for galleries. It belongs in community rooms, at kitchen tables, wherever people gather.",
     },
   ],
   processTitle: "From sketch to shirt",
@@ -35,7 +35,7 @@ export const WORKSHOP_NO_1 = {
   ],
   archive: {
     title: "A living archive",
-    body: "Workshop No.1 marks the start of the BrushPast archive — a record of what happens when people are given time, materials and the freedom to make something their own. Every collection begins here.",
+    body: "Workshop No.1 marks the start of the BrushPast archive - a record of what happens when people are given time, materials and the freedom to make something their own. Every collection begins here.",
     statsTitle: "Workshop No.1",
     statsLocation: "Edward Allsop Court • London",
     stats: [

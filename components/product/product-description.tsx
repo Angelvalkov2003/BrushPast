@@ -1,8 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ProductDetail } from "lib/types";
 import { IndexCard } from "components/home/home-decor";
 import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 import { ProductPurchase } from "./product-purchase";
+
+const aboutBodyHandClass = `${homeHandClass} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.45rem] md:leading-relaxed`;
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
@@ -24,6 +27,23 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
       : product.totalEditionSize
         ? `Edition of ${product.totalEditionSize}`
         : null;
+
+  const extraCategories =
+    product.categories.length > 1
+      ? product.categories.map((c) => ({ label: "Collection", value: c.name }))
+      : [];
+
+  const detailRows = [
+    product.storyNumber ? { label: "Story number", value: product.storyNumber } : null,
+    product.productType
+      ? { label: "Product type", value: formatProductType(product.productType) }
+      : null,
+    product.medium ? { label: "Medium", value: product.medium } : null,
+    edition ? { label: "Edition", value: edition } : null,
+    product.weight ? { label: "Weight", value: product.weight } : null,
+    product.dimensions ? { label: "Dimensions", value: product.dimensions } : null,
+    ...extraCategories.map((c) => ({ label: c.label, value: c.value })),
+  ].filter(Boolean) as { label: string; value: string }[];
 
   return (
     <div className="flex flex-col">
@@ -48,53 +68,35 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
         </p>
       ) : null}
 
-      {product.stories.length > 0 ? (
-        <div className={`${homeSerifClass} mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm text-bp-text/75`}>
-          {product.stories.map((s) =>
-            s.pageUrl ? (
-              <Link
-                key={s.slug}
-                href={s.pageUrl}
-                className={`${homeHandClass} text-base text-bp-accent hover:underline`}
-              >
-                Read {s.title}&apos;s story →
-              </Link>
-            ) : (
-              <span key={s.slug}>
-                By <strong className="text-bp-text">{s.title}</strong>
-              </span>
-            ),
-          )}
-        </div>
-      ) : null}
-
       <ProductPurchase product={product} />
 
       {product.fullDescription && product.fullDescription !== product.shortDescription ? (
-        <IndexCard className="mt-10">
-          <h2 className={`${homeHandClass} text-2xl text-bp-accent`}>About this piece</h2>
-          <p className={`${homeSerifClass} mt-4 text-base leading-relaxed text-bp-text/85`}>
-            {product.fullDescription}
-          </p>
-        </IndexCard>
+        <div className="relative mt-10 overflow-hidden border border-bp-text/12 p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)] md:p-8">
+          <Image
+            src="/background2.webp"
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 40vw"
+          />
+          <div className="absolute inset-0 bg-bp-canvas/88 backdrop-blur-[1px]" aria-hidden />
+          <div className="relative z-10">
+            <h2 className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              About this piece
+            </h2>
+            <p className={`${aboutBodyHandClass} mt-5`}>{product.fullDescription}</p>
+          </div>
+        </div>
       ) : null}
 
-      <dl className="mt-10">
-        <h2 className={`${homeHandClass} mb-3 text-2xl text-bp-text`}>Details</h2>
-        {product.storyNumber ? <DetailRow label="Story number" value={product.storyNumber} /> : null}
-        {product.productType ? (
-          <DetailRow label="Product type" value={formatProductType(product.productType)} />
-        ) : null}
-        {product.medium ? <DetailRow label="Medium" value={product.medium} /> : null}
-        {edition ? <DetailRow label="Edition" value={edition} /> : null}
-        {product.weight ? <DetailRow label="Weight" value={product.weight} /> : null}
-        {product.dimensions ? <DetailRow label="Dimensions" value={product.dimensions} /> : null}
-        {product.categories.length > 1
-          ? product.categories.map((c) => (
-              <DetailRow key={c.slug} label="Collection" value={c.name} />
-            ))
-          : null}
-      </dl>
+      {detailRows.length > 0 ? (
+        <dl className="mt-10">
+          <h2 className={`${homeHandClass} mb-3 text-2xl text-bp-text`}>Details</h2>
+          {detailRows.map((row) => (
+            <DetailRow key={`${row.label}-${row.value}`} label={row.label} value={row.value} />
+          ))}
+        </dl>
+      ) : null}
 
       {product.profitShareNote || product.impactNote ? (
         <IndexCard className="mt-8 border-bp-accent/20 bg-bp-accent/5">
@@ -112,7 +114,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
         </IndexCard>
       ) : null}
 
-      {product.qrStoryUrl ? (
+      {product.qrStoryUrl && product.linkedStories.length === 0 ? (
         <p className={`${homeSerifClass} mt-6 text-xs text-bp-text/55`}>
           Includes story link:{" "}
           <a href={product.qrStoryUrl} className="text-bp-accent hover:underline">

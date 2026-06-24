@@ -62,7 +62,8 @@ export async function getProductByIdAdmin(id: string): Promise<AdminProduct | nu
   const { data: product, error } = await supabase.from("products").select("*").eq("id", id).single();
   if (error || !product) return null;
 
-  const [{ data: catLinks }, { data: images }, { data: variants }] = await Promise.all([
+  const [{ data: catLinks }, { data: images }, { data: variants }, { data: storyLinks }, { data: orgLinks }] =
+    await Promise.all([
     supabase.from("product_categories").select("category_id").eq("product_id", id),
     supabase
       .from("product_images")
@@ -74,11 +75,18 @@ export async function getProductByIdAdmin(id: string): Promise<AdminProduct | nu
       .select("*")
       .eq("product_id", id)
       .order("sort_order", { ascending: false }),
+    supabase.from("product_stories").select("story_id").eq("product_id", id),
+    supabase.from("product_organisations").select("organisation_id").eq("product_id", id),
   ]);
 
+  const row = product as AdminProduct;
+
   return {
-    ...(product as AdminProduct),
+    ...row,
     category_ids: (catLinks ?? []).map((c) => c.category_id),
+    story_ids: (storyLinks ?? []).map((s) => s.story_id),
+    organisation_ids: (orgLinks ?? []).map((o) => o.organisation_id),
+    workshop_id: row.workshop_id ?? null,
     images: images ?? [],
     variants: variants ?? [],
   };
@@ -91,14 +99,45 @@ export type ProductInput = {
   full_description?: string;
   main_image_url?: string;
   price_gbp: number;
+  story_number?: string;
+  product_type?: string;
+  medium?: string;
+  qr_story_url?: string;
+  edition_number?: string;
+  total_edition_size?: string;
+  profit_share_note?: string;
+  impact_note?: string;
+  weight?: string;
+  dimensions?: string;
   inventory_type?: InventoryType;
   inventory_quantity?: number | null;
   status?: ContentStatus;
   sort_order?: number;
   category_ids?: string[];
+  story_ids?: string[];
+  organisation_ids?: string[];
+  workshop_id?: string | null;
   gallery_urls?: string[];
   variants?: AdminProductVariantInput[];
 };
+
+async function syncProductStories(productId: string, storyIds: string[]) {
+  const supabase = getSupabaseServiceClient();
+  await supabase.from("product_stories").delete().eq("product_id", productId);
+  if (storyIds.length === 0) return;
+  await supabase.from("product_stories").insert(
+    storyIds.map((story_id) => ({ product_id: productId, story_id })),
+  );
+}
+
+async function syncProductOrganisations(productId: string, organisationIds: string[]) {
+  const supabase = getSupabaseServiceClient();
+  await supabase.from("product_organisations").delete().eq("product_id", productId);
+  if (organisationIds.length === 0) return;
+  await supabase.from("product_organisations").insert(
+    organisationIds.map((organisation_id) => ({ product_id: productId, organisation_id })),
+  );
+}
 
 async function syncProductCategories(productId: string, categoryIds: string[]) {
   const supabase = getSupabaseServiceClient();
@@ -196,6 +235,17 @@ export async function createProductAdmin(input: ProductInput) {
       full_description: input.full_description ?? null,
       main_image_url: input.main_image_url ?? null,
       price_gbp: input.price_gbp,
+      story_number: input.story_number?.trim() || null,
+      product_type: input.product_type?.trim() || null,
+      medium: input.medium?.trim() || null,
+      qr_story_url: input.qr_story_url?.trim() || null,
+      edition_number: input.edition_number?.trim() || null,
+      total_edition_size: input.total_edition_size?.trim() || null,
+      profit_share_note: input.profit_share_note?.trim() || null,
+      impact_note: input.impact_note?.trim() || null,
+      weight: input.weight?.trim() || null,
+      dimensions: input.dimensions?.trim() || null,
+      workshop_id: input.workshop_id?.trim() || null,
       inventory_type: input.inventory_type ?? "unlimited",
       inventory_quantity: input.inventory_quantity ?? null,
       status: input.status ?? "draft",
@@ -207,6 +257,8 @@ export async function createProductAdmin(input: ProductInput) {
   if (error) throw new Error(error.message);
 
   await syncProductCategories(data.id, input.category_ids ?? []);
+  await syncProductStories(data.id, input.story_ids ?? []);
+  await syncProductOrganisations(data.id, input.organisation_ids ?? []);
   await syncProductImages(data.id, input.gallery_urls ?? []);
   if (input.variants !== undefined) {
     await syncProductVariants(data.id, input.variants);
@@ -225,6 +277,21 @@ export async function updateProductAdmin(id: string, input: Partial<ProductInput
   if (input.full_description !== undefined) patch.full_description = input.full_description;
   if (input.main_image_url !== undefined) patch.main_image_url = input.main_image_url;
   if (input.price_gbp !== undefined) patch.price_gbp = input.price_gbp;
+  if (input.story_number !== undefined) patch.story_number = input.story_number.trim() || null;
+  if (input.product_type !== undefined) patch.product_type = input.product_type.trim() || null;
+  if (input.medium !== undefined) patch.medium = input.medium.trim() || null;
+  if (input.qr_story_url !== undefined) patch.qr_story_url = input.qr_story_url.trim() || null;
+  if (input.edition_number !== undefined) patch.edition_number = input.edition_number.trim() || null;
+  if (input.total_edition_size !== undefined) {
+    patch.total_edition_size = input.total_edition_size.trim() || null;
+  }
+  if (input.profit_share_note !== undefined) {
+    patch.profit_share_note = input.profit_share_note.trim() || null;
+  }
+  if (input.impact_note !== undefined) patch.impact_note = input.impact_note.trim() || null;
+  if (input.weight !== undefined) patch.weight = input.weight.trim() || null;
+  if (input.dimensions !== undefined) patch.dimensions = input.dimensions.trim() || null;
+  if (input.workshop_id !== undefined) patch.workshop_id = input.workshop_id?.trim() || null;
   if (input.inventory_type !== undefined) patch.inventory_type = input.inventory_type;
   if (input.inventory_quantity !== undefined) patch.inventory_quantity = input.inventory_quantity;
   if (input.status !== undefined) patch.status = input.status;
@@ -236,6 +303,10 @@ export async function updateProductAdmin(id: string, input: Partial<ProductInput
   }
 
   if (input.category_ids !== undefined) await syncProductCategories(id, input.category_ids);
+  if (input.story_ids !== undefined) await syncProductStories(id, input.story_ids);
+  if (input.organisation_ids !== undefined) {
+    await syncProductOrganisations(id, input.organisation_ids);
+  }
   if (input.gallery_urls !== undefined) await syncProductImages(id, input.gallery_urls);
   if (input.variants !== undefined) await syncProductVariants(id, input.variants);
 

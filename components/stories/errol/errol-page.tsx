@@ -118,7 +118,7 @@ export async function ErrolPage() {
             &ldquo;{COPY.epigraph}&rdquo;
           </p>
           <footer className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-bp-text/55">
-            — {COPY.epigraphAttribution}
+            - {COPY.epigraphAttribution}
           </footer>
         </blockquote>
       </RevealSection>

@@ -2,7 +2,7 @@ import { JrPage } from "components/stories/jr/jr-page";
 import { JR_STORY } from "lib/stories/jr-content";
 
 export const metadata = {
-  title: `${JR_STORY.title} — Artist story`,
+  title: `${JR_STORY.title} - Artist story`,
   description: JR_STORY.heroQuote,
 };
 

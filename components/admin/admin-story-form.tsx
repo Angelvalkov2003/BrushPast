@@ -121,7 +121,7 @@ export function AdminStoryForm({
             defaultValue={story?.organisation_id ?? ""}
             className={adminSelectClass}
           >
-            <option value="">— None —</option>
+            <option value="">- None -</option>
             {organisations.map((o) => (
               <option key={o.id} value={o.id}>
                 {o.name || o.slug || o.id}

@@ -40,14 +40,19 @@ export function ContactPageContent() {
               Let&apos;s start a conversation.
             </h1>
             <p
-              className={`${homeSerifClass} mt-6 max-w-lg text-lg leading-relaxed text-bp-text/85 md:text-xl`}
+              className={`${homeSerifClass} mt-6 max-w-lg text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
             >
-              Whether you want to share a story, collaborate, join a workshop, or simply say hello —
-              we&apos;d love to hear from you. Brush Past is a creative movement for second chances,
-              built in public with real people and real spaces.
+              Share a story. Collaborate. Join a workshop. Or simply say hello - we&apos;d love to
+              hear from you.
+            </p>
+            <p className={`${homeHandClass} mt-5 text-[clamp(1.35rem,3vw,1.85rem)] leading-snug text-bp-text`}>
+              Brush Past is a{" "}
+              <span className="text-bp-accent">creative movement</span> for{" "}
+              <span className="text-bp-accent">second chances</span>, built in public with real
+              people and real spaces.
             </p>
             <p className={`${homeHandClass} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
-              ☕ No perfect pitch needed — just say hello.
+              ☕ No perfect pitch needed - just say hello.
             </p>
           </div>
 
@@ -114,10 +119,11 @@ export function ContactPageContent() {
 
           <IndexCard className="flex items-center">
             <p className={`${homeHandClass} text-2xl leading-relaxed text-bp-text md:text-3xl`}>
-              We&apos;re building this in public — with honesty, creativity and care.
-              <span className={`${homeSerifClass} mt-4 block text-lg italic text-bp-text/70`}>
-                — Jeremy &amp; David
-              </span>
+              We&apos;re building this{" "}
+              <span className="text-bp-accent">in public</span> - with honesty, creativity and care.
+            </p>
+            <p className={`${homeSerifClass} mt-4 text-lg italic text-bp-text/70`}>
+              - Jeremy &amp; David
             </p>
           </IndexCard>
         </div>
@@ -151,9 +157,10 @@ export function ContactPageContent() {
                   </p>
                 </PolaroidFrame>
                 <p
-                  className={`${homeSerifClass} mt-4 text-center text-sm leading-relaxed text-bp-text/75`}
+                  className={`${homeSerifClass} mt-4 text-center text-sm italic leading-relaxed text-bp-text/75`}
                 >
-                  {card.description}
+                  {card.description}{" "}
+                  <span className="font-medium text-bp-text not-italic">{card.descriptionAccent}</span>
                 </p>
                 <p
                   className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
@@ -171,13 +178,21 @@ export function ContactPageContent() {
           <div className="space-y-8">
             <IndexCard>
               <h2 className={`${homeHandClass} text-3xl font-bold text-bp-text`}>
-                We&apos;re figuring this out in public
+                We&apos;re figuring this out{" "}
+                <span className="text-bp-accent">in public</span>
               </h2>
-              <p className={`${homeSerifClass} mt-4 text-base leading-relaxed text-bp-text/80`}>
-                Brush Past is not a finished product — it&apos;s a living creative platform. Reach out
-                with questions, ideas, partnerships or simply to introduce yourself.
+              <p className={`${homeSerifClass} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}>
+                Brush Past is not a finished product - it&apos;s a{" "}
+                <span className="font-medium text-bp-text not-italic">living creative platform</span>.
               </p>
-              <p className={`${homeHandClass} mt-4 text-xl text-bp-accent`}>— Jeremy &amp; David</p>
+              <p className={`${homeHandClass} mt-4 text-[clamp(1.15rem,2.5vw,1.45rem)] leading-snug text-bp-text`}>
+                Reach out with{" "}
+                <span className="text-bp-accent">questions</span>,{" "}
+                <span className="text-bp-accent">ideas</span>,{" "}
+                <span className="text-bp-accent">partnerships</span> - or simply to introduce
+                yourself.
+              </p>
+              <p className={`${homeHandClass} mt-5 text-xl text-bp-accent`}>- Jeremy &amp; David</p>
             </IndexCard>
 
             <IndexCard>
@@ -239,7 +254,8 @@ export function ContactPageContent() {
 
         <div className="relative mx-auto max-w-[1400px] text-center">
           <p className={`${homeHandClass} text-2xl leading-snug md:text-3xl`}>
-            You don&apos;t need to have it all figured out to get in touch.
+            You don&apos;t need to have it all figured out to{" "}
+            <span className="text-bp-accent">get in touch</span>.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <HomeCta href={`mailto:${PUBLIC_CONTACT_EMAIL}`} variant="outline">

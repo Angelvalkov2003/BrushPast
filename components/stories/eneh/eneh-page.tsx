@@ -37,7 +37,7 @@ function PhotoCard({ photo, index }: { photo: EnehPhoto; index: number }) {
       <div className="relative aspect-[4/5] overflow-hidden border border-bp-text/15 bg-[#f5f0e8] shadow-[5px_5px_0_rgba(1,2,0,0.06)]">
         <Image
           src={photo.src}
-          alt={photo.caption ?? `Eneh's day — photo ${index + 1}`}
+          alt={photo.caption ?? `Eneh's day - photo ${index + 1}`}
           fill
           className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -101,7 +101,7 @@ export async function EnehPage() {
             >
               <Image
                 src={heroImage}
-                alt="Eneh — day in photos"
+                alt="Eneh - day in photos"
                 fill
                 className="object-cover object-center"
                 priority

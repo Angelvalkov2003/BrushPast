@@ -1,5 +1,5 @@
 /**
- * BrushPast brand palette — public site only (not admin).
+ * BrushPast brand palette - public site only (not admin).
  * Use Tailwind: bg-bp-canvas, text-bp-text, bg-bp-surface, text-bp-accent, bg-bp-dark
  * Or CSS vars: var(--bp-canvas), etc.
  */

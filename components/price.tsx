@@ -12,7 +12,7 @@ const Price = ({
   className?: string;
   currencyCode?: string;
   currencyCodeClassName?: string;
-  /** @deprecated BGN dual display removed — UK GBP only */
+  /** @deprecated BGN dual display removed - UK GBP only */
   showBgn?: boolean;
   showCurrencyCode?: boolean;
 } & React.ComponentProps<"p">) => {

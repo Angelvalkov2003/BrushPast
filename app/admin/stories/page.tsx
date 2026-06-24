@@ -36,8 +36,8 @@ export default async function AdminStoriesPage() {
             ) : (
               items.map((s) => (
                 <tr key={s.id}>
-                  <td className="font-medium">{s.title || "—"}</td>
-                  <td className="text-gray-500">{s.slug || "—"}</td>
+                  <td className="font-medium">{s.title || "-"}</td>
+                  <td className="text-gray-500">{s.slug || "-"}</td>
                   <td>{s.status}</td>
                   <td className="space-x-2 whitespace-nowrap">
                     <Link href={`/admin/stories/${s.id}`} className="text-indigo-600 hover:underline">

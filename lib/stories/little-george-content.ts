@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/little-george — Little George's Story */
+/** Hand-coded copy for /stories/little-george - Little George's Story */
 
 export type LittleGeorgeParagraph = {
   text: string;
@@ -17,7 +17,7 @@ export const LITTLE_GEORGE_STORY = {
   subtitle: "Little George's Story",
   tags: "Writing. Recovery. Hope.",
   heroQuote:
-    "There were days — which were most days — when rising to the morning and the daylight was a daunting experience.",
+    "There were days - which were most days - when rising to the morning and the daylight was a daunting experience.",
   heroQuoteHighlight: "daunting experience",
   heroImage: "/stories/littleGeorge/1.webp",
   storyIntro:
@@ -58,12 +58,12 @@ export const LITTLE_GEORGE_STORY = {
   dawn: {
     title: "The glimpse",
     paragraphs: [
-      "Most days followed the same script — feeding the addiction, covering the darkness, getting through until night returned.",
-      "Recovery began not as a sudden fix, but as a refusal to stay in the dark — a willingness to notice light, even when it felt far away.",
+      "Most days followed the same script - feeding the addiction, covering the darkness, getting through until night returned.",
+      "Recovery began not as a sudden fix, but as a refusal to stay in the dark - a willingness to notice light, even when it felt far away.",
     ],
     quote: "That light brings recovery.",
   },
   notebookQuote:
-    "You no longer want to be in the darkness of your day — and you see a glimpse of light.",
+    "You no longer want to be in the darkness of your day - and you see a glimpse of light.",
   closingQuote: "That light brings recovery.",
 } as const;

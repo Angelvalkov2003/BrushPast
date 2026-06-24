@@ -1,4 +1,4 @@
-/** Hand-coded copy for /stories/david — The Rooms */
+/** Hand-coded copy for /stories/david - The Rooms */
 
 export type DavidParagraph = {
   text: string;
@@ -21,7 +21,7 @@ export const DAVID_STORY = {
   heroQuoteHighlight: "await my outcome",
   heroImage: "/stories/david/1.webp",
   storyIntro:
-    "From childhood bedrooms to prison cells to the Rooms of Recovery — each space shaped who I became.",
+    "From childhood bedrooms to prison cells to the Rooms of Recovery - each space shaped who I became.",
   storyColumns: [
     {
       paragraphs: [

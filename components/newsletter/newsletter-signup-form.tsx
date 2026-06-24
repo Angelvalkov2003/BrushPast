@@ -61,8 +61,8 @@ export function NewsletterSignupForm({
 
       toast.success(
         data.alreadySubscribed
-          ? "You're already on the list — thank you."
-          : "Thanks — you're on the list.",
+          ? "You're already on the list - thank you."
+          : "Thanks - you're on the list.",
       );
       setEmail("");
       setPrivacyAccepted(false);

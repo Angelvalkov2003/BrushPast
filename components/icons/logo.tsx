@@ -1,4 +1,4 @@
-/** @deprecated Use BrandLogo / LogoSquare — kept for imports migrating to logo.avif */
+/** @deprecated Use BrandLogo / LogoSquare - kept for imports migrating to logo.avif */
 import BrandLogo from "components/brand-logo";
 
 export default function LogoIcon({

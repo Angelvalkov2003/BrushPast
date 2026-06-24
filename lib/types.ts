@@ -15,6 +15,8 @@ export type ProductVariant = {
   compareAtPrice?: number;
   sku?: string;
   inventory?: number;
+  /** Max purchasable quantity when inventory is limited; omitted when unlimited */
+  maxQuantity?: number;
   available: boolean;
   selectedOptions?: { name: string; value: string }[];
 };
@@ -52,7 +54,36 @@ export type ProductDetail = Product & {
   variants: ProductVariant[];
   categories: { slug: string; name: string }[];
   creators: { name: string }[];
+  /** @deprecated Use linkedStories - kept for compatibility */
   stories: { title: string; slug: string; pageUrl: string | null }[];
+  linkedStories: ProductStoryLink[];
+  linkedWorkshop: ProductWorkshopLink | null;
+  linkedOrganisations: ProductOrganisationLink[];
+};
+
+export type ProductStoryLink = {
+  title: string;
+  slug: string;
+  pageUrl: string;
+  imageUrl: string | null;
+  quote: string | null;
+};
+
+export type ProductWorkshopLink = {
+  title: string;
+  slug: string | null;
+  pageUrl: string;
+  imageUrl: string | null;
+  locationLabel: string | null;
+};
+
+export type ProductOrganisationLink = {
+  name: string;
+  slug: string | null;
+  href: string;
+  imageUrl: string | null;
+  shortDescription: string | null;
+  external: boolean;
 };
 
 export type CartVariantOption = {
@@ -61,6 +92,7 @@ export type CartVariantOption = {
   price: number;
   available: boolean;
   sku?: string;
+  maxQuantity?: number;
   selectedOptions?: { name: string; value: string }[];
 };
 
@@ -84,6 +116,8 @@ export type CartItem = {
   };
   /** All purchasable variants for this product (sizes, colours, etc.) */
   variantOptions?: CartVariantOption[];
+  /** Snapshot of stock limit at add-to-bag time (limited inventory only) */
+  maxQuantity?: number;
 };
 
 export type Cart = {

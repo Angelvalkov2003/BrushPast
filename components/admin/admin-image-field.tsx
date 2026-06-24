@@ -39,7 +39,7 @@ export function AdminImageField({
         <img src={previewUrl} alt="" className="mt-3 h-32 w-32 rounded-lg object-cover" />
       ) : previewUrl ? (
         <p className={`${adminHelpClass} text-amber-700`}>
-          Invalid image URL — use https://… or upload a file. Placeholders like (file.jpg) are not
+          Invalid image URL - use https://… or upload a file. Placeholders like (file.jpg) are not
           shown on the site.
         </p>
       ) : null}

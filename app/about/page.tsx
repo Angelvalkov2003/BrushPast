@@ -5,7 +5,7 @@ import { homeHand, homeSerif } from "components/home/home-typography";
 export const metadata = {
   title: "About",
   description:
-    "About Brush Past — our mission, values, mentoring, and the social enterprise creating real change.",
+    "About Brush Past - our mission, values, mentoring, and the social enterprise creating real change.",
 };
 
 export default function AboutPage() {

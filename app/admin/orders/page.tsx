@@ -38,12 +38,12 @@ export default async function AdminOrdersPage() {
                   <td className="font-mono">{o.order_number}</td>
                   <td>
                     <div className="font-medium">
-                      {[o.first_name, o.last_name].filter(Boolean).join(" ") || "—"}
+                      {[o.first_name, o.last_name].filter(Boolean).join(" ") || "-"}
                     </div>
                     <div className="text-xs text-gray-500">{o.email}</div>
                   </td>
                   <td>
-                    {o.grand_total != null ? formatPrice(Number(o.grand_total)) : "—"}
+                    {o.grand_total != null ? formatPrice(Number(o.grand_total)) : "-"}
                   </td>
                   <td>
                     <span className="text-xs">{o.payment_method}</span>

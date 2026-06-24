@@ -32,7 +32,7 @@ export function ShopHero() {
           <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface md:aspect-[5/4]">
             <Image
               src="/shop1.png"
-              alt="Archive shop — art, coffee and editions"
+              alt="Archive shop - art, coffee and editions"
               fill
               className="object-cover"
               priority

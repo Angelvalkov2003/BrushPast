@@ -1,4 +1,4 @@
-/** Tailwind class bundles — use with public site (body.bp-site). */
+/** Tailwind class bundles - use with public site (body.bp-site). */
 
 export const navLinkClass =
   "text-bp-text/75 underline-offset-4 transition-colors hover:text-bp-accent hover:underline";

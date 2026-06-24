@@ -155,7 +155,7 @@ export async function DavidPage() {
             >
               <Image
                 src={heroImage}
-                alt="David — The Rooms"
+                alt="David - The Rooms"
                 fill
                 className="object-cover object-center"
                 priority
