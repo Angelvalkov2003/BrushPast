@@ -1,8 +1,23 @@
-import { HeartIcon } from "@heroicons/react/24/outline";
+import type { ReactNode } from "react";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
+import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import { HOME_IMPACT_PILLARS } from "lib/home-config";
 import { IndexCard } from "./home-decor";
 import { homeHandClass, homeSerifClass } from "./home-typography";
+
+const HeartIcon = brushPastIcons.homepage.keepAStoryClose;
+
+function BrushUnderline({ children }: { children: ReactNode }) {
+  return (
+    <span className="relative inline-block">
+      {children}
+      <span
+        className="pointer-events-none absolute -bottom-1 left-0 h-[0.32em] w-full -skew-x-6 bg-bp-accent/80"
+        aria-hidden
+      />
+    </span>
+  );
+}
 
 export function HomeImpact() {
   return (
@@ -11,7 +26,7 @@ export function HomeImpact() {
         <Reveal>
           <IndexCard>
             <div className="flex items-start gap-4">
-              <HeartIcon className="mt-2 h-8 w-8 shrink-0 text-bp-accent" strokeWidth={1.5} />
+              <BrushPastIconBadge icon={HeartIcon} size="lg" className="mt-1" />
               <div className="min-w-0">
                 <p
                   className={`${homeHandClass} text-[clamp(4.5rem,14vw,6.5rem)] font-bold leading-none text-bp-accent`}
@@ -37,29 +52,43 @@ export function HomeImpact() {
               </div>
             </div>
 
-            <ul className="mt-8 grid gap-4 sm:grid-cols-3">
-              {HOME_IMPACT_PILLARS.map((item, i) => (
-                <li key={item.title}>
-                  <Reveal delay={i * REVEAL_STAGGER_MS}>
-                    <div className="border border-dashed border-bp-text/15 bg-bp-canvas/60 px-4 py-5 text-center">
-                      <span className={`${homeHandClass} text-xl text-bp-text`}>{item.title}</span>
-                    </div>
-                  </Reveal>
-                </li>
-              ))}
+            <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-stretch">
+              {HOME_IMPACT_PILLARS.map((item, i) => {
+                const Icon = brushPastIcons.homepage[item.icon];
+                return (
+                  <li key={item.title} className="h-full min-h-0">
+                    <Reveal delay={i * REVEAL_STAGGER_MS} className="h-full">
+                      <div className="flex h-full min-h-[9.5rem] w-full flex-col items-center justify-center gap-3 border border-dashed border-bp-text/15 bg-bp-canvas/60 px-4 py-5 text-center sm:min-h-[10.5rem]">
+                        <BrushPastIconBadge icon={Icon} size="sm" />
+                        <span
+                          className={`${homeHandClass} max-w-[11rem] text-lg leading-snug text-bp-text md:text-xl`}
+                        >
+                          {item.title}
+                        </span>
+                      </div>
+                    </Reveal>
+                  </li>
+                );
+              })}
             </ul>
           </IndexCard>
         </Reveal>
 
         <Reveal delay={REVEAL_STAGGER_MS + 40}>
-          <div className="flex flex-col justify-center lg:pt-6">
+          <div className="flex flex-col items-center justify-center gap-6 lg:items-end lg:pt-6">
             <p
               className={`${homeHandClass} text-center text-[clamp(2rem,5vw,3rem)] leading-snug text-bp-text lg:text-right`}
             >
               Real impact.
               <br />
-              Real second chances.
+              Real second <BrushUnderline>chances</BrushUnderline>.
             </p>
+            <BrushPastIconBadge
+              icon={HeartIcon}
+              size="lg"
+              className="!h-14 !w-14 border-bp-accent/35 bg-bp-accent/5 shadow-[2px_3px_0_rgba(191,50,1,0.12)]"
+              iconClassName="!h-7 !w-7"
+            />
           </div>
         </Reveal>
       </div>

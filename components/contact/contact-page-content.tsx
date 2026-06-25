@@ -1,13 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  ChatBubbleLeftRightIcon,
-} from "@heroicons/react/24/outline";
-import {
   CONTACT_CONNECT_CARDS,
   CONTACT_HERO_IMAGE,
-  CONTACT_SPACES_ICONS,
+  CONTACT_SPACES,
 } from "lib/contact-config";
+import { BrushPastIconBadge, brushPastIcons } from "components/icons/brush-past-icons";
 import {
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
@@ -102,18 +100,18 @@ export function ContactPageContent() {
               London Coffee Factory
             </h2>
             <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {CONTACT_SPACES_ICONS.map((label) => (
-                <li
-                  key={label}
-                  className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
-                >
-                  <ChatBubbleLeftRightIcon
-                    className="mb-2 h-5 w-5 text-bp-text/45"
-                    strokeWidth={1.5}
-                  />
-                  <span className={`${homeHandClass} text-base text-bp-text/75`}>{label}</span>
-                </li>
-              ))}
+              {CONTACT_SPACES.map((item) => {
+                const Icon = brushPastIcons.contactPage[item.icon];
+                return (
+                  <li
+                    key={item.label}
+                    className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
+                  >
+                    <BrushPastIconBadge icon={Icon} size="sm" className="mb-2" />
+                    <span className={`${homeHandClass} text-base text-bp-text/75`}>{item.label}</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

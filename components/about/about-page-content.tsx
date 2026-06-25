@@ -1,12 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import {
-  HandRaisedIcon,
-  HeartIcon,
-  PencilSquareIcon,
-  UserGroupIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
+import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import {
   ABOUT_HERO_IMAGE,
   ABOUT_MENTORING_POINTS,
@@ -26,19 +20,6 @@ import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 import { AboutLaunchBanner } from "./about-launch-banner";
 import { AboutNewsletter } from "./about-newsletter";
-
-const VALUE_ICONS = {
-  dignity: UsersIcon,
-  creativity: PencilSquareIcon,
-  opportunity: HeartIcon,
-  community: HandRaisedIcon,
-};
-
-const PROCESS_ICONS = {
-  share: UserGroupIcon,
-  create: PencilSquareIcon,
-  fund: HeartIcon,
-};
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -150,16 +131,14 @@ export function AboutPageContent() {
             <HomeSectionTitle eyebrow="What we believe" title="Our values" />
           </Reveal>
 
-          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-stretch lg:grid-cols-4">
             {ABOUT_VALUES.map((item, index) => {
-              const Icon = VALUE_ICONS[item.icon];
+              const Icon = brushPastIcons.aboutPageValues[item.icon];
               return (
-                <li key={item.title}>
-                  <Reveal delay={index * REVEAL_STAGGER_MS}>
-                    <IndexCard className="flex h-full flex-col">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-dashed border-bp-text/20 bg-bp-canvas">
-                        <Icon className="h-5 w-5 text-bp-text/70" strokeWidth={1.5} />
-                      </div>
+                <li key={item.title} className="h-full min-h-0">
+                  <Reveal delay={index * REVEAL_STAGGER_MS} className="h-full">
+                    <IndexCard className="flex h-full min-h-[14rem] flex-col sm:min-h-[15.5rem]">
+                      <BrushPastIconBadge icon={Icon} size="md" />
                       <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
                         {item.title}
                       </h3>
@@ -241,7 +220,7 @@ export function AboutPageContent() {
 
           <ol className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3">
             {ABOUT_PROCESS.map((step, index) => {
-              const Icon = PROCESS_ICONS[step.icon];
+              const Icon = brushPastIcons.howWeCreateChange[step.icon];
               const stepNum = String(step.step).padStart(2, "0");
 
               return (
@@ -251,9 +230,7 @@ export function AboutPageContent() {
                       <span className={`${homeHandClass} text-4xl font-bold text-bp-accent`}>
                         {stepNum}
                       </span>
-                      <div className="mx-auto mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-dashed border-bp-text/20 bg-bp-canvas">
-                        <Icon className="h-5 w-5 text-bp-text/70" strokeWidth={1.5} />
-                      </div>
+                      <BrushPastIconBadge icon={Icon} size="md" className="mt-4" />
                       <p
                         className={`${homeHandClass} mt-5 text-2xl font-bold leading-snug text-bp-text`}
                       >

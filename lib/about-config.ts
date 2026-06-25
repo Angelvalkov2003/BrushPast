@@ -1,36 +1,45 @@
 /** About page copy - aligned with brushpast.org / design mockup */
 
+import type {
+  AboutValuesIconKey,
+  HowWeCreateChangeIconKey,
+} from "components/icons/brush-past-icons";
+
 export const ABOUT_HERO_IMAGE = {
   src: "/about1.png",
   alt: "Brush Past founders - Jeremy and David",
 } as const;
 
-export const ABOUT_VALUES = [
+export const ABOUT_VALUES: {
+  title: string;
+  description: string;
+  icon: AboutValuesIconKey;
+}[] = [
   {
     title: "Dignity",
     description:
       "Everyone deserves to be seen as a whole person - not defined by their hardest chapter.",
-    icon: "dignity" as const,
+    icon: "dignity",
   },
   {
     title: "Creativity",
     description:
       "Art, writing and design unlock voices that stigma and circumstance have silenced.",
-    icon: "creativity" as const,
+    icon: "creativity",
   },
   {
     title: "Opportunity",
     description:
       "Paid work, exhibitions and skills build confidence and pathways beyond crisis.",
-    icon: "opportunity" as const,
+    icon: "opportunity",
   },
   {
     title: "Community",
     description:
       "Real spaces, mentors and peers - recovery and creativity happen together.",
-    icon: "community" as const,
+    icon: "community",
   },
-] as const;
+];
 
 export const ABOUT_MENTORING_POINTS = [
   "Early intervention where creativity meets recovery",
@@ -40,26 +49,31 @@ export const ABOUT_MENTORING_POINTS = [
   "Partnerships with housing, recovery and community organisations",
 ] as const;
 
-export const ABOUT_PROCESS = [
+export const ABOUT_PROCESS: {
+  step: number;
+  title: string;
+  description: string;
+  icon: HowWeCreateChangeIconKey;
+}[] = [
   {
     step: 1,
     title: "Share a story",
     description: "Workshops and safe spaces where lived experience becomes creative work.",
-    icon: "share" as const,
+    icon: "shareAStory",
   },
   {
     step: 2,
     title: "Create the work",
     description: "Stories become art, apparel, prints and products people can hold.",
-    icon: "create" as const,
+    icon: "createTheWork",
   },
   {
     step: 3,
     title: "Fund the next opportunity",
     description: "Shop sales and collaborations reinvest in creators and future workshops.",
-    icon: "fund" as const,
+    icon: "fundTheNextOpportunity",
   },
-] as const;
+];
 
 export const ABOUT_IMPACT_STATS = [
   { value: "43", label: "people published as artists", icon: "people" as const },

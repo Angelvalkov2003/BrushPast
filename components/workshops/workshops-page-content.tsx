@@ -1,14 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import {
-  ArrowPathIcon,
-  HeartIcon,
-  LockClosedIcon,
-  PencilSquareIcon,
-  UserGroupIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
 import { AboutNewsletter } from "components/about/about-newsletter";
+import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import {
   HomeCta,
   HomeSectionTitle,
@@ -27,14 +20,6 @@ import {
   WORKSHOPS_MISSION_COLUMNS,
   WORKSHOPS_PROCESS,
 } from "lib/workshops-config";
-
-const VALUE_ICONS = {
-  safe: UserGroupIcon,
-  creative: PencilSquareIcon,
-  connect: UsersIcon,
-  opportunity: ArrowPathIcon,
-  ownership: LockClosedIcon,
-};
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -90,12 +75,16 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               </p>
             </IndexCard>
             <HeroButtons className="mt-8" />
-            <p
-              className={`${homeHandClass} mt-8 flex items-center gap-2 text-2xl text-bp-text md:text-3xl`}
+            <div
+              className={`${homeHandClass} mt-8 flex items-center gap-3 text-2xl text-bp-text md:text-3xl`}
             >
-              <HeartIcon className="h-7 w-7 shrink-0 text-bp-accent" strokeWidth={1.5} />
+              <BrushPastIconBadge
+                icon={brushPastIcons.workshopsPage.safeSpace}
+                size="sm"
+                className="!h-10 !w-10"
+              />
               Everyone is welcome. Exactly as you are.
-            </p>
+            </div>
           </div>
 
           <PolaroidFrame index={0} className="mx-auto w-full max-w-md lg:max-w-none">
@@ -153,7 +142,11 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </p>
           </IndexCard>
           <IndexCard className="flex flex-col justify-center border-bp-accent/25">
-            <HeartIcon className="h-8 w-8 text-bp-accent" strokeWidth={1.25} />
+            <BrushPastIconBadge
+              icon={brushPastIcons.workshopsPage.ownership}
+              size="lg"
+              className="mb-1"
+            />
             <p className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
               {WORKSHOPS_MISSION_COLUMNS.choiceLead}
             </p>
@@ -171,13 +164,11 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
 
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {WORKSHOPS_CORE_VALUES.map((item) => {
-              const Icon = VALUE_ICONS[item.icon];
+              const Icon = brushPastIcons.workshopsPage[item.icon];
               return (
                 <li key={item.title}>
                   <IndexCard className="flex h-full flex-col text-center lg:text-left">
-                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-dashed border-bp-text/20 bg-bp-canvas lg:mx-0">
-                      <Icon className="h-5 w-5 text-bp-text/70" strokeWidth={1.5} />
-                    </div>
+                    <BrushPastIconBadge icon={Icon} size="md" className="mx-auto lg:mx-0" />
                     <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text`}>
                       {item.title}
                     </h3>
@@ -195,13 +186,18 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
           <HomeSectionTitle eyebrow="Inside the room" title="What happens in our workshops?" />
 
           <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-            {WORKSHOPS_PROCESS.map((step, index) => (
+            {WORKSHOPS_PROCESS.map((step, index) => {
+              const StepIcon = brushPastIcons.workshopProcess[step.icon];
+              return (
               <li key={step.title}>
-                <p
-                  className={`${homeHandClass} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
-                >
-                  {step.title}
-                </p>
+                <div className="flex flex-col items-center lg:items-start">
+                  <BrushPastIconBadge icon={StepIcon} size="sm" className="mb-3" />
+                  <p
+                    className={`${homeHandClass} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
+                  >
+                    {step.title}
+                  </p>
+                </div>
                 <PolaroidFrame index={index + 1} tilt={index % 2 === 0} className="mt-3">
                   <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
                     <Image
@@ -219,7 +215,8 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
                   {step.caption}
                 </p>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       </section>

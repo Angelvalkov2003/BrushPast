@@ -1,5 +1,6 @@
 /** Homepage copy + fallbacks when categories missing in DB */
 
+import type { HomepageIconKey } from "components/icons/brush-past-icons";
 import { SHOP_COLLECTIONS } from "lib/shop-config";
 
 export const HOME_SHOP_WAYS = SHOP_COLLECTIONS.map((c, i) => ({
@@ -10,15 +11,15 @@ export const HOME_SHOP_WAYS = SHOP_COLLECTIONS.map((c, i) => ({
   image: i === 0 ? "/home-hero.png" : (null as string | null),
 }));
 
-export const HOME_HOW_IT_WORKS = [
-  { title: "Stories are shared", icon: "chat" as const },
-  { title: "Stories become collections", icon: "pencil" as const },
-  { title: "Profits create change", icon: "heart" as const },
-  { title: "You keep a story close", icon: "gift" as const },
+export const HOME_HOW_IT_WORKS: { title: string; icon: HomepageIconKey }[] = [
+  { title: "Stories are shared", icon: "storiesAreShared" },
+  { title: "Stories become collections", icon: "storiesBecomeCollections" },
+  { title: "Profits create change", icon: "profitsCreateChange" },
+  { title: "You keep a story close", icon: "keepAStoryClose" },
 ];
 
-export const HOME_IMPACT_PILLARS = [
-  { title: "Creators earn fairly", icon: "users" as const },
-  { title: "Workshops and skills funded", icon: "building" as const },
-  { title: "Recovery organisations supported", icon: "hand-heart" as const },
+export const HOME_IMPACT_PILLARS: { title: string; icon: HomepageIconKey }[] = [
+  { title: "Creators earn fairly", icon: "creatorsEarnFairly" },
+  { title: "Workshops and skills funded", icon: "workshopsSkillsFunded" },
+  { title: "Recovery organisations supported", icon: "recoveryOrganisationsSupported" },
 ];

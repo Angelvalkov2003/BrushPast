@@ -1,6 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
+import {
+  brushPastIcons,
+  BrushPastIconBadge,
+  HOME_SHOP_ICON_BY_SLUG,
+} from "components/icons/brush-past-icons";
 import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { HOME_SHOP_WAYS } from "lib/home-config";
@@ -12,12 +17,15 @@ function resolveWays(categories: ShopCategory[]) {
   return HOME_SHOP_WAYS.map((fallback) => {
     const cat = categories.find((c) => c.slug === fallback.slug);
     const href = cat ? `/shop/${cat.slug}` : `/shop/${fallback.slug}`;
+    const iconKey = HOME_SHOP_ICON_BY_SLUG[fallback.slug];
     return {
       href,
+      slug: fallback.slug,
       title: cat?.name ?? fallback.title,
       description: cat?.short_description ?? fallback.description,
       cta: cat?.shop_cta ?? fallback.cta,
       image: displayImageUrl(cat?.image_url) ?? displayImageUrl(fallback.image) ?? null,
+      icon: iconKey ? brushPastIcons.homepage[iconKey] : brushPastIcons.homepage.wearIt,
     };
   });
 }
@@ -35,7 +43,9 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
           />
         </Reveal>
         <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
-          {ways.map((way, index) => (
+          {ways.map((way, index) => {
+            const WayIcon = way.icon;
+            return (
             <Reveal key={way.href + way.title} variant="fade-scale" delay={index * REVEAL_STAGGER_MS}>
               <Link
                 href={way.href}
@@ -52,16 +62,27 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
                     ) : (
-                      <div
-                        className={`${homeHandClass} flex h-full items-center justify-center text-xl text-bp-text/35`}
-                      >
-                        {way.title}
+                      <div className="flex h-full flex-col items-center justify-center gap-3">
+                        <BrushPastIconBadge icon={way.icon} size="lg" />
+                        <span className={`${homeHandClass} text-xl text-bp-text/50`}>
+                          {way.title}
+                        </span>
                       </div>
                     )}
+                    {displayImageUrl(way.image) ? (
+                      <div className="absolute left-3 top-3">
+                        <BrushPastIconBadge
+                          icon={way.icon}
+                          size="sm"
+                          className="border-bp-canvas/80 bg-bp-canvas/95"
+                        />
+                      </div>
+                    ) : null}
                   </div>
                   <p
-                    className={`${homeHandClass} mt-3 text-center text-2xl font-bold text-bp-text`}
+                    className={`${homeHandClass} mt-3 flex items-center justify-center gap-2 text-2xl font-bold text-bp-text`}
                   >
+                    <WayIcon className="h-6 w-6 text-bp-accent" strokeWidth={1.5} aria-hidden />
                     {way.title}
                   </p>
                 </PolaroidFrame>
@@ -75,7 +96,8 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
                 </p>
               </Link>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </HomeTextureSection>
