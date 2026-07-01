@@ -7,9 +7,9 @@ import { homeHandClass, homeSerifClass } from "components/home/home-typography";
 export type StorySortKey = "latest" | "oldest" | "featured";
 
 const SORT_OPTIONS: { value: StorySortKey; label: string; hint: string }[] = [
+  { value: "featured", label: "Featured", hint: "Highest sort first" },
   { value: "latest", label: "Latest", hint: "Newest first" },
   { value: "oldest", label: "Oldest", hint: "Earliest first" },
-  { value: "featured", label: "Featured", hint: "Curated order" },
 ];
 
 type Props = {

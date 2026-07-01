@@ -53,7 +53,7 @@ export function AboutPageContent() {
                 <br />
                 Our purpose.
               </h1>
-              <IndexCard className="mt-6 max-w-xl">
+              <IndexCard className="mt-6 max-w-xl" panelTexture="secondary">
                 <p className={aboutBodyHandClass}>
                   BrushPast exists to{" "}
                   <span className="text-bp-accent">unlock overlooked creativity</span> in people
@@ -94,7 +94,7 @@ export function AboutPageContent() {
       <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
           <Reveal>
-            <IndexCard>
+            <IndexCard panelTexture="primary">
               <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
                 Where it began
               </p>
@@ -108,7 +108,7 @@ export function AboutPageContent() {
             </IndexCard>
           </Reveal>
           <Reveal delay={REVEAL_STAGGER_MS}>
-            <IndexCard className="h-full">
+            <IndexCard className="h-full" panelTexture="primary">
               <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
                 Two paths. One belief.
               </p>
@@ -194,7 +194,7 @@ export function AboutPageContent() {
           </Reveal>
 
           <Reveal delay={REVEAL_STAGGER_MS * 2}>
-            <IndexCard className="flex h-full flex-col justify-center">
+            <IndexCard className="flex h-full flex-col justify-center" panelTexture="secondary">
               <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
                 Lived experience
               </p>
@@ -226,11 +226,15 @@ export function AboutPageContent() {
               return (
                 <li key={step.title}>
                   <Reveal delay={index * REVEAL_STAGGER_MS}>
-                    <IndexCard className="flex h-full flex-col items-center text-center">
+                    <IndexCard className="relative flex h-full flex-col items-center text-center">
+                      <BrushPastIconBadge
+                        icon={Icon}
+                        size="md"
+                        className="absolute right-4 top-4 md:right-6 md:top-6"
+                      />
                       <span className={`${homeHandClass} text-4xl font-bold text-bp-accent`}>
                         {stepNum}
                       </span>
-                      <BrushPastIconBadge icon={Icon} size="md" className="mt-4" />
                       <p
                         className={`${homeHandClass} mt-5 text-2xl font-bold leading-snug text-bp-text`}
                       >

@@ -67,7 +67,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               <br />
               <span className="text-bp-accent">Be yourself.</span>
             </h1>
-            <IndexCard className="mt-6 max-w-xl">
+            <IndexCard className="mt-6 max-w-xl" panelTexture="primary">
               <p className={workshopBodyHandClass}>
                 A space to <span className="text-bp-accent">breathe, make something</span>, and be
                 yourself - without pressure to perform or explain. Creative workshops for anyone
@@ -167,7 +167,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               const Icon = brushPastIcons.workshopsPage[item.icon];
               return (
                 <li key={item.title}>
-                  <IndexCard className="flex h-full flex-col text-center lg:text-left">
+                  <IndexCard className="flex h-full flex-col text-center lg:text-left" panelTexture="primary">
                     <BrushPastIconBadge icon={Icon} size="md" className="mx-auto lg:mx-0" />
                     <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text`}>
                       {item.title}
@@ -228,7 +228,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             <ul className="mt-12 flex flex-col gap-8">
               {archiveWorkshops.map((workshop, index) => (
                 <li key={workshop.id}>
-                  <WorkshopArchiveCard workshop={workshop} index={index} />
+                  <WorkshopArchiveCard workshop={workshop} index={index} panelTexture="secondary" />
                 </li>
               ))}
             </ul>

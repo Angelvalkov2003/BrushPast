@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
+import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
 import { homeHandClass } from "./home-typography";
 
 export function HomeSectionTitle({
@@ -69,20 +71,36 @@ export function IndexCard({
   children,
   className,
   id,
+  panelTexture,
 }: {
   children: ReactNode;
   className?: string;
   id?: string;
+  /** Opposite cardboard inside a TextureSection — primary section → secondary panel, etc. */
+  panelTexture?: TextureVariant;
 }) {
   return (
     <div
       id={id}
       className={clsx(
-        "border border-bp-text/12 bg-[#faf7f2] p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)] md:p-8",
+        "relative overflow-hidden border border-bp-text/12 p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)] md:p-8",
+        !panelTexture && "bg-[#faf7f2]",
         className,
       )}
     >
-      {children}
+      {panelTexture ? (
+        <>
+          <Image
+            src={TEXTURE_IMAGES[panelTexture]}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 480px"
+          />
+          <div className="absolute inset-0 bg-bp-accent-bg/72 backdrop-blur-[1px]" aria-hidden />
+        </>
+      ) : null}
+      <div className={panelTexture ? "relative z-10" : undefined}>{children}</div>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
 import { homeHandClass } from "components/home/home-typography";
+import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
 import { displayImageUrl } from "lib/image-url";
 import { workshopHref, workshopListDescription } from "lib/workshop-display";
 import type { PublicWorkshop } from "lib/supabase/workshops";
@@ -11,9 +13,11 @@ const archiveBodyHandClass = `${homeHandClass} text-lg leading-snug text-bp-text
 export function WorkshopArchiveCard({
   workshop,
   index = 0,
+  panelTexture,
 }: {
   workshop: PublicWorkshop;
   index?: number;
+  panelTexture?: TextureVariant;
 }) {
   const href = workshopHref(workshop);
   if (!href) return null;
@@ -24,9 +28,28 @@ export function WorkshopArchiveCard({
   return (
     <Link
       href={href}
-      className="group grid gap-8 border border-bp-text/10 bg-bp-canvas/60 p-5 transition-colors hover:border-bp-accent/40 md:grid-cols-[1fr_1.4fr] md:items-center md:p-8"
+      className={clsx(
+        "group relative grid gap-8 overflow-hidden border border-bp-text/10 p-5 transition-colors hover:border-bp-accent/40 md:grid-cols-[1fr_1.4fr] md:items-center md:p-8",
+        !panelTexture && "bg-bp-canvas/60",
+      )}
     >
-      <PolaroidFrame index={index} className="h-fit" tilt={index % 2 === 0}>
+      {panelTexture ? (
+        <>
+          <Image
+            src={TEXTURE_IMAGES[panelTexture]}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 900px"
+          />
+          <div className="absolute inset-0 bg-bp-accent-bg/72 backdrop-blur-[1px]" aria-hidden />
+        </>
+      ) : null}
+      <PolaroidFrame
+        index={index}
+        className={clsx("h-fit", panelTexture && "relative z-10")}
+        tilt={index % 2 === 0}
+      >
         <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface">
           <Image
             src={image}
@@ -37,7 +60,7 @@ export function WorkshopArchiveCard({
           />
         </div>
       </PolaroidFrame>
-      <div>
+      <div className={panelTexture ? "relative z-10" : undefined}>
         {workshop.location_label ? (
           <p className={`${homeHandClass} text-lg text-bp-accent md:text-xl`}>
             {workshop.location_label}

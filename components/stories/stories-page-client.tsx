@@ -20,24 +20,38 @@ import { StoriesSort, type StorySortKey } from "./stories-sort";
 //   return stories.filter((s) => (s.tags ?? []).includes(filter));
 // }
 
+function storyCreatedAt(story: PublicStory): number {
+  const time = Date.parse(story.created_at);
+  return Number.isFinite(time) ? time : 0;
+}
+
 function sortStories(stories: PublicStory[], sort: StorySortKey): PublicStory[] {
   const list = [...stories];
-  if (sort === "oldest") {
-    return list.sort(
-      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
-    );
-  }
+
   if (sort === "featured") {
-    return list.sort((a, b) => b.sort_order - a.sort_order);
+    return list.sort((a, b) => {
+      if (b.sort_order !== a.sort_order) return b.sort_order - a.sort_order;
+      return storyCreatedAt(b) - storyCreatedAt(a);
+    });
   }
-  return list.sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  );
+
+  if (sort === "oldest") {
+    return list.sort((a, b) => {
+      const byDate = storyCreatedAt(a) - storyCreatedAt(b);
+      if (byDate !== 0) return byDate;
+      return b.sort_order - a.sort_order;
+    });
+  }
+
+  return list.sort((a, b) => {
+    const byDate = storyCreatedAt(b) - storyCreatedAt(a);
+    if (byDate !== 0) return byDate;
+    return b.sort_order - a.sort_order;
+  });
 }
 
 export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
-  // const [filter, setFilter] = useState<StoryFilterId>("all");
-  const [sort, setSort] = useState<StorySortKey>("latest");
+  const [sort, setSort] = useState<StorySortKey>("featured");
   const [compactGrid, setCompactGrid] = useState(false);
 
   const visible = useMemo(() => sortStories(stories, sort), [stories, sort]);

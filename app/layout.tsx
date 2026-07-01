@@ -2,6 +2,7 @@ import { CartProvider } from "components/cart/cart-context";
 import { ConditionalNavbar } from "components/layout/conditional-navbar";
 import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { AdminThemeScript } from "components/layout/admin-theme-script";
+import { NavigationLoading } from "components/layout/navigation-loading";
 import { CookieConsent } from "components/cookie-consent";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
@@ -47,14 +48,16 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <PublicBodyTheme />
-        <CartProvider>
-          <ConditionalNavbar />
-          <main suppressHydrationWarning>
-            {children}
-            <Toaster closeButton theme="light" />
-          </main>
-          <CookieConsent />
-        </CartProvider>
+        <NavigationLoading>
+          <CartProvider>
+            <ConditionalNavbar />
+            <main suppressHydrationWarning>
+              {children}
+              <Toaster closeButton theme="light" />
+            </main>
+            <CookieConsent />
+          </CartProvider>
+        </NavigationLoading>
       </body>
     </html>
   );

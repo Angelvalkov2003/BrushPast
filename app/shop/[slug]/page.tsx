@@ -80,7 +80,7 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
+      <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-[1400px]">
           {products.length === 0 ? (
             <p className={`${homeHandClass} text-center text-2xl text-bp-text/50`}>
@@ -103,7 +103,7 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
             </HomeCta>
           </div>
         </div>
-      </section>
+      </TextureSection>
 
       <Footer />
     </div>

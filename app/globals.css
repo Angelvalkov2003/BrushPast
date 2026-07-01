@@ -209,6 +209,25 @@ body.bp-site button {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .navigation-loading-logo {
+    animation: navigation-loading-logo 1.4s ease-in-out infinite;
+  }
+
+  @keyframes navigation-loading-logo {
+    0%,
+    100% {
+      opacity: 0.82;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
   .page-route-enter {
     animation: page-route-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
