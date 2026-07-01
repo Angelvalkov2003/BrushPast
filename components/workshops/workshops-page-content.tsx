@@ -60,9 +60,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
               Brush Past workshops
             </p>
-            <h1
-              className={`${homeHandClass} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
-            >
+            <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
               Make space. Make something.
               <br />
               <span className="text-bp-accent">Be yourself.</span>

@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Lora, Caveat } from "next/font/google";
 import {
   CalendarDaysIcon,
   MapPinIcon,
   TagIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { homeHandClass } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -16,9 +16,6 @@ import { ROUNDABOUT_MEETING } from "lib/stories/the-roundabout-meeting-content";
 import { getStoryArtworkBySlug, getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 import { StoryArtworkCarousel } from "./story-artwork-carousel";
-
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
 const COPY = ROUNDABOUT_MEETING;
 
@@ -80,7 +77,7 @@ export async function RoundaboutMeetingPage() {
             <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-bp-text/60">
               {COPY.title}
             </p>
-            <p className={`${lora.className} mt-8 text-2xl leading-snug md:text-3xl`}>{heroQuote}</p>
+            <p className={`${homeHandClass} mt-8 text-2xl leading-snug md:text-3xl`}>{heroQuote}</p>
             <ul className="mt-8 flex flex-wrap gap-6 text-xs font-semibold uppercase tracking-[0.12em] text-bp-text/70">
               <li className="flex items-center gap-2">
                 <UserIcon className="h-4 w-4 text-bp-accent" />
@@ -113,7 +110,7 @@ export async function RoundaboutMeetingPage() {
       <RevealSection className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div className="border border-bp-text/10 bg-bp-canvas p-6 shadow-sm md:p-8">
-            <p className={`${caveat.className} text-xl leading-snug md:text-2xl`}>
+            <p className={`${homeHandClass} text-xl leading-snug md:text-2xl`}>
               &ldquo;{COPY.stickyQuote}&rdquo;
             </p>
             <p className="mt-4 text-sm font-semibold text-bp-text/70">- {firstName}</p>
@@ -144,7 +141,7 @@ export async function RoundaboutMeetingPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               In his words
             </p>
-            <p className={`${lora.className} mt-6 text-2xl leading-snug md:text-3xl`}>
+            <p className={`${homeHandClass} mt-6 text-2xl leading-snug md:text-3xl`}>
               <span className="text-4xl text-bp-accent/80">&ldquo;</span>
               {COPY.reflectionQuote.split("hold onto")[0]}
               <BrushUnderline>hold onto</BrushUnderline>

@@ -46,9 +46,7 @@ export function AboutPageContent() {
               <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
                 About Brush Past
               </p>
-              <h1
-                className={`${homeHandClass} mt-2 text-[clamp(2.75rem,7vw,4.75rem)] font-bold leading-[0.92] text-bp-text`}
-              >
+              <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.75rem)] font-bold leading-[0.92] text-bp-text">
                 Our mission.
                 <br />
                 Our purpose.

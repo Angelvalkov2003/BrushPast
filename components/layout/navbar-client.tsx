@@ -11,7 +11,6 @@ import { NavLink, activeNavClass } from "./navbar/nav-link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { homeHandClass } from "components/home/home-typography";
-import { useNavigationLoading } from "components/layout/navigation-loading";
 import { TEXTURE_IMAGES } from "components/shared/texture-section";
 
 interface Collection {
@@ -40,7 +39,6 @@ function isShopPath(pathname: string) {
 export function NavbarClient() {
   const pathname = usePathname();
   const router = useRouter();
-  const { startLoading } = useNavigationLoading();
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [shopOpen, setShopOpen] = useState(false);
@@ -77,7 +75,6 @@ export function NavbarClient() {
 
   const handleShopClick = () => {
     if (pathname !== "/shop") {
-      startLoading("primary");
       router.push("/shop");
     }
     setShopOpen((open) => !open);

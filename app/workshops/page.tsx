@@ -1,6 +1,6 @@
 import Footer from "components/layout/footer";
 import { WorkshopsPageContent } from "components/workshops/workshops-page-content";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 import { getPublicWorkshops } from "lib/supabase/workshops";
 
 export const metadata = {
@@ -16,7 +16,7 @@ export default async function WorkshopsPage() {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <WorkshopsPageContent workshops={workshops} />
       <Footer />

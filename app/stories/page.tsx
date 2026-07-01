@@ -1,7 +1,7 @@
 import Footer from "components/layout/footer";
 import { StoriesHero } from "components/stories/stories-hero";
 import { StoriesPageClient } from "components/stories/stories-page-client";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 import { getPublicStories } from "lib/supabase/stories";
 
 export const metadata = {
@@ -16,7 +16,7 @@ export default async function StoriesPage() {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <StoriesHero />
       <StoriesPageClient stories={stories} />

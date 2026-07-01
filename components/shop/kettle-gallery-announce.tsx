@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { KETTLE_GALLERY } from "lib/kettle-gallery-config";
 
 export function KettleGalleryAnnounce() {
@@ -40,7 +40,7 @@ export function KettleGalleryAnnounce() {
           <p className={`${homeHandClass} mt-5 text-2xl leading-snug text-bp-text/90 md:text-3xl`}>
             Build your own frame. Hang the story where life happens.
           </p>
-          <p className={`${homeSerifClass} mt-5 max-w-md text-base leading-relaxed text-bp-text/75`}>
+          <p className={`${homeHandClass} mt-5 max-w-md text-base leading-relaxed text-bp-text/75`}>
             {KETTLE_GALLERY.teaser}
           </p>
           <p

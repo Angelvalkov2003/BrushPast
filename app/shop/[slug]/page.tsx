@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Footer from "components/layout/footer";
 import { HomeCta, PolaroidFrame } from "components/home/home-decor";
-import { homeHand, homeSerif, homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { bpFontVariables, bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
 import { getShopCategoryBySlug } from "lib/supabase/categories";
@@ -31,7 +31,7 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <TextureSection texture="secondary" className="px-4 py-10 md:px-10 md:py-14">
         <div className="mx-auto max-w-[1400px]">
@@ -45,14 +45,12 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
           <div className="mt-8 grid gap-10 md:grid-cols-[1fr_1fr] md:items-center md:gap-14">
             <div>
               <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>The Archive</p>
-              <h1
-                className={`${homeHandClass} mt-1 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.92] text-bp-text`}
-              >
+              <h1 className="mt-1 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.92] text-bp-text">
                 {category.name}
               </h1>
               {category.short_description ? (
                 <p
-                  className={`${homeSerifClass} mt-4 max-w-lg text-lg italic leading-relaxed text-bp-text/85`}
+                  className={`${bpSubtitleClass} mt-4 max-w-lg text-lg leading-relaxed text-bp-text/85`}
                 >
                   {category.short_description}
                 </p>

@@ -19,7 +19,7 @@ import {
   IndexCard,
   PolaroidFrame,
 } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 import { TEXTURE_IMAGES, TextureSection } from "components/shared/texture-section";
 import { ContactForm } from "./contact-form";
 
@@ -32,13 +32,11 @@ export function ContactPageContent() {
             <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
               Get in touch
             </p>
-            <h1
-              className={`${homeHandClass} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
-            >
+            <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
               Let&apos;s start a conversation.
             </h1>
             <p
-              className={`${homeSerifClass} mt-6 max-w-lg text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
+              className={`${bpSubtitleClass} mt-6 max-w-lg text-lg leading-relaxed text-bp-text/85 md:text-xl`}
             >
               Share a story. Collaborate. Join a workshop. Or simply say hello - we&apos;d love to
               hear from you.
@@ -120,7 +118,7 @@ export function ContactPageContent() {
               We&apos;re building this{" "}
               <span className="text-bp-accent">in public</span> - with honesty, creativity and care.
             </p>
-            <p className={`${homeSerifClass} mt-4 text-lg italic text-bp-text/70`}>
+            <p className={`${homeHandClass} mt-4 text-lg italic text-bp-text/70`}>
               - Jeremy &amp; David
             </p>
           </IndexCard>
@@ -155,7 +153,7 @@ export function ContactPageContent() {
                   </p>
                 </PolaroidFrame>
                 <p
-                  className={`${homeSerifClass} mt-4 text-center text-sm italic leading-relaxed text-bp-text/75`}
+                  className={`${homeHandClass} mt-4 text-center text-sm italic leading-relaxed text-bp-text/75`}
                 >
                   {card.description}{" "}
                   <span className="font-medium text-bp-text not-italic">{card.descriptionAccent}</span>
@@ -179,7 +177,7 @@ export function ContactPageContent() {
                 We&apos;re figuring this out{" "}
                 <span className="text-bp-accent">in public</span>
               </h2>
-              <p className={`${homeSerifClass} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}>
+              <p className={`${homeHandClass} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}>
                 Brush Past is not a finished product - it&apos;s a{" "}
                 <span className="font-medium text-bp-text not-italic">living creative platform</span>.
               </p>
@@ -195,7 +193,7 @@ export function ContactPageContent() {
 
             <IndexCard>
               <h3 className={`${homeHandClass} text-2xl text-bp-accent`}>Direct contact</h3>
-              <ul className={`${homeSerifClass} mt-5 space-y-5 text-base`}>
+              <ul className={`${homeHandClass} mt-5 space-y-5 text-base`}>
                 <li>
                   <span className={`${homeHandClass} block text-lg text-bp-text`}>Email</span>
                   <a

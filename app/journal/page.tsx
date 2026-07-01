@@ -1,7 +1,7 @@
 import Footer from "components/layout/footer";
 import { JournalHero } from "components/journal/journal-hero";
 import { JournalPageContent } from "components/journal/journal-page-content";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 import { getPublicJournalPosts } from "lib/supabase/journal";
 
 export const metadata = {
@@ -16,7 +16,7 @@ export default async function JournalPage() {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <JournalHero />
       <JournalPageContent posts={posts} />

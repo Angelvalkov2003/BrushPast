@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bars3BottomLeftIcon, CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 
 export type StorySortKey = "latest" | "oldest" | "featured";
 
@@ -102,7 +102,7 @@ export function StoriesSort({ value, onChange }: Props) {
                       <span className={`${homeHandClass} block text-lg font-bold text-bp-text`}>
                         {option.label}
                       </span>
-                      <span className={`${homeSerifClass} mt-0.5 block text-sm italic text-bp-text/55`}>
+                      <span className={`${homeHandClass} mt-0.5 block text-sm italic text-bp-text/55`}>
                         {option.hint}
                       </span>
                     </span>

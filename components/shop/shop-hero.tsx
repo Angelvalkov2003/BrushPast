@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HomeCta, PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 
 export function ShopHero() {
@@ -10,12 +10,10 @@ export function ShopHero() {
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:items-center md:gap-16">
         <div>
           <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>The Archive</p>
-          <h1
-            className={`${homeHandClass} mt-1 text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[0.92] text-bp-text`}
-          >
+          <h1 className="mt-1 text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[0.92] text-bp-text">
             The Archive Shop
           </h1>
-          <p className={`${homeSerifClass} mt-6 max-w-md text-lg italic text-bp-text/85 md:text-xl`}>
+          <p className={`${bpSubtitleClass} mt-6 max-w-md text-lg leading-relaxed text-bp-text/85 md:text-xl`}>
             Art, objects and editions created through lived experience.
           </p>
           <p className={`${homeHandClass} mt-4 text-2xl text-bp-text/90 md:text-3xl`}>

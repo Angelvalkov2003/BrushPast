@@ -1,6 +1,6 @@
 import Footer from "components/layout/footer";
 import { ContactPageContent } from "components/contact/contact-page-content";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 
 export const metadata = {
   title: "Get in Touch",
@@ -11,7 +11,7 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <ContactPageContent />
       <Footer />

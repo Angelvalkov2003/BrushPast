@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -10,9 +9,8 @@ import type { MaimounaLyricLine, MaimounaSection } from "lib/stories/maimouna-co
 import { MAIMOUNA_STORY } from "lib/stories/maimouna-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 const COPY = MAIMOUNA_STORY;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
@@ -74,7 +72,7 @@ function LyricSection({
             {section.lines.map((line) => (
               <p
                 key={`${section.label}-${line.text}`}
-                className={`${caveat.className} ${
+                className={`${homeHandClass} ${
                   line.emphasis
                     ? "text-[1.75rem] font-bold leading-snug md:text-[2rem]"
                     : "text-[1.35rem] leading-relaxed md:text-[1.5rem]"
@@ -133,24 +131,24 @@ export async function MaimounaPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               {COPY.artist}
             </p>
-            <h1 className="mt-3 text-[clamp(3rem,11vw,6rem)] font-black uppercase leading-[0.88] tracking-tighter">
+            <h1 className="mt-3 text-[clamp(3rem,11vw,6rem)] uppercase leading-[0.88] tracking-tighter">
               {COPY.title}
             </h1>
             <p className="mt-2 text-sm font-bold uppercase tracking-[0.16em] text-bp-text/70">
               {COPY.artistName}
             </p>
             <p
-              className={`${lora.className} mt-6 text-lg text-bp-text/75 md:text-xl`}
+              className={`${homeHandClass} mt-6 text-lg text-bp-text/75 md:text-xl`}
             >
               Song title:{" "}
               <span className="font-medium text-bp-text">{COPY.songTitle}*</span>
             </p>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/60">
+            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/60`}>
               {COPY.tags}
             </p>
             <div className="relative mt-8 max-w-lg rotate-[-0.35deg] border border-bp-text/20 bg-[#f3ebe3] p-6 shadow-[5px_5px_0_rgba(191,50,1,0.1)] md:p-8">
               <p
-                className={`${caveat.className} text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
+                className={`${homeHandClass} text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
               >
                 {quoteBefore}
                 {highlightIdx >= 0 ? (
@@ -186,7 +184,7 @@ export async function MaimounaPage() {
       <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-10 md:py-14">
           <p
-            className={`${lora.className} mx-auto max-w-2xl text-center text-xl text-bp-text/75 md:text-2xl`}
+            className={`${homeHandClass} mx-auto max-w-2xl text-center text-xl text-bp-text/75 md:text-2xl`}
           >
             {COPY.intro}
           </p>
@@ -212,13 +210,13 @@ export async function MaimounaPage() {
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent">
               Note
             </p>
-            <p className={`${lora.className} mt-4 text-base leading-relaxed text-bp-text/75 md:text-lg`}>
+            <p className={`${homeHandClass} mt-4 text-base leading-relaxed text-bp-text/75 md:text-lg`}>
               {COPY.inspirationNote}
             </p>
           </div>
           <div className="flex items-center justify-center bg-bp-text p-8 md:p-10">
             <p
-              className={`${caveat.className} max-w-md text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
+              className={`${homeHandClass} max-w-md text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
             >
               <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
             </p>

@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -10,9 +9,8 @@ import type { EdBeerbohmParagraph } from "lib/stories/ed-beerbohm-content";
 import { ED_BEERBOHM_STORY } from "lib/stories/ed-beerbohm-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 const COPY = ED_BEERBOHM_STORY;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
@@ -62,7 +60,7 @@ function StoryParagraph({ block }: { block: EdBeerbohmParagraph }) {
   if (block.pull) {
     return (
       <blockquote
-        className={`${caveat.className} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
+        className={`${homeHandClass} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
       >
         <span className="absolute -left-2 top-2 text-2xl text-bp-accent/40" aria-hidden>
           ❝
@@ -77,7 +75,7 @@ function StoryParagraph({ block }: { block: EdBeerbohmParagraph }) {
     : "text-[1.15rem] leading-relaxed md:text-[1.28rem]";
 
   return (
-    <p className={`${caveat.className} ${sizeClass} text-bp-text/92`}>
+    <p className={`${homeHandClass} ${sizeClass} text-bp-text/92`}>
       {renderHighlightedText(block.text, block.highlight)}
     </p>
   );
@@ -118,15 +116,15 @@ export async function EdBeerbohmPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
               Art &amp; film
             </p>
-            <h1 className="mt-3 text-[clamp(2.5rem,9vw,5.5rem)] font-black uppercase leading-[0.9] tracking-tighter">
+            <h1 className="mt-3 text-[clamp(2.5rem,9vw,5.5rem)] uppercase leading-[0.9] tracking-tighter">
               {COPY.title}
             </h1>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75">
+            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
             <div className="relative mt-8 max-w-lg rotate-[0.25deg] border border-bp-text/20 bg-[#f0ebe3] p-6 shadow-[6px_6px_0_rgba(80,60,40,0.1)] md:p-8">
               <p
-                className={`${lora.className} relative z-10 text-[1.35rem] leading-relaxed text-bp-text md:text-[1.5rem]`}
+                className={`${homeHandClass} relative z-10 text-[1.35rem] leading-relaxed text-bp-text md:text-[1.5rem]`}
               >
                 {quoteBefore}
                 {highlightIdx >= 0 ? <BrushUnderline>{highlight}</BrushUnderline> : null}
@@ -159,7 +157,7 @@ export async function EdBeerbohmPage() {
         />
         <div className="relative mx-auto max-w-[1400px] px-4 py-14 md:px-10 md:py-20">
           <p
-            className={`${lora.className} mx-auto mb-14 max-w-2xl text-center text-xl text-bp-text/80 md:text-2xl`}
+            className={`${homeHandClass} mx-auto mb-14 max-w-2xl text-center text-xl text-bp-text/80 md:text-2xl`}
           >
             {COPY.storyIntro}
           </p>
@@ -171,7 +169,7 @@ export async function EdBeerbohmPage() {
                 className="relative border-t-2 border-bp-text/10 bg-bp-canvas/85 px-5 py-8 md:px-6 md:py-10"
               >
                 <span
-                  className={`${caveat.className} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
+                  className={`${homeHandClass} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
                   aria-hidden
                 >
                   {COLUMN_MARKERS[colIdx]}
@@ -225,14 +223,14 @@ export async function EdBeerbohmPage() {
                 {COPY.interior.paragraphs.map((p) => (
                   <p
                     key={p.slice(0, 48)}
-                    className={`${caveat.className} text-[1.2rem] leading-relaxed text-bp-text/90 md:text-[1.3rem]`}
+                    className={`${homeHandClass} text-[1.2rem] leading-relaxed text-bp-text/90 md:text-[1.3rem]`}
                   >
                     {p}
                   </p>
                 ))}
               </div>
               <p
-                className={`${caveat.className} mt-8 text-[1.65rem] leading-tight text-bp-text md:text-[1.85rem]`}
+                className={`${homeHandClass} mt-8 text-[1.65rem] leading-tight text-bp-text md:text-[1.85rem]`}
               >
                 <BrushUnderline>{COPY.interior.quote}</BrushUnderline>
               </p>
@@ -241,7 +239,7 @@ export async function EdBeerbohmPage() {
 
           <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden border border-bp-text/15 bg-[#e5ddd2] p-8">
             <p
-              className={`${caveat.className} relative z-10 max-w-sm text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.7rem]`}
+              className={`${homeHandClass} relative z-10 max-w-sm text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.7rem]`}
             >
               {COPY.notebookQuote}
             </p>
@@ -249,7 +247,7 @@ export async function EdBeerbohmPage() {
 
           <div className="flex min-h-[300px] items-center justify-center bg-bp-text p-8 md:p-10">
             <p
-              className={`${caveat.className} text-center text-[1.55rem] leading-snug text-bp-canvas md:text-[1.85rem]`}
+              className={`${homeHandClass} text-center text-[1.55rem] leading-snug text-bp-canvas md:text-[1.85rem]`}
             >
               <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
             </p>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { isValidImageUrl } from "lib/image-url";
 import type { Product } from "lib/types";
 import { formatPrice } from "lib/currency";
@@ -42,7 +42,7 @@ export function ShopProductCard({
       </PolaroidFrame>
       {subtitle ? (
         <p
-          className={`${homeSerifClass} mt-3 text-center text-xs leading-relaxed text-bp-text/65`}
+          className={`${homeHandClass} mt-3 text-center text-xs leading-relaxed text-bp-text/65`}
         >
           {subtitle}
         </p>

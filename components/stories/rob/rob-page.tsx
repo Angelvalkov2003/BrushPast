@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -10,9 +9,8 @@ import type { RobParagraph, RobPoemLine } from "lib/stories/rob-content";
 import { ROB_STORY } from "lib/stories/rob-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 const COPY = ROB_STORY;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
@@ -44,7 +42,7 @@ function PoemLine({ line, dark }: { line: RobPoemLine; dark?: boolean }) {
   if (line.pull) {
     return (
       <p
-        className={`${caveat.className} my-4 text-[1.85rem] font-bold leading-snug md:text-[2.1rem] ${
+        className={`${homeHandClass} my-4 text-[1.85rem] font-bold leading-snug md:text-[2.1rem] ${
           dark ? "text-bp-canvas" : "text-bp-text"
         }`}
       >
@@ -55,7 +53,7 @@ function PoemLine({ line, dark }: { line: RobPoemLine; dark?: boolean }) {
 
   return (
     <p
-      className={`${caveat.className} ${
+      className={`${homeHandClass} ${
         line.emphasis
           ? "text-[1.7rem] font-bold leading-snug md:text-[1.95rem]"
           : "text-[1.35rem] leading-relaxed md:text-[1.5rem]"
@@ -70,7 +68,7 @@ function StoryParagraph({ block }: { block: RobParagraph }) {
   if (block.pull) {
     return (
       <blockquote
-        className={`${caveat.className} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
+        className={`${homeHandClass} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
       >
         <span className="absolute -left-2 top-2 text-2xl text-bp-accent/40" aria-hidden>
           ❝
@@ -85,7 +83,7 @@ function StoryParagraph({ block }: { block: RobParagraph }) {
     : "text-[1.15rem] leading-relaxed md:text-[1.25rem]";
 
   return (
-    <p className={`${caveat.className} ${sizeClass} text-bp-text/92`}>
+    <p className={`${homeHandClass} ${sizeClass} text-bp-text/92`}>
       {renderHighlight(block.text, block.highlight)}
     </p>
   );
@@ -124,18 +122,18 @@ export async function RobPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-bp-accent">
               {COPY.poemTitle}
             </p>
-            <h1 className="mt-2 text-[clamp(3.5rem,12vw,6.5rem)] font-black uppercase leading-[0.85] tracking-tighter">
+            <h1 className="mt-2 text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter">
               {COPY.title}
             </h1>
             <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-bp-text/60">
               {COPY.credits.words} · {COPY.credits.photography}
             </p>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75">
+            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
             <div className="relative mt-8 max-w-lg rotate-[-0.4deg] border border-bp-text/25 bg-bp-dark p-6 shadow-[6px_6px_0_rgba(191,50,1,0.15)] md:p-8">
               <p
-                className={`${caveat.className} text-[1.55rem] leading-snug text-bp-canvas md:text-[1.75rem]`}
+                className={`${homeHandClass} text-[1.55rem] leading-snug text-bp-canvas md:text-[1.75rem]`}
               >
                 {quoteBefore}
                 {highlightIdx >= 0 ? (
@@ -162,7 +160,7 @@ export async function RobPage() {
       <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-10 md:py-12">
           <p
-            className={`${lora.className} text-center text-2xl text-bp-text/80 md:text-3xl`}
+            className={`${homeHandClass} text-center text-2xl text-bp-text/80 md:text-3xl`}
           >
             {COPY.poemIntro}
           </p>
@@ -195,7 +193,7 @@ export async function RobPage() {
             {COPY.storyHeading}
           </h2>
           <p
-            className={`${lora.className} mx-auto mt-6 max-w-2xl text-center text-xl text-bp-text/75 md:text-2xl`}
+            className={`${homeHandClass} mx-auto mt-6 max-w-2xl text-center text-xl text-bp-text/75 md:text-2xl`}
           >
             {COPY.storyIntro}
           </p>
@@ -217,7 +215,7 @@ export async function RobPage() {
                 className="relative border-t-2 border-bp-text/10 bg-bp-canvas/85 px-5 py-8 md:px-6 md:py-10"
               >
                 <span
-                  className={`${caveat.className} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
+                  className={`${homeHandClass} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
                   aria-hidden
                 >
                   {COLUMN_MARKERS[colIdx]}
@@ -243,7 +241,7 @@ export async function RobPage() {
             </div>
             <div className="flex flex-1 items-center p-6 md:p-8">
               <p
-                className={`${caveat.className} text-[2rem] leading-tight text-bp-text md:text-[2.35rem]`}
+                className={`${homeHandClass} text-[2rem] leading-tight text-bp-text md:text-[2.35rem]`}
               >
                 <BrushUnderline>{COPY.glitchNote.quote}</BrushUnderline>
               </p>
@@ -252,7 +250,7 @@ export async function RobPage() {
 
           <div className="relative flex min-h-[280px] items-center justify-center overflow-hidden border border-bp-text/15 bg-[#ebe4d8] p-8">
             <p
-              className={`${caveat.className} relative z-10 max-w-sm text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.75rem]`}
+              className={`${homeHandClass} relative z-10 max-w-sm text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.75rem]`}
             >
               {COPY.notebookQuote}
             </p>
@@ -260,7 +258,7 @@ export async function RobPage() {
 
           <div className="flex min-h-[280px] items-center justify-center bg-bp-text p-8 md:p-10">
             <p
-              className={`${caveat.className} text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
+              className={`${homeHandClass} text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
             >
               <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
             </p>

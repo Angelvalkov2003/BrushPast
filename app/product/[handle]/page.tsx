@@ -4,7 +4,7 @@ import { BackButton } from "components/product/back-button";
 import { ProductDescription } from "components/product/product-description";
 import { ProductRelations } from "components/product/product-relations";
 import { HomeSectionTitle } from "components/home/home-decor";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { TextureSection } from "components/shared/texture-section";
 import { getProductDetail } from "lib/supabase/product-detail";
@@ -89,7 +89,7 @@ export default async function ProductPage(props: {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <script
         type="application/ld+json"

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CONTACT_SUBJECTS, type ContactSubjectValue } from "lib/contact-config";
 import { IndexCard } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import { ContactSubjectSelect } from "./contact-subject-select";
 
@@ -69,7 +69,7 @@ export function ContactForm() {
   return (
     <IndexCard id="contact-form" className="scroll-mt-24">
       <h2 className={`${homeHandClass} text-3xl font-bold text-bp-text`}>Send a message</h2>
-      <p className={`${homeSerifClass} mt-2 text-sm italic text-bp-text/70`}>
+      <p className={`${homeHandClass} mt-2 text-sm italic text-bp-text/70`}>
         We read every message. You don&apos;t need to have it all figured out.
       </p>
 

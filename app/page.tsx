@@ -5,7 +5,7 @@ import { HomeShopWays } from "components/home/home-shop-ways";
 import { HomeStoriesPreview } from "components/home/home-stories-preview";
 import { HomeHowItWorks } from "components/home/home-how-it-works";
 import { HomeNewsletter } from "components/home/home-newsletter";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 import { getShopCategories } from "lib/supabase/categories";
 import { getPublicStories } from "lib/supabase/stories";
 import { SITE_TAGLINE } from "lib/site-config";
@@ -23,7 +23,7 @@ export default async function HomePage() {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <HomeHero />
       <HomeImpact />

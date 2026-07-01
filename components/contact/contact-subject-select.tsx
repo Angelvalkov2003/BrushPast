@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { CONTACT_SUBJECTS, type ContactSubjectValue } from "lib/contact-config";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 
 type Props = {
   value: ContactSubjectValue;
@@ -75,7 +75,7 @@ export function ContactSubjectSelect({ value, onChange }: Props) {
                     <span className={`${homeHandClass} block text-lg font-bold text-bp-text`}>
                       {option.label}
                     </span>
-                    <span className={`${homeSerifClass} mt-0.5 block text-sm italic text-bp-text/65`}>
+                    <span className={`${homeHandClass} mt-0.5 block text-sm italic text-bp-text/65`}>
                       {option.hint}
                     </span>
                   </span>

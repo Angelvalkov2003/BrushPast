@@ -33,6 +33,10 @@ function textureForPath(path: string): TextureVariant {
   return "primary";
 }
 
+function shouldShowLoadingForPath(path: string): boolean {
+  return path !== "/shop";
+}
+
 export function NavigationLoading({ children }: { children?: ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin") ?? false;
@@ -120,6 +124,8 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
         const samePath = url.pathname === pathname;
         const sameSearch = url.search === window.location.search;
         if (samePath && sameSearch) return;
+
+        if (!shouldShowLoadingForPath(url.pathname)) return;
 
         startLoading(textureForPath(url.pathname));
       } catch {

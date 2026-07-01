@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat } from "next/font/google";
 import {
   CalendarDaysIcon,
   MapPinIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { homeHandClass } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -16,7 +16,6 @@ import { JR_STORY } from "lib/stories/jr-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 const COPY = JR_STORY;
 
 const PAPER_BG = {
@@ -52,8 +51,8 @@ function renderHighlight(text: string, highlight?: string) {
 
 function StoryLine({ line }: { line: JrStoryLine }) {
   const className = line.emphasis
-    ? `${caveat.className} text-[1.35rem] font-bold leading-snug text-bp-text md:text-[1.5rem]`
-    : `${caveat.className} text-[1.2rem] leading-relaxed text-bp-text/90 md:text-[1.3rem]`;
+    ? `${homeHandClass} text-[1.35rem] font-bold leading-snug text-bp-text md:text-[1.5rem]`
+    : `${homeHandClass} text-[1.2rem] leading-relaxed text-bp-text/90 md:text-[1.3rem]`;
 
   return <p className={className}>{renderHighlight(line.text, line.highlight)}</p>;
 }
@@ -95,9 +94,9 @@ function FragmentCard({
         className="pointer-events-none absolute -top-2 left-1/2 h-6 w-10 -translate-x-1/2 bg-bp-canvas/60 shadow-sm"
         aria-hidden
       />
-      <h3 className={`${caveat.className} text-2xl font-bold text-bp-accent`}>{title}</h3>
-      <p className={`${caveat.className} mt-3 text-lg leading-snug text-bp-text/85`}>&ldquo;{quote}&rdquo;</p>
-      <p className={`${caveat.className} mt-4 text-base text-bp-text/60`}>- JR</p>
+      <h3 className={`${homeHandClass} text-2xl font-bold text-bp-accent`}>{title}</h3>
+      <p className={`${homeHandClass} mt-3 text-lg leading-snug text-bp-text/85`}>&ldquo;{quote}&rdquo;</p>
+      <p className={`${homeHandClass} mt-4 text-base text-bp-text/60`}>- JR</p>
     </article>
   );
 }
@@ -135,7 +134,7 @@ export async function JrPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               Artist story
             </p>
-            <h1 className="mt-3 text-[clamp(4rem,14vw,7.5rem)] font-black uppercase leading-[0.82] tracking-tighter">
+            <h1 className="mt-3 text-[clamp(4rem,14vw,7.5rem)] uppercase leading-[0.82] tracking-tighter">
               {COPY.artistHeadline}
             </h1>
             <span className="mt-3 block h-1 w-24 max-w-[40%] bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]" aria-hidden />
@@ -143,7 +142,7 @@ export async function JrPage() {
               <span className="absolute -left-1 -top-2 text-5xl text-bp-accent/70" aria-hidden>
                 &ldquo;
               </span>
-              <p className={`${caveat.className} pl-6 text-[1.85rem] leading-snug text-bp-text md:text-[2.15rem]`}>
+              <p className={`${homeHandClass} pl-6 text-[1.85rem] leading-snug text-bp-text md:text-[2.15rem]`}>
                 {quoteBefore}
                 {highlightIdx >= 0 ? <BrushUnderline>{highlight}</BrushUnderline> : null}
                 {quoteAfter}
@@ -185,7 +184,7 @@ export async function JrPage() {
         <div className="mx-auto grid max-w-[1400px] gap-10 xl:grid-cols-[1.6fr_1fr]">
           <div className="grid gap-0 md:grid-cols-3">
             <div className="border-b border-dashed border-bp-text/20 px-4 py-6 md:border-b-0 md:border-r md:py-0 md:pr-6">
-              <h2 className={`${caveat.className} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
+              <h2 className={`${homeHandClass} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
                 {COPY.myStory.title}
               </h2>
               <div className="mt-6 space-y-4">
@@ -195,24 +194,24 @@ export async function JrPage() {
               </div>
             </div>
             <div className="border-b border-dashed border-bp-text/20 px-4 py-6 md:border-b-0 md:border-r md:py-0 md:px-6">
-              <h2 className={`${caveat.className} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
+              <h2 className={`${homeHandClass} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
                 {COPY.inMyWords.title}
               </h2>
               <div className="mt-6 space-y-5">
                 {COPY.inMyWords.paragraphs.map((p) => (
-                  <p key={p.slice(0, 40)} className={`${caveat.className} text-[1.15rem] leading-relaxed text-bp-text/88 md:text-[1.25rem]`}>
+                  <p key={p.slice(0, 40)} className={`${homeHandClass} text-[1.15rem] leading-relaxed text-bp-text/88 md:text-[1.25rem]`}>
                     {p}
                   </p>
                 ))}
               </div>
             </div>
             <div className="px-4 py-6 md:py-0 md:pl-6">
-              <h2 className={`${caveat.className} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
+              <h2 className={`${homeHandClass} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
                 {COPY.aboutTheArtwork.title}
               </h2>
               <div className="mt-6 space-y-5">
                 {COPY.aboutTheArtwork.paragraphs.map((p) => (
-                  <p key={p.slice(0, 40)} className={`${caveat.className} text-[1.15rem] leading-relaxed text-bp-text/88 md:text-[1.25rem]`}>
+                  <p key={p.slice(0, 40)} className={`${homeHandClass} text-[1.15rem] leading-relaxed text-bp-text/88 md:text-[1.25rem]`}>
                     {p}
                   </p>
                 ))}
@@ -260,7 +259,7 @@ export async function JrPage() {
           aria-hidden
         />
         <div className="mx-auto max-w-[1400px]">
-          <h2 className={`${caveat.className} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent md:text-4xl`}>
+          <h2 className={`${homeHandClass} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent md:text-4xl`}>
             {COPY.fragments.title}
           </h2>
           <div className="mt-12 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-start">
@@ -285,7 +284,7 @@ export async function JrPage() {
                     sizes="(max-width: 640px) 100vw, 280px"
                   />
                 </div>
-                <p className={`${caveat.className} text-[1.75rem] leading-tight text-bp-text md:text-[2rem]`}>
+                <p className={`${homeHandClass} text-[1.75rem] leading-tight text-bp-text md:text-[2rem]`}>
                   {COPY.gallery.portraitCaption}
                 </p>
               </div>
@@ -307,7 +306,7 @@ export async function JrPage() {
               fill="currentColor"
             />
           </svg>
-          <p className={`${caveat.className} max-w-3xl text-[1.65rem] leading-snug text-bp-text md:text-[2rem]`}>
+          <p className={`${homeHandClass} max-w-3xl text-[1.65rem] leading-snug text-bp-text md:text-[2rem]`}>
             &ldquo;{COPY.closingQuote}&rdquo;
             <span className="mt-2 block text-lg text-bp-text/70">- JR</span>
           </p>

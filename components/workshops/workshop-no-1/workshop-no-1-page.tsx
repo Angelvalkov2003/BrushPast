@@ -1,20 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import {
   HeartIcon,
   SparklesIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import Footer from "components/layout/footer";
+import { homeHandClass } from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import { getPublicWorkshopBySlug } from "lib/supabase/workshops";
 import { WORKSHOP_NO_1 } from "lib/workshops/workshop-no-1-content";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400"] });
 const COPY = WORKSHOP_NO_1;
-
 const STAT_ICONS = {
   people: UserGroupIcon,
   shirt: SparklesIcon,
@@ -58,11 +55,11 @@ export async function WorkshopNo1Page() {
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-bp-accent">
                 {COPY.location}
               </p>
-              <h1 className="mt-3 text-[clamp(2.75rem,9vw,5.5rem)] font-black uppercase leading-[0.9] tracking-tight">
+              <h1 className="mt-3 text-[clamp(2.75rem,9vw,5.5rem)] uppercase leading-[0.9] tracking-tight">
                 {COPY.headline}
               </h1>
               <p
-                className={`${caveat.className} mt-5 max-w-3xl text-2xl leading-snug text-bp-canvas/95 md:text-3xl`}
+                className={`${homeHandClass} mt-5 max-w-3xl text-2xl leading-snug text-bp-canvas/95 md:text-3xl`}
               >
                 {COPY.tagline}
               </p>
@@ -121,7 +118,7 @@ export async function WorkshopNo1Page() {
             <h2 className="text-xs font-bold uppercase tracking-[0.24em] text-bp-accent">
               {COPY.archive.title}
             </h2>
-            <p className={`${lora.className} mt-5 text-xl leading-relaxed text-bp-canvas/90 md:text-2xl`}>
+            <p className={`${homeHandClass} mt-5 text-xl leading-relaxed text-bp-canvas/90 md:text-2xl`}>
               {COPY.archive.body}
             </p>
           </div>
@@ -147,7 +144,7 @@ export async function WorkshopNo1Page() {
               })}
             </ul>
             <p
-              className={`${caveat.className} mt-8 text-2xl text-bp-canvas/90 md:text-[1.75rem]`}
+              className={`${homeHandClass} mt-8 text-2xl text-bp-canvas/90 md:text-[1.75rem]`}
             >
               {COPY.archive.footerLine}
             </p>

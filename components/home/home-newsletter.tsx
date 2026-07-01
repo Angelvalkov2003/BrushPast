@@ -3,7 +3,7 @@
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import { NEWSLETTER_SOURCE_HOME } from "lib/newsletter-config";
-import { homeHandClass, homeSerifClass } from "./home-typography";
+import { homeHandClass } from "./home-typography";
 
 export function HomeNewsletter() {
   return (
@@ -24,7 +24,7 @@ export function HomeNewsletter() {
             <h2 className={`${homeHandClass} mt-2 text-4xl font-bold md:text-5xl`}>
               Join the story
             </h2>
-            <p className={`${homeSerifClass} mt-4 max-w-md text-base italic text-bp-canvas/75`}>
+            <p className={`${homeHandClass} mt-4 max-w-md text-base italic text-bp-canvas/75`}>
               Workshops, shop drops and moments from the journey - no spam, just the real stuff.
             </p>
             <NewsletterSignupForm

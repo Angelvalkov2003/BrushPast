@@ -1,19 +1,33 @@
-import { Caveat, Lora } from "next/font/google";
+import { Caveat, Inter, Oswald } from "next/font/google";
 
-/** Handwritten display - headlines, labels, flourishes */
+/** Handwritten — nav, body, section headings, labels, CTAs */
 export const homeHand = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-home-hand",
 });
 
-/** Warm literary body - cozy retro serif */
-export const homeSerif = Lora({
+/** Page titles (h1) */
+export const bpTitle = Oswald({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-bp-title",
+});
+
+/** Subheadings directly under page titles */
+export const bpSubtitle = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-home-serif",
+  variable: "--font-bp-subtitle",
 });
 
 export const homeHandClass = homeHand.className;
-export const homeSerifClass = homeSerif.className;
+export const bpTitleClass = bpTitle.className;
+export const bpSubtitleClass = bpSubtitle.className;
+
+export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpSubtitle.variable}`;
+
+/** @deprecated Use bpSubtitle */
+export const homeSerif = bpSubtitle;
+/** @deprecated Use bpSubtitleClass */
+export const homeSerifClass = bpSubtitleClass;

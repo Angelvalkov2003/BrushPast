@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import {
   formatJournalDate,
@@ -48,7 +48,7 @@ export function JournalPostCard({
       </p>
       {post.description ? (
         <p
-          className={`${homeSerifClass} mt-3 text-center text-sm leading-relaxed text-bp-text/75`}
+          className={`${homeHandClass} mt-3 text-center text-sm leading-relaxed text-bp-text/75`}
         >
           {post.description}
         </p>

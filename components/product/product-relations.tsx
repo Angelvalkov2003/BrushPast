@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import type {
   ProductDetail,
   ProductOrganisationLink,
@@ -74,7 +74,7 @@ function CompactRelationCard({
         </p>
         {subtitle ? (
           <p
-            className={`${homeSerifClass} mt-1 line-clamp-2 text-[0.7rem] italic leading-snug text-bp-text/70`}
+            className={`${homeHandClass} mt-1 line-clamp-2 text-[0.7rem] italic leading-snug text-bp-text/70`}
           >
             {subtitle}
           </p>

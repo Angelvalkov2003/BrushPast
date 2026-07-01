@@ -1,6 +1,6 @@
 import Footer from "components/layout/footer";
 import { JournalPostDetail } from "components/journal/journal-post-detail";
-import { homeHand, homeSerif } from "components/home/home-typography";
+import { bpFontVariables } from "components/home/home-typography";
 import { getPublicJournalPostBySlug } from "lib/supabase/journal";
 import { notFound } from "next/navigation";
 
@@ -23,7 +23,7 @@ export default async function JournalPostPage({ params }: { params: Promise<{ sl
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <JournalPostDetail post={post} />
       <Footer />

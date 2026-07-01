@@ -4,6 +4,7 @@ import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { AdminThemeScript } from "components/layout/admin-theme-script";
 import { NavigationLoading } from "components/layout/navigation-loading";
 import { CookieConsent } from "components/cookie-consent";
+import { bpFontVariables } from "components/home/home-typography";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
 import { Toaster } from "sonner";
@@ -39,7 +40,7 @@ export default async function RootLayout({
   // No need to fetch from database or pass any props
 
   return (
-    <html lang="en-GB" className={GeistSans.variable} suppressHydrationWarning>
+    <html lang="en-GB" className={`${GeistSans.variable} ${bpFontVariables}`} suppressHydrationWarning>
       <head>
         <AdminThemeScript />
       </head>

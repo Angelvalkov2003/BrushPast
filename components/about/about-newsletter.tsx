@@ -1,7 +1,7 @@
 "use client";
 
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { NEWSLETTER_SOURCE_ABOUT } from "lib/newsletter-config";
 import { INSTAGRAM_URL, LINKEDIN_URL } from "lib/site-config";
 
@@ -26,7 +26,7 @@ export function AboutNewsletter() {
           <h2 className={`${homeHandClass} mt-2 text-4xl font-bold md:text-5xl`}>
             Join the story
           </h2>
-          <p className={`${homeSerifClass} mt-4 text-base italic text-bp-canvas/75`}>
+          <p className={`${homeHandClass} mt-4 text-base italic text-bp-canvas/75`}>
             Workshops, stories and shop drops - no spam, just the journey.
           </p>
           <NewsletterSignupForm

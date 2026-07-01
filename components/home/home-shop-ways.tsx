@@ -10,7 +10,7 @@ import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { HOME_SHOP_WAYS } from "lib/home-config";
 import { HomeSectionTitle, PolaroidFrame } from "./home-decor";
-import { homeHandClass, homeSerifClass } from "./home-typography";
+import { homeHandClass } from "./home-typography";
 import { HomeTextureSection } from "./home-texture-section";
 
 function resolveWays(categories: ShopCategory[]) {
@@ -86,7 +86,7 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
                     {way.title}
                   </p>
                 </PolaroidFrame>
-                <p className={`${homeSerifClass} mt-4 text-center text-sm leading-relaxed text-bp-text/75`}>
+                <p className={`${homeHandClass} mt-4 text-center text-sm leading-relaxed text-bp-text/75`}>
                   {way.description}
                 </p>
                 <p

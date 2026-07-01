@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -10,9 +9,8 @@ import type { ErrolParagraph } from "lib/stories/errol-content";
 import { ERROL_STORY } from "lib/stories/errol-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 const COPY = ERROL_STORY;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
@@ -62,7 +60,7 @@ function StoryParagraph({ block }: { block: ErrolParagraph }) {
   if (block.pull) {
     return (
       <blockquote
-        className={`${caveat.className} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
+        className={`${homeHandClass} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
       >
         <span className="absolute -left-2 top-2 text-2xl text-bp-accent/40" aria-hidden>
           ❝
@@ -77,7 +75,7 @@ function StoryParagraph({ block }: { block: ErrolParagraph }) {
     : "text-[1.2rem] leading-relaxed md:text-[1.3rem]";
 
   return (
-    <p className={`${caveat.className} ${sizeClass} text-bp-text/92`}>
+    <p className={`${homeHandClass} ${sizeClass} text-bp-text/92`}>
       {renderHighlightedText(block.text, block.highlight)}
     </p>
   );
@@ -114,7 +112,7 @@ export async function ErrolPage() {
 
       <RevealSection className="border-b border-bp-text/10 bg-[#f5efe6] px-4 py-10 md:px-10 md:py-12">
         <blockquote className="mx-auto max-w-3xl text-center">
-          <p className={`${lora.className} text-xl leading-relaxed text-bp-text/85 md:text-2xl`}>
+          <p className={`${homeHandClass} text-xl leading-relaxed text-bp-text/85 md:text-2xl`}>
             &ldquo;{COPY.epigraph}&rdquo;
           </p>
           <footer className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-bp-text/55">
@@ -129,10 +127,10 @@ export async function ErrolPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
               {COPY.fullName}
             </p>
-            <h1 className="mt-2 text-[clamp(3.5rem,12vw,6.5rem)] font-black uppercase leading-[0.85] tracking-tighter text-bp-text">
+            <h1 className="mt-2 text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter text-bp-text">
               {COPY.title}
             </h1>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75">
+            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
             <div className="relative mt-8 max-w-lg rotate-[0.2deg] border border-bp-text/25 bg-[#faf6ef] p-6 shadow-[6px_6px_0_rgba(191,50,1,0.11)] md:p-8">
@@ -145,7 +143,7 @@ export async function ErrolPage() {
                 }}
               />
               <p
-                className={`${caveat.className} relative z-10 text-[1.5rem] leading-snug text-bp-text md:text-[1.7rem]`}
+                className={`${homeHandClass} relative z-10 text-[1.5rem] leading-snug text-bp-text md:text-[1.7rem]`}
               >
                 {quoteBefore}
                 {highlightIdx >= 0 ? <BrushUnderline>{highlight}</BrushUnderline> : null}
@@ -186,7 +184,7 @@ export async function ErrolPage() {
         />
         <div className="relative mx-auto max-w-[1400px] px-4 py-14 md:px-10 md:py-20">
           <p
-            className={`${lora.className} mx-auto mb-14 max-w-2xl text-center text-xl text-bp-text/80 md:text-2xl`}
+            className={`${homeHandClass} mx-auto mb-14 max-w-2xl text-center text-xl text-bp-text/80 md:text-2xl`}
           >
             {COPY.storyIntro}
           </p>
@@ -198,7 +196,7 @@ export async function ErrolPage() {
                 className="relative border-t-2 border-bp-text/10 bg-bp-canvas/80 px-5 py-8 md:px-6 md:py-10"
               >
                 <span
-                  className={`${caveat.className} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
+                  className={`${homeHandClass} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
                   aria-hidden
                 >
                   {COLUMN_MARKERS[colIdx]}
@@ -230,14 +228,14 @@ export async function ErrolPage() {
                 {COPY.killList.paragraphs.map((p) => (
                   <p
                     key={p.slice(0, 48)}
-                    className={`${caveat.className} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.35rem]`}
+                    className={`${homeHandClass} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.35rem]`}
                   >
                     {p}
                   </p>
                 ))}
               </div>
               <p
-                className={`${caveat.className} mt-8 text-[1.85rem] leading-tight text-bp-text md:text-[2.1rem]`}
+                className={`${homeHandClass} mt-8 text-[1.85rem] leading-tight text-bp-text md:text-[2.1rem]`}
               >
                 <BrushUnderline>{COPY.killList.quote}</BrushUnderline>
               </p>
@@ -249,7 +247,7 @@ export async function ErrolPage() {
               <div className="h-full w-full bg-[linear-gradient(#c9bfb0_1px,transparent_1px)] bg-[length:100%_28px]" />
             </div>
             <p
-              className={`${caveat.className} relative z-10 max-w-xs rotate-[-1deg] text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.75rem]`}
+              className={`${homeHandClass} relative z-10 max-w-xs rotate-[-1deg] text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.75rem]`}
             >
               {COPY.notebookQuote}
             </p>
@@ -261,7 +259,7 @@ export async function ErrolPage() {
 
           <div className="flex min-h-[300px] items-center justify-center bg-bp-text p-8 md:p-10">
             <p
-              className={`${caveat.className} text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
+              className={`${homeHandClass} text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
             >
               <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
             </p>
@@ -278,7 +276,7 @@ export async function ErrolPage() {
             {COPY.bio.paragraphs.map((p) => (
               <p
                 key={p.slice(0, 40)}
-                className={`${caveat.className} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.35rem]`}
+                className={`${homeHandClass} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.35rem]`}
               >
                 {p}
               </p>
@@ -288,7 +286,7 @@ export async function ErrolPage() {
             <h3 className="text-sm font-bold uppercase tracking-[0.16em] text-bp-text">
               {COPY.bio.showTitle}
             </h3>
-            <p className={`${lora.className} mt-3 text-lg text-bp-text/80 md:text-xl`}>
+            <p className={`${homeHandClass} mt-3 text-lg text-bp-text/80 md:text-xl`}>
               {COPY.bio.showDescription}
             </p>
             <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-bp-accent">

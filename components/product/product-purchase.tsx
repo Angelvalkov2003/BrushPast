@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Price from "components/price";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { enrichVariants, formatVariantLabel, optionsFromVariant } from "lib/product-variants";
 import { resolveVariantMaxQuantity } from "lib/cart-stock";
 import type { ProductDetail, ProductVariant } from "lib/types";
@@ -96,7 +96,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
             onVariantChange={(v) => setSelectedVariantId(v.id)}
           />
           {selectedLabel ? (
-            <p className={`${homeSerifClass} mt-3 text-sm text-bp-text/60`}>
+            <p className={`${homeHandClass} mt-3 text-sm text-bp-text/60`}>
               Selected: <span className="font-semibold text-bp-text">{selectedLabel}</span>
             </p>
           ) : null}
@@ -130,7 +130,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
         )}
       </button>
       {(stockError || (!canAdd && variant.maxQuantity === 0)) && (
-        <p className={`${homeSerifClass} mt-3 text-sm text-red-700`} role="alert">
+        <p className={`${homeHandClass} mt-3 text-sm text-red-700`} role="alert">
           {stockError ??
             (selectedLabel
               ? `${selectedLabel} is out of stock.`

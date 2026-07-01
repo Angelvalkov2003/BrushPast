@@ -3,7 +3,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { IndexCard, PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import type { PublicStory } from "lib/supabase/stories";
 import type { StoryCardLayout } from "lib/stories-config";
 import { storyCardImageUrl, storyDisplayName, storyHref, storyQuote, storyTagsLabel } from "lib/story-display";
@@ -94,7 +94,7 @@ function CardTextBlock({
         {name}
       </h2>
       {quote ? (
-        <p className={`${homeSerifClass} text-lg italic leading-snug md:text-xl ${quoteClass}`}>
+        <p className={`${homeHandClass} text-lg italic leading-snug md:text-xl ${quoteClass}`}>
           {quote}
         </p>
       ) : null}

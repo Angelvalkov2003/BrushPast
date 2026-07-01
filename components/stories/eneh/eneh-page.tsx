@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -10,9 +9,8 @@ import type { EnehPhoto } from "lib/stories/eneh-content";
 import { ENEH_STORY } from "lib/stories/eneh-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 const COPY = ENEH_STORY;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
@@ -45,7 +43,7 @@ function PhotoCard({ photo, index }: { photo: EnehPhoto; index: number }) {
       </div>
       {photo.caption ? (
         <figcaption
-          className={`${caveat.className} mt-5 px-1 text-center text-[1.35rem] leading-snug text-bp-text/90 md:text-[1.5rem]`}
+          className={`${homeHandClass} mt-5 px-1 text-center text-[1.35rem] leading-snug text-bp-text/90 md:text-[1.5rem]`}
         >
           {photo.caption}
         </figcaption>
@@ -81,14 +79,14 @@ export async function EnehPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
               Photography
             </p>
-            <h1 className="mt-3 text-[clamp(2.25rem,7vw,4.5rem)] font-black uppercase leading-[0.92] tracking-tight">
+            <h1 className="mt-3 text-[clamp(2.25rem,7vw,4.5rem)] uppercase leading-[0.92] tracking-tight">
               {COPY.headline}
             </h1>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/70">
+            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/70`}>
               {COPY.title} · {COPY.tags}
             </p>
             <p
-              className={`${lora.className} mt-8 max-w-lg text-xl leading-relaxed text-bp-text/85 md:text-2xl`}
+              className={`${homeHandClass} mt-8 max-w-lg text-xl leading-relaxed text-bp-text/85 md:text-2xl`}
             >
               {COPY.intro}
             </p>
@@ -125,7 +123,7 @@ export async function EnehPage() {
       <RevealSection className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto flex max-w-[1400px] justify-center">
           <p
-            className={`${caveat.className} max-w-2xl text-center text-[1.75rem] leading-snug text-bp-text md:text-[2rem]`}
+            className={`${homeHandClass} max-w-2xl text-center text-[1.75rem] leading-snug text-bp-text md:text-[2rem]`}
           >
             <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
           </p>

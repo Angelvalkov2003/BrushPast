@@ -1,7 +1,7 @@
 "use client";
 
 import { JOURNAL_HERO_TAGLINE } from "lib/journal-config";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 
@@ -12,12 +12,10 @@ export function JournalHero() {
         <Reveal>
           <div>
             <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>Brush Past</p>
-            <h1
-              className={`${homeHandClass} mt-1 text-[clamp(3.5rem,11vw,7rem)] font-bold leading-[0.9] text-bp-text`}
-            >
+            <h1 className="mt-1 text-[clamp(3.5rem,11vw,7rem)] font-bold leading-[0.9] text-bp-text">
               Journal
             </h1>
-            <p className={`${homeSerifClass} mt-5 max-w-xl text-lg italic text-bp-text/85 md:text-xl`}>
+            <p className={`${bpSubtitleClass} mt-5 max-w-xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}>
               {JOURNAL_HERO_TAGLINE}
             </p>
           </div>

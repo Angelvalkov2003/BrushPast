@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHandClass } from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { categoryCtaLabel } from "lib/shop-display";
@@ -33,7 +33,7 @@ export function CategoryRow({
         </h2>
         {category.short_description ? (
           <p
-            className={`${homeSerifClass} mt-4 max-w-md text-base leading-relaxed text-bp-text/80 md:text-lg`}
+            className={`${homeHandClass} mt-4 max-w-md text-base leading-relaxed text-bp-text/80 md:text-lg`}
           >
             {category.short_description}
           </p>

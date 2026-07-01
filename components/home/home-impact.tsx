@@ -3,7 +3,7 @@ import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import { HOME_IMPACT_PILLARS } from "lib/home-config";
 import { IndexCard } from "./home-decor";
-import { homeHandClass, homeSerifClass } from "./home-typography";
+import { homeHandClass } from "./home-typography";
 
 const HeartIcon = brushPastIcons.homepage.keepAStoryClose;
 
@@ -41,7 +41,7 @@ export function HomeImpact() {
                   <span className="text-bp-accent">partner organisations</span>.
                 </p>
                 <p
-                  className={`${homeSerifClass} mt-5 max-w-xl text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
+                  className={`${homeHandClass} mt-5 max-w-xl text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
                 >
                   Every purchase helps fund{" "}
                   <span className="font-medium text-bp-text not-italic">workshops</span>,{" "}

@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Caveat, Lora } from "next/font/google";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
@@ -10,9 +9,8 @@ import { displayImageUrl } from "lib/image-url";
 import { BOBBY_STORY } from "lib/stories/bobby-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
-const lora = Lora({ subsets: ["latin"], style: ["italic"], weight: ["400", "500"] });
 const COPY = BOBBY_STORY;
 
 const CANVAS_BG = {
@@ -38,8 +36,8 @@ function FragmentCard({ title, quote, rotate }: { title: string; quote: string; 
     <article
       className={`border border-bp-text/12 bg-[#faf7f2] p-5 shadow-[2px_3px_0_rgba(0,0,0,0.05)] ${rotate}`}
     >
-      <h3 className={`${caveat.className} text-xl font-bold text-bp-accent`}>{title}</h3>
-      <p className={`${caveat.className} mt-3 text-lg leading-snug text-bp-text/88`}>{quote}</p>
+      <h3 className={`${homeHandClass} text-xl font-bold text-bp-accent`}>{title}</h3>
+      <p className={`${homeHandClass} mt-3 text-lg leading-snug text-bp-text/88`}>{quote}</p>
     </article>
   );
 }
@@ -71,16 +69,16 @@ export async function BobbyPage() {
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Story</p>
-            <h1 className="mt-3 text-[clamp(3.5rem,12vw,6.5rem)] font-black uppercase leading-[0.85] tracking-tighter">
+            <h1 className="mt-3 text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter">
               {COPY.headline}
             </h1>
             <p className="mt-2 text-sm font-bold uppercase tracking-[0.18em] text-bp-text/70 md:text-base">
               {COPY.subtitle}
             </p>
-            <p className={`${lora.className} mt-8 max-w-xl text-2xl leading-snug md:text-[1.75rem]`}>
+            <p className={`${homeHandClass} mt-8 max-w-xl text-2xl leading-snug md:text-[1.75rem]`}>
               &ldquo;{COPY.heroQuote}&rdquo;
             </p>
-            <p className="mt-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-text/60 md:text-xs">
+            <p className={`${bpSubtitleClass} mt-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-text/60 md:text-xs`}>
               {COPY.tags.join(" • ")}
             </p>
           </div>
@@ -101,7 +99,7 @@ export async function BobbyPage() {
       <RevealSection id="story-body" className="scroll-mt-24 border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div>
-            <p className={`${caveat.className} text-[1.65rem] leading-snug text-bp-text md:text-[1.9rem]`}>
+            <p className={`${homeHandClass} text-[1.65rem] leading-snug text-bp-text md:text-[1.9rem]`}>
               &ldquo;<BrushUnderline>{COPY.introPullQuote}</BrushUnderline>&rdquo;
             </p>
           </div>
@@ -127,7 +125,7 @@ export async function BobbyPage() {
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-start">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">In his words</p>
-            <p className={`${lora.className} mt-6 text-[1.45rem] leading-snug text-bp-text md:text-[1.65rem]`}>
+            <p className={`${homeHandClass} mt-6 text-[1.45rem] leading-snug text-bp-text md:text-[1.65rem]`}>
               <span className="text-4xl leading-none text-bp-accent/80">&ldquo;</span>
               {COPY.inHisWords.quote}
             </p>
@@ -143,7 +141,7 @@ export async function BobbyPage() {
       {/* Fragments + support */}
       <RevealSection className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
-          <h2 className={`${caveat.className} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent`}>
+          <h2 className={`${homeHandClass} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent`}>
             {COPY.fragments.title}
           </h2>
           <div className="mt-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-start">

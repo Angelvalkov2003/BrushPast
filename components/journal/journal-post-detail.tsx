@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { HomeCta, IndexCard, PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { displayImageUrl } from "lib/image-url";
@@ -42,14 +42,12 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
             <p className={`${homeHandClass} mt-8 text-xl text-bp-accent`}>
               {formatJournalDate(post.created_at)}
             </p>
-            <h1
-              className={`${homeHandClass} mt-2 max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] text-bp-text`}
-            >
+            <h1 className="mt-2 max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] text-bp-text">
               {post.title}
             </h1>
             {post.description ? (
               <p
-                className={`${homeSerifClass} mt-6 max-w-3xl text-lg italic leading-relaxed text-bp-text/85 md:text-xl`}
+                className={`${bpSubtitleClass} mt-6 max-w-3xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}
               >
                 {post.description}
               </p>
@@ -86,7 +84,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
         <div className="mx-auto max-w-3xl">
           <IndexCard>
             <div
-              className={`${homeSerifClass} space-y-7 text-[1.1rem] italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9]`}
+              className={`${homeHandClass} space-y-7 text-[1.1rem] italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9]`}
             >
               {paragraphs.length > 0 ? (
                 paragraphs.map((p, index) => (

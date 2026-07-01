@@ -48,6 +48,11 @@ body.bp-site {
   background-color: var(--bp-canvas);
   color: var(--bp-text);
   color-scheme: light;
+  font-family: var(--font-home-hand), cursive;
+}
+
+body.bp-site :where(h1) {
+  font-family: var(--font-bp-title), sans-serif;
 }
 
 body.bp-site .bp-navbar {
