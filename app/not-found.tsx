@@ -1,7 +1,7 @@
 import BrandLogo from "components/brand-logo";
 import Footer from "components/layout/footer";
 import { HomeCta } from "components/home/home-decor";
-import { homeHand, homeHandClass, homeSerifClass } from "components/home/home-typography";
+import { homeHand, homeHandClass, homeSerif, homeSerifClass } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 
 export const metadata = {

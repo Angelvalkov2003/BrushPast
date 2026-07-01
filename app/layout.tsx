@@ -21,8 +21,8 @@ export const metadata = {
   description:
     "UK creative platform and social enterprise - art, stories, and The Archive Shop.",
   icons: {
-    icon: "/logo.avif",
-    apple: "/logo.avif",
+    icon: [{ url: "/logo.avif", type: "image/avif" }],
+    apple: [{ url: "/logo.avif", type: "image/avif" }],
   },
   robots: {
     follow: true,
