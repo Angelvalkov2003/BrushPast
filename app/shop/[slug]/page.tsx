@@ -31,7 +31,7 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <TextureSection texture="secondary" className="px-4 py-10 md:px-10 md:py-14">
         <div className="mx-auto max-w-[1400px]">

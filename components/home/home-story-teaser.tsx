@@ -29,7 +29,7 @@ export function HomeStoryTeaser({
           />
         ) : (
           <div
-            className={`${homeHandClass} flex h-full items-center justify-center bg-bp-accent/15 text-xl text-bp-text/40`}
+            className={`${homeHandClass} flex h-full items-center justify-center bg-bp-accent-bg text-xl text-bp-text/40`}
           >
             {name}
           </div>

@@ -16,7 +16,7 @@ export default async function JournalPage() {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <JournalHero />
       <JournalPageContent posts={posts} />

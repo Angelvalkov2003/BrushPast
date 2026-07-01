@@ -12,7 +12,7 @@ function sourceLabel(source: string | null) {
 }
 
 function sourceBadgeClass(source: string | null) {
-  if (source === CONTACT_SOURCE) return "bg-bp-accent/15 text-bp-accent";
+  if (source === CONTACT_SOURCE) return "bg-bp-accent-bg text-bp-accent";
   return "bg-gray-100 text-gray-600";
 }
 

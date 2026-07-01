@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import type { PublicStory } from "lib/supabase/stories";
 import {
-  STORY_FILTER_TABS,
-  type StoryFilterId,
+  // STORY_FILTER_TABS,
+  // type StoryFilterId,
   layoutForStory,
 } from "lib/stories-config";
 import { hasStoryCardImage } from "lib/story-display";
@@ -15,10 +15,10 @@ import { StoryCard } from "./story-card";
 import { StoriesGridToggle } from "./stories-grid-toggle";
 import { StoriesSort, type StorySortKey } from "./stories-sort";
 
-function filterStories(stories: PublicStory[], filter: StoryFilterId): PublicStory[] {
-  if (filter === "all") return stories;
-  return stories.filter((s) => (s.tags ?? []).includes(filter));
-}
+// function filterStories(stories: PublicStory[], filter: StoryFilterId): PublicStory[] {
+//   if (filter === "all") return stories;
+//   return stories.filter((s) => (s.tags ?? []).includes(filter));
+// }
 
 function sortStories(stories: PublicStory[], sort: StorySortKey): PublicStory[] {
   const list = [...stories];
@@ -36,17 +36,15 @@ function sortStories(stories: PublicStory[], sort: StorySortKey): PublicStory[] 
 }
 
 export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
-  const [filter, setFilter] = useState<StoryFilterId>("all");
+  // const [filter, setFilter] = useState<StoryFilterId>("all");
   const [sort, setSort] = useState<StorySortKey>("latest");
   const [compactGrid, setCompactGrid] = useState(false);
 
-  const visible = useMemo(
-    () => sortStories(filterStories(stories, filter), sort),
-    [stories, filter, sort],
-  );
+  const visible = useMemo(() => sortStories(stories, sort), [stories, sort]);
 
   return (
   <>
+      {/* Category filter — hidden for now; always show all stories
       <nav
         className="sticky top-[65px] z-30 border-b border-bp-text/10 bg-bp-canvas/95 backdrop-blur-sm"
         aria-label="Story categories"
@@ -71,6 +69,7 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
           </ul>
         </div>
       </nav>
+      */}
 
       <TextureSection texture="secondary" className="px-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
@@ -89,7 +88,7 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
 
           {visible.length === 0 ? (
             <p className={`${homeHandClass} py-20 text-center text-2xl text-bp-text/50`}>
-              No stories in this category yet. Check back soon.
+              No stories yet. Check back soon.
             </p>
           ) : (
             <div

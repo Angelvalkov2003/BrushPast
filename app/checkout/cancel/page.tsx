@@ -5,7 +5,7 @@ export default function CheckoutCancelPage() {
     <div className="bp-surface flex min-h-screen flex-col items-center justify-center px-4">
       <div className="w-full max-w-md text-center">
         <div className="mb-6">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-bp-accent/15">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-bp-accent-bg">
             <svg
               className="h-8 w-8 text-bp-accent"
               fill="none"

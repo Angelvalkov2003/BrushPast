@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import CartModal from "components/cart/modal";
 import BrandLogo from "components/brand-logo";
 import Link from "next/link";
@@ -38,6 +38,7 @@ function isShopPath(pathname: string) {
 
 export function NavbarClient() {
   const pathname = usePathname();
+  const router = useRouter();
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [shopOpen, setShopOpen] = useState(false);
@@ -71,6 +72,13 @@ export function NavbarClient() {
   }));
 
   const shopActive = shopOpen || isShopPath(pathname ?? "");
+
+  const handleShopClick = () => {
+    if (pathname !== "/shop") {
+      router.push("/shop");
+    }
+    setShopOpen((open) => !open);
+  };
 
   return (
     <header className="bp-navbar sticky top-0 z-50 w-full">
@@ -116,7 +124,7 @@ export function NavbarClient() {
             <div className="relative z-[60]" ref={shopRef}>
               <button
                 type="button"
-                onClick={() => setShopOpen((o) => !o)}
+                onClick={handleShopClick}
                 className={clsx(
                   `${homeHandClass} flex items-center gap-1 text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl`,
                   shopActive && activeNavClass,
@@ -141,16 +149,7 @@ export function NavbarClient() {
                   />
                   <div className="absolute inset-0 bg-[#faf7f2]/92" aria-hidden />
                   <ul className="relative py-2">
-                    <li>
-                      <Link
-                        href="/shop"
-                        className={`${homeHandClass} block px-5 py-2.5 text-lg text-bp-text transition-colors hover:bg-bp-canvas/80 hover:text-bp-accent`}
-                        onClick={() => setShopOpen(false)}
-                      >
-                        The Archive Shop
-                      </Link>
-                    </li>
-                    {!loading &&
+                    {!loading && collections.length > 0 ? (
                       collections.map((c) => (
                         <li key={c.id}>
                           <Link
@@ -161,7 +160,14 @@ export function NavbarClient() {
                             {c.title}
                           </Link>
                         </li>
-                      ))}
+                      ))
+                    ) : (
+                      <li>
+                        <span className={`${homeHandClass} block px-5 py-2.5 text-lg text-bp-text/50`}>
+                          {loading ? "Loading…" : "No categories yet"}
+                        </span>
+                      </li>
+                    )}
                   </ul>
                 </div>
               ) : null}

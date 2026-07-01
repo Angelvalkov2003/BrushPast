@@ -43,7 +43,7 @@ export default async function RootLayout({
         <AdminThemeScript />
       </head>
       <body
-        className={`${GeistSans.className} antialiased selection:bg-bp-accent/30 selection:text-bp-text`}
+        className={`${GeistSans.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
         suppressHydrationWarning
       >
         <PublicBodyTheme />

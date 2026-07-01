@@ -11,7 +11,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <AboutPageContent />
       <Footer />

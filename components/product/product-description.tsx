@@ -79,7 +79,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 40vw"
           />
-          <div className="absolute inset-0 bg-bp-canvas/88 backdrop-blur-[1px]" aria-hidden />
+          <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]" aria-hidden />
           <div className="relative z-10">
             <h2 className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
               About this piece
@@ -99,7 +99,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
       ) : null}
 
       {product.profitShareNote || product.impactNote ? (
-        <IndexCard className="mt-8 border-bp-accent/20 bg-bp-accent/5">
+        <IndexCard className="mt-8 border-bp-accent/20 bg-bp-accent-bg">
           <h2 className={`${homeHandClass} text-2xl text-bp-accent`}>Your impact</h2>
           {product.profitShareNote ? (
             <p className={`${homeSerifClass} mt-3 text-sm leading-relaxed text-bp-text/85`}>

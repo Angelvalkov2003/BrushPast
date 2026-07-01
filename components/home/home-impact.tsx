@@ -86,7 +86,7 @@ export function HomeImpact() {
             <BrushPastIconBadge
               icon={HeartIcon}
               size="lg"
-              className="!h-14 !w-14 border-bp-accent/35 bg-bp-accent/5 shadow-[2px_3px_0_rgba(191,50,1,0.12)]"
+              className="!h-14 !w-14 border-bp-accent/35 bg-bp-accent-bg shadow-[2px_3px_0_rgba(191,50,1,0.12)]"
               iconClassName="!h-7 !w-7"
             />
           </div>

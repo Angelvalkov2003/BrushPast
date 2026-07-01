@@ -34,7 +34,7 @@ export function TextureSection({
         sizes="100vw"
       />
       <div
-        className="absolute inset-0 bg-bp-canvas/88 backdrop-blur-[1px]"
+        className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]"
         aria-hidden
       />
       <div className="relative z-10">{children}</div>

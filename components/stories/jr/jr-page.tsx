@@ -252,7 +252,7 @@ export async function JrPage() {
       {/* Fragments + portrait */}
       <RevealSection className="relative overflow-hidden border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div
-          className="pointer-events-none absolute right-[8%] top-[12%] h-24 w-24 rounded-full bg-bp-accent/10 blur-2xl"
+          className="pointer-events-none absolute right-[8%] top-[12%] h-24 w-24 rounded-full bg-bp-accent-bg blur-2xl"
           aria-hidden
         />
         <div

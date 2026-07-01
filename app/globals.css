@@ -12,6 +12,7 @@
   --color-bp-text: #010200;
   --color-bp-surface: #efe7de;
   --color-bp-accent: #bf3201;
+  --color-bp-accent-bg: #c8a67a;
   --color-bp-dark: #131312;
   --animate-cart-wiggle: cart-wiggle 0.55s ease-in-out;
   --animate-badge-pop: badge-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -23,6 +24,7 @@
   --bp-text: #010200;
   --bp-surface: #efe7de;
   --bp-accent: #bf3201;
+  --bp-accent-bg: #c8a67a;
   --bp-dark: #131312;
 }
 
@@ -69,8 +71,8 @@ body.bp-site .bp-accent {
 }
 
 body.bp-site .bp-accent-bg {
-  background-color: var(--bp-accent);
-  color: var(--bp-canvas);
+  background-color: var(--bp-accent-bg);
+  color: var(--bp-text);
 }
 
 body.bp-site a.bp-link:hover,
@@ -203,6 +205,24 @@ body.bp-site button {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-route-enter {
+    animation: page-route-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes page-route-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 

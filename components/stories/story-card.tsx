@@ -55,7 +55,7 @@ function CompactCardContent({
           />
         </div>
       ) : (
-        <div className="aspect-[3/4] w-full bg-bp-accent/15" aria-hidden />
+        <div className="aspect-[3/4] w-full bg-bp-accent-bg" aria-hidden />
       )}
       <p className={`${homeHandClass} mt-2 text-center text-base font-bold leading-snug text-bp-text`}>
         {name}
@@ -125,8 +125,8 @@ function CardContent({
   const useImage = Boolean(imageSrc) && !isTextCard;
 
   if (isTextCard) {
-    const bg = layout === "text-accent" ? "bg-bp-accent/95" : "bg-bp-dark";
-    const variant = layout === "text-accent" ? "on-accent" : "on-dark";
+    const bg = layout === "text-accent" ? "bg-bp-accent-bg" : "bg-bp-dark";
+    const variant = layout === "text-accent" ? "default" : "on-dark";
     return (
       <IndexCard className={clsx("group flex h-full min-h-[220px] w-full flex-col border-bp-text/10", bg)}>
         <CardTextBlock name={name} quote={quote} tags={tags} variant={variant} />
@@ -148,7 +148,7 @@ function CardContent({
         </div>
       ) : (
         <div
-          className={clsx("w-full shrink-0 bg-bp-accent/15", imageAspect[layout] || "aspect-[4/3]")}
+          className={clsx("w-full shrink-0 bg-bp-accent-bg", imageAspect[layout] || "aspect-[4/3]")}
           aria-hidden
         />
       )}

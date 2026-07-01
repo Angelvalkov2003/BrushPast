@@ -19,7 +19,7 @@ export default async function ShopPage() {
 
   return (
     <div
-      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent/20`}
+      className={`${homeHand.variable} ${homeSerif.variable} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <ShopHero />
       <TextureSection texture="primary" className="px-4 md:px-10">
