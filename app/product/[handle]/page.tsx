@@ -11,15 +11,21 @@ import { getProductDetail } from "lib/supabase/product-detail";
 import { getProducts } from "lib/supabase/products";
 import type { Image } from "lib/types";
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: {
   params: Promise<{ handle: string }>;
 }): Promise<Metadata> {
+  await connection();
   const params = await props.params;
   const product = await getProductDetail(params.handle);
 
-  if (!product) return notFound();
+  if (!product) {
+    return { title: "Product" };
+  }
 
   const { url, width, height, altText: alt } = product.featuredImage || {};
 
@@ -48,6 +54,7 @@ export async function generateMetadata(props: {
 export default async function ProductPage(props: {
   params: Promise<{ handle: string }>;
 }) {
+  await connection();
   const params = await props.params;
   const product = await getProductDetail(params.handle);
 
