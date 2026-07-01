@@ -87,7 +87,7 @@ export function NavbarClient() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
         />
-        <div className="absolute inset-0 bg-bp-canvas/90 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]" />
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between px-4 py-3 md:px-8 md:py-3.5 lg:px-10">
@@ -141,13 +141,13 @@ export function NavbarClient() {
                 />
               </button>
               {shopOpen ? (
-                <div className="absolute left-1/2 top-full z-[70] mt-3 w-56 -translate-x-1/2 overflow-hidden border border-bp-text/12 bg-[#faf7f2] shadow-[4px_5px_0_rgba(1,2,0,0.12)]">
+                <div className="absolute left-1/2 top-full z-[70] mt-3 w-56 -translate-x-1/2 overflow-hidden border border-bp-text/12 bg-bp-accent-bg shadow-[4px_5px_0_rgba(1,2,0,0.12)]">
                   <div
                     className="absolute inset-0 bg-cover bg-center opacity-40"
                     style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
                     aria-hidden
                   />
-                  <div className="absolute inset-0 bg-[#faf7f2]/92" aria-hidden />
+                  <div className="absolute inset-0 bg-bp-accent-bg/88 backdrop-blur-[1px]" aria-hidden />
                   <ul className="relative py-2">
                     {!loading && collections.length > 0 ? (
                       collections.map((c) => (

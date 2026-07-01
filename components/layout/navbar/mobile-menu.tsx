@@ -98,7 +98,7 @@ export default function MobileMenu({
                 style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
                 aria-hidden
               />
-              <div className="absolute inset-0 bg-bp-canvas/94 backdrop-blur-[2px]" aria-hidden />
+              <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[2px]" aria-hidden />
 
               <div className="relative z-10 flex flex-1 flex-col">
                 <div className="flex items-center justify-end border-b border-bp-text/10 px-5 py-4">
