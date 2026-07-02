@@ -1,4 +1,7 @@
+import { StoryPageShell } from "components/stories/story-texture";
 import type { ReactNode } from "react";
+import fs from "fs";
+import path from "path";
 import Image from "next/image";
 import Link from "next/link";
 import { RevealSection } from "components/shared/reveal-section";
@@ -12,6 +15,12 @@ import { getPublicStoryBySlug } from "lib/supabase/stories";
 import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 
 const COPY = ENEH_STORY;
+
+function photoFileExists(src: string): boolean {
+  if (!src.startsWith("/")) return false;
+  const filePath = path.join(process.cwd(), "public", ...src.slice(1).split("/"));
+  return fs.existsSync(filePath);
+}
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -32,7 +41,7 @@ function PhotoCard({ photo, index }: { photo: EnehPhoto; index: number }) {
 
   return (
     <figure className={`group ${rotate}`}>
-      <div className="relative aspect-[4/5] overflow-hidden border border-bp-text/15 bg-[#f5f0e8] shadow-[5px_5px_0_rgba(1,2,0,0.06)]">
+      <div className="relative aspect-[4/5] overflow-hidden border border-bp-text/15 bg-bp-text/5 shadow-[5px_5px_0_rgba(1,2,0,0.06)]">
         <Image
           src={photo.src}
           alt={photo.caption ?? `Eneh's day - photo ${index + 1}`}
@@ -59,9 +68,10 @@ export async function EnehPage() {
   ]);
 
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
+  const photos = COPY.photos.filter((photo) => photo.src?.trim() && photoFileExists(photo.src));
 
   return (
-    <div className="bg-[#f9f6f0] text-bp-text">
+    <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -110,17 +120,19 @@ export async function EnehPage() {
         </div>
       </RevealSection>
 
-      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto max-w-[1400px]">
-          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-            {COPY.photos.map((photo, i) => (
-              <PhotoCard key={photo.src} photo={photo} index={i} />
-            ))}
+      {photos.length > 0 ? (
+        <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+          <div className="mx-auto max-w-[1400px]">
+            <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+              {photos.map((photo, i) => (
+                <PhotoCard key={photo.src} photo={photo} index={i} />
+              ))}
+            </div>
           </div>
-        </div>
-      </RevealSection>
+        </RevealSection>
+      ) : null}
 
-      <RevealSection className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto flex max-w-[1400px] justify-center">
           <p
             className={`${homeHandClass} max-w-2xl text-center text-[1.75rem] leading-snug text-bp-text md:text-[2rem]`}
@@ -151,6 +163,6 @@ export async function EnehPage() {
       ) : null}
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

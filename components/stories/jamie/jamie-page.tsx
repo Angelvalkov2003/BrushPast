@@ -1,3 +1,4 @@
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -100,7 +101,7 @@ export async function JamiePage() {
     highlightIdx >= 0 ? heroQuote.slice(highlightIdx + highlight.length) : "";
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -122,7 +123,7 @@ export async function JamiePage() {
             <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
-            <div className="relative mt-8 max-w-lg rotate-[0.35deg] border border-bp-text/25 bg-[#f8f2e8] p-6 shadow-[6px_6px_0_rgba(191,50,1,0.12)] md:p-8">
+            <StoryPanel className="relative mt-8 max-w-lg rotate-[0.35deg] border border-bp-text/25 p-6 shadow-[6px_6px_0_rgba(191,50,1,0.12)] md:p-8" tint="bg-[#f8f2e8]/88">
               <div
                 className="pointer-events-none absolute inset-0 opacity-[0.35]"
                 aria-hidden
@@ -140,10 +141,10 @@ export async function JamiePage() {
                 ) : null}
                 {quoteAfter}
               </p>
-            </div>
+            </StoryPanel>
           </div>
 
-          <div className="relative flex items-center justify-center bg-bp-canvas px-4 py-8 md:px-10 lg:py-12">
+          <StoryPanel className="relative flex items-center justify-center px-4 py-8 md:px-10 lg:py-12">
             <div
               className="relative aspect-[4/5] w-full max-w-md overflow-hidden shadow-[8px_8px_0_rgba(1,2,0,0.08)]"
               style={{
@@ -160,7 +161,7 @@ export async function JamiePage() {
                 sizes="(max-width: 1024px) 90vw, 45vw"
               />
             </div>
-          </div>
+          </StoryPanel>
         </div>
       </RevealSection>
 
@@ -183,12 +184,12 @@ export async function JamiePage() {
 
           <div className="grid gap-12 lg:grid-cols-3 lg:gap-10">
             {COPY.storyColumns.map((column, colIdx) => (
-              <div
+              <StoryPanel
                 key={colIdx}
-                className="relative border-t-2 border-bp-text/10 bg-bp-canvas/75 px-5 py-8 md:px-6 md:py-10"
+                className="relative border-t-2 border-bp-text/10 px-5 py-8 md:px-6 md:py-10"
               >
                 <span
-                  className={`${homeHandClass} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
+                  className={`${homeHandClass} absolute -top-5 left-4 bg-[#faf6f0]/95 px-2 text-3xl text-bp-accent md:text-4xl`}
                   aria-hidden
                 >
                   {COLUMN_MARKERS[colIdx]}
@@ -201,16 +202,16 @@ export async function JamiePage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </StoryPanel>
             ))}
           </div>
         </div>
       </RevealSection>
 
       {/* Bottom grid */}
-      <RevealSection className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-3 lg:gap-8">
-          <div className="flex flex-col border border-bp-text/15 bg-bp-canvas">
+          <StoryPanel className="flex flex-col border border-bp-text/15">
             <div className="bg-bp-text px-4 py-3">
               <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas">
                 {COPY.reachingBack.title}
@@ -233,7 +234,7 @@ export async function JamiePage() {
                 <BrushUnderline>{COPY.reachingBack.quote}</BrushUnderline>
               </p>
             </div>
-          </div>
+          </StoryPanel>
 
           <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden border border-bp-text/15 bg-[#e8e0d4] p-8 shadow-[inset_0_2px_12px_rgba(0,0,0,0.06)]">
             <div className="absolute inset-0 opacity-40" aria-hidden>
@@ -281,6 +282,6 @@ export async function JamiePage() {
       ) : null}
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

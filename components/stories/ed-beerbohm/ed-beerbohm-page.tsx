@@ -1,3 +1,4 @@
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -98,7 +99,7 @@ export async function EdBeerbohmPage() {
   const quoteAfter = highlightIdx >= 0 ? heroQuote.slice(highlightIdx + highlight.length) : "";
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -122,7 +123,7 @@ export async function EdBeerbohmPage() {
             <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
-            <div className="relative mt-8 max-w-lg rotate-[0.25deg] border border-bp-text/20 bg-[#f0ebe3] p-6 shadow-[6px_6px_0_rgba(80,60,40,0.1)] md:p-8">
+            <StoryPanel className="relative mt-8 max-w-lg rotate-[0.25deg] border border-bp-text/25 p-6 shadow-[6px_6px_0_rgba(80,60,40,0.1)] md:p-8" tint="bg-[#f0ebe3]/88">
               <p
                 className={`${homeHandClass} relative z-10 text-[1.35rem] leading-relaxed text-bp-text md:text-[1.5rem]`}
               >
@@ -130,7 +131,7 @@ export async function EdBeerbohmPage() {
                 {highlightIdx >= 0 ? <BrushUnderline>{highlight}</BrushUnderline> : null}
                 {quoteAfter}
               </p>
-            </div>
+            </StoryPanel>
           </div>
 
           <div className="relative min-h-[420px] lg:min-h-[560px]">
@@ -164,12 +165,12 @@ export async function EdBeerbohmPage() {
 
           <div className="grid gap-12 lg:grid-cols-3 lg:gap-10">
             {COPY.storyColumns.map((column, colIdx) => (
-              <div
+              <StoryPanel
                 key={colIdx}
-                className="relative border-t-2 border-bp-text/10 bg-bp-canvas/85 px-5 py-8 md:px-6 md:py-10"
+                className="relative border-t-2 border-bp-text/10 px-5 py-8 md:px-6 md:py-10"
               >
                 <span
-                  className={`${homeHandClass} absolute -top-5 left-4 bg-bp-canvas px-2 text-3xl text-bp-accent md:text-4xl`}
+                  className={`${homeHandClass} absolute -top-5 left-4 bg-[#faf6f0]/95 px-2 text-3xl text-bp-accent md:text-4xl`}
                   aria-hidden
                 >
                   {COLUMN_MARKERS[colIdx]}
@@ -182,7 +183,7 @@ export async function EdBeerbohmPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </StoryPanel>
             ))}
           </div>
         </div>
@@ -210,9 +211,9 @@ export async function EdBeerbohmPage() {
         </div>
       </RevealSection>
 
-      <RevealSection className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-3 lg:gap-8">
-          <div className="flex flex-col border border-bp-text/15 bg-bp-canvas">
+          <StoryPanel className="flex flex-col border border-bp-text/15">
             <div className="bg-bp-text px-4 py-3">
               <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas">
                 {COPY.interior.title}
@@ -235,7 +236,7 @@ export async function EdBeerbohmPage() {
                 <BrushUnderline>{COPY.interior.quote}</BrushUnderline>
               </p>
             </div>
-          </div>
+          </StoryPanel>
 
           <div className="relative flex min-h-[300px] items-center justify-center overflow-hidden border border-bp-text/15 bg-[#e5ddd2] p-8">
             <p
@@ -276,6 +277,6 @@ export async function EdBeerbohmPage() {
       ) : null}
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

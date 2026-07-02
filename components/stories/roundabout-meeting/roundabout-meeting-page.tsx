@@ -1,3 +1,4 @@
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +52,7 @@ export async function RoundaboutMeetingPage() {
   const firstName = artistName.split(/\s+/)[0] ?? "Jeremy";
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <StoryPageShell>
       <div className="border-b border-bp-text/10 px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -107,14 +108,14 @@ export async function RoundaboutMeetingPage() {
       </RevealSection>
 
       {/* Bio */}
-      <RevealSection className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
-          <div className="border border-bp-text/10 bg-bp-canvas p-6 shadow-sm md:p-8">
+          <StoryPanel className="border border-bp-text/10 p-6 shadow-sm md:p-8">
             <p className={`${homeHandClass} text-xl leading-snug md:text-2xl`}>
               &ldquo;{COPY.stickyQuote}&rdquo;
             </p>
             <p className="mt-4 text-sm font-semibold text-bp-text/70">- {firstName}</p>
-          </div>
+          </StoryPanel>
           <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
             {COPY.bioParagraphs.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
@@ -135,7 +136,7 @@ export async function RoundaboutMeetingPage() {
       ) : null}
 
       {/* In his words */}
-      <RevealSection className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
@@ -194,6 +195,6 @@ export async function RoundaboutMeetingPage() {
       </RevealSection>
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

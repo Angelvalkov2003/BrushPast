@@ -43,7 +43,7 @@ function CompactCardContent({
   const imageSrc = storyCardImageUrl(story);
 
   return (
-    <PolaroidFrame index={index} tilt={false} className="!pb-6">
+    <PolaroidFrame index={index} tilt={false} cardboardBacking>
       {imageSrc ? (
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-bp-text/5">
           <Image
@@ -128,14 +128,19 @@ function CardContent({
     const bg = layout === "text-accent" ? "bg-bp-accent-bg" : "bg-bp-dark";
     const variant = layout === "text-accent" ? "default" : "on-dark";
     return (
-      <IndexCard className={clsx("group flex h-full min-h-[220px] w-full flex-col border-bp-text/10", bg)}>
+      <IndexCard panelTexture={null} className={clsx("group flex h-full min-h-[220px] w-full flex-col border-bp-text/10", bg)}>
         <CardTextBlock name={name} quote={quote} tags={tags} variant={variant} />
       </IndexCard>
     );
   }
 
   return (
-    <PolaroidFrame index={index} tilt={false} className="group flex h-full w-full flex-col !pb-7">
+    <PolaroidFrame
+      index={index}
+      tilt={false}
+      cardboardBacking
+      className="group flex h-full w-full flex-col"
+    >
       {useImage && imageSrc ? (
         <div className={clsx("relative w-full shrink-0 overflow-hidden bg-bp-text/5", imageAspect[layout])}>
           <Image

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import MobileMenu from "./navbar/mobile-menu";
 import { NavLink, activeNavClass } from "./navbar/nav-link";
+import { HomeLink } from "./home-link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { homeHandClass } from "components/home/home-typography";
@@ -55,7 +56,7 @@ export function NavbarClient() {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
       if (shopRef.current && !shopRef.current.contains(event.target as Node)) {
         setShopOpen(false);
       }
@@ -80,6 +81,11 @@ export function NavbarClient() {
     setShopOpen((open) => !open);
   };
 
+  const goHome = () => setShopOpen(false);
+
+  const logoLinkClass =
+    "relative z-[70] inline-block shrink-0 focus-visible:outline-offset-4";
+
   return (
     <header className="bp-navbar sticky top-0 z-50 w-full">
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -90,16 +96,14 @@ export function NavbarClient() {
         <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between px-4 py-3 md:px-8 md:py-3.5 lg:px-10">
-        {/* Mobile: logo left */}
-        <Link
-          href="/"
-          prefetch
-          className="relative z-50 shrink-0 lg:hidden"
-          aria-label="Brush Past home"
-        >
-          <BrandLogo size="md" priority />
-        </Link>
+      <div className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 md:px-8 md:py-3.5 lg:gap-8 lg:px-10">
+        <HomeLink onClick={goHome} className={logoLinkClass} aria-label="Brush Past home">
+          <BrandLogo
+            size="md"
+            className="pointer-events-none h-14 w-auto max-w-[185px] lg:h-[72px] lg:max-w-[220px]"
+            sizes="(max-width: 1023px) 185px, 220px"
+          />
+        </HomeLink>
 
         {/* Mobile: cart + menu (right) */}
         <div className="flex items-center gap-0.5 lg:hidden">
@@ -110,13 +114,9 @@ export function NavbarClient() {
         </div>
 
         {/* Desktop */}
-        <div className="hidden w-full items-center justify-between lg:flex">
-          <Link href="/" prefetch className="shrink-0" aria-label="Brush Past home">
-            <BrandLogo size="lg" priority />
-          </Link>
-
+        <div className="hidden min-w-0 flex-1 items-center justify-between lg:flex">
           <nav
-            className="flex flex-1 items-center justify-center gap-7 overflow-visible xl:gap-9"
+            className="flex min-w-0 flex-1 items-center justify-center gap-5 overflow-visible xl:gap-9"
             aria-label="Main"
           >
             <NavLink href="/stories">Stories</NavLink>

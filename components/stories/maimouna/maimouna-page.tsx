@@ -1,3 +1,4 @@
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,7 +57,7 @@ function LyricSection({
       className={
         isChorus
           ? "bg-bp-dark text-bp-canvas"
-          : "border border-bp-text/12 bg-bp-canvas"
+          : "border border-bp-text/12"
       }
     >
       <div className="grid lg:grid-cols-[1fr_auto] lg:items-stretch">
@@ -112,7 +113,7 @@ export async function MaimounaPage() {
     highlightIdx >= 0 ? COPY.heroQuote.slice(highlightIdx + COPY.heroQuoteHighlight.length) : "";
 
   return (
-    <div className="bg-bp-canvas text-bp-text">
+    <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -146,7 +147,7 @@ export async function MaimounaPage() {
             <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/60`}>
               {COPY.tags}
             </p>
-            <div className="relative mt-8 max-w-lg rotate-[-0.35deg] border border-bp-text/20 bg-[#f3ebe3] p-6 shadow-[5px_5px_0_rgba(191,50,1,0.1)] md:p-8">
+            <StoryPanel className="relative mt-8 max-w-lg rotate-[-0.35deg] border border-bp-text/25 p-6 shadow-[5px_5px_0_rgba(191,50,1,0.1)] md:p-8" tint="bg-[#f3ebe3]/88">
               <p
                 className={`${homeHandClass} text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
               >
@@ -156,7 +157,7 @@ export async function MaimounaPage() {
                 ) : null}
                 {quoteAfter}
               </p>
-            </div>
+            </StoryPanel>
           </div>
 
           <div className="relative flex min-h-[380px] items-center justify-center bg-[#e8e0d6] px-4 py-8 md:min-h-[480px] md:px-10">
@@ -204,16 +205,16 @@ export async function MaimounaPage() {
       </RevealSection>
 
       {/* Footnote + closing */}
-      <RevealSection className="border-b border-bp-text/10 bg-bp-surface/50 px-4 py-12 md:px-10 md:py-16">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-2 lg:gap-10">
-          <div className="border border-bp-text/12 bg-bp-canvas p-8 md:p-10">
+          <StoryPanel className="border border-bp-text/12 p-8 md:p-10">
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent">
               Note
             </p>
             <p className={`${homeHandClass} mt-4 text-base leading-relaxed text-bp-text/75 md:text-lg`}>
               {COPY.inspirationNote}
             </p>
-          </div>
+          </StoryPanel>
           <div className="flex items-center justify-center bg-bp-text p-8 md:p-10">
             <p
               className={`${homeHandClass} max-w-md text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
@@ -245,6 +246,6 @@ export async function MaimounaPage() {
       ) : null}
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

@@ -1,3 +1,4 @@
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,12 +18,6 @@ import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 
 const COPY = JR_STORY;
-
-const PAPER_BG = {
-  backgroundColor: "#f4efe6",
-  backgroundImage:
-    "radial-gradient(ellipse at 20% 30%, rgba(191,50,1,0.04) 0%, transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(0,0,0,0.03) 0%, transparent 50%)",
-};
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -87,8 +82,8 @@ function FragmentCard({
   rotate: string;
 }) {
   return (
-    <article
-      className={`relative border border-bp-text/15 bg-[#faf6ef] p-5 shadow-[3px_4px_0_rgba(0,0,0,0.06)] ${rotate}`}
+    <StoryPanel as="article"
+      className={`relative border border-bp-text/15 p-5 shadow-[3px_4px_0_rgba(0,0,0,0.06)] ${rotate}`}
     >
       <div
         className="pointer-events-none absolute -top-2 left-1/2 h-6 w-10 -translate-x-1/2 bg-bp-canvas/60 shadow-sm"
@@ -97,7 +92,7 @@ function FragmentCard({
       <h3 className={`${homeHandClass} text-2xl font-bold text-bp-accent`}>{title}</h3>
       <p className={`${homeHandClass} mt-3 text-lg leading-snug text-bp-text/85`}>&ldquo;{quote}&rdquo;</p>
       <p className={`${homeHandClass} mt-4 text-base text-bp-text/60`}>- JR</p>
-    </article>
+    </StoryPanel>
   );
 }
 
@@ -115,7 +110,7 @@ export async function JrPage() {
   const quoteAfter = highlightIdx >= 0 ? heroQuote.slice(highlightIdx + highlight.length) : "";
 
   return (
-    <div className="text-bp-text" style={PAPER_BG}>
+    <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -339,6 +334,6 @@ export async function JrPage() {
       ) : null}
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

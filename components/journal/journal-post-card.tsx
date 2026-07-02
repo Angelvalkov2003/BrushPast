@@ -43,18 +43,18 @@ export function JournalPostCard({
           {post.title || "Untitled"}
         </p>
       </PolaroidFrame>
-      <p className={`${homeHandClass} mt-4 text-center text-base text-bp-accent`}>
+      <p className={`${homeHandClass} mt-4 text-center text-xl text-bp-accent md:text-2xl`}>
         {formatJournalDate(post.created_at)}
       </p>
       {post.description ? (
         <p
-          className={`${homeHandClass} mt-3 text-center text-sm leading-relaxed text-bp-text/75`}
+          className={`${homeHandClass} mt-3 text-center text-lg leading-relaxed text-bp-text/75 md:text-xl`}
         >
           {post.description}
         </p>
       ) : null}
       <p
-        className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
+        className={`${homeHandClass} mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl`}
       >
         Read more →
       </p>

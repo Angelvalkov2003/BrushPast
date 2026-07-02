@@ -35,7 +35,7 @@ export async function getAllProductsAdmin(params?: {
   if (params?.status) query = query.eq("status", params.status);
   if (productIds) query = query.in("id", productIds);
 
-  const { data, error } = await query;
+    const { data, error } = await query;
   if (error) throw new Error(error.message);
 
   const products = (data ?? []) as AdminProduct[];
@@ -227,7 +227,7 @@ export async function createProductAdmin(input: ProductInput) {
   const slug = (input.slug?.trim() || slugify(input.title)) || `product-${Date.now()}`;
 
   const { data, error } = await supabase
-    .from("products")
+      .from("products")
     .insert({
       title: input.title,
       slug,
@@ -251,8 +251,8 @@ export async function createProductAdmin(input: ProductInput) {
       status: input.status ?? "draft",
       sort_order: input.sort_order ?? 0,
     })
-    .select()
-    .single();
+      .select()
+      .single();
 
   if (error) throw new Error(error.message);
 

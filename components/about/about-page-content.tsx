@@ -123,7 +123,7 @@ export function AboutPageContent() {
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <HomeSectionTitle eyebrow="What we believe" title="Our values" />
@@ -148,7 +148,7 @@ export function AboutPageContent() {
             })}
           </ul>
         </div>
-      </section>
+      </TextureSection>
 
       <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1fr_1.1fr_0.95fr] lg:items-stretch">

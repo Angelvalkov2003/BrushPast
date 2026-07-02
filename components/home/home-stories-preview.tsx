@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
+import { TextureSection } from "components/shared/texture-section";
 import type { PublicStory } from "lib/supabase/stories";
 import { HomeSectionTitle } from "./home-decor";
 import { homeHandClass } from "./home-typography";
@@ -11,7 +12,7 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
   const featured = stories.slice(0, FEATURED_COUNT);
 
   return (
-    <section className="border-b border-bp-text/10 bg-bp-surface px-4 py-14 md:px-10 md:py-20">
+    <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -44,6 +45,6 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
           </div>
         )}
       </div>
-    </section>
+    </TextureSection>
   );
 }

@@ -1,3 +1,4 @@
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,12 +14,6 @@ import { bpSubtitleClass, homeHandClass } from "components/home/home-typography"
 
 const COPY = BOBBY_STORY;
 
-const CANVAS_BG = {
-  backgroundColor: "#f7f4ef",
-  backgroundImage:
-    "radial-gradient(ellipse at 12% 18%, rgba(191,50,1,0.04) 0%, transparent 50%), radial-gradient(ellipse at 88% 82%, rgba(30,80,120,0.05) 0%, transparent 45%)",
-};
-
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
     <span className="relative inline-block">
@@ -33,12 +28,12 @@ function BrushUnderline({ children }: { children: ReactNode }) {
 
 function FragmentCard({ title, quote, rotate }: { title: string; quote: string; rotate: string }) {
   return (
-    <article
-      className={`border border-bp-text/12 bg-[#faf7f2] p-5 shadow-[2px_3px_0_rgba(0,0,0,0.05)] ${rotate}`}
+    <StoryPanel as="article"
+      className={`border border-bp-text/12 p-5 shadow-[2px_3px_0_rgba(0,0,0,0.05)] ${rotate}`}
     >
       <h3 className={`${homeHandClass} text-xl font-bold text-bp-accent`}>{title}</h3>
       <p className={`${homeHandClass} mt-3 text-lg leading-snug text-bp-text/88`}>{quote}</p>
-    </article>
+    </StoryPanel>
   );
 }
 
@@ -52,7 +47,7 @@ export async function BobbyPage() {
   const shopHref = products.length > 0 ? `/shop` : "/shop";
 
   return (
-    <div className="text-bp-text" style={CANVAS_BG}>
+    <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <Link
@@ -139,7 +134,7 @@ export async function BobbyPage() {
       </RevealSection>
 
       {/* Fragments + support */}
-      <RevealSection className="border-b border-bp-text/10 bg-bp-surface/40 px-4 py-14 md:px-10 md:py-20">
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
           <h2 className={`${homeHandClass} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent`}>
             {COPY.fragments.title}
@@ -155,7 +150,7 @@ export async function BobbyPage() {
                 />
               ))}
             </div>
-            <div className="border border-bp-text/15 bg-bp-canvas p-6 md:p-8">
+            <StoryPanel className="border border-bp-text/15 p-6 md:p-8">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-bp-accent">Support the story</h3>
               <p className="mt-4 text-sm leading-relaxed text-bp-text/80">
                 Bobby&apos;s artwork is available on selected prints and apparel. Every purchase helps support
@@ -167,13 +162,13 @@ export async function BobbyPage() {
               >
                 View artwork →
               </Link>
-            </div>
+            </StoryPanel>
           </div>
         </div>
       </RevealSection>
 
       {/* CTA */}
-      <RevealSection className="border-b border-bp-text/10 bg-bp-canvas/80">
+      <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-10 md:py-12">
           <div className="flex items-start gap-4">
             <UserGroupIcon className="h-9 w-9 shrink-0 text-bp-accent/80" strokeWidth={1.2} />
@@ -210,6 +205,6 @@ export async function BobbyPage() {
       ) : null}
 
       <Footer />
-    </div>
+    </StoryPageShell>
   );
 }

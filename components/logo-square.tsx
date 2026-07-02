@@ -10,7 +10,7 @@ export default function LogoSquare({
   return (
     <BrandLogo
       size={size === "sm" ? "sm" : "md"}
-      priority={priority ?? size === "sm"}
+      priority={priority ?? false}
     />
   );
 }

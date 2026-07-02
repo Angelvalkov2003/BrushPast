@@ -36,7 +36,7 @@ export function NavigationLoadingScreen({ texture = "primary" }: NavigationLoadi
       />
       <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]" aria-hidden />
       <div className="navigation-loading-logo relative z-10">
-        <BrandLogo size="hero" priority />
+        <BrandLogo size="hero" />
       </div>
     </div>,
     document.body,

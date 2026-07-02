@@ -1,15 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { TextureSection } from "components/shared/texture-section";
 import { PolaroidFrame } from "components/home/home-decor";
 import { homeHandClass } from "components/home/home-typography";
 import { KETTLE_GALLERY } from "lib/kettle-gallery-config";
 
 export function KettleGalleryAnnounce() {
   return (
-    <section
-      aria-labelledby="kettle-gallery-heading"
-      className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20"
-    >
+    <TextureSection as="section" texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
       <Link
         href={KETTLE_GALLERY.journalHref}
         className="group mx-auto grid max-w-[1400px] gap-10 md:grid-cols-2 md:items-center md:gap-14"
@@ -50,6 +48,6 @@ export function KettleGalleryAnnounce() {
           </p>
         </div>
       </Link>
-    </section>
+    </TextureSection>
   );
 }

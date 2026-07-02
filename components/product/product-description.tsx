@@ -97,7 +97,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
       ) : null}
 
       {product.profitShareNote || product.impactNote ? (
-        <IndexCard className="mt-8 border-bp-accent/20 bg-bp-accent-bg">
+        <IndexCard panelTexture={null} className="mt-8 border-bp-accent/20 bg-bp-accent-bg">
           <h2 className={`${homeHandClass} text-2xl text-bp-accent`}>Your impact</h2>
           {product.profitShareNote ? (
             <p className={`${homeHandClass} mt-3 text-sm leading-relaxed text-bp-text/85`}>

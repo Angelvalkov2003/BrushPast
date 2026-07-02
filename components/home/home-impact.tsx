@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import { HOME_IMPACT_PILLARS } from "lib/home-config";
+import { TextureSection } from "components/shared/texture-section";
 import { IndexCard } from "./home-decor";
 import { homeHandClass } from "./home-typography";
 
@@ -21,7 +22,7 @@ function BrushUnderline({ children }: { children: ReactNode }) {
 
 export function HomeImpact() {
   return (
-    <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-14 md:px-10 md:py-20">
+    <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         <Reveal>
           <IndexCard>
@@ -92,6 +93,6 @@ export function HomeImpact() {
           </div>
         </Reveal>
       </div>
-    </section>
+    </TextureSection>
   );
 }

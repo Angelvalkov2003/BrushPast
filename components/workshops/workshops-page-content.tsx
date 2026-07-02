@@ -54,7 +54,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
 
   return (
     <>
-      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-24">
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
             <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
@@ -65,7 +65,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               <br />
               <span className="text-bp-accent">Be yourself.</span>
             </h1>
-            <IndexCard className="mt-6 max-w-xl" panelTexture="primary">
+            <IndexCard className="mt-6 max-w-xl" panelTexture="secondary" panelTone="cream">
               <p className={workshopBodyHandClass}>
                 A space to <span className="text-bp-accent">breathe, make something</span>, and be
                 yourself - without pressure to perform or explain. Creative workshops for anyone
@@ -103,7 +103,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
         </div>
       </TextureSection>
 
-      <TextureSection texture="primary" className="px-4 py-12 md:px-10 md:py-16">
+      <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-[1400px]">
           <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>What we run</p>
           <h2 className={`${homeHandClass} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}>
@@ -122,7 +122,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-3">
           <IndexCard>
             <p className={workshopBodyHandClass}>
@@ -154,7 +154,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </p>
           </IndexCard>
         </div>
-      </section>
+      </TextureSection>
 
       <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
@@ -179,7 +179,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
           <HomeSectionTitle eyebrow="Inside the room" title="What happens in our workshops?" />
 
@@ -217,7 +217,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             })}
           </ul>
         </div>
-      </section>
+      </TextureSection>
 
       {archiveWorkshops.length > 0 ? (
         <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">

@@ -21,10 +21,6 @@ export const metadata = {
   },
   description:
     "UK creative platform and social enterprise - art, stories, and The Archive Shop.",
-  icons: {
-    icon: [{ url: "/logo.avif", type: "image/avif" }],
-    apple: [{ url: "/logo.avif", type: "image/avif" }],
-  },
   robots: {
     follow: true,
     index: true,
@@ -43,6 +39,8 @@ export default async function RootLayout({
     <html lang="en-GB" className={`${GeistSans.variable} ${bpFontVariables}`} suppressHydrationWarning>
       <head>
         <AdminThemeScript />
+        <link rel="icon" href="/logo.avif" type="image/avif" />
+        <link rel="apple-touch-icon" href="/logo.avif" />
       </head>
       <body
         className={`${homeHand.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}

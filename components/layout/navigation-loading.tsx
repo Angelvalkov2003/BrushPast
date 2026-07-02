@@ -34,7 +34,8 @@ function textureForPath(path: string): TextureVariant {
 }
 
 function shouldShowLoadingForPath(path: string): boolean {
-  return path !== "/shop";
+  // Home is force-dynamic and heavy — skip overlay so client routing stays reliable.
+  return path !== "/shop" && path !== "/";
 }
 
 export function NavigationLoading({ children }: { children?: ReactNode }) {
@@ -133,21 +134,9 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
       }
     };
 
-    document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
   }, [isAdmin, pathname, startLoading]);
-
-  useEffect(() => {
-    if (!visible) {
-      document.body.style.overflow = "";
-      return;
-    }
-
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [visible]);
 
   useEffect(
     () => () => {

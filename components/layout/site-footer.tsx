@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import LogoSquare from "components/logo-square";
+import { HomeLink } from "components/layout/home-link";
 import {
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
@@ -56,12 +57,18 @@ function FooterLinkList({ links }: { links: { title: string; href: string }[] })
     <ul className="space-y-2">
       {links.map((link) => (
         <li key={link.href}>
-          <Link
-            href={link.href}
-            className="text-sm text-bp-canvas/75 transition-colors hover:text-bp-accent hover:underline"
-          >
-            {link.title}
-          </Link>
+          {link.href === "/" ? (
+            <HomeLink className="text-sm text-bp-canvas/75 transition-colors hover:text-bp-accent hover:underline">
+              {link.title}
+            </HomeLink>
+          ) : (
+            <Link
+              href={link.href}
+              className="text-sm text-bp-canvas/75 transition-colors hover:text-bp-accent hover:underline"
+            >
+              {link.title}
+            </Link>
+          )}
         </li>
       ))}
     </ul>
@@ -75,12 +82,12 @@ export function SiteFooter() {
     <footer className="bp-dark border-t border-bp-canvas/10 text-bp-canvas/90">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-4 min-[1320px]:px-0">
         <div className="lg:col-span-1">
-          <Link href="/" className="mb-4 flex items-center gap-2 text-bp-canvas">
+          <HomeLink className="mb-4 flex items-center gap-2 text-bp-canvas">
             <LogoSquare size="sm" />
             <span className="text-sm font-semibold uppercase tracking-wide">
               {SITE_NAME}
             </span>
-          </Link>
+          </HomeLink>
           <p className="text-sm leading-relaxed text-bp-canvas/70">{SITE_TAGLINE}</p>
           <p className="mt-4 text-xs text-bp-canvas/50">{LEGAL_ENTITY}</p>
         </div>

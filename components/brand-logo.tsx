@@ -8,6 +8,7 @@ type BrandLogoProps = {
   size?: "sm" | "md" | "lg" | "hero";
   className?: string;
   priority?: boolean;
+  sizes?: string;
 };
 
 const sizeMap = {
@@ -21,6 +22,7 @@ export default function BrandLogo({
   size = "md",
   className,
   priority = false,
+  sizes,
 }: BrandLogoProps) {
   const dims = sizeMap[size];
 
@@ -31,7 +33,9 @@ export default function BrandLogo({
       width={dims.width}
       height={dims.height}
       className={clsx(dims.className, "object-contain object-left", className)}
+      style={{ width: "auto", height: "auto" }}
       priority={priority}
+      sizes={sizes ?? `${dims.width}px`}
     />
   );
 }

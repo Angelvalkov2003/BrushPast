@@ -82,9 +82,9 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
       <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-3xl">
           <Reveal>
-            <IndexCard>
+            <IndexCard panelTexture="secondary" panelTone="cream">
               <div
-                className={`${homeHandClass} space-y-7 text-[1.1rem] italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9]`}
+                className={`${homeHandClass} space-y-7 text-lg italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9] lg:text-[1.35rem]`}
               >
                 {paragraphs.length > 0 ? (
                   paragraphs.map((p, index) => (

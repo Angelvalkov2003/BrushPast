@@ -71,7 +71,7 @@ export function ContactPageContent() {
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 bg-[#faf7f2] px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
           <PolaroidFrame index={1} className="h-fit">
             <div className="relative aspect-[4/3] overflow-hidden bg-bp-text/5 lg:aspect-auto lg:min-h-[280px]">
@@ -123,7 +123,7 @@ export function ContactPageContent() {
             </p>
           </IndexCard>
         </div>
-      </section>
+      </TextureSection>
 
       <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-[1400px]">
@@ -169,7 +169,7 @@ export function ContactPageContent() {
         </div>
       </TextureSection>
 
-      <section className="border-b border-bp-text/10 bg-bp-canvas px-4 py-14 md:px-10 md:py-20">
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="space-y-8">
             <IndexCard>
@@ -238,7 +238,7 @@ export function ContactPageContent() {
 
           <ContactForm />
         </div>
-      </section>
+      </TextureSection>
 
       <section className="relative overflow-hidden border-t border-bp-text/10 bg-bp-dark px-4 py-14 text-bp-canvas md:px-10 md:py-16">
         <div

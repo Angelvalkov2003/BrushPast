@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
-import { PolaroidFrame } from "components/home/home-decor";
+import { PANEL_OVERLAY_CLASS, PolaroidFrame } from "components/home/home-decor";
 import { homeHandClass } from "components/home/home-typography";
 import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
 import { displayImageUrl } from "lib/image-url";
@@ -42,7 +42,7 @@ export function WorkshopArchiveCard({
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 900px"
           />
-          <div className="absolute inset-0 bg-bp-accent-bg/72 backdrop-blur-[1px]" aria-hidden />
+          <div className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS.cream)} aria-hidden />
         </>
       ) : null}
       <PolaroidFrame
