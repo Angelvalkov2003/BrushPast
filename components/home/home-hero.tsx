@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { HomeCta, PolaroidFrame } from "./home-decor";
-import { bpHandUtility, bpSubtitleClass, bpTitleClass, homeHandClass } from "./home-typography";
+import { bpHandUtility, bpSubtitleClass, bpSubtitleUtility, bpTitleClass, bpTitleUtility, homeHandClass } from "./home-typography";
 import { HomeTextureSection } from "./home-texture-section";
 
 export function HomeHero() {
@@ -12,12 +12,12 @@ export function HomeHero() {
             Welcome in - take your time
           </p>
           <h1
-            className={`${bpTitleClass} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
+            className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
           >
             Stories that stay with you.
           </h1>
           <p
-            className={`${bpSubtitleClass} mt-6 max-w-xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}
+            className={`${bpSubtitleClass} ${bpSubtitleUtility} mt-6 max-w-xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}
           >
             Real voices through art, writing, photography and design - made with people
             rebuilding from life&apos;s hardest chapters.

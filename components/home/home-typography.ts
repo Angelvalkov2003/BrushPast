@@ -26,6 +26,10 @@ export const bpTitleClass = bpTitle.className;
 export const bpSubtitleClass = bpSubtitle.className;
 /** CSS utility — guarantees Caveat when paired with homeHandClass */
 export const bpHandUtility = "bp-hand";
+/** CSS utility — guarantees Oswald on page titles */
+export const bpTitleUtility = "bp-title";
+/** CSS utility — guarantees Inter on subtitles under page titles */
+export const bpSubtitleUtility = "bp-subtitle";
 
 export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpSubtitle.variable}`;
 

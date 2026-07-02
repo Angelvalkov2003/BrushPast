@@ -55,6 +55,14 @@ body.bp-site :where(h1) {
   font-family: var(--font-bp-title), sans-serif;
 }
 
+body.bp-site .bp-title {
+  font-family: var(--font-bp-title), sans-serif;
+}
+
+body.bp-site .bp-subtitle {
+  font-family: var(--font-bp-subtitle), ui-sans-serif, system-ui, sans-serif;
+}
+
 body.bp-site .bp-hand {
   font-family: var(--font-home-hand), cursive;
 }
@@ -105,6 +113,7 @@ body.admin-site {
   background-color: #f9fafb !important;
   color: #111827 !important;
   color-scheme: light only;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif !important;
 }
 
 body.admin-site main {

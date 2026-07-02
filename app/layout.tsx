@@ -4,7 +4,7 @@ import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { AdminThemeScript } from "components/layout/admin-theme-script";
 import { NavigationLoading } from "components/layout/navigation-loading";
 import { CookieConsent } from "components/cookie-consent";
-import { bpFontVariables } from "components/home/home-typography";
+import { bpFontVariables, homeHand } from "components/home/home-typography";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
 import { Toaster } from "sonner";
@@ -45,7 +45,7 @@ export default async function RootLayout({
         <AdminThemeScript />
       </head>
       <body
-        className={`${GeistSans.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
+        className={`${homeHand.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
         suppressHydrationWarning
       >
         <PublicBodyTheme />
