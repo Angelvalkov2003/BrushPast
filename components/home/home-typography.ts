@@ -5,6 +5,8 @@ export const homeHand = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-home-hand",
+  display: "swap",
+  preload: true,
 });
 
 /** Page titles (h1) */

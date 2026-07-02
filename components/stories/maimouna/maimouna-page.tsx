@@ -70,9 +70,9 @@ function LyricSection({
             [{section.label}]
           </p>
           <div className="mt-6 space-y-3 md:space-y-4">
-            {section.lines.map((line) => (
+            {section.lines.map((line, lineIdx) => (
               <p
-                key={`${section.label}-${line.text}`}
+                key={`${section.label}-${lineIdx}`}
                 className={`${homeHandClass} ${
                   line.emphasis
                     ? "text-[1.75rem] font-bold leading-snug md:text-[2rem]"

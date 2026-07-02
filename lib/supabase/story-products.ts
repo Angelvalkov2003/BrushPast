@@ -56,7 +56,7 @@ export async function getStoryArtworkBySlug(slug: string): Promise<StoryArtworkI
   const images: StoryArtworkImage[] = [];
   for (const p of products) {
     const main = p.featuredImage?.url;
-    if (main && main !== "/placeholder-image.jpg") {
+    if (main) {
       images.push({ id: `${p.id}-main`, url: main, title: p.title });
     }
     for (const img of p.images ?? []) {

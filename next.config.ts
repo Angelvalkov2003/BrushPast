@@ -1,7 +1,7 @@
 export default {
   experimental: {
     ppr: true,
-    inlineCss: true,
+    // inlineCss breaks next/font woff2 URLs in production (relative ../media paths 404 when CSS is inlined in HTML).
     useCache: true,
   },
   images: {

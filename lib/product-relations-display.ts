@@ -8,11 +8,16 @@ export function organisationHref(org: {
   external_url?: string | null;
   slug?: string | null;
 }): string | null {
-  const page = org.page_url?.trim();
-  if (page) return page.startsWith("/") ? page : `/${page}`;
   const external = org.external_url?.trim();
+  const page = org.page_url?.trim();
+
+  // No public /organisations/* pages yet — use external site instead of 404 internal links.
+  if (page?.startsWith("/organisations/")) {
+    return external || null;
+  }
+
+  if (page) return page.startsWith("/") ? page : `/${page}`;
   if (external) return external;
-  if (org.slug?.trim()) return `/organisations/${org.slug.trim()}`;
   return null;
 }
 

@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowLeftIcon, ArrowRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 
@@ -22,6 +23,7 @@ export function ImageLightbox({
   onIndexChange,
   alt = "",
 }: ImageLightboxProps) {
+  const [mounted, setMounted] = useState(false);
   const hasMultiple = images.length > 1;
   const current = images[index];
 
@@ -32,6 +34,10 @@ export function ImageLightbox({
   const goNext = useCallback(() => {
     onIndexChange((index + 1) % images.length);
   }, [index, images.length, onIndexChange]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -55,11 +61,11 @@ export function ImageLightbox({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose, goPrev, goNext, hasMultiple]);
 
-  if (!open || !current) return null;
+  if (!open || !current || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex flex-col"
+      className="fixed inset-0 z-[200] flex h-dvh w-full flex-col"
       role="dialog"
       aria-modal="true"
       aria-label="Image gallery"
@@ -74,16 +80,13 @@ export function ImageLightbox({
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-4 top-4 z-20 rounded-full bg-white/10 p-2 text-white/90 backdrop-blur-sm transition hover:bg-white/20"
+        className="absolute right-4 top-4 z-30 rounded-full bg-white/10 p-2 text-white/90 backdrop-blur-sm transition hover:bg-white/20"
         aria-label="Close"
       >
         <XMarkIcon className="h-6 w-6" />
       </button>
 
-      <div
-        className="relative z-10 flex flex-1 items-center justify-center px-14 py-14 md:px-20"
-        onClick={onClose}
-      >
+      <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center px-4 py-4 md:px-16">
         {hasMultiple ? (
           <>
             <button
@@ -92,7 +95,7 @@ export function ImageLightbox({
                 e.stopPropagation();
                 goPrev();
               }}
-              className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 md:left-6"
+              className="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 md:left-6"
               aria-label="Previous image"
             >
               <ArrowLeftIcon className="h-6 w-6" />
@@ -103,7 +106,7 @@ export function ImageLightbox({
                 e.stopPropagation();
                 goNext();
               }}
-              className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 md:right-6"
+              className="absolute right-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition hover:bg-white/20 md:right-6"
               aria-label="Next image"
             >
               <ArrowRightIcon className="h-6 w-6" />
@@ -111,27 +114,19 @@ export function ImageLightbox({
           </>
         ) : null}
 
-        <div
-          className="relative h-[min(70vh,720px)] w-full max-w-5xl"
+        {/* Native img — sizes to viewport without a fixed-height box */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={current}
+          src={current}
+          alt={alt}
+          className="max-h-[calc(100dvh-5rem)] max-w-[min(100%,72rem)] object-contain"
           onClick={(e) => e.stopPropagation()}
-        >
-          <Image
-            key={current}
-            src={current}
-            alt={alt}
-            fill
-            className="object-contain"
-            sizes="100vw"
-            priority
-          />
-        </div>
+        />
       </div>
 
       {hasMultiple ? (
-        <div
-          className="relative z-10 border-t border-white/10 bg-black/50 px-4 py-4 backdrop-blur-md"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="relative z-20 shrink-0 border-t border-white/10 bg-black/50 px-4 py-3 backdrop-blur-md">
           <ul className="mx-auto flex max-w-4xl items-center justify-center gap-3 overflow-x-auto pb-1">
             {images.map((url, i) => (
               <li key={`${url}-${i}`} className="shrink-0">
@@ -154,6 +149,7 @@ export function ImageLightbox({
           </ul>
         </div>
       ) : null}
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -34,7 +34,7 @@ export function transformProduct(
     description: ((data.short_description || data.full_description) as string) || "",
     featuredImage: {
       id: data.id as string,
-      url: main || "/placeholder-image.jpg",
+      url: main,
       altText: title,
     },
     images: gallery,

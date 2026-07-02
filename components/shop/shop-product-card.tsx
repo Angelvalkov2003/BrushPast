@@ -22,17 +22,19 @@ export function ShopProductCard({
     <Link href={`/product/${product.handle}`} className="group block focus-visible:outline-offset-4">
       <PolaroidFrame index={index + 1} className="group-hover:rotate-0">
         <div className="relative aspect-square overflow-hidden bg-bp-text/5">
-          <Image
-            src={
-              isValidImageUrl(product.featuredImage?.url)
-                ? product.featuredImage!.url
-                : "/placeholder-image.jpg"
-            }
-            alt={product.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes="(max-width: 640px) 50vw, 25vw"
-          />
+          {isValidImageUrl(product.featuredImage?.url) ? (
+            <Image
+              src={product.featuredImage!.url}
+              alt={product.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes="(max-width: 640px) 50vw, 25vw"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center px-3 text-center" aria-hidden>
+              <span className={`${homeHandClass} text-sm text-bp-text/35`}>No image</span>
+            </div>
+          )}
         </div>
         <p
           className={`${homeHandClass} mt-3 line-clamp-2 text-center text-lg font-bold leading-snug text-bp-text`}

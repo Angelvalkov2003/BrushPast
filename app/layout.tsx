@@ -43,7 +43,7 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/logo.avif" />
       </head>
       <body
-        className={`${homeHand.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
+        className={`bp-site ${homeHand.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
         suppressHydrationWarning
       >
         <PublicBodyTheme />
