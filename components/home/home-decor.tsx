@@ -3,19 +3,28 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
-import { homeHandClass } from "./home-typography";
+import { bpHandUtility, homeHandClass } from "./home-typography";
 
 export function HomeSectionTitle({
   eyebrow,
   title,
   align = "center",
   className,
+  size = "default",
 }: {
   eyebrow?: string;
   title: string;
   align?: "center" | "left";
   className?: string;
+  size?: "default" | "lg";
 }) {
+  const eyebrowSize =
+    size === "lg" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
+  const titleSize =
+    size === "lg"
+      ? "text-[clamp(2.25rem,5.5vw,3.5rem)]"
+      : "text-[clamp(2rem,5vw,3.25rem)]";
+
   return (
     <div
       className={clsx(
@@ -25,13 +34,13 @@ export function HomeSectionTitle({
     >
       {eyebrow ? (
         <p
-          className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}
+          className={`${homeHandClass} ${eyebrowSize} text-bp-accent`}
         >
           {eyebrow}
         </p>
       ) : null}
       <h2
-        className={`${homeHandClass} mt-1 text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.05] text-bp-text`}
+        className={`${homeHandClass} mt-1 ${titleSize} font-bold leading-[1.05] text-bp-text`}
       >
         {title}
       </h2>
@@ -118,7 +127,7 @@ export function HomeCta({
     <Link
       href={href}
       className={clsx(
-        `${homeHandClass} inline-flex items-center gap-2 px-7 py-3 text-lg font-bold transition-all`,
+        `${homeHandClass} ${bpHandUtility} inline-flex items-center gap-2 px-7 py-3 text-lg font-bold transition-all`,
         variant === "primary"
           ? "bg-bp-accent text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
           : "border-2 border-bp-text bg-bp-canvas/80 text-bp-text shadow-[3px_3px_0_rgba(1,2,0,0.08)] hover:bg-bp-text hover:text-bp-canvas hover:shadow-none",

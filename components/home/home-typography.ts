@@ -24,6 +24,8 @@ export const bpSubtitle = Inter({
 export const homeHandClass = homeHand.className;
 export const bpTitleClass = bpTitle.className;
 export const bpSubtitleClass = bpSubtitle.className;
+/** CSS utility — guarantees Caveat when paired with homeHandClass */
+export const bpHandUtility = "bp-hand";
 
 export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpSubtitle.variable}`;
 

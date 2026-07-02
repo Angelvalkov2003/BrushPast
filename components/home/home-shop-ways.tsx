@@ -40,6 +40,7 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
           <HomeSectionTitle
             eyebrow="The archive shop"
             title="Three ways to keep a story close"
+            size="lg"
           />
         </Reveal>
         <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
@@ -80,17 +81,17 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
                     ) : null}
                   </div>
                   <p
-                    className={`${homeHandClass} mt-3 flex items-center justify-center gap-2 text-2xl font-bold text-bp-text`}
+                    className={`${homeHandClass} mt-3 flex items-center justify-center gap-2 text-[1.65rem] font-bold text-bp-text md:text-3xl`}
                   >
-                    <WayIcon className="h-6 w-6 text-bp-accent" strokeWidth={1.5} aria-hidden />
+                    <WayIcon className="h-7 w-7 text-bp-accent md:h-8 md:w-8" strokeWidth={1.5} aria-hidden />
                     {way.title}
                   </p>
                 </PolaroidFrame>
-                <p className={`${homeHandClass} mt-4 text-center text-sm leading-relaxed text-bp-text/75`}>
+                <p className={`${homeHandClass} mt-4 text-center text-base leading-relaxed text-bp-text/75 md:text-lg`}>
                   {way.description}
                 </p>
                 <p
-                  className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
+                  className={`${homeHandClass} mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl`}
                 >
                   {way.cta} →
                 </p>

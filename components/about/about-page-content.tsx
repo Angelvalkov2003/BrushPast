@@ -15,7 +15,7 @@ import {
   IndexCard,
   PolaroidFrame,
 } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import { bpHandUtility, homeHandClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 import { AboutLaunchBanner } from "./about-launch-banner";
@@ -62,7 +62,7 @@ export function AboutPageContent() {
                   opportunity.
                 </p>
               </IndexCard>
-              <p className={`${homeHandClass} mt-8 text-[clamp(1.75rem,4vw,2.25rem)] text-bp-text`}>
+              <p className={`${homeHandClass} ${bpHandUtility} mt-8 text-[clamp(1.75rem,4vw,2.25rem)] text-bp-text`}>
                 Not spoken about. <span className="text-bp-accent">But speaking.</span>
               </p>
             </div>

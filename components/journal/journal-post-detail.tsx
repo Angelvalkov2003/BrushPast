@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { HomeCta, IndexCard, PolaroidFrame } from "components/home/home-decor";
 import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
-import { RevealSection } from "components/shared/reveal-section";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { displayImageUrl } from "lib/image-url";
 import {
@@ -80,28 +79,30 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
         </TextureSection>
       ) : null}
 
-      <RevealSection className="border-b border-bp-text/10 bg-bp-canvas px-4 py-12 md:px-10 md:py-16">
+      <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-3xl">
-          <IndexCard>
-            <div
-              className={`${homeHandClass} space-y-7 text-[1.1rem] italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9]`}
-            >
-              {paragraphs.length > 0 ? (
-                paragraphs.map((p, index) => (
-                  <p
-                    key={p.slice(0, 48)}
-                    className={index === 0 ? "text-bp-text/95 first-letter:float-left first-letter:mr-2 first-letter:font-semibold first-letter:text-[2.4em] first-letter:leading-none first-letter:text-bp-accent" : undefined}
-                  >
-                    {p}
+          <Reveal>
+            <IndexCard>
+              <div
+                className={`${homeHandClass} space-y-7 text-[1.1rem] italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9]`}
+              >
+                {paragraphs.length > 0 ? (
+                  paragraphs.map((p, index) => (
+                    <p
+                      key={p.slice(0, 48)}
+                      className={index === 0 ? "text-bp-text/95 first-letter:float-left first-letter:mr-2 first-letter:font-semibold first-letter:text-[2.4em] first-letter:leading-none first-letter:text-bp-accent" : undefined}
+                    >
+                      {p}
+                    </p>
+                  ))
+                ) : (
+                  <p className={`${homeHandClass} text-xl not-italic text-bp-text/50`}>
+                    No content yet.
                   </p>
-                ))
-              ) : (
-                <p className={`${homeHandClass} text-xl not-italic text-bp-text/50`}>
-                  No content yet.
-                </p>
-              )}
-            </div>
-          </IndexCard>
+                )}
+              </div>
+            </IndexCard>
+          </Reveal>
 
           {gallery.length > 0 ? (
             <div className="mt-14">
@@ -141,7 +142,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
             </div>
           </Reveal>
         </div>
-      </RevealSection>
+      </TextureSection>
       </article>
     </JournalLightboxProvider>
   );

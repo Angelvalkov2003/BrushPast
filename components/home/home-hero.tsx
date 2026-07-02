@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { HomeCta, PolaroidFrame } from "./home-decor";
-import { bpSubtitleClass, homeHandClass } from "./home-typography";
+import { bpHandUtility, bpSubtitleClass, bpTitleClass, homeHandClass } from "./home-typography";
 import { HomeTextureSection } from "./home-texture-section";
 
 export function HomeHero() {
@@ -8,10 +8,12 @@ export function HomeHero() {
     <HomeTextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:items-center md:gap-16">
         <div>
-          <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+          <p className={`${homeHandClass} ${bpHandUtility} text-2xl text-bp-accent md:text-3xl`}>
             Welcome in - take your time
           </p>
-          <h1 className="mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text">
+          <h1
+            className={`${bpTitleClass} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
+          >
             Stories that stay with you.
           </h1>
           <p
@@ -28,7 +30,7 @@ export function HomeHero() {
               Start a collection →
             </HomeCta>
           </div>
-          <p className={`${homeHandClass} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
+          <p className={`${homeHandClass} ${bpHandUtility} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
             ☕ Pull up a chair. Everyone belongs here.
           </p>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpHandUtility, homeHandClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 
@@ -16,7 +16,7 @@ export function StoriesHero() {
             <h1 className="mt-1 text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.88] text-bp-text">
               Stories
             </h1>
-            <p className={`${bpSubtitleClass} mt-5 max-w-xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}>
+            <p className={`${homeHandClass} mt-5 max-w-xl text-lg leading-relaxed text-bp-text/85 md:text-xl`}>
               {STORIES_TAGLINE}
             </p>
           </div>
@@ -24,7 +24,7 @@ export function StoriesHero() {
         <Reveal delay={REVEAL_STAGGER_MS}>
           <div className="lg:text-right">
             <p
-              className={`${homeHandClass} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
+              className={`${homeHandClass} ${bpHandUtility} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
             >
               Not spoken about.
               <br />

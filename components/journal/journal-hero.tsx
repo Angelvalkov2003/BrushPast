@@ -1,7 +1,7 @@
 "use client";
 
 import { JOURNAL_HERO_TAGLINE } from "lib/journal-config";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpHandUtility, bpSubtitleClass, homeHandClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 
@@ -23,7 +23,7 @@ export function JournalHero() {
         <Reveal delay={REVEAL_STAGGER_MS}>
           <div className="lg:text-right">
             <p
-              className={`${homeHandClass} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
+              className={`${homeHandClass} ${bpHandUtility} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
             >
               Updates from
               <br />
