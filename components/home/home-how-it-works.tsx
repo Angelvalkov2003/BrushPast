@@ -13,22 +13,24 @@ export function HomeHowItWorks() {
           <HomeSectionTitle eyebrow="Our model" title="How it works" />
         </Reveal>
 
-        <ol className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-stretch lg:grid-cols-4">
           {HOME_HOW_IT_WORKS.map((step, i) => {
             const Icon = brushPastIcons.homepage[step.icon];
             const stepNum = String(i + 1).padStart(2, "0");
 
             return (
-              <li key={step.title}>
-                <Reveal delay={i * REVEAL_STAGGER_MS}>
-                  <IndexCard className="flex h-full flex-col items-center text-center">
-                    <span className={`${homeHandClass} text-3xl font-bold text-bp-accent`}>
+              <li key={step.title} className="h-full min-h-0">
+                <Reveal delay={i * REVEAL_STAGGER_MS} className="h-full">
+                  <IndexCard className="flex h-full min-h-[14rem] flex-col sm:min-h-[15.5rem]">
+                    <BrushPastIconBadge icon={Icon} size="md" />
+                    <p className={`${homeHandClass} mt-4 text-3xl font-bold text-bp-accent`}>
                       {stepNum}
-                    </span>
-                    <BrushPastIconBadge icon={Icon} size="md" className="mt-4" />
-                    <p className={`${homeHandClass} mt-5 text-xl leading-snug text-bp-text`}>
-                      {step.title}
                     </p>
+                    <h3
+                      className={`${homeHandClass} mt-2 text-2xl font-bold leading-snug text-bp-text md:text-3xl`}
+                    >
+                      {step.title}
+                    </h3>
                   </IndexCard>
                 </Reveal>
               </li>
