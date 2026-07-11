@@ -3,7 +3,7 @@
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import { NEWSLETTER_SOURCE_HOME } from "lib/newsletter-config";
-import { homeHandClass } from "./home-typography";
+import { bpSubtitleClass, bpSubtitleUtility, bpTitleClass, bpTitleUtility, bpWhisperUtility, homeHandClass } from "./home-typography";
 
 export function HomeNewsletter() {
   return (
@@ -18,13 +18,13 @@ export function HomeNewsletter() {
       <div className="relative mx-auto grid max-w-[1400px] gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:px-10 md:py-24">
         <Reveal>
           <div>
-            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+            <p className={`${bpSubtitleClass} ${bpSubtitleUtility} text-2xl text-bp-accent md:text-3xl`}>
               Stay in the loop
             </p>
-            <h2 className={`${homeHandClass} mt-2 text-4xl font-bold md:text-5xl`}>
+            <h2 className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-4xl font-bold md:text-5xl`}>
               Join the story
             </h2>
-            <p className={`${homeHandClass} mt-4 max-w-md text-base italic text-bp-canvas/75`}>
+            <p className={`${bpSubtitleClass} ${bpSubtitleUtility} mt-4 max-w-md text-base text-bp-canvas/75`}>
               Workshops, shop drops and moments from the journey - no spam, just the real stuff.
             </p>
             <NewsletterSignupForm
@@ -37,7 +37,7 @@ export function HomeNewsletter() {
         </Reveal>
         <Reveal delay={REVEAL_STAGGER_MS}>
           <p
-            className={`${homeHandClass} text-center text-[clamp(1.75rem,4vw,2.75rem)] leading-snug text-bp-canvas md:text-right`}
+            className={`${homeHandClass} ${bpWhisperUtility} text-center text-[clamp(1.75rem,4vw,2.75rem)] leading-snug text-bp-canvas md:text-right`}
           >
             A community that listens.
             <br />

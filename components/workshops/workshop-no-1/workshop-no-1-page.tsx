@@ -6,7 +6,7 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import Footer from "components/layout/footer";
-import { homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import { getPublicWorkshopBySlug } from "lib/supabase/workshops";
 import { WORKSHOP_NO_1 } from "lib/workshops/workshop-no-1-content";
@@ -59,7 +59,7 @@ export async function WorkshopNo1Page() {
                 {COPY.headline}
               </h1>
               <p
-                className={`${homeHandClass} mt-5 max-w-3xl text-2xl leading-snug text-bp-canvas/95 md:text-3xl`}
+                className={`${homeHandClass} ${bpWhisperUtility} mt-5 max-w-3xl text-2xl leading-snug text-bp-canvas/95 md:text-3xl`}
               >
                 {COPY.tagline}
               </p>
@@ -118,7 +118,7 @@ export async function WorkshopNo1Page() {
             <h2 className="text-xs font-bold uppercase tracking-[0.24em] text-bp-accent">
               {COPY.archive.title}
             </h2>
-            <p className={`${homeHandClass} mt-5 text-xl leading-relaxed text-bp-canvas/90 md:text-2xl`}>
+            <p className="mt-5 text-xl leading-relaxed text-bp-canvas/90 md:text-2xl">
               {COPY.archive.body}
             </p>
           </div>
@@ -144,7 +144,7 @@ export async function WorkshopNo1Page() {
               })}
             </ul>
             <p
-              className={`${homeHandClass} mt-8 text-2xl text-bp-canvas/90 md:text-[1.75rem]`}
+              className={`${homeHandClass} ${bpWhisperUtility} mt-8 text-2xl text-bp-canvas/90 md:text-[1.75rem]`}
             >
               {COPY.archive.footerLine}
             </p>

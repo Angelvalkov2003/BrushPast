@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import clsx from "clsx";
+import { bpTitleClass, bpTitleUtility } from "components/home/home-typography";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import type { NewsletterSource } from "lib/newsletter-config";
 
@@ -89,7 +90,7 @@ export function NewsletterSignupForm({
         <button
           type="submit"
           disabled={loading || !privacyAccepted}
-          className="shrink-0 bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:self-start"
+          className={`${bpTitleClass} ${bpTitleUtility} shrink-0 bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:self-start`}
         >
           {loading ? "Joining…" : buttonLabel}
         </button>

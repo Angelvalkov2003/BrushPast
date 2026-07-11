@@ -1,6 +1,5 @@
 import type { PublicJournalPost } from "lib/supabase/journal";
 import { HomeSectionTitle } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 import { JournalPostCard } from "./journal-post-card";
@@ -14,7 +13,7 @@ export function JournalPageContent({ posts }: { posts: PublicJournalPost[] }) {
         </Reveal>
 
         {posts.length === 0 ? (
-          <p className={`${homeHandClass} mt-12 text-center text-2xl text-bp-text/50`}>
+          <p className="mt-12 text-center text-2xl text-bp-text/50">
             Journal updates coming soon.
           </p>
         ) : (

@@ -2,7 +2,7 @@ import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import { HOME_HOW_IT_WORKS } from "lib/home-config";
 import { HomeSectionTitle, IndexCard } from "./home-decor";
-import { homeHandClass } from "./home-typography";
+import { bpTitleClass, bpTitleUtility } from "./home-typography";
 import { HomeTextureSection } from "./home-texture-section";
 
 export function HomeHowItWorks() {
@@ -23,12 +23,10 @@ export function HomeHowItWorks() {
                 <Reveal delay={i * REVEAL_STAGGER_MS} className="h-full">
                   <IndexCard className="flex h-full min-h-[14rem] flex-col sm:min-h-[15.5rem]">
                     <BrushPastIconBadge icon={Icon} size="md" />
-                    <p className={`${homeHandClass} mt-4 text-3xl font-bold text-bp-accent`}>
+                    <p className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-3xl font-bold text-bp-accent`}>
                       {stepNum}
                     </p>
-                    <h3
-                      className={`${homeHandClass} mt-2 text-2xl font-bold leading-snug text-bp-text md:text-3xl`}
-                    >
+                    <h3 className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-2xl font-bold leading-snug text-bp-text md:text-3xl`}>
                       {step.title}
                     </h3>
                   </IndexCard>

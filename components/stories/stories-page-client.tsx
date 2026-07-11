@@ -9,7 +9,6 @@ import {
 } from "lib/stories-config";
 import { hasStoryCardImage } from "lib/story-display";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
-import { homeHandClass } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 import { StoryCard } from "./story-card";
 import { StoriesGridToggle } from "./stories-grid-toggle";
@@ -89,7 +88,7 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <div className="flex flex-wrap items-center justify-between gap-5 border-b border-bp-text/10 py-5 md:py-6">
-              <p className={`${homeHandClass} text-xl text-bp-text md:text-2xl`}>
+              <p className="text-xl text-bp-text md:text-2xl">
                 <span className="font-bold text-bp-accent">{visible.length}</span>{" "}
                 {visible.length === 1 ? "story" : "stories"}
               </p>
@@ -101,7 +100,7 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
           </Reveal>
 
           {visible.length === 0 ? (
-            <p className={`${homeHandClass} py-20 text-center text-2xl text-bp-text/50`}>
+            <p className="py-20 text-center text-2xl text-bp-text/50">
               No stories yet. Check back soon.
             </p>
           ) : (

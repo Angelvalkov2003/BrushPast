@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bars3BottomLeftIcon, CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import { homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility } from "components/home/home-typography";
 
 export type StorySortKey = "latest" | "oldest" | "featured";
 
@@ -40,7 +40,7 @@ export function StoriesSort({ value, onChange }: Props) {
         role="group"
         aria-label="Sort stories"
       >
-        <span className={`${homeHandClass} text-xl text-bp-text/80 md:text-2xl`}>Sort</span>
+        <span className="text-xl text-bp-text/80 md:text-2xl">Sort</span>
         <div className="flex border border-bp-text/15 bg-bp-canvas/60 p-1 shadow-[2px_2px_0_rgba(1,2,0,0.04)]">
           {SORT_OPTIONS.map((option) => {
             const selected = value === option.value;
@@ -50,7 +50,7 @@ export function StoriesSort({ value, onChange }: Props) {
                 type="button"
                 title={option.hint}
                 onClick={() => onChange(option.value)}
-                className={`${homeHandClass} px-4 py-2 text-base transition-colors ${
+                className={`px-4 py-2 text-base transition-colors ${
                   selected
                     ? "bg-bp-accent font-bold text-bp-canvas"
                     : "text-bp-text/55 hover:bg-bp-text/5 hover:text-bp-text"
@@ -67,7 +67,7 @@ export function StoriesSort({ value, onChange }: Props) {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className={`${homeHandClass} flex items-center gap-2 border border-bp-text/20 bg-bp-canvas/60 px-3 py-2 text-base text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.04)]`}
+          className="flex items-center gap-2 border border-bp-text/20 bg-bp-canvas/60 px-3 py-2 text-base text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.04)]"
           aria-expanded={open}
           aria-haspopup="listbox"
         >
@@ -99,10 +99,10 @@ export function StoriesSort({ value, onChange }: Props) {
                     className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left transition-colors hover:bg-bp-canvas"
                   >
                     <span>
-                      <span className={`${homeHandClass} block text-lg font-bold text-bp-text`}>
+                      <span className="block text-lg font-bold text-bp-text">
                         {option.label}
                       </span>
-                      <span className={`${homeHandClass} mt-0.5 block text-sm italic text-bp-text/55`}>
+                      <span className={`${bpWhisperUtility} mt-0.5 block text-sm italic text-bp-text/55`}>
                         {option.hint}
                       </span>
                     </span>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PolaroidFrame } from "./home-decor";
-import { homeHandClass } from "./home-typography";
+import { bpStoryVoiceUtility, bpWhisperUtility } from "./home-typography";
 import { storyCardImageUrl, storyDisplayName, storyHref } from "lib/story-display";
 import type { PublicStory } from "lib/supabase/stories";
 
@@ -29,13 +29,13 @@ export function HomeStoryTeaser({
           />
         ) : (
           <div
-            className={`${homeHandClass} flex h-full items-center justify-center bg-bp-accent-bg text-xl text-bp-text/40`}
+            className={`${bpWhisperUtility} flex h-full items-center justify-center bg-bp-accent-bg text-xl text-bp-text/40`}
           >
             {name}
           </div>
         )}
       </div>
-      <p className={`${homeHandClass} mt-3 text-center text-2xl font-bold text-bp-text`}>
+      <p className={`${bpStoryVoiceUtility} mt-3 text-center text-2xl font-bold text-bp-text`}>
         {name}
       </p>
     </PolaroidFrame>

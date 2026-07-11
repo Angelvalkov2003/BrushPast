@@ -19,7 +19,7 @@ import {
   IndexCard,
   PolaroidFrame,
 } from "components/home/home-decor";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpSubtitleClass, bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 import { TEXTURE_IMAGES, TextureSection } from "components/shared/texture-section";
 import { ContactForm } from "./contact-form";
 
@@ -29,7 +29,7 @@ export function ContactPageContent() {
       <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}>
               Get in touch
             </p>
             <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
@@ -41,13 +41,13 @@ export function ContactPageContent() {
               Share a story. Collaborate. Join a workshop. Or simply say hello - we&apos;d love to
               hear from you.
             </p>
-            <p className={`${homeHandClass} mt-5 text-[clamp(1.35rem,3vw,1.85rem)] leading-snug text-bp-text`}>
+            <p className="mt-5 text-[clamp(1.35rem,3vw,1.85rem)] leading-snug text-bp-text">
               Brush Past is a{" "}
               <span className="text-bp-accent">creative movement</span> for{" "}
               <span className="text-bp-accent">second chances</span>, built in public with real
               people and real spaces.
             </p>
-            <p className={`${homeHandClass} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-8 text-xl text-bp-text/70 md:text-2xl`}>
               ☕ No perfect pitch needed - just say hello.
             </p>
           </div>
@@ -64,7 +64,7 @@ export function ContactPageContent() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-            <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}>
               Real people, real spaces
             </p>
           </PolaroidFrame>
@@ -83,18 +83,16 @@ export function ContactPageContent() {
                 sizes="33vw"
               />
             </div>
-            <p className={`${homeHandClass} mt-3 text-center text-lg text-bp-text/70`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-lg text-bp-text/70`}>
               Peckham, London
             </p>
           </PolaroidFrame>
 
           <div className="flex flex-col justify-center">
-            <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}>
               Rooted in real spaces
             </p>
-            <h2
-              className={`${homeHandClass} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
-            >
+            <h2 className="mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text">
               London Coffee Factory
             </h2>
             <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -106,7 +104,7 @@ export function ContactPageContent() {
                     className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
                   >
                     <BrushPastIconBadge icon={Icon} size="sm" className="mb-2" />
-                    <span className={`${homeHandClass} text-base text-bp-text/75`}>{item.label}</span>
+                    <span className={`${bpWhisperUtility} text-base text-bp-text/75`}>{item.label}</span>
                   </li>
                 );
               })}
@@ -114,11 +112,11 @@ export function ContactPageContent() {
           </div>
 
           <IndexCard className="flex items-center">
-            <p className={`${homeHandClass} text-2xl leading-relaxed text-bp-text md:text-3xl`}>
+            <p className="text-2xl leading-relaxed text-bp-text md:text-3xl">
               We&apos;re building this{" "}
               <span className="text-bp-accent">in public</span> - with honesty, creativity and care.
             </p>
-            <p className={`${homeHandClass} mt-4 text-lg italic text-bp-text/70`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-lg italic text-bp-text/70`}>
               - Jeremy &amp; David
             </p>
           </IndexCard>
@@ -146,20 +144,18 @@ export function ContactPageContent() {
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
-                  <p
-                    className={`${homeHandClass} mt-3 text-center text-2xl font-bold text-bp-text`}
-                  >
+                  <p className="mt-3 text-center text-2xl font-bold text-bp-text">
                     {card.title}
                   </p>
                 </PolaroidFrame>
                 <p
-                  className={`${homeHandClass} mt-4 text-center text-sm italic leading-relaxed text-bp-text/75`}
+                  className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-center text-base italic leading-relaxed text-bp-text/75 md:text-lg`}
                 >
                   {card.description}{" "}
                   <span className="font-medium text-bp-text not-italic">{card.descriptionAccent}</span>
                 </p>
                 <p
-                  className={`${homeHandClass} mt-3 text-center text-lg text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
+                  className={`${bpWhisperUtility} mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl`}
                 >
                   {card.cta} →
                 </p>
@@ -173,29 +169,29 @@ export function ContactPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="space-y-8">
             <IndexCard>
-              <h2 className={`${homeHandClass} text-3xl font-bold text-bp-text`}>
+              <h2 className="text-3xl font-bold text-bp-text">
                 We&apos;re figuring this out{" "}
                 <span className="text-bp-accent">in public</span>
               </h2>
-              <p className={`${homeHandClass} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}>
                 Brush Past is not a finished product - it&apos;s a{" "}
                 <span className="font-medium text-bp-text not-italic">living creative platform</span>.
               </p>
-              <p className={`${homeHandClass} mt-4 text-[clamp(1.15rem,2.5vw,1.45rem)] leading-snug text-bp-text`}>
+              <p className="mt-4 text-[clamp(1.15rem,2.5vw,1.45rem)] leading-snug text-bp-text">
                 Reach out with{" "}
                 <span className="text-bp-accent">questions</span>,{" "}
                 <span className="text-bp-accent">ideas</span>,{" "}
                 <span className="text-bp-accent">partnerships</span> - or simply to introduce
                 yourself.
               </p>
-              <p className={`${homeHandClass} mt-5 text-xl text-bp-accent`}>- Jeremy &amp; David</p>
+              <p className={`${homeHandClass} ${bpWhisperUtility} mt-5 text-xl text-bp-accent`}>- Jeremy &amp; David</p>
             </IndexCard>
 
             <IndexCard>
-              <h3 className={`${homeHandClass} text-2xl text-bp-accent`}>Direct contact</h3>
-              <ul className={`${homeHandClass} mt-5 space-y-5 text-base`}>
+              <h3 className="text-2xl text-bp-accent">Direct contact</h3>
+              <ul className="mt-5 space-y-5 text-base">
                 <li>
-                  <span className={`${homeHandClass} block text-lg text-bp-text`}>Email</span>
+                  <span className="block text-lg text-bp-text">Email</span>
                   <a
                     href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
                     className="text-bp-accent hover:underline"
@@ -204,13 +200,13 @@ export function ContactPageContent() {
                   </a>
                 </li>
                 <li>
-                  <span className={`${homeHandClass} block text-lg text-bp-text`}>Phone</span>
+                  <span className="block text-lg text-bp-text">Phone</span>
                   <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-bp-accent hover:underline">
                     {CONTACT_PHONE}
                   </a>
                 </li>
                 <li>
-                  <span className={`${homeHandClass} block text-lg text-bp-text`}>Social</span>
+                  <span className="block text-lg text-bp-text">Social</span>
                   <a
                     href={INSTAGRAM_URL}
                     target="_blank"
@@ -230,7 +226,7 @@ export function ContactPageContent() {
                   </a>
                 </li>
               </ul>
-              <p className={`${homeHandClass} mt-5 text-lg text-bp-text/75`}>
+              <p className={`${bpWhisperUtility} mt-5 text-lg text-bp-text/75`}>
                 Follow the journey as it unfolds →
               </p>
             </IndexCard>
@@ -249,7 +245,7 @@ export function ContactPageContent() {
         <div className="absolute inset-0 bg-bp-dark/80" aria-hidden />
 
         <div className="relative mx-auto max-w-[1400px] text-center">
-          <p className={`${homeHandClass} text-2xl leading-snug md:text-3xl`}>
+          <p className={`${homeHandClass} ${bpWhisperUtility} text-2xl leading-snug md:text-3xl`}>
             You don&apos;t need to have it all figured out to{" "}
             <span className="text-bp-accent">get in touch</span>.
           </p>
@@ -264,7 +260,7 @@ export function ContactPageContent() {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${homeHandClass} inline-flex items-center px-7 py-3 text-lg font-bold text-bp-canvas/85 underline decoration-bp-accent/60 underline-offset-4 transition-colors hover:text-bp-accent`}
+              className="inline-flex items-center px-7 py-3 text-lg font-bold text-bp-canvas/85 underline decoration-bp-accent/60 underline-offset-4 transition-colors hover:text-bp-accent"
             >
               Follow the journey →
             </a>

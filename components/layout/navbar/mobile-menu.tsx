@@ -10,7 +10,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { homeHandClass } from "components/home/home-typography";
 import { TEXTURE_IMAGES } from "components/shared/texture-section";
 import { NavLink } from "./nav-link";
 
@@ -63,7 +62,7 @@ export default function MobileMenu({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`${homeHandClass} flex h-11 w-11 items-center justify-center text-2xl text-bp-text`}
+        className="flex h-11 w-11 items-center justify-center text-2xl text-bp-text"
         aria-label="Open menu"
       >
         <Bars3Icon className="h-7 w-7 stroke-[2]" />
@@ -124,7 +123,7 @@ export default function MobileMenu({
                       <button
                         type="button"
                         onClick={() => setShopOpen((o) => !o)}
-                        className={`${homeHandClass} flex w-full items-center justify-between py-3 text-2xl text-bp-text`}
+                        className="flex w-full items-center justify-between py-3 text-2xl text-bp-text"
                       >
                         Shop
                         <ChevronDownIcon
@@ -140,7 +139,7 @@ export default function MobileMenu({
                             <Link
                               href="/shop"
                               onClick={close}
-                              className={`${homeHandClass} block py-2 text-xl text-bp-text/80 hover:text-bp-accent`}
+                              className="block py-2 text-xl text-bp-text/80 hover:text-bp-accent"
                             >
                               The Archive Shop
                             </Link>
@@ -151,7 +150,7 @@ export default function MobileMenu({
                                 <Link
                                   href={item.path}
                                   onClick={close}
-                                  className={`${homeHandClass} block py-2 text-xl text-bp-text/80 hover:text-bp-accent`}
+                                  className="block py-2 text-xl text-bp-text/80 hover:text-bp-accent"
                                 >
                                   {item.title}
                                 </Link>

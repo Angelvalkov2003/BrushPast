@@ -4,7 +4,7 @@ import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { AdminThemeScript } from "components/layout/admin-theme-script";
 import { NavigationLoading } from "components/layout/navigation-loading";
 import { CookieConsent } from "components/cookie-consent";
-import { bpFontVariables, homeHand } from "components/home/home-typography";
+import { bpFontVariables, bpSubtitle, bpSubtitleUtility } from "components/home/home-typography";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
 import { Toaster } from "sonner";
@@ -43,7 +43,7 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/logo.avif" />
       </head>
       <body
-        className={`bp-site ${homeHand.className} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
+        className={`bp-site ${bpSubtitle.className} ${bpSubtitleUtility} antialiased selection:bg-bp-accent-bg selection:text-bp-text`}
         suppressHydrationWarning
       >
         <PublicBodyTheme />

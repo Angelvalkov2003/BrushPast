@@ -3,7 +3,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { IndexCard, PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import { bpStoryVoiceUtility, homeHandClass, bpWhisperUtility } from "components/home/home-typography";
 import type { PublicStory } from "lib/supabase/stories";
 import type { StoryCardLayout } from "lib/stories-config";
 import { storyCardImageUrl, storyDisplayName, storyHref, storyQuote, storyTagsLabel } from "lib/story-display";
@@ -57,7 +57,7 @@ function CompactCardContent({
       ) : (
         <div className="aspect-[3/4] w-full bg-bp-accent-bg" aria-hidden />
       )}
-      <p className={`${homeHandClass} mt-2 text-center text-base font-bold leading-snug text-bp-text`}>
+      <p className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-center text-base font-bold leading-snug text-bp-text`}>
         {name}
       </p>
     </PolaroidFrame>
@@ -89,7 +89,7 @@ function CardTextBlock({
       : "text-bp-accent";
 
   return (
-    <div className="flex flex-1 flex-col gap-2 p-1 md:gap-3">
+    <div className={`${bpStoryVoiceUtility} flex flex-1 flex-col gap-2 p-1 md:gap-3`}>
       <h2 className={`${homeHandClass} text-2xl font-bold leading-snug md:text-3xl ${titleClass}`}>
         {name}
       </h2>

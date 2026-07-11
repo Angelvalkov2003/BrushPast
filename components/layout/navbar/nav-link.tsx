@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { homeHandClass } from "components/home/home-typography";
 
 export const activeNavClass =
   "font-bold text-bp-accent underline decoration-bp-accent decoration-wavy decoration-2 underline-offset-[6px]";
@@ -37,7 +36,7 @@ export function NavLink({
       prefetch
       onClick={onClick}
       className={clsx(
-        `${homeHandClass} text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl`,
+        "text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl",
         isActive && activeNavClass,
         className,
       )}

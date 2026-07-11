@@ -4,7 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
 import { PANEL_OVERLAY_CLASS } from "components/shared/panel-overlay";
-import { bpHandUtility, homeHandClass } from "./home-typography";
+import { bpSubtitleClass, bpSubtitleUtility, bpTitleClass, bpTitleUtility } from "./home-typography";
 
 export { PANEL_OVERLAY_CLASS };
 
@@ -37,13 +37,13 @@ export function HomeSectionTitle({
     >
       {eyebrow ? (
         <p
-          className={`${homeHandClass} ${eyebrowSize} text-bp-accent`}
+          className={`${bpSubtitleClass} ${bpSubtitleUtility} ${eyebrowSize} text-bp-accent`}
         >
           {eyebrow}
         </p>
       ) : null}
       <h2
-        className={`${homeHandClass} mt-1 ${titleSize} font-bold leading-[1.05] text-bp-text`}
+        className={`${bpTitleClass} ${bpTitleUtility} mt-1 ${titleSize} font-bold leading-[1.05] text-bp-text`}
       >
         {title}
       </h2>
@@ -167,19 +167,22 @@ export function HomeCta({
   href,
   children,
   variant = "primary",
+  className,
 }: {
   href: string;
   children: ReactNode;
   variant?: "primary" | "outline";
+  className?: string;
 }) {
   return (
     <Link
       href={href}
       className={clsx(
-        `${homeHandClass} ${bpHandUtility} inline-flex items-center gap-2 px-7 py-3 text-lg font-bold transition-all`,
+        `${bpTitleClass} ${bpTitleUtility} inline-flex items-center gap-2 px-7 py-3 text-lg font-bold transition-all`,
         variant === "primary"
           ? "bg-bp-accent text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
           : "border-2 border-bp-text bg-bp-canvas/80 text-bp-text shadow-[3px_3px_0_rgba(1,2,0,0.08)] hover:bg-bp-text hover:text-bp-canvas hover:shadow-none",
+        className,
       )}
     >
       {children}

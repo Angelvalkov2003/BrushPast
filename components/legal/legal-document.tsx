@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { bpWhisperUtility } from "components/home/home-typography";
 import type { LegalPageContent } from "lib/legal/types";
 import {
   LEGAL_ENTITY,
@@ -29,13 +30,13 @@ export function LegalDocument({
       <div className="mx-auto max-w-3xl">
         <Link
           href={backHref}
-          className="mb-8 inline-flex items-center text-xs font-bold uppercase tracking-[0.14em] text-bp-text/60 transition-colors hover:text-bp-accent"
+          className={`${bpWhisperUtility} mb-8 inline-flex items-center text-xs font-bold uppercase tracking-[0.14em] text-bp-text/60 transition-colors hover:text-bp-accent`}
         >
           <ArrowLeftIcon className="mr-2 h-4 w-4" />
           {backLabel}
         </Link>
 
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent">
+        <p className={`${bpWhisperUtility} text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent`}>
           {SITE_NAME} · United Kingdom
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-bp-text md:text-4xl">

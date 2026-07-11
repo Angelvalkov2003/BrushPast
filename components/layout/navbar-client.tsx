@@ -11,7 +11,6 @@ import { NavLink, activeNavClass } from "./navbar/nav-link";
 import { HomeLink } from "./home-link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { homeHandClass } from "components/home/home-typography";
 import { TEXTURE_IMAGES } from "components/shared/texture-section";
 
 interface Collection {
@@ -126,7 +125,7 @@ export function NavbarClient() {
                 type="button"
                 onClick={handleShopClick}
                 className={clsx(
-                  `${homeHandClass} flex items-center gap-1 text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl`,
+                  "flex items-center gap-1 text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl",
                   shopActive && activeNavClass,
                 )}
                 aria-expanded={shopOpen}
@@ -154,7 +153,7 @@ export function NavbarClient() {
                         <li key={c.id}>
                           <Link
                             href={`/shop/${c.handle}`}
-                            className={`${homeHandClass} block px-5 py-2.5 text-lg text-bp-text/85 transition-colors hover:bg-bp-canvas/80 hover:text-bp-accent`}
+                            className="block px-5 py-2.5 text-lg text-bp-text/85 transition-colors hover:bg-bp-canvas/80 hover:text-bp-accent"
                             onClick={() => setShopOpen(false)}
                           >
                             {c.title}
@@ -163,7 +162,7 @@ export function NavbarClient() {
                       ))
                     ) : (
                       <li>
-                        <span className={`${homeHandClass} block px-5 py-2.5 text-lg text-bp-text/50`}>
+                        <span className="block px-5 py-2.5 text-lg text-bp-text/50">
                           {loading ? "Loading…" : "No categories yet"}
                         </span>
                       </li>

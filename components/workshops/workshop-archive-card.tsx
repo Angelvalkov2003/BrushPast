@@ -2,13 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { PANEL_OVERLAY_CLASS, PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+  homeHandClass,
+} from "components/home/home-typography";
 import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
 import { displayImageUrl } from "lib/image-url";
 import { workshopHref, workshopListDescription } from "lib/workshop-display";
 import type { PublicWorkshop } from "lib/supabase/workshops";
 
-const archiveBodyHandClass = `${homeHandClass} text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed`;
+const archiveBodyClass = "text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed";
 
 export function WorkshopArchiveCard({
   workshop,
@@ -62,21 +67,19 @@ export function WorkshopArchiveCard({
       </PolaroidFrame>
       <div className={panelTexture ? "relative z-10" : undefined}>
         {workshop.location_label ? (
-          <p className={`${homeHandClass} text-lg text-bp-accent md:text-xl`}>
+          <p className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent md:text-xl`}>
             {workshop.location_label}
           </p>
         ) : null}
         <h3
-          className={`${homeHandClass} mt-2 text-[clamp(1.75rem,4vw,2.5rem)] font-bold leading-tight text-bp-text`}
+          className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(1.75rem,4vw,2.5rem)] font-bold leading-tight text-bp-text`}
         >
           {workshop.title}
         </h3>
         {description ? (
-          <p className={`${archiveBodyHandClass} mt-4`}>{description}</p>
+          <p className={`${archiveBodyClass} mt-4`}>{description}</p>
         ) : null}
-        <p
-          className={`${homeHandClass} mt-6 text-xl text-bp-text transition-colors group-hover:text-bp-accent`}
-        >
+        <p className="mt-6 text-xl text-bp-text transition-colors group-hover:text-bp-accent">
           View workshop →
         </p>
       </div>

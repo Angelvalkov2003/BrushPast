@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { HomeCta, IndexCard, PolaroidFrame } from "components/home/home-decor";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpStoryVoiceUtility, bpSubtitleClass, bpWhisperUtility } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { displayImageUrl } from "lib/image-url";
 import {
@@ -31,14 +31,14 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
         <div className="mx-auto max-w-[1400px]">
           <Link
             href="/journal"
-            className={`${homeHandClass} inline-flex items-center text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
+            className={`${bpWhisperUtility} inline-flex items-center text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
           >
             <ArrowLeftIcon className="mr-2 h-5 w-5" strokeWidth={2} />
             Back to Journal
           </Link>
 
           <Reveal>
-            <p className={`${homeHandClass} mt-8 text-xl text-bp-accent`}>
+            <p className={`${bpWhisperUtility} mt-8 text-xl text-bp-accent`}>
               {formatJournalDate(post.created_at)}
             </p>
             <h1 className="mt-2 max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] text-bp-text">
@@ -84,7 +84,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
           <Reveal>
             <IndexCard panelTexture="secondary" panelTone="cream">
               <div
-                className={`${homeHandClass} space-y-7 text-lg italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9] lg:text-[1.35rem]`}
+                className={`${bpStoryVoiceUtility} space-y-7 text-lg italic leading-[1.85] text-bp-text/88 md:text-xl md:leading-[1.9] lg:text-[1.35rem]`}
               >
                 {paragraphs.length > 0 ? (
                   paragraphs.map((p, index) => (
@@ -96,7 +96,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
                     </p>
                   ))
                 ) : (
-                  <p className={`${homeHandClass} text-xl not-italic text-bp-text/50`}>
+                  <p className="text-xl not-italic text-bp-text/50">
                     No content yet.
                   </p>
                 )}
@@ -107,7 +107,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
           {gallery.length > 0 ? (
             <div className="mt-14">
               <Reveal>
-                <p className={`${homeHandClass} text-center text-2xl text-bp-accent`}>Gallery</p>
+                <p className={`${bpWhisperUtility} text-center text-2xl text-bp-accent`}>Gallery</p>
               </Reveal>
               <div className="mt-8 grid gap-8 sm:grid-cols-2">
                 {gallery.map((url, index) => (

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { bpWhisperUtility } from "components/home/home-typography";
 import LogoSquare from "components/logo-square";
 import { HomeLink } from "components/layout/home-link";
 import {
@@ -44,7 +45,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-bp-canvas">
+      <h3 className={`${bpWhisperUtility} mb-3 text-xs font-semibold uppercase tracking-wider text-bp-canvas`}>
         {title}
       </h3>
       {children}

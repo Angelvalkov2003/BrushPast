@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { categoryCtaLabel } from "lib/shop-display";
@@ -27,20 +31,16 @@ export function CategoryRow({
     >
       <div className={reversed ? "md:pl-4" : "md:pr-4"}>
         <h2
-          className={`${homeHandClass} text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-tight text-bp-text`}
+          className={`${bpTitleClass} ${bpTitleUtility} text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-tight text-bp-text`}
         >
           {category.name}
         </h2>
         {category.short_description ? (
-          <p
-            className={`${homeHandClass} mt-4 max-w-md text-base leading-relaxed text-bp-text/80 md:text-lg`}
-          >
+          <p className="mt-4 max-w-md text-base leading-relaxed text-bp-text/80 md:text-lg">
             {category.short_description}
           </p>
         ) : null}
-        <p
-          className={`${homeHandClass} mt-6 text-xl text-bp-accent opacity-80 transition-opacity group-hover:opacity-100`}
-        >
+        <p className="mt-6 text-xl text-bp-accent opacity-80 transition-opacity group-hover:opacity-100">
           {cta} →
         </p>
       </div>
@@ -56,9 +56,7 @@ export function CategoryRow({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
-            <div
-              className={`${homeHandClass} flex h-full items-center justify-center text-xl text-bp-text/35`}
-            >
+            <div className={`${bpWhisperUtility} flex h-full items-center justify-center text-xl text-bp-text/35`}>
               {category.name}
             </div>
           )}

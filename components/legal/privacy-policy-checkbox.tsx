@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import clsx from "clsx";
+import { bpSubtitleUtility } from "components/home/home-typography";
 
 type Variant = "dark" | "light";
 
@@ -34,6 +35,7 @@ export function PrivacyPolicyCheckbox({
     <label
       className={clsx(
         "flex cursor-pointer items-start gap-3 text-sm leading-relaxed",
+        bpSubtitleUtility,
         textClass[variant],
         className,
       )}

@@ -10,11 +10,12 @@ export const TEXTURE_IMAGES = {
 
 export type TextureVariant = keyof typeof TEXTURE_IMAGES;
 
-export type TextureOverlay = "accent" | "cream" | "story" | "warm";
+export type TextureOverlay = "accent" | "cream" | "heroShell" | "story" | "warm";
 
 const TEXTURE_OVERLAY_CLASS: Record<TextureOverlay, string> = {
   accent: "bg-bp-accent-bg/78 backdrop-blur-[1px]",
   cream: PANEL_OVERLAY_CLASS.cream,
+  heroShell: PANEL_OVERLAY_CLASS.heroShell,
   story: PANEL_OVERLAY_CLASS.story,
   warm: PANEL_OVERLAY_CLASS.warm,
 };

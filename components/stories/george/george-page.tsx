@@ -10,7 +10,7 @@ import type { GeorgeParagraph } from "lib/stories/george-content";
 import { GEORGE_STORY } from "lib/stories/george-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 
 const COPY = GEORGE_STORY;
 
@@ -123,7 +123,7 @@ export async function GeorgePage() {
             <p className="mt-3 text-lg font-bold uppercase tracking-[0.14em] text-bp-text/80 md:text-xl">
               {COPY.subtitle}
             </p>
-            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
             <StoryPanel className="relative mt-8 max-w-lg rotate-[0.25deg] border border-bp-text/25 p-6 shadow-[6px_6px_0_rgba(60,45,30,0.12)] md:p-8" tint="bg-[#f0ebe3]/88">

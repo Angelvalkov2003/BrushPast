@@ -116,7 +116,7 @@ export async function RoundaboutMeetingPage() {
             </p>
             <p className="mt-4 text-sm font-semibold text-bp-text/70">- {firstName}</p>
           </StoryPanel>
-          <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
+          <div className="space-y-4 text-base leading-relaxed text-bp-text/85 md:text-lg">
             {COPY.bioParagraphs.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}
@@ -149,7 +149,7 @@ export async function RoundaboutMeetingPage() {
               {COPY.reflectionQuote.split("hold onto")[1]}
             </p>
           </div>
-          <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
+          <div className="space-y-4 text-base leading-relaxed text-bp-text/85 md:text-lg">
             {COPY.reflectionParagraphs.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}

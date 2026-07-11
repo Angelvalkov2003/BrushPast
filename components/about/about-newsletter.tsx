@@ -1,7 +1,12 @@
 "use client";
 
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpSubtitleClass,
+  bpSubtitleUtility,
+  bpTitleClass,
+  bpTitleUtility,
+} from "components/home/home-typography";
 import { NEWSLETTER_SOURCE_ABOUT } from "lib/newsletter-config";
 import { INSTAGRAM_URL, LINKEDIN_URL } from "lib/site-config";
 
@@ -20,13 +25,13 @@ export function AboutNewsletter() {
 
       <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-10 md:py-20">
         <div className="max-w-xl">
-          <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+          <p className={`${bpSubtitleClass} ${bpSubtitleUtility} text-2xl text-bp-accent md:text-3xl`}>
             Stay in the loop
           </p>
-          <h2 className={`${homeHandClass} mt-2 text-4xl font-bold md:text-5xl`}>
+          <h2 className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-4xl font-bold md:text-5xl`}>
             Join the story
           </h2>
-          <p className={`${homeHandClass} mt-4 text-base italic text-bp-canvas/75`}>
+          <p className={`${bpSubtitleClass} ${bpSubtitleUtility} mt-4 text-base text-bp-canvas/75`}>
             Workshops, stories and shop drops - no spam, just the journey.
           </p>
           <NewsletterSignupForm
@@ -37,7 +42,7 @@ export function AboutNewsletter() {
           />
         </div>
 
-        <ul className={`${homeHandClass} flex items-center gap-8 text-xl`}>
+        <ul className="flex items-center gap-8 text-xl">
           <li>
             <a
               href={INSTAGRAM_URL}

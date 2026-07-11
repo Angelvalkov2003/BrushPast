@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { CONTACT_SUBJECTS, type ContactSubjectValue } from "lib/contact-config";
 import { IndexCard } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+  homeHandClass,
+} from "components/home/home-typography";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import { ContactSubjectSelect } from "./contact-subject-select";
 
@@ -62,14 +67,14 @@ export function ContactForm() {
     }
   };
 
-  const labelClass = `${homeHandClass} block text-lg text-bp-text`;
+  const labelClass = "block text-lg text-bp-text";
   const inputClass =
     "mt-1.5 w-full border border-bp-text/20 bg-bp-canvas/50 px-3 py-2.5 text-sm focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30";
 
   return (
     <IndexCard id="contact-form" className="scroll-mt-24">
-      <h2 className={`${homeHandClass} text-3xl font-bold text-bp-text`}>Send a message</h2>
-      <p className={`${homeHandClass} mt-2 text-sm italic text-bp-text/70`}>
+      <h2 className={`${bpTitleClass} ${bpTitleUtility} text-3xl font-bold text-bp-text`}>Send a message</h2>
+      <p className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-sm italic text-bp-text/70`}>
         We read every message. You don&apos;t need to have it all figured out.
       </p>
 
@@ -155,7 +160,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting || !formData.privacy_policy_accepted}
-            className={`${homeHandClass} w-full bg-bp-accent py-3.5 text-lg font-bold text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:translate-none disabled:opacity-50 disabled:shadow-none`}
+            className={`${bpTitleClass} ${bpTitleUtility} w-full bg-bp-accent py-3.5 text-lg font-bold text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:translate-none disabled:opacity-50 disabled:shadow-none`}
           >
             {isSubmitting ? "Sending…" : "Send message →"}
           </button>

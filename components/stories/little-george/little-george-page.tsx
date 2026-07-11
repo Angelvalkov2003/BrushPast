@@ -10,7 +10,7 @@ import type { LittleGeorgeParagraph } from "lib/stories/little-george-content";
 import { LITTLE_GEORGE_STORY } from "lib/stories/little-george-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 
 const COPY = LITTLE_GEORGE_STORY;
 
@@ -123,7 +123,7 @@ export async function LittleGeorgePage() {
             <p className="mt-3 text-lg font-bold uppercase tracking-[0.14em] text-bp-text/80 md:text-xl">
               {COPY.subtitle}
             </p>
-            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
             <StoryPanel className="relative mt-8 max-w-lg rotate-[-0.2deg] border border-bp-text/25 p-6 shadow-[6px_6px_0_rgba(191,50,1,0.11)] md:p-8" tint="bg-[#f5efe6]/88">

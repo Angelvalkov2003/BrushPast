@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility } from "components/home/home-typography";
 import { isValidImageUrl } from "lib/image-url";
 import type { Product } from "lib/types";
 import { formatPrice } from "lib/currency";
@@ -32,24 +32,20 @@ export function ShopProductCard({
             />
           ) : (
             <div className="flex h-full items-center justify-center px-3 text-center" aria-hidden>
-              <span className={`${homeHandClass} text-sm text-bp-text/35`}>No image</span>
+              <span className={`${bpWhisperUtility} text-sm text-bp-text/35`}>No image</span>
             </div>
           )}
         </div>
-        <p
-          className={`${homeHandClass} mt-3 line-clamp-2 text-center text-lg font-bold leading-snug text-bp-text`}
-        >
+        <p className="mt-3 line-clamp-2 text-center text-lg font-bold leading-snug text-bp-text">
           {product.title}
         </p>
       </PolaroidFrame>
       {subtitle ? (
-        <p
-          className={`${homeHandClass} mt-3 text-center text-xs leading-relaxed text-bp-text/65`}
-        >
+        <p className={`${bpWhisperUtility} mt-3 text-center text-xs leading-relaxed text-bp-text/65`}>
           {subtitle}
         </p>
       ) : null}
-      <p className={`${homeHandClass} mt-2 text-center text-lg text-bp-accent`}>
+      <p className="mt-2 text-center text-lg text-bp-accent">
         {formatPrice(product.price)}
       </p>
     </Link>

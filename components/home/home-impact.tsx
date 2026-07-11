@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import { HOME_IMPACT_PILLARS } from "lib/home-config";
-import { TextureSection } from "components/shared/texture-section";
+import { TextureSection, type TextureVariant } from "components/shared/texture-section";
 import { IndexCard } from "./home-decor";
-import { homeHandClass } from "./home-typography";
+import { bpWhisperUtility, homeHandClass } from "./home-typography";
 
 const HeartIcon = brushPastIcons.homepage.keepAStoryClose;
 
@@ -20,9 +20,9 @@ function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
-export function HomeImpact() {
+export function HomeImpact({ texture = "primary" }: { texture?: TextureVariant }) {
   return (
-    <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+    <TextureSection texture={texture} className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
         <Reveal>
           <IndexCard>
@@ -30,19 +30,17 @@ export function HomeImpact() {
               <BrushPastIconBadge icon={HeartIcon} size="lg" className="mt-1" />
               <div className="min-w-0">
                 <p
-                  className={`${homeHandClass} text-[clamp(4.5rem,14vw,6.5rem)] font-bold leading-none text-bp-accent`}
+                  className={`${homeHandClass} ${bpWhisperUtility} text-[clamp(4.5rem,14vw,6.5rem)] font-bold leading-none text-bp-accent`}
                 >
                   65%
                 </p>
-                <p
-                  className={`${homeHandClass} mt-3 text-[clamp(1.5rem,3.5vw,2.15rem)] leading-snug text-bp-text`}
-                >
+                <p className="mt-3 text-[clamp(1.5rem,3.5vw,2.15rem)] leading-snug text-bp-text">
                   of profits go straight back to{" "}
                   <span className="text-bp-accent">creators</span> and{" "}
                   <span className="text-bp-accent">partner organisations</span>.
                 </p>
                 <p
-                  className={`${homeHandClass} mt-5 max-w-xl text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
+                  className={`${homeHandClass} ${bpWhisperUtility} mt-5 max-w-xl text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
                 >
                   Every purchase helps fund{" "}
                   <span className="font-medium text-bp-text not-italic">workshops</span>,{" "}
@@ -62,7 +60,7 @@ export function HomeImpact() {
                       <div className="flex h-full min-h-[9.5rem] w-full flex-col items-center justify-center gap-3 border border-dashed border-bp-text/15 bg-bp-canvas/60 px-4 py-5 text-center sm:min-h-[10.5rem]">
                         <BrushPastIconBadge icon={Icon} size="sm" />
                         <span
-                          className={`${homeHandClass} max-w-[11rem] text-lg leading-snug text-bp-text md:text-xl`}
+                          className="max-w-[11rem] text-lg leading-snug text-bp-text md:text-xl"
                         >
                           {item.title}
                         </span>
@@ -78,7 +76,7 @@ export function HomeImpact() {
         <Reveal delay={REVEAL_STAGGER_MS + 40}>
           <div className="flex flex-col items-center justify-center gap-6 lg:items-end lg:pt-6">
             <p
-              className={`${homeHandClass} text-center text-[clamp(2rem,5vw,3rem)] leading-snug text-bp-text lg:text-right`}
+              className={`${homeHandClass} ${bpWhisperUtility} text-center text-[clamp(2rem,5vw,3rem)] leading-snug text-bp-text lg:text-right`}
             >
               Real impact.
               <br />

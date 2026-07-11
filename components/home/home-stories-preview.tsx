@@ -3,7 +3,6 @@ import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 import type { PublicStory } from "lib/supabase/stories";
 import { HomeSectionTitle } from "./home-decor";
-import { homeHandClass } from "./home-typography";
 import { HomeStoryTeaser } from "./home-story-teaser";
 
 const FEATURED_COUNT = 3;
@@ -12,7 +11,7 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
   const featured = stories.slice(0, FEATURED_COUNT);
 
   return (
-    <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+    <TextureSection texture="secondary" overlay="story" className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -24,7 +23,7 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
             />
             <Link
               href="/stories"
-              className={`${homeHandClass} shrink-0 text-xl text-bp-accent transition-colors hover:text-bp-text`}
+              className="shrink-0 text-xl text-bp-accent transition-colors hover:text-bp-text"
             >
               Read more →
             </Link>
@@ -32,7 +31,7 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
         </Reveal>
 
         {featured.length === 0 ? (
-          <p className={`${homeHandClass} mt-12 text-center text-2xl text-bp-text/50`}>
+          <p className="mt-12 text-center text-2xl text-bp-text/50">
             Stories coming soon.
           </p>
         ) : (

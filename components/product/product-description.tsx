@@ -2,16 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ProductDetail } from "lib/types";
 import { IndexCard } from "components/home/home-decor";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import {
+  bpSubtitleClass,
+  bpSubtitleUtility,
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 import { ProductPurchase } from "./product-purchase";
 
-const aboutBodyHandClass = `${homeHandClass} text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.45rem] md:leading-relaxed`;
+const aboutBodyClass = "text-[1.25rem] leading-relaxed text-bp-text/90 md:text-[1.45rem] md:leading-relaxed";
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1 border-b border-dashed border-bp-text/12 py-3 sm:flex-row sm:justify-between sm:gap-4">
-      <dt className={`${homeHandClass} text-base text-bp-text/60`}>{label}</dt>
-      <dd className={`${homeHandClass} text-sm text-bp-text/90 sm:text-right`}>{value}</dd>
+      <dt className="text-base text-bp-text/60">{label}</dt>
+      <dd className="text-sm text-bp-text/90 sm:text-right">{value}</dd>
     </div>
   );
 }
@@ -48,10 +54,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
   return (
     <div className="flex flex-col">
       {product.categories[0] ? (
-        <Link
-          href={`/shop/${product.categories[0].slug}`}
-          className={`${homeHandClass} text-lg text-bp-accent hover:underline`}
-        >
+        <Link href={`/shop/${product.categories[0].slug}`} className="text-lg text-bp-accent hover:underline">
           {product.categories[0].name}
         </Link>
       ) : null}
@@ -61,7 +64,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
       </h1>
 
       {product.shortDescription ? (
-        <p className={`${bpSubtitleClass} mt-4 text-base leading-relaxed text-bp-text/85 md:text-lg`}>
+        <p className={`${bpSubtitleClass} ${bpSubtitleUtility} mt-4 text-base leading-relaxed text-bp-text/85 md:text-lg`}>
           {product.shortDescription}
         </p>
       ) : null}
@@ -79,17 +82,17 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
           />
           <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]" aria-hidden />
           <div className="relative z-10">
-            <h2 className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+            <h2 className={`${bpTitleClass} ${bpTitleUtility} text-2xl text-bp-accent md:text-3xl`}>
               About this piece
             </h2>
-            <p className={`${aboutBodyHandClass} mt-5`}>{product.fullDescription}</p>
+            <p className={`${aboutBodyClass} mt-5`}>{product.fullDescription}</p>
           </div>
         </div>
       ) : null}
 
       {detailRows.length > 0 ? (
         <dl className="mt-10">
-          <h2 className={`${homeHandClass} mb-3 text-2xl text-bp-text`}>Details</h2>
+          <h2 className={`${bpTitleClass} ${bpTitleUtility} mb-3 text-2xl text-bp-text`}>Details</h2>
           {detailRows.map((row) => (
             <DetailRow key={`${row.label}-${row.value}`} label={row.label} value={row.value} />
           ))}
@@ -98,22 +101,18 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
 
       {product.profitShareNote || product.impactNote ? (
         <IndexCard panelTexture={null} className="mt-8 border-bp-accent/20 bg-bp-accent-bg">
-          <h2 className={`${homeHandClass} text-2xl text-bp-accent`}>Your impact</h2>
+          <h2 className={`${bpTitleClass} ${bpTitleUtility} text-2xl text-bp-accent`}>Your impact</h2>
           {product.profitShareNote ? (
-            <p className={`${homeHandClass} mt-3 text-sm leading-relaxed text-bp-text/85`}>
-              {product.profitShareNote}
-            </p>
+            <p className="mt-3 text-sm leading-relaxed text-bp-text/85">{product.profitShareNote}</p>
           ) : null}
           {product.impactNote ? (
-            <p className={`${homeHandClass} mt-2 text-sm leading-relaxed text-bp-text/75`}>
-              {product.impactNote}
-            </p>
+            <p className="mt-2 text-sm leading-relaxed text-bp-text/75">{product.impactNote}</p>
           ) : null}
         </IndexCard>
       ) : null}
 
       {product.qrStoryUrl && product.linkedStories.length === 0 ? (
-        <p className={`${homeHandClass} mt-6 text-xs text-bp-text/55`}>
+        <p className={`${bpWhisperUtility} mt-6 text-xs text-bp-text/55`}>
           Includes story link:{" "}
           <a href={product.qrStoryUrl} className="text-bp-accent hover:underline">
             {product.qrStoryUrl.replace(/^https?:\/\//, "")}

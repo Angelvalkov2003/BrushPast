@@ -10,7 +10,7 @@ import type { MaimounaLyricLine, MaimounaSection } from "lib/stories/maimouna-co
 import { MAIMOUNA_STORY } from "lib/stories/maimouna-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 
 const COPY = MAIMOUNA_STORY;
 
@@ -144,7 +144,7 @@ export async function MaimounaPage() {
               Song title:{" "}
               <span className="font-medium text-bp-text">{COPY.songTitle}*</span>
             </p>
-            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/60`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/60`}>
               {COPY.tags}
             </p>
             <StoryPanel className="relative mt-8 max-w-lg rotate-[-0.35deg] border border-bp-text/25 p-6 shadow-[5px_5px_0_rgba(191,50,1,0.1)] md:p-8" tint="bg-[#f3ebe3]/88">

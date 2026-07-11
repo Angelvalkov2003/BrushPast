@@ -8,7 +8,12 @@ import {
   IndexCard,
   PolaroidFrame,
 } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+  homeHandClass,
+} from "components/home/home-typography";
 import { LaunchTransparencyBanner } from "components/shared/launch-transparency-banner";
 import { TextureSection } from "components/shared/texture-section";
 import { WorkshopArchiveCard } from "components/workshops/workshop-archive-card";
@@ -33,8 +38,8 @@ function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
-const workshopBodyHandClass = `${homeHandClass} text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.55rem] md:leading-relaxed`;
-const workshopBodyHandSmClass = `${homeHandClass} text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed`;
+const workshopBodyClass = "text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.55rem] md:leading-relaxed";
+const workshopBodySmClass = "text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed";
 
 function HeroButtons({ className }: { className?: string }) {
   return (
@@ -57,7 +62,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
       <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}>
               Brush Past workshops
             </p>
             <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
@@ -66,7 +71,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               <span className="text-bp-accent">Be yourself.</span>
             </h1>
             <IndexCard className="mt-6 max-w-xl" panelTexture="secondary" panelTone="cream">
-              <p className={workshopBodyHandClass}>
+              <p className={workshopBodyClass}>
                 A space to <span className="text-bp-accent">breathe, make something</span>, and be
                 yourself - without pressure to perform or explain. Creative workshops for anyone
                 with a story, at any skill level.
@@ -74,7 +79,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </IndexCard>
             <HeroButtons className="mt-8" />
             <div
-              className={`${homeHandClass} mt-8 flex items-center gap-3 text-2xl text-bp-text md:text-3xl`}
+              className={`${homeHandClass} ${bpWhisperUtility} mt-8 flex items-center gap-3 text-2xl text-bp-text md:text-3xl`}
             >
               <BrushPastIconBadge
                 icon={brushPastIcons.workshopsPage.safeSpace}
@@ -96,7 +101,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-            <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}>
               Art of empowerment ★
             </p>
           </PolaroidFrame>
@@ -105,15 +110,15 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
 
       <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-[1400px]">
-          <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>What we run</p>
-          <h2 className={`${homeHandClass} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}>
+          <p className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}>What we run</p>
+          <h2 className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}>
             Workshop types
           </h2>
           <ul className="mt-8 flex flex-wrap gap-3">
             {WORKSHOP_CATEGORIES.map((name) => (
               <li
                 key={name}
-                className={`${homeHandClass} border border-bp-text/15 bg-bp-canvas/80 px-5 py-2.5 text-lg text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.06)]`}
+                className="border border-bp-text/15 bg-bp-canvas/80 px-5 py-2.5 text-lg text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.06)]"
               >
                 {name}
               </li>
@@ -125,7 +130,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
       <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-3">
           <IndexCard>
-            <p className={workshopBodyHandClass}>
+            <p className={workshopBodyClass}>
               BrushPast began working with people in recovery, homelessness and incarceration -
               using creativity to{" "}
               <span className="text-bp-accent">rebuild identity and confidence</span>.{" "}
@@ -133,7 +138,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </p>
           </IndexCard>
           <IndexCard className="flex flex-col justify-center">
-            <p className={`${homeHandClass} text-[1.45rem] leading-snug text-bp-text md:text-[1.75rem]`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} text-[1.45rem] leading-snug text-bp-text md:text-[1.75rem]`}>
               <BrushUnderline>If</BrushUnderline> you have a story.{" "}
               <BrushUnderline>If</BrushUnderline> you can make something.{" "}
               <span className="text-bp-accent">You belong here.</span>
@@ -145,10 +150,10 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               size="lg"
               className="mb-1"
             />
-            <p className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
+            <p className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
               {WORKSHOPS_MISSION_COLUMNS.choiceLead}
             </p>
-            <p className={`${workshopBodyHandClass} mt-3`}>
+            <p className={`${workshopBodyClass} mt-3`}>
               Share your work, sell your work, or keep it private.{" "}
               <span className="text-bp-accent">It&apos;s your choice. Always.</span>
             </p>
@@ -167,10 +172,10 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
                 <li key={item.title}>
                   <IndexCard className="flex h-full flex-col text-center lg:text-left" panelTexture="primary">
                     <BrushPastIconBadge icon={Icon} size="md" className="mx-auto lg:mx-0" />
-                    <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text`}>
+                    <h3 className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text`}>
                       {item.title}
                     </h3>
-                    <p className={`${workshopBodyHandSmClass} mt-3 flex-1`}>{item.description}</p>
+                    <p className={`${workshopBodySmClass} mt-3 flex-1`}>{item.description}</p>
                   </IndexCard>
                 </li>
               );
@@ -191,7 +196,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
                 <div className="flex flex-col items-center lg:items-start">
                   <BrushPastIconBadge icon={StepIcon} size="sm" className="mb-3" />
                   <p
-                    className={`${homeHandClass} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
+                    className={`${bpTitleClass} ${bpTitleUtility} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
                   >
                     {step.title}
                   </p>
@@ -208,7 +213,7 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
                   </div>
                 </PolaroidFrame>
                 <p
-                  className={`${workshopBodyHandSmClass} mt-3 text-center lg:text-left`}
+                  className={`${workshopBodySmClass} mt-3 text-center lg:text-left`}
                 >
                   {step.caption}
                 </p>
@@ -238,13 +243,13 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
 
       <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-center">
-          <p className={`${workshopBodyHandClass} max-w-md`}>
+          <p className={`${workshopBodyClass} max-w-md`}>
             Everyone has a story worth telling - and a place to make something real.{" "}
             <span className="text-bp-accent">There&apos;s a place for you here.</span>
           </p>
           <HeroButtons className="justify-center" />
           <p
-            className={`${homeHandClass} relative text-center text-3xl leading-snug text-bp-text lg:text-right lg:text-4xl`}
+            className={`${homeHandClass} ${bpWhisperUtility} relative text-center text-3xl leading-snug text-bp-text lg:text-right lg:text-4xl`}
           >
             Come as you are.
             <br />

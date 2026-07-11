@@ -2,7 +2,7 @@
 
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility } from "components/home/home-typography";
 
 export function BackButton() {
   const router = useRouter();
@@ -10,7 +10,7 @@ export function BackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className={`${homeHandClass} group mb-6 flex items-center gap-2 text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
+      className={`${bpWhisperUtility} group mb-6 flex items-center gap-2 text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
       aria-label="Go back"
       type="button"
     >

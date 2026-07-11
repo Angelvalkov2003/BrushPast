@@ -1,6 +1,6 @@
 import Footer from "components/layout/footer";
 import { HomeHero } from "components/home/home-hero";
-import { HomeImpact } from "components/home/home-impact";
+import { ShopHero } from "components/shop/shop-hero";
 import { HomeShopWays } from "components/home/home-shop-ways";
 import { HomeStoriesPreview } from "components/home/home-stories-preview";
 import { HomeHowItWorks } from "components/home/home-how-it-works";
@@ -26,7 +26,7 @@ export default async function HomePage() {
       className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <HomeHero />
-      <HomeImpact />
+      <ShopHero embedded />
       <HomeShopWays categories={categories} />
       <HomeStoriesPreview stories={stories} />
       <HomeHowItWorks />

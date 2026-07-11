@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Price from "components/price";
-import { homeHandClass } from "components/home/home-typography";
+import { bpTitleClass, bpTitleUtility } from "components/home/home-typography";
 import { enrichVariants, formatVariantLabel, optionsFromVariant } from "lib/product-variants";
 import { resolveVariantMaxQuantity } from "lib/cart-stock";
 import type { ProductDetail, ProductVariant } from "lib/types";
@@ -75,14 +75,14 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
       <div className="mb-6 flex items-baseline gap-3">
         <Price
           amount={variant.price.toString()}
-          className={`${homeHandClass} text-4xl font-bold text-bp-text`}
+          className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-text`}
         />
         {variant.inventory != null && variant.inventory > 0 ? (
-          <span className={`${homeHandClass} text-base text-bp-accent`}>
+          <span className="text-base text-bp-accent">
             {variant.inventory} left
           </span>
         ) : product.inventoryType === "limited" && product.inventoryQuantity != null ? (
-          <span className={`${homeHandClass} text-base text-bp-accent`}>
+          <span className="text-base text-bp-accent">
             {product.inventoryQuantity} left
           </span>
         ) : null}
@@ -96,7 +96,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
             onVariantChange={(v) => setSelectedVariantId(v.id)}
           />
           {selectedLabel ? (
-            <p className={`${homeHandClass} mt-3 text-sm text-bp-text/60`}>
+            <p className="mt-3 text-sm text-bp-text/60">
               Selected: <span className="font-semibold text-bp-text">{selectedLabel}</span>
             </p>
           ) : null}
@@ -109,7 +109,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
         onClick={handleAdd}
         aria-label="Add to bag"
         className={clsx(
-          `${homeHandClass} relative flex w-full items-center justify-center px-8 py-4 text-lg font-bold transition-all`,
+          `${bpTitleClass} ${bpTitleUtility} relative flex w-full items-center justify-center px-8 py-4 text-lg font-bold transition-all`,
           justAdded
             ? "animate-add-success bg-bp-text text-bp-canvas shadow-none"
             : canAdd
@@ -130,7 +130,7 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
         )}
       </button>
       {(stockError || (!canAdd && variant.maxQuantity === 0)) && (
-        <p className={`${homeHandClass} mt-3 text-sm text-red-700`} role="alert">
+        <p className="mt-3 text-sm text-red-700" role="alert">
           {stockError ??
             (selectedLabel
               ? `${selectedLabel} is out of stock.`

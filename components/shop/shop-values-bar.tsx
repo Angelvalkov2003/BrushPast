@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { IndexCard } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
 import { PROFIT_REINVESTMENT } from "lib/site-config";
 import { TEXTURE_IMAGES } from "components/shared/texture-section";
 
@@ -25,14 +24,14 @@ export function ShopValuesBar() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {ITEMS.map((item) => (
             <IndexCard panelTexture={null} key={item} className="border-bp-canvas/15 bg-bp-dark/40 text-center">
-              <p className={`${homeHandClass} text-xl leading-snug text-bp-canvas`}>{item}</p>
+              <p className="text-xl leading-snug text-bp-canvas">{item}</p>
             </IndexCard>
           ))}
         </div>
         <div className="mt-10 text-center">
           <Link
             href="/shop#categories"
-            className={`${homeHandClass} text-xl text-bp-accent transition-colors hover:text-bp-canvas`}
+            className="text-xl text-bp-accent transition-colors hover:text-bp-canvas"
           >
             Browse all categories →
           </Link>

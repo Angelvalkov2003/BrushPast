@@ -48,7 +48,7 @@ body.bp-site {
   background-color: var(--bp-canvas);
   color: var(--bp-text);
   color-scheme: light;
-  font-family: var(--font-home-hand), cursive;
+  font-family: var(--font-bp-subtitle), ui-sans-serif, system-ui, sans-serif;
 }
 
 body.bp-site :where(h1) {
@@ -67,10 +67,23 @@ body.bp-site .bp-hand {
   font-family: var(--font-home-hand), cursive;
 }
 
+/* Personal stories — full voice in Caveat */
+body.bp-site .bp-story-voice {
+  font-family: var(--font-home-hand), cursive;
+}
+
+/* Subtle labels, asides, captions */
+body.bp-site .bp-whisper,
+body.bp-site blockquote,
+body.bp-site figcaption {
+  font-family: var(--font-home-hand), cursive;
+}
+
 body.bp-site .bp-navbar {
   background-color: transparent;
   color: var(--bp-text);
   border-bottom: 1px solid color-mix(in srgb, var(--bp-text) 10%, transparent);
+  font-family: var(--font-bp-title), sans-serif;
 }
 
 body.bp-site .bp-surface {

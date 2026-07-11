@@ -15,7 +15,7 @@ import {
   IndexCard,
   PolaroidFrame,
 } from "components/home/home-decor";
-import { bpHandUtility, homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 import { AboutLaunchBanner } from "./about-launch-banner";
@@ -33,8 +33,8 @@ function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
-const aboutBodyHandClass = `${homeHandClass} text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.55rem] md:leading-relaxed`;
-const aboutBodyHandSmClass = `${homeHandClass} text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed`;
+const aboutBodyClass = "text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.55rem] md:leading-relaxed";
+const aboutBodySmClass = "text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed";
 
 export function AboutPageContent() {
   return (
@@ -43,7 +43,7 @@ export function AboutPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
             <div>
-              <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}>
                 About Brush Past
               </p>
               <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.75rem)] font-bold leading-[0.92] text-bp-text">
@@ -52,7 +52,7 @@ export function AboutPageContent() {
                 Our purpose.
               </h1>
               <IndexCard className="mt-6 max-w-xl" panelTexture="secondary">
-                <p className={aboutBodyHandClass}>
+                <p className={aboutBodyClass}>
                   BrushPast exists to{" "}
                   <span className="text-bp-accent">unlock overlooked creativity</span> in people
                   rebuilding from homelessness, addiction, incarceration and life&apos;s hardest
@@ -62,7 +62,7 @@ export function AboutPageContent() {
                   opportunity.
                 </p>
               </IndexCard>
-              <p className={`${homeHandClass} ${bpHandUtility} mt-8 text-[clamp(1.75rem,4vw,2.25rem)] text-bp-text`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} mt-8 text-[clamp(1.75rem,4vw,2.25rem)] text-bp-text`}>
                 Not spoken about. <span className="text-bp-accent">But speaking.</span>
               </p>
             </div>
@@ -81,7 +81,7 @@ export function AboutPageContent() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/75 md:text-2xl`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75 md:text-2xl`}>
                 Jeremy &amp; David
               </p>
             </PolaroidFrame>
@@ -93,11 +93,11 @@ export function AboutPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
           <Reveal>
             <IndexCard panelTexture="primary">
-              <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}>
                 Where it began
               </p>
               <blockquote
-                className={`${homeHandClass} mt-4 text-[clamp(1.85rem,4.5vw,2.75rem)] font-bold leading-snug text-bp-text`}
+                className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-[clamp(1.85rem,4.5vw,2.75rem)] font-bold leading-snug text-bp-text`}
               >
                 &ldquo;{ABOUT_QUOTE.slice(0, ABOUT_QUOTE.indexOf("same"))}
                 <BrushUnderline>same</BrushUnderline>
@@ -107,10 +107,10 @@ export function AboutPageContent() {
           </Reveal>
           <Reveal delay={REVEAL_STAGGER_MS}>
             <IndexCard className="h-full" panelTexture="primary">
-              <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}>
                 Two paths. One belief.
               </p>
-              <p className={`${aboutBodyHandClass} mt-4`}>
+              <p className={`${aboutBodyClass} mt-4`}>
                 A chance conversation between two people with very different backgrounds became a
                 shared belief:{" "}
                 <span className="text-bp-accent">
@@ -137,10 +137,10 @@ export function AboutPageContent() {
                   <Reveal delay={index * REVEAL_STAGGER_MS} className="h-full">
                     <IndexCard className="flex h-full min-h-[14rem] flex-col sm:min-h-[15.5rem]">
                       <BrushPastIconBadge icon={Icon} size="md" />
-                      <h3 className={`${homeHandClass} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
+                      <h3 className="mt-4 text-2xl font-bold text-bp-text md:text-3xl">
                         {item.title}
                       </h3>
-                      <p className={`${aboutBodyHandSmClass} mt-3 flex-1`}>{item.description}</p>
+                      <p className={`${aboutBodySmClass} mt-3 flex-1`}>{item.description}</p>
                     </IndexCard>
                   </Reveal>
                 </li>
@@ -164,7 +164,7 @@ export function AboutPageContent() {
                 {ABOUT_MENTORING_POINTS.map((point) => (
                   <li
                     key={point}
-                    className={`${homeHandClass} flex gap-3 text-lg leading-snug text-bp-text md:text-xl`}
+                    className="flex gap-3 text-lg leading-snug text-bp-text md:text-xl"
                   >
                     <span className="shrink-0 text-bp-accent">✦</span>
                     {point}
@@ -185,7 +185,7 @@ export function AboutPageContent() {
                   sizes="(max-width: 1024px) 100vw, 40vw"
                 />
               </div>
-              <p className={`${homeHandClass} mt-3 text-center text-xl text-bp-text/70 md:text-2xl`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/70 md:text-2xl`}>
                 Workshop moments
               </p>
             </PolaroidFrame>
@@ -193,16 +193,16 @@ export function AboutPageContent() {
 
           <Reveal delay={REVEAL_STAGGER_MS * 2}>
             <IndexCard className="flex h-full flex-col justify-center" panelTexture="secondary">
-              <p className={`${homeHandClass} text-2xl text-bp-accent md:text-3xl`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}>
                 Lived experience
               </p>
-              <p className={`${aboutBodyHandClass} mt-4`}>
+              <p className={`${aboutBodyClass} mt-4`}>
                 Our mentors and facilitators bring{" "}
                 <span className="text-bp-accent">real understanding</span> - recovery, creativity,
                 prison, homelessness and second chances. That trust is what makes the work honest
                 and safe enough for people to show up fully.
               </p>
-              <p className={`${homeHandClass} mt-6 text-xl leading-snug text-bp-text/80 md:text-2xl`}>
+              <p className="mt-6 text-xl leading-snug text-bp-text/80 md:text-2xl">
                 {MISSION_SUMMARY}
               </p>
             </IndexCard>
@@ -230,15 +230,15 @@ export function AboutPageContent() {
                         size="md"
                         className="absolute right-4 top-4 md:right-6 md:top-6"
                       />
-                      <span className={`${homeHandClass} text-4xl font-bold text-bp-accent`}>
+                      <span className={`${homeHandClass} ${bpWhisperUtility} text-4xl font-bold text-bp-accent`}>
                         {stepNum}
                       </span>
                       <p
-                        className={`${homeHandClass} mt-5 text-2xl font-bold leading-snug text-bp-text`}
+                        className="mt-5 text-2xl font-bold leading-snug text-bp-text"
                       >
                         {step.title}
                       </p>
-                      <p className={`${aboutBodyHandSmClass} mt-3`}>{step.description}</p>
+                      <p className={`${aboutBodySmClass} mt-3`}>{step.description}</p>
                     </IndexCard>
                   </Reveal>
                 </li>

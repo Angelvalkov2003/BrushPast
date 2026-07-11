@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Footer from "components/layout/footer";
 import { HomeCta, PolaroidFrame } from "components/home/home-decor";
-import { bpFontVariables, bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpFontVariables, bpSubtitleClass, bpWhisperUtility } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
 import { getShopCategoryBySlug } from "lib/supabase/categories";
@@ -37,14 +37,14 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
         <div className="mx-auto max-w-[1400px]">
           <Link
             href="/shop"
-            className={`${homeHandClass} inline-flex items-center text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
+            className={`${bpWhisperUtility} inline-flex items-center text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
           >
             ← The Archive Shop
           </Link>
 
           <div className="mt-8 grid gap-10 md:grid-cols-[1fr_1fr] md:items-center md:gap-14">
             <div>
-              <p className={`${homeHandClass} text-xl text-bp-accent md:text-2xl`}>The Archive</p>
+              <p className={`${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}>The Archive</p>
               <h1 className="mt-1 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.92] text-bp-text">
                 {category.name}
               </h1>
@@ -55,7 +55,7 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
                   {category.short_description}
                 </p>
               ) : null}
-              <p className={`${homeHandClass} mt-6 text-lg text-bp-text/60`}>
+              <p className="mt-6 text-lg text-bp-text/60">
                 {products.length} {products.length === 1 ? "piece" : "pieces"}
               </p>
             </div>
@@ -81,7 +81,7 @@ export default async function ShopCategoryPage({ params }: { params: Promise<{ s
       <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-[1400px]">
           {products.length === 0 ? (
-            <p className={`${homeHandClass} text-center text-2xl text-bp-text/50`}>
+            <p className="text-center text-2xl text-bp-text/50">
               No products in this category yet.
             </p>
           ) : (

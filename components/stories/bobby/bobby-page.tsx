@@ -10,7 +10,7 @@ import { displayImageUrl } from "lib/image-url";
 import { BOBBY_STORY } from "lib/stories/bobby-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 
 const COPY = BOBBY_STORY;
 
@@ -73,7 +73,7 @@ export async function BobbyPage() {
             <p className={`${homeHandClass} mt-8 max-w-xl text-2xl leading-snug md:text-[1.75rem]`}>
               &ldquo;{COPY.heroQuote}&rdquo;
             </p>
-            <p className={`${bpSubtitleClass} mt-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-text/60 md:text-xs`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-text/60 md:text-xs`}>
               {COPY.tags.join(" • ")}
             </p>
           </div>
@@ -98,7 +98,7 @@ export async function BobbyPage() {
               &ldquo;<BrushUnderline>{COPY.introPullQuote}</BrushUnderline>&rdquo;
             </p>
           </div>
-          <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
+          <div className="space-y-4 text-base leading-relaxed text-bp-text/85 md:text-lg">
             {COPY.introBody.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}
@@ -125,7 +125,7 @@ export async function BobbyPage() {
               {COPY.inHisWords.quote}
             </p>
           </div>
-          <div className="space-y-4 font-serif text-base leading-relaxed text-bp-text/85 md:text-lg">
+          <div className="space-y-4 text-base leading-relaxed text-bp-text/85 md:text-lg">
             {COPY.inHisWords.paragraphs.map((p) => (
               <p key={p.slice(0, 48)}>{p}</p>
             ))}

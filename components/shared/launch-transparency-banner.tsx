@@ -6,7 +6,12 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import { ABOUT_IMPACT_STATS, ABOUT_LAUNCH_OVERLAY } from "lib/about-config";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+  homeHandClass,
+} from "components/home/home-typography";
 
 const STAT_ICONS = {
   people: UserGroupIcon,
@@ -33,7 +38,7 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-8">
             <p
               id="launch-transparency-heading"
-              className={`${homeHandClass} text-2xl font-bold leading-snug md:text-3xl`}
+              className={`${bpTitleClass} ${bpTitleUtility} text-2xl font-bold leading-snug md:text-3xl`}
             >
               Real impact.
               <br />
@@ -47,12 +52,10 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
                 return (
                   <li key={stat.label} className="text-center lg:text-left">
                     <Icon className="mx-auto h-5 w-5 text-bp-accent/80 lg:mx-0" strokeWidth={1.25} />
-                    <p className={`${homeHandClass} mt-1.5 text-2xl font-bold text-bp-accent md:text-3xl`}>
+                    <p className={`${homeHandClass} ${bpWhisperUtility} mt-1.5 text-2xl font-bold text-bp-accent md:text-3xl`}>
                       {stat.value}
                     </p>
-                    <p className={`${homeHandClass} mt-0.5 text-sm text-bp-canvas/65`}>
-                      {stat.label}
-                    </p>
+                    <p className="mt-0.5 text-sm text-bp-canvas/65">{stat.label}</p>
                   </li>
                 );
               })}
@@ -63,16 +66,16 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
         <div className="absolute inset-0 flex items-center justify-center bg-bp-dark/55 px-4 backdrop-blur-[2px]">
           <div className="flex w-full max-w-xl flex-col items-center gap-3 rounded-sm border border-bp-canvas/15 bg-bp-dark/75 px-5 py-5 text-center shadow-lg md:max-w-2xl md:flex-row md:justify-between md:gap-6 md:px-6 md:py-4 md:text-left">
             <div>
-              <p className={`${homeHandClass} text-lg text-bp-accent`}>
+              <p className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent`}>
                 {ABOUT_LAUNCH_OVERLAY.eyebrow}
               </p>
-              <p className={`${homeHandClass} mt-1 text-xl font-bold leading-snug text-bp-canvas md:text-2xl`}>
+              <p className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-xl font-bold leading-snug text-bp-canvas md:text-2xl`}>
                 {ABOUT_LAUNCH_OVERLAY.headline}
               </p>
             </div>
             <Link
               href={newsletterHref}
-              className={`${homeHandClass} inline-flex shrink-0 bg-bp-accent px-6 py-3 text-lg font-bold text-bp-canvas shadow-[3px_3px_0_rgba(0,0,0,0.25)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none`}
+              className={`${bpTitleClass} ${bpTitleUtility} inline-flex shrink-0 bg-bp-accent px-6 py-3 text-lg font-bold text-bp-canvas shadow-[3px_3px_0_rgba(0,0,0,0.25)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none`}
             >
               {ABOUT_LAUNCH_OVERLAY.buttonLabel}
             </Link>

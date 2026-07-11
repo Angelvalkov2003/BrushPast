@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { CONTACT_SUBJECTS, type ContactSubjectValue } from "lib/contact-config";
-import { homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility } from "components/home/home-typography";
 
 type Props = {
   value: ContactSubjectValue;
@@ -39,8 +39,8 @@ export function ContactSubjectSelect({ value, onChange }: Props) {
         className="flex w-full items-center justify-between gap-3 border border-bp-text/20 bg-bp-canvas/60 px-4 py-3 text-left shadow-[2px_2px_0_rgba(1,2,0,0.04)] transition-colors hover:border-bp-accent/40 focus:border-bp-accent focus:outline-none"
       >
         <span className="min-w-0">
-          <span className={`${homeHandClass} block text-base text-bp-accent`}>Topic</span>
-          <span className={`${homeHandClass} mt-0.5 block truncate text-xl font-bold text-bp-text`}>
+          <span className={`${bpWhisperUtility} block text-base text-bp-accent`}>Topic</span>
+          <span className="mt-0.5 block truncate text-xl font-bold text-bp-text">
             {active.label}
           </span>
         </span>
@@ -72,10 +72,10 @@ export function ContactSubjectSelect({ value, onChange }: Props) {
                   }`}
                 >
                   <span className="min-w-0">
-                    <span className={`${homeHandClass} block text-lg font-bold text-bp-text`}>
+                    <span className="block text-lg font-bold text-bp-text">
                       {option.label}
                     </span>
-                    <span className={`${homeHandClass} mt-0.5 block text-sm italic text-bp-text/65`}>
+                    <span className={`${bpWhisperUtility} mt-0.5 block text-sm italic text-bp-text/65`}>
                       {option.hint}
                     </span>
                   </span>

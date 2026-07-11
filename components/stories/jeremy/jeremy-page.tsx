@@ -10,7 +10,7 @@ import type { JeremyParagraph } from "lib/stories/jeremy-content";
 import { JEREMY_STORY } from "lib/stories/jeremy-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpSubtitleClass, homeHandClass } from "components/home/home-typography";
+import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
 
 const COPY = JEREMY_STORY;
 
@@ -123,7 +123,7 @@ export async function JeremyPage() {
             <p className="mt-3 text-lg font-bold uppercase tracking-[0.14em] text-bp-text/80 md:text-xl">
               {COPY.subtitle}
             </p>
-            <p className={`${bpSubtitleClass} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
+            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
               {COPY.tags}
             </p>
             <StoryPanel className="relative mt-8 max-w-lg rotate-[0.15deg] border border-bp-text/25 p-6 shadow-[6px_6px_0_rgba(30,90,110,0.12)] md:p-8" tint="bg-[#e8f0f2]/88">

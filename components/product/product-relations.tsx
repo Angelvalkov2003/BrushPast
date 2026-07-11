@@ -3,7 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
-import { homeHandClass } from "components/home/home-typography";
+import {
+  bpStoryVoiceUtility,
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 import type {
   ProductDetail,
   ProductOrganisationLink,
@@ -20,7 +25,7 @@ function RelationGroup({
 }) {
   return (
     <div>
-      <p className={`${homeHandClass} text-lg text-bp-accent md:text-xl`}>{label}</p>
+      <p className="text-lg text-bp-accent md:text-xl">{label}</p>
       <div className="mt-4 flex flex-wrap items-start gap-4 sm:gap-5 md:gap-6">{children}</div>
     </div>
   );
@@ -38,6 +43,7 @@ function CompactRelationCard({
   title,
   subtitle,
   index,
+  storyQuote = false,
 }: {
   href: string;
   external?: boolean;
@@ -46,6 +52,7 @@ function CompactRelationCard({
   title: string;
   subtitle?: string | null;
   index: number;
+  storyQuote?: boolean;
 }) {
   const showImage = hasRelationImage(imageUrl);
 
@@ -69,19 +76,20 @@ function CompactRelationCard({
         </PolaroidFrame>
       ) : null}
       <div className={clsx(showImage ? "mt-2 max-w-[8.5rem]" : "max-w-xs")}>
-        <p className={`${homeHandClass} text-base font-bold leading-tight text-bp-text`}>
+        <p className={`${bpTitleClass} ${bpTitleUtility} text-base font-bold leading-tight text-bp-text`}>
           {title}
         </p>
         {subtitle ? (
           <p
-            className={`${homeHandClass} mt-1 line-clamp-2 text-[0.7rem] italic leading-snug text-bp-text/70`}
+            className={clsx(
+              "mt-1 line-clamp-2 text-[0.7rem] italic leading-snug text-bp-text/70",
+              storyQuote && bpStoryVoiceUtility,
+            )}
           >
             {subtitle}
           </p>
         ) : null}
-        <p
-          className={`${homeHandClass} mt-1.5 text-sm text-bp-text/80 transition-colors group-hover:text-bp-accent`}
-        >
+        <p className="mt-1.5 text-sm text-bp-text/80 transition-colors group-hover:text-bp-accent">
           Read more →
         </p>
       </div>
@@ -114,6 +122,7 @@ function StoryCard({ story, index }: { story: ProductStoryLink; index: number })
       title={story.title}
       subtitle={story.quote}
       index={index}
+      storyQuote
     />
   );
 }

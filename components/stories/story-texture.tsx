@@ -2,6 +2,7 @@ import type { ElementType, ReactNode } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { PANEL_OVERLAY_CLASS } from "components/shared/panel-overlay";
+import { bpStoryVoiceUtility } from "components/home/home-typography";
 import {
   TEXTURE_IMAGES,
   TextureSection,
@@ -26,7 +27,7 @@ export function StoryPageShell({
       as="div"
       texture={texture}
       overlay={overlay}
-      className={clsx("min-h-screen border-b-0 text-bp-text", className)}
+      className={clsx(bpStoryVoiceUtility, "min-h-screen border-b-0 text-bp-text", className)}
     >
       {children}
     </TextureSection>

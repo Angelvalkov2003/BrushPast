@@ -10,7 +10,7 @@ import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
 import { HOME_SHOP_WAYS } from "lib/home-config";
 import { HomeSectionTitle, PolaroidFrame } from "./home-decor";
-import { homeHandClass } from "./home-typography";
+import { bpTitleClass, bpTitleUtility, bpWhisperUtility } from "./home-typography";
 import { HomeTextureSection } from "./home-texture-section";
 
 function resolveWays(categories: ShopCategory[]) {
@@ -65,7 +65,7 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
                     ) : (
                       <div className="flex h-full flex-col items-center justify-center gap-3">
                         <BrushPastIconBadge icon={way.icon} size="lg" />
-                        <span className={`${homeHandClass} text-xl text-bp-text/50`}>
+                        <span className={`${bpWhisperUtility} text-xl text-bp-text/50`}>
                           {way.title}
                         </span>
                       </div>
@@ -81,18 +81,16 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
                     ) : null}
                   </div>
                   <p
-                    className={`${homeHandClass} mt-3 flex items-center justify-center gap-2 text-[1.65rem] font-bold text-bp-text md:text-3xl`}
+                    className={`${bpTitleClass} ${bpTitleUtility} mt-3 flex items-center justify-center gap-2 text-[1.65rem] font-bold text-bp-text md:text-3xl`}
                   >
                     <WayIcon className="h-7 w-7 text-bp-accent md:h-8 md:w-8" strokeWidth={1.5} aria-hidden />
                     {way.title}
                   </p>
                 </PolaroidFrame>
-                <p className={`${homeHandClass} mt-4 text-center text-base leading-relaxed text-bp-text/75 md:text-lg`}>
+                <p className="mt-4 text-center text-base leading-relaxed text-bp-text/75 md:text-lg">
                   {way.description}
                 </p>
-                <p
-                  className={`${homeHandClass} mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl`}
-                >
+                <p className="mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl">
                   {way.cta} →
                 </p>
               </Link>

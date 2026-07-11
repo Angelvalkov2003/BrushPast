@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import type { StoryArtworkImage } from "lib/supabase/story-products";
+import { bpWhisperUtility } from "components/home/home-typography";
 
 export function StoryArtworkCarousel({
   images,
@@ -31,8 +32,8 @@ export function StoryArtworkCarousel({
           />
         </div>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Artwork</p>
-          <h2 className="mt-2 font-serif text-2xl italic leading-snug text-bp-text md:text-3xl">{title}</h2>
+          <p className={`${bpWhisperUtility} text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent`}>Artwork</p>
+          <h2 className="mt-2 text-2xl italic leading-snug text-bp-text md:text-3xl">{title}</h2>
           <div className="mt-8 flex items-center gap-4">
             <button
               type="button"
