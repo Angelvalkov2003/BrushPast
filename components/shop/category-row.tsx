@@ -3,9 +3,12 @@ import Link from "next/link";
 import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
 import {
+  bpBodyClass,
+  bpLinkUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
+  homeHandClass,
 } from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import type { ShopCategory } from "lib/supabase/categories";
@@ -36,11 +39,21 @@ export function CategoryRow({
           {category.name}
         </h2>
         {category.short_description ? (
-          <p className="mt-4 max-w-md text-base leading-relaxed text-bp-text/80 md:text-lg">
-            {category.short_description}
-          </p>
+          index === 0 ? (
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} mt-4 max-w-md text-[clamp(1.65rem,3.5vw,2.25rem)] leading-snug text-bp-text/85`}
+            >
+              {category.short_description}
+            </p>
+          ) : (
+            <p className={`${bpBodyClass} mt-4 max-w-md text-bp-text/80`}>
+              {category.short_description}
+            </p>
+          )
         ) : null}
-        <p className="mt-6 text-xl text-bp-accent opacity-80 transition-opacity group-hover:opacity-100">
+        <p
+          className={`${bpBodyClass} ${bpLinkUtility} mt-6 font-bold text-bp-accent opacity-80 transition-opacity group-hover:opacity-100`}
+        >
           {cta} →
         </p>
       </div>
@@ -56,7 +69,9 @@ export function CategoryRow({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
-            <div className={`${bpWhisperUtility} flex h-full items-center justify-center text-xl text-bp-text/35`}>
+            <div
+              className={`${bpWhisperUtility} flex h-full items-center justify-center text-xl text-bp-text/35`}
+            >
               {category.name}
             </div>
           )}

@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import clsx from "clsx";
 import { PANEL_OVERLAY_CLASS } from "components/shared/panel-overlay";
 
@@ -10,7 +9,12 @@ export const TEXTURE_IMAGES = {
 
 export type TextureVariant = keyof typeof TEXTURE_IMAGES;
 
-export type TextureOverlay = "accent" | "cream" | "heroShell" | "story" | "warm";
+export type TextureOverlay =
+  | "accent"
+  | "cream"
+  | "heroShell"
+  | "story"
+  | "warm";
 
 const TEXTURE_OVERLAY_CLASS: Record<TextureOverlay, string> = {
   accent: "bg-bp-accent-bg/78 backdrop-blur-[1px]",
@@ -37,14 +41,15 @@ export function TextureSection({
 
   return (
     <Tag
-      className={clsx("relative border-b border-bp-text/10 overflow-hidden", className)}
+      className={clsx(
+        "relative border-b border-bp-text/10 overflow-hidden",
+        className,
+      )}
     >
-      <Image
-        src={TEXTURE_IMAGES[texture]}
-        alt=""
-        fill
-        className="object-cover"
-        sizes="100vw"
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-top bg-repeat-y bg-[length:100%_auto]"
+        style={{ backgroundImage: `url(${TEXTURE_IMAGES[texture]})` }}
       />
       <div
         className={clsx("absolute inset-0", TEXTURE_OVERLAY_CLASS[overlay])}

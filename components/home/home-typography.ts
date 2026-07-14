@@ -41,6 +41,19 @@ export const bpWhisperUtility = "bp-whisper";
 export const bpTitleUtility = "bp-title";
 /** CSS utility — guarantees Inter on subtitles under page titles */
 export const bpSubtitleUtility = "bp-subtitle";
+/** Inter body — default size (1.125rem) sitewide */
+export const bpBodyUtility = "bp-body";
+/** Inter small — meta, footer, captions (0.9375rem) */
+export const bpBodySmUtility = "bp-body-sm";
+/** Inter links — semibold + accent underline */
+export const bpLinkUtility = "bp-link";
+/** Inter emphasis — semibold, no underline */
+export const bpEmphasisUtility = "bp-emphasis";
+
+/** Inter body class bundle */
+export const bpBodyClass = `${bpSubtitleClass} ${bpSubtitleUtility}`;
+/** Inter small class bundle */
+export const bpBodySmClass = `${bpSubtitleClass} ${bpBodySmUtility}`;
 
 export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpSubtitle.variable}`;
 

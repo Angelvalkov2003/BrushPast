@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import clsx from "clsx";
-import { bpTitleClass, bpTitleUtility } from "components/home/home-typography";
+import {
+  bpBodySmClass,
+  bpTitleClass,
+  bpTitleUtility,
+} from "components/home/home-typography";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import type { NewsletterSource } from "lib/newsletter-config";
 
@@ -17,9 +21,8 @@ type Props = {
 };
 
 const inputClass: Record<Variant, string> = {
-  dark: "w-full border border-bp-canvas/30 bg-bp-canvas/10 px-4 py-3 text-sm text-bp-canvas placeholder:text-bp-canvas/50 focus:border-bp-accent focus:outline-none",
-  light:
-    "w-full border border-bp-text/15 bg-bp-canvas px-4 py-3 text-sm text-bp-text placeholder:text-bp-text/40 focus:border-bp-accent focus:outline-none",
+  dark: `w-full border border-bp-canvas/30 bg-bp-canvas/10 px-4 py-3 ${bpBodySmClass} text-bp-canvas placeholder:text-bp-canvas/50 focus:border-bp-accent focus:outline-none`,
+  light: `w-full border border-bp-text/15 bg-bp-canvas px-4 py-3 ${bpBodySmClass} text-bp-text placeholder:text-bp-text/40 focus:border-bp-accent focus:outline-none`,
 };
 
 export function NewsletterSignupForm({

@@ -2,13 +2,16 @@
 
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import {
+  bpBodyClass,
+  bpEmphasisUtility,
+  bpLinkUtility,
   bpSubtitleClass,
   bpSubtitleUtility,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
 import { NEWSLETTER_SOURCE_ABOUT } from "lib/newsletter-config";
-import { INSTAGRAM_URL, LINKEDIN_URL } from "lib/site-config";
+import { INSTAGRAM_URL } from "lib/site-config";
 
 export function AboutNewsletter() {
   return (
@@ -25,13 +28,17 @@ export function AboutNewsletter() {
 
       <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-10 md:py-20">
         <div className="max-w-xl">
-          <p className={`${bpSubtitleClass} ${bpSubtitleUtility} text-2xl text-bp-accent md:text-3xl`}>
+          <p
+            className={`${bpSubtitleClass} ${bpSubtitleUtility} ${bpEmphasisUtility} text-bp-accent`}
+          >
             Stay in the loop
           </p>
-          <h2 className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-4xl font-bold md:text-5xl`}>
+          <h2
+            className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-4xl font-bold md:text-5xl`}
+          >
             Join the story
           </h2>
-          <p className={`${bpSubtitleClass} ${bpSubtitleUtility} mt-4 text-base text-bp-canvas/75`}>
+          <p className={`${bpBodyClass} mt-4 text-bp-canvas/75`}>
             Workshops, stories and shop drops - no spam, just the journey.
           </p>
           <NewsletterSignupForm
@@ -42,25 +49,15 @@ export function AboutNewsletter() {
           />
         </div>
 
-        <ul className="flex items-center gap-8 text-xl">
+        <ul className={`${bpBodyClass} flex items-center gap-8`}>
           <li>
             <a
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-bp-canvas/80 transition-colors hover:text-bp-accent"
+              className={`${bpLinkUtility} text-bp-canvas/80 transition-colors hover:text-bp-accent`}
             >
               Instagram
-            </a>
-          </li>
-          <li>
-            <a
-              href={LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-bp-canvas/80 transition-colors hover:text-bp-accent"
-            >
-              LinkedIn
             </a>
           </li>
         </ul>

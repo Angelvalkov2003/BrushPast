@@ -1,14 +1,19 @@
-import type { ReactNode } from "react";
 import Image from "next/image";
 import { AboutNewsletter } from "components/about/about-newsletter";
-import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
 import {
+  brushPastIcons,
+  BrushPastIconBadge,
+} from "components/icons/brush-past-icons";
+import {
+  BrushUnderline,
   HomeCta,
   HomeSectionTitle,
   IndexCard,
   PolaroidFrame,
 } from "components/home/home-decor";
 import {
+  bpBodyClass,
+  bpBodySmClass,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -26,20 +31,8 @@ import {
   WORKSHOPS_PROCESS,
 } from "lib/workshops-config";
 
-function BrushUnderline({ children }: { children: ReactNode }) {
-  return (
-    <span className="relative inline-block">
-      {children}
-      <span
-        className="pointer-events-none absolute -bottom-0.5 left-0 h-[0.35em] w-full -skew-x-6 bg-bp-accent/75"
-        aria-hidden
-      />
-    </span>
-  );
-}
-
-const workshopBodyClass = "text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.55rem] md:leading-relaxed";
-const workshopBodySmClass = "text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed";
+const workshopBodyClass = `${bpBodyClass} text-bp-text/90`;
+const workshopBodySmClass = `${bpBodySmClass} text-bp-text/85`;
 
 function HeroButtons({ className }: { className?: string }) {
   return (
@@ -54,15 +47,24 @@ function HeroButtons({ className }: { className?: string }) {
   );
 }
 
-export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[] }) {
+export function WorkshopsPageContent({
+  workshops,
+}: {
+  workshops: PublicWorkshop[];
+}) {
   const archiveWorkshops = workshops.filter(hasWorkshopPage);
 
   return (
     <>
-      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-24">
+      <TextureSection
+        texture="primary"
+        className="px-4 py-14 md:px-10 md:py-24"
+      >
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}>
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
+            >
               Brush Past workshops
             </p>
             <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
@@ -70,11 +72,16 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               <br />
               <span className="text-bp-accent">Be yourself.</span>
             </h1>
-            <IndexCard className="mt-6 max-w-xl" panelTexture="secondary" panelTone="cream">
+            <IndexCard
+              className="mt-6 max-w-xl"
+              panelTexture="secondary"
+              panelTone="cream"
+            >
               <p className={workshopBodyClass}>
-                A space to <span className="text-bp-accent">breathe, make something</span>, and be
-                yourself - without pressure to perform or explain. Creative workshops for anyone
-                with a story, at any skill level.
+                A space to{" "}
+                <span className="text-bp-accent">breathe, make something</span>,
+                and be yourself - without pressure to perform or explain.
+                Creative workshops for anyone with a story, at any skill level.
               </p>
             </IndexCard>
             <HeroButtons className="mt-8" />
@@ -90,7 +97,10 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
             </div>
           </div>
 
-          <PolaroidFrame index={0} className="mx-auto w-full max-w-md lg:max-w-none">
+          <PolaroidFrame
+            index={0}
+            className="mx-auto w-full max-w-md lg:max-w-none"
+          >
             <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface lg:aspect-[5/4]">
               <Image
                 src="/workshops.png"
@@ -101,24 +111,35 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-            <p className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}>
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
+            >
               Art of empowerment ★
             </p>
           </PolaroidFrame>
         </div>
       </TextureSection>
 
-      <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
+      <TextureSection
+        texture="secondary"
+        className="px-4 py-12 md:px-10 md:py-16"
+      >
         <div className="mx-auto max-w-[1400px]">
-          <p className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}>What we run</p>
-          <h2 className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}>
+          <p
+            className={`${homeHandClass} ${bpWhisperUtility} text-[clamp(1.35rem,3vw,1.85rem)] font-bold leading-snug text-bp-accent`}
+          >
+            <BrushUnderline>What we run</BrushUnderline>
+          </p>
+          <h2
+            className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}
+          >
             Workshop types
           </h2>
           <ul className="mt-8 flex flex-wrap gap-3">
             {WORKSHOP_CATEGORIES.map((name) => (
               <li
                 key={name}
-                className="border border-bp-text/15 bg-bp-canvas/80 px-5 py-2.5 text-lg text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.06)]"
+                className={`${bpBodyClass} border border-bp-text/15 bg-bp-canvas/80 px-5 py-2.5 text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.06)]`}
               >
                 {name}
               </li>
@@ -127,18 +148,28 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
         </div>
       </TextureSection>
 
-      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+      <TextureSection
+        texture="primary"
+        className="px-4 py-14 md:px-10 md:py-20"
+      >
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-3">
           <IndexCard>
             <p className={workshopBodyClass}>
-              BrushPast began working with people in recovery, homelessness and incarceration -
-              using creativity to{" "}
-              <span className="text-bp-accent">rebuild identity and confidence</span>.{" "}
-              <span className="font-bold">{WORKSHOPS_MISSION_COLUMNS.originHighlight}</span>
+              BrushPast began working with people in recovery, homelessness and
+              incarceration - using creativity to{" "}
+              <span className="text-bp-accent">
+                rebuild identity and confidence
+              </span>
+              .{" "}
+              <span className="font-bold">
+                {WORKSHOPS_MISSION_COLUMNS.originHighlight}
+              </span>
             </p>
           </IndexCard>
           <IndexCard className="flex flex-col justify-center">
-            <p className={`${homeHandClass} ${bpWhisperUtility} text-[1.45rem] leading-snug text-bp-text md:text-[1.75rem]`}>
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} text-[1.45rem] leading-snug text-bp-text md:text-[1.75rem]`}
+            >
               <BrushUnderline>If</BrushUnderline> you have a story.{" "}
               <BrushUnderline>If</BrushUnderline> you can make something.{" "}
               <span className="text-bp-accent">You belong here.</span>
@@ -150,32 +181,54 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
               size="lg"
               className="mb-1"
             />
-            <p className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}>
+            <p
+              className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}
+            >
               {WORKSHOPS_MISSION_COLUMNS.choiceLead}
             </p>
             <p className={`${workshopBodyClass} mt-3`}>
               Share your work, sell your work, or keep it private.{" "}
-              <span className="text-bp-accent">It&apos;s your choice. Always.</span>
+              <span className="text-bp-accent">
+                It&apos;s your choice. Always.
+              </span>
             </p>
           </IndexCard>
         </div>
       </TextureSection>
 
-      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
+      <TextureSection
+        texture="secondary"
+        className="px-4 py-14 md:px-10 md:py-20"
+      >
         <div className="mx-auto max-w-[1400px]">
-          <HomeSectionTitle eyebrow="Why it matters" title="What you get" />
+          <HomeSectionTitle
+            eyebrow="Why it matters"
+            title="What you get"
+            eyebrowVariant="workshop"
+          />
 
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {WORKSHOPS_CORE_VALUES.map((item) => {
               const Icon = brushPastIcons.workshopsPage[item.icon];
               return (
                 <li key={item.title}>
-                  <IndexCard className="flex h-full flex-col text-center lg:text-left" panelTexture="primary">
-                    <BrushPastIconBadge icon={Icon} size="md" className="mx-auto lg:mx-0" />
-                    <h3 className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text`}>
+                  <IndexCard
+                    className="flex h-full flex-col text-center lg:text-left"
+                    panelTexture="primary"
+                  >
+                    <BrushPastIconBadge
+                      icon={Icon}
+                      size="md"
+                      className="mx-auto lg:mx-0"
+                    />
+                    <h3
+                      className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text`}
+                    >
                       {item.title}
                     </h3>
-                    <p className={`${workshopBodySmClass} mt-3 flex-1`}>{item.description}</p>
+                    <p className={`${workshopBodySmClass} mt-3 flex-1`}>
+                      {item.description}
+                    </p>
                   </IndexCard>
                 </li>
               );
@@ -184,40 +237,55 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
         </div>
       </TextureSection>
 
-      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
+      <TextureSection
+        texture="secondary"
+        className="px-4 py-14 md:px-10 md:py-20"
+      >
         <div className="mx-auto max-w-[1400px]">
-          <HomeSectionTitle eyebrow="Inside the room" title="What happens in our workshops?" />
+          <HomeSectionTitle
+            eyebrow="Inside the room"
+            title="What happens in our workshops?"
+            eyebrowVariant="workshop"
+          />
 
           <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
             {WORKSHOPS_PROCESS.map((step, index) => {
               const StepIcon = brushPastIcons.workshopProcess[step.icon];
               return (
-              <li key={step.title}>
-                <div className="flex flex-col items-center lg:items-start">
-                  <BrushPastIconBadge icon={StepIcon} size="sm" className="mb-3" />
-                  <p
-                    className={`${bpTitleClass} ${bpTitleUtility} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
-                  >
-                    {step.title}
-                  </p>
-                </div>
-                <PolaroidFrame index={index + 1} tilt={index % 2 === 0} className="mt-3">
-                  <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
-                    <Image
-                      src={step.image}
-                      alt={step.title}
-                      fill
-                      className="object-cover"
-                      sizes="20vw"
+                <li key={step.title}>
+                  <div className="flex flex-col items-center lg:items-start">
+                    <BrushPastIconBadge
+                      icon={StepIcon}
+                      size="sm"
+                      className="mb-3"
                     />
+                    <p
+                      className={`${bpTitleClass} ${bpTitleUtility} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
+                    >
+                      {step.title}
+                    </p>
                   </div>
-                </PolaroidFrame>
-                <p
-                  className={`${workshopBodySmClass} mt-3 text-center lg:text-left`}
-                >
-                  {step.caption}
-                </p>
-              </li>
+                  <PolaroidFrame
+                    index={index + 1}
+                    tilt={index % 2 === 0}
+                    className="mt-3"
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
+                      <Image
+                        src={step.image}
+                        alt={step.title}
+                        fill
+                        className="object-cover"
+                        sizes="20vw"
+                      />
+                    </div>
+                  </PolaroidFrame>
+                  <p
+                    className={`${workshopBodySmClass} mt-3 text-center lg:text-left`}
+                  >
+                    {step.caption}
+                  </p>
+                </li>
               );
             })}
           </ul>
@@ -225,13 +293,25 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
       </TextureSection>
 
       {archiveWorkshops.length > 0 ? (
-        <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+        <TextureSection
+          texture="primary"
+          className="px-4 py-14 md:px-10 md:py-20"
+        >
           <div className="mx-auto max-w-[1400px]">
-            <HomeSectionTitle eyebrow="From the archive" title="Past workshops" align="left" />
+            <HomeSectionTitle
+              eyebrow="From the archive"
+              title="Past workshops"
+              align="left"
+              eyebrowVariant="workshop"
+            />
             <ul className="mt-12 flex flex-col gap-8">
               {archiveWorkshops.map((workshop, index) => (
                 <li key={workshop.id}>
-                  <WorkshopArchiveCard workshop={workshop} index={index} panelTexture="secondary" />
+                  <WorkshopArchiveCard
+                    workshop={workshop}
+                    index={index}
+                    panelTexture="secondary"
+                  />
                 </li>
               ))}
             </ul>
@@ -241,11 +321,17 @@ export function WorkshopsPageContent({ workshops }: { workshops: PublicWorkshop[
 
       <LaunchTransparencyBanner />
 
-      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
+      <TextureSection
+        texture="secondary"
+        className="px-4 py-14 md:px-10 md:py-20"
+      >
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-center">
           <p className={`${workshopBodyClass} max-w-md`}>
-            Everyone has a story worth telling - and a place to make something real.{" "}
-            <span className="text-bp-accent">There&apos;s a place for you here.</span>
+            Everyone has a story worth telling - and a place to make something
+            real.{" "}
+            <span className="text-bp-accent">
+              There&apos;s a place for you here.
+            </span>
           </p>
           <HeroButtons className="justify-center" />
           <p

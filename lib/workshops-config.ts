@@ -23,7 +23,8 @@ export const WORKSHOPS_MISSION_COLUMNS = {
     "BrushPast began working with people in recovery, homelessness and incarceration - using creativity to rebuild identity and confidence.",
   originHighlight: "But the model works for anyone.",
   choiceLead: "You choose your path.",
-  choiceBody: "Share your work, sell your work, or keep it private. It's your choice. Always.",
+  choiceBody:
+    "Share your work, sell your work, or keep it private. It's your choice. Always.",
 } as const;
 
 export const WORKSHOPS_CORE_VALUES: {
@@ -38,7 +39,8 @@ export const WORKSHOPS_CORE_VALUES: {
   },
   {
     title: "Be creative",
-    description: "Any medium, any skill level - art, writing, photography, design.",
+    description:
+      "Any medium, any skill level - art, writing, photography, design.",
     icon: "beCreative",
   },
   {
@@ -48,7 +50,8 @@ export const WORKSHOPS_CORE_VALUES: {
   },
   {
     title: "Opportunity",
-    description: "Exhibitions, products and platforms when you're ready to share.",
+    description:
+      "Exhibitions, products and platforms when you're ready to share.",
     icon: "opportunity",
   },
   {
@@ -67,31 +70,32 @@ export const WORKSHOPS_PROCESS: {
   {
     title: "Create",
     caption: "Draw, write, photograph or design - guided, unhurried sessions.",
-    image: "/workshops-hero.png",
+    image: "/workshops/workshop-no-1/create.jpg",
     icon: "create",
   },
   {
     title: "Connect",
     caption: "Share a table, a conversation and confidence with others.",
-    image: "/home-hero.png",
+    image: "/workshops/workshop-no-1/connect.jpg",
     icon: "connect",
   },
   {
     title: "Capture",
     caption: "Document your work - digital or print, your choice.",
-    image: "/contact-hero.png",
+    image: "/workshops/workshop-no-1/capture.jpg",
     icon: "capture",
   },
   {
     title: "Share (if you want)",
     caption: "Publish on BrushPast, exhibit, or keep it private.",
-    image: "/about-hero.png",
+    image: "/workshops/workshop-no-1/share.jpg",
     icon: "share",
   },
   {
     title: "Opportunity",
-    caption: "If work sells through our shop, creators earn fairly - 65% reinvested with creators and partners.",
-    image: "/shop-hero.png",
+    caption:
+      "If work sells through our shop, creators earn fairly - 65% reinvested with creators and partners.",
+    image: "/workshops/workshop-no-1/opportunity.jpg",
     icon: "opportunity",
   },
 ];
@@ -99,6 +103,10 @@ export const WORKSHOPS_PROCESS: {
 export const WORKSHOPS_IMPACT_STATS = [
   { value: "43+", label: "creators published", icon: "people" as const },
   { value: "17+", label: "workshops delivered", icon: "calendar" as const },
-  { value: "£18,760+", label: "paid directly to creators", icon: "pound" as const },
+  {
+    value: "£18,760+",
+    label: "paid directly to creators",
+    icon: "pound" as const,
+  },
   { value: "120+", label: "stories in circulation", icon: "stories" as const },
 ] as const;

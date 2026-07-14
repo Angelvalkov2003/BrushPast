@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IndexCard } from "components/home/home-decor";
+import { bpBodyClass, bpLinkUtility } from "components/home/home-typography";
 import { PROFIT_REINVESTMENT } from "lib/site-config";
 import { TEXTURE_IMAGES } from "components/shared/texture-section";
 
@@ -23,15 +24,19 @@ export function ShopValuesBar() {
       <div className="relative mx-auto max-w-[1400px] px-4 py-14 md:px-10 md:py-16">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {ITEMS.map((item) => (
-            <IndexCard panelTexture={null} key={item} className="border-bp-canvas/15 bg-bp-dark/40 text-center">
-              <p className="text-xl leading-snug text-bp-canvas">{item}</p>
+            <IndexCard
+              panelTexture={null}
+              key={item}
+              className="border-bp-canvas/15 bg-bp-dark/40 text-center"
+            >
+              <p className={`${bpBodyClass} text-bp-canvas`}>{item}</p>
             </IndexCard>
           ))}
         </div>
         <div className="mt-10 text-center">
           <Link
             href="/shop#categories"
-            className="text-xl text-bp-accent transition-colors hover:text-bp-canvas"
+            className={`${bpBodyClass} ${bpLinkUtility} text-bp-accent transition-colors hover:text-bp-canvas`}
           >
             Browse all categories →
           </Link>

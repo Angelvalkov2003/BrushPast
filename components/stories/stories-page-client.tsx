@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import clsx from "clsx";
 import type { PublicStory } from "lib/supabase/stories";
 import {
   // STORY_FILTER_TABS,
@@ -8,6 +9,7 @@ import {
   layoutForStory,
 } from "lib/stories-config";
 import { hasStoryCardImage } from "lib/story-display";
+import { bpBodyClass } from "components/home/home-typography";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 import { StoryCard } from "./story-card";
@@ -24,7 +26,10 @@ function storyCreatedAt(story: PublicStory): number {
   return Number.isFinite(time) ? time : 0;
 }
 
-function sortStories(stories: PublicStory[], sort: StorySortKey): PublicStory[] {
+function sortStories(
+  stories: PublicStory[],
+  sort: StorySortKey,
+): PublicStory[] {
   const list = [...stories];
 
   if (sort === "featured") {
@@ -51,12 +56,12 @@ function sortStories(stories: PublicStory[], sort: StorySortKey): PublicStory[] 
 
 export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
   const [sort, setSort] = useState<StorySortKey>("featured");
-  const [compactGrid, setCompactGrid] = useState(false);
+  const [compactGrid, setCompactGrid] = useState(true);
 
   const visible = useMemo(() => sortStories(stories, sort), [stories, sort]);
 
   return (
-  <>
+    <>
       {/* Category filter — hidden for now; always show all stories
       <nav
         className="sticky top-[65px] z-30 border-b border-bp-text/10 bg-bp-canvas/95 backdrop-blur-sm"
@@ -88,39 +93,57 @@ export function StoriesPageClient({ stories }: { stories: PublicStory[] }) {
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <div className="flex flex-wrap items-center justify-between gap-5 border-b border-bp-text/10 py-5 md:py-6">
-              <p className="text-xl text-bp-text md:text-2xl">
-                <span className="font-bold text-bp-accent">{visible.length}</span>{" "}
+              <p className={bpBodyClass}>
+                <span className="font-bold text-bp-accent">
+                  {visible.length}
+                </span>{" "}
                 {visible.length === 1 ? "story" : "stories"}
               </p>
               <div className="flex items-center gap-2">
-                <StoriesGridToggle compact={compactGrid} onChange={setCompactGrid} />
+                <StoriesGridToggle
+                  compact={compactGrid}
+                  onChange={setCompactGrid}
+                />
                 <StoriesSort value={sort} onChange={setSort} />
               </div>
             </div>
           </Reveal>
 
           {visible.length === 0 ? (
-            <p className="py-20 text-center text-2xl text-bp-text/50">
+            <p className={`${bpBodyClass} py-20 text-center text-bp-text/50`}>
               No stories yet. Check back soon.
             </p>
           ) : (
-            <div
-              className={
-                compactGrid
-                  ? "grid grid-cols-2 gap-3 py-6 md:grid-cols-12 md:gap-5 md:py-10"
-                  : "grid auto-rows-min grid-cols-1 gap-5 py-8 md:grid-cols-12 md:gap-6 md:py-10"
-              }
-            >
-              {visible.map((story, index) => (
-                <StoryCard
-                  key={story.id}
-                  story={story}
-                  compact={compactGrid}
-                  index={index}
-                  layout={layoutForStory(index, hasStoryCardImage(story))}
-                />
-              ))}
-            </div>
+            <>
+              <div
+                className={clsx(
+                  "grid py-6 md:hidden",
+                  compactGrid ? "grid-cols-2 gap-3" : "grid-cols-1 gap-5 py-8",
+                )}
+              >
+                {visible.map((story, index) => (
+                  <StoryCard
+                    key={story.id}
+                    story={story}
+                    compact={compactGrid}
+                    index={index}
+                    layout={layoutForStory(index, hasStoryCardImage(story))}
+                  />
+                ))}
+              </div>
+
+              <div className="hidden auto-rows-min py-10 md:grid md:grid-cols-12 md:gap-6">
+                {visible.map((story, index) => (
+                  <StoryCard
+                    key={`${story.id}-desktop`}
+                    story={story}
+                    compact={false}
+                    index={index}
+                    layout={layoutForStory(index, hasStoryCardImage(story))}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </TextureSection>

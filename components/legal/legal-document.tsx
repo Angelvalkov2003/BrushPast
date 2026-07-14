@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { bpWhisperUtility } from "components/home/home-typography";
+import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpEmphasisUtility,
+  bpLinkUtility,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 import type { LegalPageContent } from "lib/legal/types";
 import {
   LEGAL_ENTITY,
@@ -16,7 +22,7 @@ type Props = {
   backLabel?: string;
 };
 
-const legalLinkClass = "font-semibold text-bp-accent underline underline-offset-2 hover:opacity-80";
+const legalLinkClass = `${bpLinkUtility} text-bp-accent hover:opacity-80`;
 
 export function LegalDocument({
   page,
@@ -36,15 +42,21 @@ export function LegalDocument({
           {backLabel}
         </Link>
 
-        <p className={`${bpWhisperUtility} text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent`}>
+        <p
+          className={`${bpWhisperUtility} text-[10px] font-bold uppercase tracking-[0.22em] text-bp-accent`}
+        >
           {SITE_NAME} · United Kingdom
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-bp-text md:text-4xl">
           {page.title}
         </h1>
-        <p className="mt-3 text-sm leading-relaxed text-bp-text/65">{page.description}</p>
+        <p className={`${bpBodySmClass} mt-3 text-bp-text/65`}>
+          {page.description}
+        </p>
 
-        <div className="mt-6 border border-bp-text/10 bg-bp-canvas px-5 py-4 text-sm text-bp-text/70">
+        <div
+          className={`${bpBodySmClass} mt-6 border border-bp-text/10 bg-bp-canvas px-5 py-4 text-bp-text/70`}
+        >
           <p>
             <span className="font-semibold text-bp-text">{LEGAL_ENTITY}</span>
             <br />
@@ -53,14 +65,21 @@ export function LegalDocument({
               {siteHost}
             </a>
             <br />
-            Last updated: <span className="text-bp-text">{page.lastUpdated}</span>
+            Last updated:{" "}
+            <span className="text-bp-text">{page.lastUpdated}</span>
             <br />
             Contact:{" "}
-            <a href={`mailto:${PUBLIC_CONTACT_EMAIL}`} className={legalLinkClass}>
+            <a
+              href={`mailto:${PUBLIC_CONTACT_EMAIL}`}
+              className={legalLinkClass}
+            >
               {PUBLIC_CONTACT_EMAIL}
             </a>
             {" · "}
-            <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} className={legalLinkClass}>
+            <a
+              href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+              className={legalLinkClass}
+            >
               {CONTACT_PHONE}
             </a>
           </p>
@@ -69,16 +88,23 @@ export function LegalDocument({
         <div className="mt-8 space-y-10 border border-bp-text/10 bg-bp-canvas p-6 shadow-sm sm:p-8">
           {page.sections.map((section) => (
             <section key={section.title} id={section.id}>
-              <h2 className="mb-3 text-lg font-bold uppercase tracking-wide text-bp-text">
+              <h2
+                className={`${bpBodyClass} ${bpEmphasisUtility} mb-3 uppercase tracking-wide text-bp-text`}
+              >
                 {section.title}
               </h2>
               {section.paragraphs.map((p) => (
-                <p key={p.slice(0, 40)} className="mb-3 leading-relaxed text-bp-text/80">
+                <p
+                  key={p.slice(0, 40)}
+                  className={`${bpBodyClass} mb-3 text-bp-text/80`}
+                >
                   {p}
                 </p>
               ))}
               {section.list ? (
-                <ul className="ml-5 list-disc space-y-2 text-bp-text/80">
+                <ul
+                  className={`${bpBodyClass} ml-5 list-disc space-y-2 text-bp-text/80`}
+                >
                   {section.list.map((item) => (
                     <li key={item.slice(0, 40)}>{item}</li>
                   ))}
@@ -110,8 +136,9 @@ export function LegalDocument({
         </nav>
 
         <p className="mt-6 text-center text-xs leading-relaxed text-bp-text/45">
-          These policies apply to visitors and customers in the United Kingdom. Where UK GDPR and
-          the Privacy and Electronic Communications Regulations (PECR) apply, we follow them.
+          These policies apply to visitors and customers in the United Kingdom.
+          Where UK GDPR and the Privacy and Electronic Communications
+          Regulations (PECR) apply, we follow them.
         </p>
       </div>
     </div>

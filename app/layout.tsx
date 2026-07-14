@@ -4,7 +4,11 @@ import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { AdminThemeScript } from "components/layout/admin-theme-script";
 import { NavigationLoading } from "components/layout/navigation-loading";
 import { CookieConsent } from "components/cookie-consent";
-import { bpFontVariables, bpSubtitle, bpSubtitleUtility } from "components/home/home-typography";
+import {
+  bpFontVariables,
+  bpSubtitle,
+  bpSubtitleUtility,
+} from "components/home/home-typography";
 import { GeistSans } from "geist/font/sans";
 import { ReactNode } from "react";
 import { Toaster } from "sonner";
@@ -36,7 +40,11 @@ export default async function RootLayout({
   // No need to fetch from database or pass any props
 
   return (
-    <html lang="en-GB" className={`${GeistSans.variable} ${bpFontVariables}`} suppressHydrationWarning>
+    <html
+      lang="en-GB"
+      className={`${GeistSans.variable} ${bpFontVariables}`}
+      suppressHydrationWarning
+    >
       <head>
         <AdminThemeScript />
         <link rel="icon" href="/logo.avif" type="image/avif" />
@@ -49,11 +57,13 @@ export default async function RootLayout({
         <PublicBodyTheme />
         <NavigationLoading>
           <CartProvider>
-            <ConditionalNavbar />
-            <main suppressHydrationWarning>
-              {children}
-              <Toaster closeButton theme="light" />
-            </main>
+            <div id="bp-site-shell">
+              <ConditionalNavbar />
+              <main suppressHydrationWarning>
+                {children}
+                <Toaster closeButton theme="light" />
+              </main>
+            </div>
             <CookieConsent />
           </CartProvider>
         </NavigationLoading>

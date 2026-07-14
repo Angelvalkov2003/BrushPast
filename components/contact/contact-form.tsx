@@ -4,6 +4,8 @@ import { useState } from "react";
 import { CONTACT_SUBJECTS, type ContactSubjectValue } from "lib/contact-config";
 import { IndexCard } from "components/home/home-decor";
 import {
+  bpBodyClass,
+  bpBodySmClass,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -35,7 +37,8 @@ export function ContactForm() {
     setIsSubmitting(true);
     try {
       const subjectLabel =
-        CONTACT_SUBJECTS.find((s) => s.value === formData.subject)?.label ?? "General enquiry";
+        CONTACT_SUBJECTS.find((s) => s.value === formData.subject)?.label ??
+        "General enquiry";
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,24 +70,33 @@ export function ContactForm() {
     }
   };
 
-  const labelClass = "block text-lg text-bp-text";
-  const inputClass =
-    "mt-1.5 w-full border border-bp-text/20 bg-bp-canvas/50 px-3 py-2.5 text-sm focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30";
+  const labelClass = `block ${bpBodyClass}`;
+  const inputClass = `mt-1.5 w-full border border-bp-text/20 bg-bp-canvas/50 px-3 py-2.5 ${bpBodySmClass} focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`;
 
   return (
     <IndexCard id="contact-form" className="scroll-mt-24">
-      <h2 className={`${bpTitleClass} ${bpTitleUtility} text-3xl font-bold text-bp-text`}>Send a message</h2>
-      <p className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-sm italic text-bp-text/70`}>
+      <h2
+        className={`${bpTitleClass} ${bpTitleUtility} text-3xl font-bold text-bp-text`}
+      >
+        Send a message
+      </h2>
+      <p
+        className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-sm italic text-bp-text/70`}
+      >
         We read every message. You don&apos;t need to have it all figured out.
       </p>
 
       {success ? (
-        <p className="mt-6 rounded-sm border border-green-200/80 bg-green-50/90 p-4 text-sm text-green-800">
+        <p
+          className={`${bpBodySmClass} mt-6 rounded-sm border border-green-200/80 bg-green-50/90 p-4 text-green-800`}
+        >
           Thank you - your message was sent. We&apos;ll be in touch soon.
         </p>
       ) : null}
       {error ? (
-        <p className="mt-6 rounded-sm border border-red-200/80 bg-red-50/90 p-4 text-sm text-red-800">
+        <p
+          className={`${bpBodySmClass} mt-6 rounded-sm border border-red-200/80 bg-red-50/90 p-4 text-red-800`}
+        >
           {error}
         </p>
       ) : null}
@@ -99,7 +111,9 @@ export function ContactForm() {
               id="name"
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className={inputClass}
             />
           </div>
@@ -112,7 +126,9 @@ export function ContactForm() {
               type="email"
               required
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className={inputClass}
             />
           </div>
@@ -124,7 +140,9 @@ export function ContactForm() {
               id="phone"
               type="tel"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
               className={inputClass}
             />
           </div>
@@ -146,7 +164,9 @@ export function ContactForm() {
               required
               rows={5}
               value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, message: e.target.value })
+              }
               className={inputClass}
             />
           </div>

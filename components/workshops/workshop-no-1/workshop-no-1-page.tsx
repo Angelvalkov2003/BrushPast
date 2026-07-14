@@ -6,7 +6,11 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import Footer from "components/layout/footer";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {
+  bpBodyClass,
+  bpWhisperUtility,
+  homeHandClass,
+} from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import { getPublicWorkshopBySlug } from "lib/supabase/workshops";
 import { WORKSHOP_NO_1 } from "lib/workshops/workshop-no-1-content";
@@ -76,7 +80,7 @@ export async function WorkshopNo1Page() {
               <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-bp-accent">
                 {col.title}
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-bp-text/82 md:text-[1.05rem]">
+              <p className={`${bpBodyClass} mt-4 text-bp-text/82`}>
                 {col.body}
               </p>
             </article>
@@ -118,7 +122,7 @@ export async function WorkshopNo1Page() {
             <h2 className="text-xs font-bold uppercase tracking-[0.24em] text-bp-accent">
               {COPY.archive.title}
             </h2>
-            <p className="mt-5 text-xl leading-relaxed text-bp-canvas/90 md:text-2xl">
+            <p className={`${bpBodyClass} mt-5 text-bp-canvas/90`}>
               {COPY.archive.body}
             </p>
           </div>
@@ -134,8 +138,13 @@ export async function WorkshopNo1Page() {
                 const Icon = STAT_ICONS[stat.icon];
                 return (
                   <li key={stat.label} className="text-center sm:text-left">
-                    <Icon className="mx-auto h-7 w-7 text-bp-canvas/55 sm:mx-0" strokeWidth={1.25} />
-                    <p className="mt-3 text-4xl font-black text-bp-accent">{stat.value}</p>
+                    <Icon
+                      className="mx-auto h-7 w-7 text-bp-canvas/55 sm:mx-0"
+                      strokeWidth={1.25}
+                    />
+                    <p className="mt-3 text-4xl font-black text-bp-accent">
+                      {stat.value}
+                    </p>
                     <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-bp-canvas/70">
                       {stat.label}
                     </p>
@@ -185,7 +194,7 @@ export async function WorkshopNo1Page() {
       {/* Closing */}
       <section className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-12">
-          <p className="text-base leading-relaxed text-bp-text/80 md:text-lg">
+          <p className={`${bpBodyClass} text-bp-text/80`}>
             {COPY.closing.left}
           </p>
           <div
@@ -194,7 +203,7 @@ export async function WorkshopNo1Page() {
           >
             <span className="text-2xl">✳</span>
           </div>
-          <p className="text-base leading-relaxed text-bp-text/80 md:text-lg lg:text-right">
+          <p className={`${bpBodyClass} text-bp-text/80 lg:text-right`}>
             {COPY.closing.right}
           </p>
         </div>

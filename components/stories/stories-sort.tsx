@@ -1,8 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bars3BottomLeftIcon, CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import { bpWhisperUtility } from "components/home/home-typography";
+import {
+  Bars3BottomLeftIcon,
+  CheckIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/outline";
+import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpEmphasisUtility,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 
 export type StorySortKey = "latest" | "oldest" | "featured";
 
@@ -20,7 +29,8 @@ type Props = {
 export function StoriesSort({ value, onChange }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
-  const active = SORT_OPTIONS.find((o) => o.value === value) ?? SORT_OPTIONS[0]!;
+  const active =
+    SORT_OPTIONS.find((o) => o.value === value) ?? SORT_OPTIONS[0]!;
 
   useEffect(() => {
     if (!open) return;
@@ -40,7 +50,9 @@ export function StoriesSort({ value, onChange }: Props) {
         role="group"
         aria-label="Sort stories"
       >
-        <span className="text-xl text-bp-text/80 md:text-2xl">Sort</span>
+        <span className={`${bpBodyClass} ${bpEmphasisUtility} text-bp-text/80`}>
+          Sort
+        </span>
         <div className="flex border border-bp-text/15 bg-bp-canvas/60 p-1 shadow-[2px_2px_0_rgba(1,2,0,0.04)]">
           {SORT_OPTIONS.map((option) => {
             const selected = value === option.value;
@@ -50,7 +62,7 @@ export function StoriesSort({ value, onChange }: Props) {
                 type="button"
                 title={option.hint}
                 onClick={() => onChange(option.value)}
-                className={`px-4 py-2 text-base transition-colors ${
+                className={`${bpBodyClass} px-4 py-2 transition-colors ${
                   selected
                     ? "bg-bp-accent font-bold text-bp-canvas"
                     : "text-bp-text/55 hover:bg-bp-text/5 hover:text-bp-text"
@@ -67,11 +79,14 @@ export function StoriesSort({ value, onChange }: Props) {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-2 border border-bp-text/20 bg-bp-canvas/60 px-3 py-2 text-base text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.04)]"
+          className={`${bpBodyClass} flex items-center gap-2 border border-bp-text/20 bg-bp-canvas/60 px-3 py-2 text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.04)]`}
           aria-expanded={open}
           aria-haspopup="listbox"
         >
-          <Bars3BottomLeftIcon className="h-4 w-4 text-bp-accent" strokeWidth={2} />
+          <Bars3BottomLeftIcon
+            className="h-4 w-4 text-bp-accent"
+            strokeWidth={2}
+          />
           <span>Sort</span>
           <span className="text-bp-text/50">·</span>
           <span>{active.label}</span>
@@ -99,15 +114,22 @@ export function StoriesSort({ value, onChange }: Props) {
                     className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left transition-colors hover:bg-bp-canvas"
                   >
                     <span>
-                      <span className="block text-lg font-bold text-bp-text">
+                      <span
+                        className={`${bpBodyClass} ${bpEmphasisUtility} block text-bp-text`}
+                      >
                         {option.label}
                       </span>
-                      <span className={`${bpWhisperUtility} mt-0.5 block text-sm italic text-bp-text/55`}>
+                      <span
+                        className={`${bpWhisperUtility} mt-0.5 block text-sm italic text-bp-text/55`}
+                      >
                         {option.hint}
                       </span>
                     </span>
                     {selected ? (
-                      <CheckIcon className="h-5 w-5 shrink-0 text-bp-accent" strokeWidth={2} />
+                      <CheckIcon
+                        className="h-5 w-5 shrink-0 text-bp-accent"
+                        strokeWidth={2}
+                      />
                     ) : null}
                   </button>
                 </li>

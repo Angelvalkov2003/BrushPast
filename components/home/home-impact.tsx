@@ -1,10 +1,20 @@
 import type { ReactNode } from "react";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
-import { brushPastIcons, BrushPastIconBadge } from "components/icons/brush-past-icons";
+import {
+  brushPastIcons,
+  BrushPastIconBadge,
+} from "components/icons/brush-past-icons";
 import { HOME_IMPACT_PILLARS } from "lib/home-config";
-import { TextureSection, type TextureVariant } from "components/shared/texture-section";
+import {
+  TextureSection,
+  type TextureVariant,
+} from "components/shared/texture-section";
 import { IndexCard } from "./home-decor";
-import { bpWhisperUtility, homeHandClass } from "./home-typography";
+import {
+  bpBodyClass,
+  bpWhisperUtility,
+  homeHandClass,
+} from "./home-typography";
 
 const HeartIcon = brushPastIcons.homepage.keepAStoryClose;
 
@@ -20,7 +30,11 @@ function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
-export function HomeImpact({ texture = "primary" }: { texture?: TextureVariant }) {
+export function HomeImpact({
+  texture = "primary",
+}: {
+  texture?: TextureVariant;
+}) {
   return (
     <TextureSection texture={texture} className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
@@ -34,7 +48,7 @@ export function HomeImpact({ texture = "primary" }: { texture?: TextureVariant }
                 >
                   65%
                 </p>
-                <p className="mt-3 text-[clamp(1.5rem,3.5vw,2.15rem)] leading-snug text-bp-text">
+                <p className={`${bpBodyClass} mt-3 text-bp-text`}>
                   of profits go straight back to{" "}
                   <span className="text-bp-accent">creators</span> and{" "}
                   <span className="text-bp-accent">partner organisations</span>.
@@ -43,9 +57,17 @@ export function HomeImpact({ texture = "primary" }: { texture?: TextureVariant }
                   className={`${homeHandClass} ${bpWhisperUtility} mt-5 max-w-xl text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
                 >
                   Every purchase helps fund{" "}
-                  <span className="font-medium text-bp-text not-italic">workshops</span>,{" "}
-                  <span className="font-medium text-bp-text not-italic">mentorship</span> and{" "}
-                  <span className="font-medium text-bp-text not-italic">recovery programmes</span>{" "}
+                  <span className="font-medium text-bp-text not-italic">
+                    workshops
+                  </span>
+                  ,{" "}
+                  <span className="font-medium text-bp-text not-italic">
+                    mentorship
+                  </span>{" "}
+                  and{" "}
+                  <span className="font-medium text-bp-text not-italic">
+                    recovery programmes
+                  </span>{" "}
                   across the UK.
                 </p>
               </div>
@@ -59,9 +81,7 @@ export function HomeImpact({ texture = "primary" }: { texture?: TextureVariant }
                     <Reveal delay={i * REVEAL_STAGGER_MS} className="h-full">
                       <div className="flex h-full min-h-[9.5rem] w-full flex-col items-center justify-center gap-3 border border-dashed border-bp-text/15 bg-bp-canvas/60 px-4 py-5 text-center sm:min-h-[10.5rem]">
                         <BrushPastIconBadge icon={Icon} size="sm" />
-                        <span
-                          className="max-w-[11rem] text-lg leading-snug text-bp-text md:text-xl"
-                        >
+                        <span className={`${bpBodyClass} max-w-[11rem]`}>
                           {item.title}
                         </span>
                       </div>

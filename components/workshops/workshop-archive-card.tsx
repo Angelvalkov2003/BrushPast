@@ -3,17 +3,22 @@ import Link from "next/link";
 import clsx from "clsx";
 import { PANEL_OVERLAY_CLASS, PolaroidFrame } from "components/home/home-decor";
 import {
+  bpBodyClass,
+  bpLinkUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
-import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
+import {
+  TEXTURE_IMAGES,
+  type TextureVariant,
+} from "components/shared/texture-section";
 import { displayImageUrl } from "lib/image-url";
 import { workshopHref, workshopListDescription } from "lib/workshop-display";
 import type { PublicWorkshop } from "lib/supabase/workshops";
 
-const archiveBodyClass = "text-lg leading-snug text-bp-text/85 md:text-xl md:leading-relaxed";
+const archiveBodyClass = `${bpBodyClass} text-bp-text/85`;
 
 export function WorkshopArchiveCard({
   workshop,
@@ -47,7 +52,10 @@ export function WorkshopArchiveCard({
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 900px"
           />
-          <div className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS.cream)} aria-hidden />
+          <div
+            className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS.cream)}
+            aria-hidden
+          />
         </>
       ) : null}
       <PolaroidFrame
@@ -67,7 +75,9 @@ export function WorkshopArchiveCard({
       </PolaroidFrame>
       <div className={panelTexture ? "relative z-10" : undefined}>
         {workshop.location_label ? (
-          <p className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent md:text-xl`}>
+          <p
+            className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent md:text-xl`}
+          >
             {workshop.location_label}
           </p>
         ) : null}
@@ -79,7 +89,9 @@ export function WorkshopArchiveCard({
         {description ? (
           <p className={`${archiveBodyClass} mt-4`}>{description}</p>
         ) : null}
-        <p className="mt-6 text-xl text-bp-text transition-colors group-hover:text-bp-accent">
+        <p
+          className={`${bpBodyClass} ${bpLinkUtility} mt-6 text-bp-text transition-colors group-hover:text-bp-accent`}
+        >
           View workshop →
         </p>
       </div>

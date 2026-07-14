@@ -87,7 +87,10 @@ export function NavbarClient() {
 
   return (
     <header className="bp-navbar sticky top-0 z-50 w-full">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden
+      >
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
@@ -96,7 +99,11 @@ export function NavbarClient() {
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 md:px-8 md:py-3.5 lg:gap-8 lg:px-10">
-        <HomeLink onClick={goHome} className={logoLinkClass} aria-label="Brush Past home">
+        <HomeLink
+          onClick={goHome}
+          className={logoLinkClass}
+          aria-label="Brush Past home"
+        >
           <BrandLogo
             size="md"
             className="pointer-events-none h-14 w-auto max-w-[185px] lg:h-[72px] lg:max-w-[220px]"
@@ -125,7 +132,7 @@ export function NavbarClient() {
                 type="button"
                 onClick={handleShopClick}
                 className={clsx(
-                  "flex items-center gap-1 text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl",
+                  "bp-title flex items-center gap-1 text-xl text-bp-text/85 transition-colors hover:text-bp-accent md:text-2xl",
                   shopActive && activeNavClass,
                 )}
                 aria-expanded={shopOpen}
@@ -143,10 +150,15 @@ export function NavbarClient() {
                 <div className="absolute left-1/2 top-full z-[70] mt-3 w-56 -translate-x-1/2 overflow-hidden border border-bp-text/12 bg-bp-accent-bg shadow-[4px_5px_0_rgba(1,2,0,0.12)]">
                   <div
                     className="absolute inset-0 bg-cover bg-center opacity-40"
-                    style={{ backgroundImage: `url(${TEXTURE_IMAGES.primary})` }}
+                    style={{
+                      backgroundImage: `url(${TEXTURE_IMAGES.primary})`,
+                    }}
                     aria-hidden
                   />
-                  <div className="absolute inset-0 bg-bp-accent-bg/88 backdrop-blur-[1px]" aria-hidden />
+                  <div
+                    className="absolute inset-0 bg-bp-accent-bg/88 backdrop-blur-[1px]"
+                    aria-hidden
+                  />
                   <ul className="relative py-2">
                     {!loading && collections.length > 0 ? (
                       collections.map((c) => (

@@ -3,13 +3,14 @@ import { CategoryRow } from "components/shop/category-row";
 import { KettleGalleryAnnounce } from "components/shop/kettle-gallery-announce";
 import { HomeImpact } from "components/home/home-impact";
 import { ShopValuesBar } from "components/shop/shop-values-bar";
-import { bpFontVariables } from "components/home/home-typography";
+import { bpBodyClass, bpFontVariables } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 import { getShopCategories } from "lib/supabase/categories";
 
 export const metadata = {
   title: "The Archive Shop",
-  description: "Art, objects and editions created through lived experience - Brush Past (UK).",
+  description:
+    "Art, objects and editions created through lived experience - Brush Past (UK).",
 };
 
 export const dynamic = "force-dynamic";
@@ -26,12 +27,16 @@ export default async function ShopPage() {
       <TextureSection texture="primary" className="px-4 md:px-10">
         <div id="categories" className="mx-auto max-w-[1400px]">
           {categories.length === 0 ? (
-            <p className="py-20 text-center text-2xl text-bp-text/50">
+            <p className={`${bpBodyClass} py-20 text-center text-bp-text/50`}>
               Categories coming soon. Add them in the admin panel.
             </p>
           ) : (
             categories.map((category, index) => (
-              <CategoryRow key={category.id} category={category} index={index} />
+              <CategoryRow
+                key={category.id}
+                category={category}
+                index={index}
+              />
             ))
           )}
         </div>

@@ -22,9 +22,6 @@ export const CONTACT_PHONE_TEL = "+447710022677";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/brushpast";
 
-/** Update when official LinkedIn URL confirmed */
-export const LINKEDIN_URL = "https://www.linkedin.com/company/brush-past";
-
 export const FACEBOOK_URL = "";
 
 export const LEGAL_ENTITY =

@@ -2,11 +2,54 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
-import { TEXTURE_IMAGES, type TextureVariant } from "components/shared/texture-section";
+import {
+  TEXTURE_IMAGES,
+  type TextureVariant,
+} from "components/shared/texture-section";
 import { PANEL_OVERLAY_CLASS } from "components/shared/panel-overlay";
-import { bpSubtitleClass, bpSubtitleUtility, bpTitleClass, bpTitleUtility } from "./home-typography";
+import {
+  bpEmphasisUtility,
+  bpSubtitleClass,
+  bpSubtitleUtility,
+  bpTitleClass,
+  bpTitleUtility,
+  bpWhisperUtility,
+  homeHandClass,
+} from "./home-typography";
 
 export { PANEL_OVERLAY_CLASS };
+
+export function BrushUnderline({ children }: { children: ReactNode }) {
+  return (
+    <span className="relative inline-block pb-1.5">
+      {children}
+      <svg
+        className="pointer-events-none absolute bottom-0 left-[-3%] w-[106%] text-bp-accent"
+        viewBox="0 0 120 10"
+        preserveAspectRatio="none"
+        aria-hidden
+        style={{ height: "0.42rem" }}
+      >
+        <path
+          d="M0 6.5 C10 3, 22 8, 34 5 S56 2.5, 68 6.5 S90 9, 102 4.5 S114 2, 120 5.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.1"
+          strokeLinecap="round"
+          opacity="0.92"
+        />
+        <path
+          d="M4 8.5 C16 6, 30 9.5, 44 7 S72 5, 88 8 S104 9.5, 116 7"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="0.65"
+          strokeLinecap="round"
+          opacity="0.45"
+        />
+      </svg>
+    </span>
+  );
+}
 
 export function HomeSectionTitle({
   eyebrow,
@@ -14,15 +57,16 @@ export function HomeSectionTitle({
   align = "center",
   className,
   size = "default",
+  eyebrowVariant = "default",
 }: {
   eyebrow?: string;
   title: string;
   align?: "center" | "left";
   className?: string;
   size?: "default" | "lg";
+  /** Workshop pages — Caveat + brush underline */
+  eyebrowVariant?: "default" | "workshop";
 }) {
-  const eyebrowSize =
-    size === "lg" ? "text-2xl md:text-3xl" : "text-xl md:text-2xl";
   const titleSize =
     size === "lg"
       ? "text-[clamp(2.25rem,5.5vw,3.5rem)]"
@@ -36,11 +80,19 @@ export function HomeSectionTitle({
       )}
     >
       {eyebrow ? (
-        <p
-          className={`${bpSubtitleClass} ${bpSubtitleUtility} ${eyebrowSize} text-bp-accent`}
-        >
-          {eyebrow}
-        </p>
+        eyebrowVariant === "workshop" ? (
+          <p
+            className={`${homeHandClass} ${bpWhisperUtility} text-[clamp(1.35rem,3vw,1.85rem)] font-bold leading-snug text-bp-accent`}
+          >
+            <BrushUnderline>{eyebrow}</BrushUnderline>
+          </p>
+        ) : (
+          <p
+            className={`${bpSubtitleClass} ${bpSubtitleUtility} ${bpEmphasisUtility} text-bp-accent`}
+          >
+            {eyebrow}
+          </p>
+        )
       ) : null}
       <h2
         className={`${bpTitleClass} ${bpTitleUtility} mt-1 ${titleSize} font-bold leading-[1.05] text-bp-text`}
@@ -100,10 +152,16 @@ export function PolaroidFrame({
           className="object-cover"
           sizes="400px"
         />
-        <div className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS.story)} aria-hidden />
+        <div
+          className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS.story)}
+          aria-hidden
+        />
         <div className="relative z-10 flex flex-1 flex-col">{children}</div>
       </div>
-      <div className="relative h-7 shrink-0 overflow-hidden border-t border-bp-text/8" aria-hidden>
+      <div
+        className="relative h-7 shrink-0 overflow-hidden border-t border-bp-text/8"
+        aria-hidden
+      >
         <Image
           src={TEXTURE_IMAGES.secondary}
           alt=""
@@ -135,7 +193,8 @@ export function IndexCard({
   /** Overlay on textured panels — cream keeps cardboard visible under a light wash */
   panelTone?: keyof typeof PANEL_OVERLAY_CLASS;
 }) {
-  const resolvedTexture = panelTexture === null ? null : (panelTexture ?? "secondary");
+  const resolvedTexture =
+    panelTexture === null ? null : (panelTexture ?? "secondary");
 
   return (
     <div
@@ -155,10 +214,15 @@ export function IndexCard({
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 480px"
           />
-          <div className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS[panelTone])} aria-hidden />
+          <div
+            className={clsx("absolute inset-0", PANEL_OVERLAY_CLASS[panelTone])}
+            aria-hidden
+          />
         </>
       ) : null}
-      <div className={resolvedTexture ? "relative z-10" : undefined}>{children}</div>
+      <div className={resolvedTexture ? "relative z-10" : undefined}>
+        {children}
+      </div>
     </div>
   );
 }

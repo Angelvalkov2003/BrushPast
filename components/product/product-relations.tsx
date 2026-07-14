@@ -4,6 +4,10 @@ import Link from "next/link";
 import clsx from "clsx";
 import { PolaroidFrame } from "components/home/home-decor";
 import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpEmphasisUtility,
+  bpLinkUtility,
   bpStoryVoiceUtility,
   bpTitleClass,
   bpTitleUtility,
@@ -25,13 +29,19 @@ function RelationGroup({
 }) {
   return (
     <div>
-      <p className="text-lg text-bp-accent md:text-xl">{label}</p>
-      <div className="mt-4 flex flex-wrap items-start gap-4 sm:gap-5 md:gap-6">{children}</div>
+      <p className={`${bpBodyClass} ${bpEmphasisUtility} text-bp-accent`}>
+        {label}
+      </p>
+      <div className="mt-4 flex flex-wrap items-start gap-4 sm:gap-5 md:gap-6">
+        {children}
+      </div>
     </div>
   );
 }
 
-function hasRelationImage(imageUrl: string | null | undefined): imageUrl is string {
+function hasRelationImage(
+  imageUrl: string | null | undefined,
+): imageUrl is string {
   return Boolean(imageUrl?.trim());
 }
 
@@ -76,7 +86,9 @@ function CompactRelationCard({
         </PolaroidFrame>
       ) : null}
       <div className={clsx(showImage ? "mt-2 max-w-[8.5rem]" : "max-w-xs")}>
-        <p className={`${bpTitleClass} ${bpTitleUtility} text-base font-bold leading-tight text-bp-text`}>
+        <p
+          className={`${bpTitleClass} ${bpTitleUtility} text-base font-bold leading-tight text-bp-text`}
+        >
           {title}
         </p>
         {subtitle ? (
@@ -89,18 +101,26 @@ function CompactRelationCard({
             {subtitle}
           </p>
         ) : null}
-        <p className="mt-1.5 text-sm text-bp-text/80 transition-colors group-hover:text-bp-accent">
+        <p
+          className={`${bpBodySmClass} ${bpLinkUtility} mt-1.5 text-bp-text/80 transition-colors group-hover:text-bp-accent`}
+        >
           Read more →
         </p>
       </div>
     </>
   );
 
-  const className = "group flex shrink-0 flex-col text-left transition-opacity hover:opacity-95";
+  const className =
+    "group flex shrink-0 flex-col text-left transition-opacity hover:opacity-95";
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
         {inner}
       </a>
     );
@@ -113,7 +133,13 @@ function CompactRelationCard({
   );
 }
 
-function StoryCard({ story, index }: { story: ProductStoryLink; index: number }) {
+function StoryCard({
+  story,
+  index,
+}: {
+  story: ProductStoryLink;
+  index: number;
+}) {
   return (
     <CompactRelationCard
       href={story.pageUrl}
@@ -127,7 +153,13 @@ function StoryCard({ story, index }: { story: ProductStoryLink; index: number })
   );
 }
 
-function WorkshopCard({ workshop, index }: { workshop: ProductWorkshopLink; index: number }) {
+function WorkshopCard({
+  workshop,
+  index,
+}: {
+  workshop: ProductWorkshopLink;
+  index: number;
+}) {
   return (
     <CompactRelationCard
       href={workshop.pageUrl}
@@ -209,7 +241,11 @@ export function ProductRelations({
         {hasOrganisations ? (
           <RelationGroup label={organisationLabel}>
             {product.linkedOrganisations.map((org, index) => (
-              <OrganisationCard key={org.slug ?? org.name} organisation={org} index={index} />
+              <OrganisationCard
+                key={org.slug ?? org.name}
+                organisation={org}
+                index={index}
+              />
             ))}
           </RelationGroup>
         ) : null}

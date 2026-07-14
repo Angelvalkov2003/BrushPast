@@ -4,14 +4,26 @@ import { useEffect, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Price from "components/price";
-import { bpTitleClass, bpTitleUtility } from "components/home/home-typography";
-import { enrichVariants, formatVariantLabel, optionsFromVariant } from "lib/product-variants";
+import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpTitleClass,
+  bpTitleUtility,
+} from "components/home/home-typography";
+import {
+  enrichVariants,
+  formatVariantLabel,
+  optionsFromVariant,
+} from "lib/product-variants";
 import { resolveVariantMaxQuantity } from "lib/cart-stock";
 import type { ProductDetail, ProductVariant } from "lib/types";
 import { useCart } from "components/cart/cart-context";
 import { VariantPicker } from "./variant-picker";
 
-function pickVariant(product: ProductDetail, selectedId: string | null): ProductVariant {
+function pickVariant(
+  product: ProductDetail,
+  selectedId: string | null,
+): ProductVariant {
   const variants = enrichVariants(product.variants);
   if (variants.length === 0) {
     return {
@@ -30,14 +42,19 @@ function pickVariant(product: ProductDetail, selectedId: string | null): Product
 export function ProductPurchase({ product }: { product: ProductDetail }) {
   const { addCartItem, stockError, clearStockError } = useCart();
   const [justAdded, setJustAdded] = useState(false);
-  const variants = useMemo(() => enrichVariants(product.variants), [product.variants]);
+  const variants = useMemo(
+    () => enrichVariants(product.variants),
+    [product.variants],
+  );
   const hasVariants = variants.length > 0;
 
   const defaultVariantId = useMemo(
     () => variants.find((v) => v.available)?.id ?? variants[0]?.id ?? null,
     [variants],
   );
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(defaultVariantId);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+    defaultVariantId,
+  );
 
   useEffect(() => {
     setSelectedVariantId(defaultVariantId);
@@ -63,7 +80,11 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
       ...variant,
       maxQuantity: resolveVariantMaxQuantity(variant, product),
     };
-    const productForCart = { ...product, price: variant.price, available: variant.available };
+    const productForCart = {
+      ...product,
+      price: variant.price,
+      available: variant.available,
+    };
     const added = addCartItem(variantForCart, productForCart, {
       variantOptions: hasVariants ? variants : undefined,
     });
@@ -78,11 +99,12 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
           className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-text`}
         />
         {variant.inventory != null && variant.inventory > 0 ? (
-          <span className="text-base text-bp-accent">
+          <span className={`${bpBodySmClass} text-bp-accent`}>
             {variant.inventory} left
           </span>
-        ) : product.inventoryType === "limited" && product.inventoryQuantity != null ? (
-          <span className="text-base text-bp-accent">
+        ) : product.inventoryType === "limited" &&
+          product.inventoryQuantity != null ? (
+          <span className={`${bpBodySmClass} text-bp-accent`}>
             {product.inventoryQuantity} left
           </span>
         ) : null}
@@ -96,8 +118,11 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
             onVariantChange={(v) => setSelectedVariantId(v.id)}
           />
           {selectedLabel ? (
-            <p className="mt-3 text-sm text-bp-text/60">
-              Selected: <span className="font-semibold text-bp-text">{selectedLabel}</span>
+            <p className={`${bpBodySmClass} mt-3 text-bp-text/60`}>
+              Selected:{" "}
+              <span className="font-semibold text-bp-text">
+                {selectedLabel}
+              </span>
             </p>
           ) : null}
         </div>

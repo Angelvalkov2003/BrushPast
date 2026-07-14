@@ -3,10 +3,20 @@ import Link from "next/link";
 import clsx from "clsx";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { IndexCard, PolaroidFrame } from "components/home/home-decor";
-import { bpStoryVoiceUtility, homeHandClass, bpWhisperUtility } from "components/home/home-typography";
+import {
+  bpStoryVoiceUtility,
+  homeHandClass,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 import type { PublicStory } from "lib/supabase/stories";
 import type { StoryCardLayout } from "lib/stories-config";
-import { storyCardImageUrl, storyDisplayName, storyHref, storyQuote, storyTagsLabel } from "lib/story-display";
+import {
+  storyCardImageUrl,
+  storyDisplayName,
+  storyHref,
+  storyQuote,
+  storyTagsLabel,
+} from "lib/story-display";
 
 const layoutClass: Record<StoryCardLayout, string> = {
   wide: "col-span-1 md:col-span-6",
@@ -57,7 +67,9 @@ function CompactCardContent({
       ) : (
         <div className="aspect-[3/4] w-full bg-bp-accent-bg" aria-hidden />
       )}
-      <p className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-center text-base font-bold leading-snug text-bp-text`}>
+      <p
+        className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-center text-base font-bold leading-snug text-bp-text`}
+      >
         {name}
       </p>
     </PolaroidFrame>
@@ -89,17 +101,25 @@ function CardTextBlock({
       : "text-bp-accent";
 
   return (
-    <div className={`${bpStoryVoiceUtility} flex flex-1 flex-col gap-2 p-1 md:gap-3`}>
-      <h2 className={`${homeHandClass} text-2xl font-bold leading-snug md:text-3xl ${titleClass}`}>
+    <div
+      className={`${bpStoryVoiceUtility} flex flex-1 flex-col gap-2 p-1 md:gap-3`}
+    >
+      <h2
+        className={`${homeHandClass} text-2xl font-bold leading-snug md:text-3xl ${titleClass}`}
+      >
         {name}
       </h2>
       {quote ? (
-        <p className={`${homeHandClass} text-lg italic leading-snug md:text-xl ${quoteClass}`}>
+        <p
+          className={`${homeHandClass} text-lg italic leading-snug md:text-xl ${quoteClass}`}
+        >
           {quote}
         </p>
       ) : null}
       {tags ? (
-        <p className={`${homeHandClass} mt-auto pt-2 text-base ${tagsClass}`}>{tags}</p>
+        <p className={`${homeHandClass} mt-auto pt-2 text-base ${tagsClass}`}>
+          {tags}
+        </p>
       ) : null}
     </div>
   );
@@ -128,8 +148,19 @@ function CardContent({
     const bg = layout === "text-accent" ? "bg-bp-accent-bg" : "bg-bp-dark";
     const variant = layout === "text-accent" ? "default" : "on-dark";
     return (
-      <IndexCard panelTexture={null} className={clsx("group flex h-full min-h-[220px] w-full flex-col border-bp-text/10", bg)}>
-        <CardTextBlock name={name} quote={quote} tags={tags} variant={variant} />
+      <IndexCard
+        panelTexture={null}
+        className={clsx(
+          "group flex h-full min-h-[220px] w-full flex-col border-bp-text/10",
+          bg,
+        )}
+      >
+        <CardTextBlock
+          name={name}
+          quote={quote}
+          tags={tags}
+          variant={variant}
+        />
       </IndexCard>
     );
   }
@@ -142,7 +173,12 @@ function CardContent({
       className="group flex h-full w-full flex-col"
     >
       {useImage && imageSrc ? (
-        <div className={clsx("relative w-full shrink-0 overflow-hidden bg-bp-text/5", imageAspect[layout])}>
+        <div
+          className={clsx(
+            "relative w-full shrink-0 overflow-hidden bg-bp-text/5",
+            imageAspect[layout],
+          )}
+        >
           <Image
             src={imageSrc}
             alt=""
@@ -153,7 +189,10 @@ function CardContent({
         </div>
       ) : (
         <div
-          className={clsx("w-full shrink-0 bg-bp-accent-bg", imageAspect[layout] || "aspect-[4/3]")}
+          className={clsx(
+            "w-full shrink-0 bg-bp-accent-bg",
+            imageAspect[layout] || "aspect-[4/3]",
+          )}
           aria-hidden
         />
       )}
@@ -164,32 +203,23 @@ function CardContent({
   );
 }
 
-export function StoryCard({ story, layout, compact = false, index = 0 }: Props) {
+export function StoryCard({
+  story,
+  layout,
+  compact = false,
+  index = 0,
+}: Props) {
   const href = storyHref(story);
   const name = storyDisplayName(story);
   const quote = storyQuote(story);
   const tags = storyTagsLabel(story.tags);
   const wrapClass = clsx(
     "block h-full",
-    compact ? "col-span-1 md:col-span-3" : layoutClass[layout],
+    compact ? "col-span-1" : layoutClass[layout],
   );
 
   const inner = compact ? (
-    <>
-      <div className="md:hidden">
-        <CompactCardContent story={story} name={name} index={index} />
-      </div>
-      <div className="hidden md:block">
-        <CardContent
-          story={story}
-          layout={layout}
-          name={name}
-          quote={quote}
-          tags={tags}
-          index={index}
-        />
-      </div>
-    </>
+    <CompactCardContent story={story} name={name} index={index} />
   ) : (
     <CardContent
       story={story}
@@ -202,7 +232,9 @@ export function StoryCard({ story, layout, compact = false, index = 0 }: Props) 
   );
 
   const variant =
-    layout === "text-accent" || layout === "text-dark" ? "fade-up" : "fade-scale";
+    layout === "text-accent" || layout === "text-dark"
+      ? "fade-up"
+      : "fade-scale";
   const revealDelay = (index % 6) * REVEAL_STAGGER_MS;
 
   if (!href) {

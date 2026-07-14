@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ABOUT_IMPACT_STATS, ABOUT_LAUNCH_OVERLAY } from "lib/about-config";
 import {
+  bpBodySmClass,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -24,7 +25,9 @@ type Props = {
   newsletterHref?: string;
 };
 
-export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Props) {
+export function LaunchTransparencyBanner({
+  newsletterHref = "#newsletter",
+}: Props) {
   return (
     <section
       aria-labelledby="launch-transparency-heading"
@@ -51,11 +54,18 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
                 const Icon = STAT_ICONS[stat.icon];
                 return (
                   <li key={stat.label} className="text-center lg:text-left">
-                    <Icon className="mx-auto h-5 w-5 text-bp-accent/80 lg:mx-0" strokeWidth={1.25} />
-                    <p className={`${homeHandClass} ${bpWhisperUtility} mt-1.5 text-2xl font-bold text-bp-accent md:text-3xl`}>
+                    <Icon
+                      className="mx-auto h-5 w-5 text-bp-accent/80 lg:mx-0"
+                      strokeWidth={1.25}
+                    />
+                    <p
+                      className={`${homeHandClass} ${bpWhisperUtility} mt-1.5 text-2xl font-bold text-bp-accent md:text-3xl`}
+                    >
                       {stat.value}
                     </p>
-                    <p className="mt-0.5 text-sm text-bp-canvas/65">{stat.label}</p>
+                    <p className={`${bpBodySmClass} mt-0.5 text-bp-canvas/65`}>
+                      {stat.label}
+                    </p>
                   </li>
                 );
               })}
@@ -66,10 +76,14 @@ export function LaunchTransparencyBanner({ newsletterHref = "#newsletter" }: Pro
         <div className="absolute inset-0 flex items-center justify-center bg-bp-dark/55 px-4 backdrop-blur-[2px]">
           <div className="flex w-full max-w-xl flex-col items-center gap-3 rounded-sm border border-bp-canvas/15 bg-bp-dark/75 px-5 py-5 text-center shadow-lg md:max-w-2xl md:flex-row md:justify-between md:gap-6 md:px-6 md:py-4 md:text-left">
             <div>
-              <p className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent`}>
+              <p
+                className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent`}
+              >
                 {ABOUT_LAUNCH_OVERLAY.eyebrow}
               </p>
-              <p className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-xl font-bold leading-snug text-bp-canvas md:text-2xl`}>
+              <p
+                className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-xl font-bold leading-snug text-bp-canvas md:text-2xl`}
+              >
                 {ABOUT_LAUNCH_OVERLAY.headline}
               </p>
             </div>

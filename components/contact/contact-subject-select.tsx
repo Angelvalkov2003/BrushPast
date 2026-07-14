@@ -3,7 +3,12 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { CONTACT_SUBJECTS, type ContactSubjectValue } from "lib/contact-config";
-import { bpWhisperUtility } from "components/home/home-typography";
+import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpEmphasisUtility,
+  bpWhisperUtility,
+} from "components/home/home-typography";
 
 type Props = {
   value: ContactSubjectValue;
@@ -14,7 +19,8 @@ export function ContactSubjectSelect({ value, onChange }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
-  const active = CONTACT_SUBJECTS.find((s) => s.value === value) ?? CONTACT_SUBJECTS[0];
+  const active =
+    CONTACT_SUBJECTS.find((s) => s.value === value) ?? CONTACT_SUBJECTS[0];
 
   useEffect(() => {
     if (!open) return;
@@ -39,8 +45,14 @@ export function ContactSubjectSelect({ value, onChange }: Props) {
         className="flex w-full items-center justify-between gap-3 border border-bp-text/20 bg-bp-canvas/60 px-4 py-3 text-left shadow-[2px_2px_0_rgba(1,2,0,0.04)] transition-colors hover:border-bp-accent/40 focus:border-bp-accent focus:outline-none"
       >
         <span className="min-w-0">
-          <span className={`${bpWhisperUtility} block text-base text-bp-accent`}>Topic</span>
-          <span className="mt-0.5 block truncate text-xl font-bold text-bp-text">
+          <span
+            className={`${bpWhisperUtility} block text-base text-bp-accent`}
+          >
+            Topic
+          </span>
+          <span
+            className={`${bpBodyClass} ${bpEmphasisUtility} mt-0.5 block truncate text-bp-text`}
+          >
             {active.label}
           </span>
         </span>
@@ -72,15 +84,22 @@ export function ContactSubjectSelect({ value, onChange }: Props) {
                   }`}
                 >
                   <span className="min-w-0">
-                    <span className="block text-lg font-bold text-bp-text">
+                    <span
+                      className={`${bpBodyClass} ${bpEmphasisUtility} block text-bp-text`}
+                    >
                       {option.label}
                     </span>
-                    <span className={`${bpWhisperUtility} mt-0.5 block text-sm italic text-bp-text/65`}>
+                    <span
+                      className={`${bpWhisperUtility} mt-0.5 block text-sm italic text-bp-text/65`}
+                    >
                       {option.hint}
                     </span>
                   </span>
                   {selected ? (
-                    <CheckIcon className="h-5 w-5 shrink-0 text-bp-accent" strokeWidth={2} />
+                    <CheckIcon
+                      className="h-5 w-5 shrink-0 text-bp-accent"
+                      strokeWidth={2}
+                    />
                   ) : null}
                 </button>
               </li>

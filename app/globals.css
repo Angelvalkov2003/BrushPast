@@ -36,7 +36,7 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
-  
+
   /* Optimize font loading with display swap */
   @font-face {
     font-display: swap;
@@ -49,6 +49,8 @@ body.bp-site {
   color: var(--bp-text);
   color-scheme: light;
   font-family: var(--font-bp-subtitle), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.65;
 }
 
 body.bp-site :where(h1) {
@@ -59,8 +61,33 @@ body.bp-site .bp-title {
   font-family: var(--font-bp-title), sans-serif;
 }
 
-body.bp-site .bp-subtitle {
+body.bp-site .bp-subtitle,
+body.bp-site .bp-body {
   font-family: var(--font-bp-subtitle), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+body.bp-site .bp-body-sm {
+  font-family: var(--font-bp-subtitle), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+body.bp-site .bp-link {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--bp-accent) 50%, transparent);
+  text-underline-offset: 0.15em;
+}
+
+body.bp-site .bp-link:hover {
+  color: var(--bp-accent);
+  text-decoration-color: var(--bp-accent);
+}
+
+body.bp-site .bp-emphasis {
+  font-weight: 600;
 }
 
 body.bp-site .bp-hand {
@@ -84,6 +111,11 @@ body.bp-site .bp-navbar {
   color: var(--bp-text);
   border-bottom: 1px solid color-mix(in srgb, var(--bp-text) 10%, transparent);
   font-family: var(--font-bp-title), sans-serif;
+}
+
+/* Mobile drawer open — pin navbar so it stays visible under the blur overlay */
+body.bp-site.bp-mobile-menu-open .bp-navbar {
+  z-index: 50;
 }
 
 body.bp-site .bp-surface {
@@ -126,7 +158,8 @@ body.admin-site {
   background-color: #f9fafb !important;
   color: #111827 !important;
   color-scheme: light only;
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif !important;
+  font-family:
+    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif !important;
 }
 
 body.admin-site main {
