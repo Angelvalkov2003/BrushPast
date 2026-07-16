@@ -8,12 +8,23 @@ import { HomeNewsletter } from "components/home/home-newsletter";
 import { bpFontVariables } from "components/home/home-typography";
 import { getShopCategories } from "lib/supabase/categories";
 import { getPublicStories } from "lib/supabase/stories";
-import { SITE_TAGLINE } from "lib/site-config";
+import { SITE_NAME, SITE_TAGLINE } from "lib/site-config";
 
 export const metadata = {
-  title: "Home",
+  title: {
+    absolute: SITE_NAME,
+  },
   description: SITE_TAGLINE,
-  openGraph: { type: "website" },
+  openGraph: {
+    title: SITE_NAME,
+    description: SITE_TAGLINE,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: SITE_NAME,
+    description: SITE_TAGLINE,
+  },
 };
 
 export const dynamic = "force-dynamic";

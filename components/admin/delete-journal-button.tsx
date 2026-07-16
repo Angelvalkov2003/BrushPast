@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteJournalPostAction } from "app/admin/journal/actions";
+import { deleteJournalPostAction } from "app/admin/(protected)/journal/actions";
 import { toast } from "sonner";
 
 export function DeleteJournalButton({ id, title }: { id: string; title?: string }) {

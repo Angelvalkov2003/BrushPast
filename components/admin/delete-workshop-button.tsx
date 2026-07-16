@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteWorkshopAction } from "app/admin/workshops/actions";
+import { deleteWorkshopAction } from "app/admin/(protected)/workshops/actions";
 import { toast } from "sonner";
 
 export function DeleteWorkshopButton({ id, title }: { id: string; title?: string }) {

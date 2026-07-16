@@ -10,6 +10,7 @@ import {
   HomeSectionTitle,
   IndexCard,
   PolaroidFrame,
+  SectionEyebrow,
 } from "components/home/home-decor";
 import {
   bpBodyClass,
@@ -62,15 +63,12 @@ export function WorkshopsPageContent({
       >
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-            >
-              Brush Past workshops
-            </p>
+            <SectionEyebrow>Brush Past workshops</SectionEyebrow>
             <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
-              Make space. Make something.
+              <span className="text-bp-accent">Safe</span> space.{" "}
+              <span className="text-bp-accent">Create</span> freely.
               <br />
-              <span className="text-bp-accent">Be yourself.</span>
+              <span className="text-bp-accent">Find</span> your people.
             </h1>
             <IndexCard
               className="mt-6 max-w-xl"
@@ -125,11 +123,7 @@ export function WorkshopsPageContent({
         className="px-4 py-12 md:px-10 md:py-16"
       >
         <div className="mx-auto max-w-[1400px]">
-          <p
-            className={`${homeHandClass} ${bpWhisperUtility} text-[clamp(1.35rem,3vw,1.85rem)] font-bold leading-snug text-bp-accent`}
-          >
-            <BrushUnderline>What we run</BrushUnderline>
-          </p>
+          <SectionEyebrow>What we run</SectionEyebrow>
           <h2
             className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-3xl font-bold text-bp-text md:text-4xl`}
           >

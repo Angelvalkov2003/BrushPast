@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteOrganisationAction } from "app/admin/organisations/actions";
+import { deleteOrganisationAction } from "app/admin/(protected)/organisations/actions";
 import { toast } from "sonner";
 
 export function DeleteOrganisationButton({ id, name }: { id: string; name?: string }) {

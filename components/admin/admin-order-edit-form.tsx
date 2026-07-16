@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { AdminOrderDetail, OrderStatus, PaymentStatus } from "lib/types/admin";
-import { updateOrderAdminAction } from "app/admin/orders/[id]/actions";
+import { updateOrderAdminAction } from "app/admin/(protected)/orders/[id]/actions";
 import {
   adminButtonClass,
   adminGrid2Class,

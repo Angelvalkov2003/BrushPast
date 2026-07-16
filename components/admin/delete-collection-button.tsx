@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteCollectionAction } from "app/admin/collections/actions";
+import { deleteCollectionAction } from "app/admin/(protected)/collections/actions";
 import { toast } from "sonner";
 
 export function DeleteCollectionButton({

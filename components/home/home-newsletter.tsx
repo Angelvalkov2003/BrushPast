@@ -3,11 +3,9 @@
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
 import { NEWSLETTER_SOURCE_HOME } from "lib/newsletter-config";
+import { SectionEyebrow } from "./home-decor";
 import {
   bpBodyClass,
-  bpEmphasisUtility,
-  bpSubtitleClass,
-  bpSubtitleUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -27,11 +25,7 @@ export function HomeNewsletter() {
       <div className="relative mx-auto grid max-w-[1400px] gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:px-10 md:py-24">
         <Reveal>
           <div>
-            <p
-              className={`${bpSubtitleClass} ${bpSubtitleUtility} ${bpEmphasisUtility} text-bp-accent`}
-            >
-              Stay in the loop
-            </p>
+            <SectionEyebrow>Stay in the loop</SectionEyebrow>
             <h2
               className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-4xl font-bold md:text-5xl`}
             >

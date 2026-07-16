@@ -5,6 +5,7 @@ import {
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
+import { SectionEyebrow } from "components/home/home-decor";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
 
@@ -14,17 +15,14 @@ export function StoriesHero() {
   return (
     <TextureSection
       as="header"
-      texture="primary"
+      texture="secondary"
+      overlay="cream"
       className="px-4 py-14 md:px-10 md:py-20"
     >
       <div className="mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <Reveal>
           <div>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-            >
-              Brush Past
-            </p>
+            <SectionEyebrow>Brush Past</SectionEyebrow>
             <h1 className="mt-1 text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.88] text-bp-text">
               Stories
             </h1>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteProductAction } from "app/admin/products/actions";
+import { deleteProductAction } from "app/admin/(protected)/products/actions";
 import { toast } from "sonner";
 
 export function DeleteProductButton({

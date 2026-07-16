@@ -8,9 +8,6 @@ import {
 } from "components/shared/texture-section";
 import { PANEL_OVERLAY_CLASS } from "components/shared/panel-overlay";
 import {
-  bpEmphasisUtility,
-  bpSubtitleClass,
-  bpSubtitleUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -51,20 +48,39 @@ export function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
+/** Shared red section eyebrow — Caveat, bold, brush underline, one size sitewide */
+export const sectionEyebrowClass = `${homeHandClass} ${bpWhisperUtility} text-[clamp(1.35rem,3vw,1.85rem)] font-bold leading-snug text-bp-accent`;
+
+export function SectionEyebrow({
+  children,
+  className,
+  as: Tag = "p",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: "p" | "span";
+}) {
+  return (
+    <Tag className={clsx(sectionEyebrowClass, className)}>
+      <BrushUnderline>{children}</BrushUnderline>
+    </Tag>
+  );
+}
+
 export function HomeSectionTitle({
   eyebrow,
   title,
   align = "center",
   className,
   size = "default",
-  eyebrowVariant = "default",
+  eyebrowVariant: _eyebrowVariant,
 }: {
   eyebrow?: string;
   title: string;
   align?: "center" | "left";
   className?: string;
   size?: "default" | "lg";
-  /** Workshop pages — Caveat + brush underline */
+  /** @deprecated Eyebrows are unified sitewide; prop kept for call-site compatibility */
   eyebrowVariant?: "default" | "workshop";
 }) {
   const titleSize =
@@ -79,21 +95,7 @@ export function HomeSectionTitle({
         className,
       )}
     >
-      {eyebrow ? (
-        eyebrowVariant === "workshop" ? (
-          <p
-            className={`${homeHandClass} ${bpWhisperUtility} text-[clamp(1.35rem,3vw,1.85rem)] font-bold leading-snug text-bp-accent`}
-          >
-            <BrushUnderline>{eyebrow}</BrushUnderline>
-          </p>
-        ) : (
-          <p
-            className={`${bpSubtitleClass} ${bpSubtitleUtility} ${bpEmphasisUtility} text-bp-accent`}
-          >
-            {eyebrow}
-          </p>
-        )
-      ) : null}
+      {eyebrow ? <SectionEyebrow>{eyebrow}</SectionEyebrow> : null}
       <h2
         className={`${bpTitleClass} ${bpTitleUtility} mt-1 ${titleSize} font-bold leading-[1.05] text-bp-text`}
       >

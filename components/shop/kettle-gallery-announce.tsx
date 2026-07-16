@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TextureSection } from "components/shared/texture-section";
-import { PolaroidFrame } from "components/home/home-decor";
+import { PolaroidFrame, SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
   bpLinkUtility,
@@ -41,11 +41,7 @@ export function KettleGalleryAnnounce() {
         </PolaroidFrame>
 
         <div>
-          <p
-            className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}
-          >
-            Announcement
-          </p>
+          <SectionEyebrow>Announcement</SectionEyebrow>
           <h2
             id="kettle-gallery-heading"
             className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.92] text-bp-text`}

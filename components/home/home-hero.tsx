@@ -1,10 +1,8 @@
 import Image from "next/image";
-import { HomeCta, IndexCard, PolaroidFrame } from "./home-decor";
+import { HomeCta, IndexCard, PolaroidFrame, SectionEyebrow } from "./home-decor";
 import { HomeTextureSection } from "./home-texture-section";
 import {
   bpBodyClass,
-  bpSubtitleClass,
-  bpSubtitleUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -24,11 +22,7 @@ export function HomeHero() {
           panelTexture="secondary"
           panelTone="heroCard"
         >
-          <p
-            className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-          >
-            Welcome in - take your time
-          </p>
+          <SectionEyebrow>Welcome in - take your time</SectionEyebrow>
           <h1
             className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
           >

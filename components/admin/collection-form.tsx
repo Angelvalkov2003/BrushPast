@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createCollectionAction, updateCollectionAction } from "app/admin/collections/actions";
+import { createCollectionAction, updateCollectionAction } from "app/admin/(protected)/collections/actions";
 import { toast } from "sonner";
 import {
   adminButtonClass,

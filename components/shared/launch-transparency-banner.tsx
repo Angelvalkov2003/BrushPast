@@ -13,6 +13,7 @@ import {
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
+import { SectionEyebrow } from "components/home/home-decor";
 
 const STAT_ICONS = {
   people: UserGroupIcon,
@@ -76,11 +77,7 @@ export function LaunchTransparencyBanner({
         <div className="absolute inset-0 flex items-center justify-center bg-bp-dark/55 px-4 backdrop-blur-[2px]">
           <div className="flex w-full max-w-xl flex-col items-center gap-3 rounded-sm border border-bp-canvas/15 bg-bp-dark/75 px-5 py-5 text-center shadow-lg md:max-w-2xl md:flex-row md:justify-between md:gap-6 md:px-6 md:py-4 md:text-left">
             <div>
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent`}
-              >
-                {ABOUT_LAUNCH_OVERLAY.eyebrow}
-              </p>
+              <SectionEyebrow>{ABOUT_LAUNCH_OVERLAY.eyebrow}</SectionEyebrow>
               <p
                 className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-xl font-bold leading-snug text-bp-canvas md:text-2xl`}
               >

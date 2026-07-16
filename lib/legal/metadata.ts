@@ -13,6 +13,12 @@ export function legalMetadata(slug: string): Metadata {
     openGraph: {
       title: `${page.title} | ${SITE_NAME}`,
       description: page.description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${page.title} | ${SITE_NAME}`,
+      description: page.description,
     },
   };
 }

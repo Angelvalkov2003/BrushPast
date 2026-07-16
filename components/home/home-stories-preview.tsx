@@ -20,6 +20,7 @@ export function HomeStoriesPreview({ stories }: { stories: PublicStory[] }) {
               eyebrow="From our community"
               title="Stories worth keeping"
               className="mb-0"
+              eyebrowVariant="workshop"
             />
             <Link
               href="/stories"

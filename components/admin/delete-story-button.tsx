@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteStoryAction } from "app/admin/stories/actions";
+import { deleteStoryAction } from "app/admin/(protected)/stories/actions";
 import { toast } from "sonner";
 
 export function DeleteStoryButton({ id, title }: { id: string; title?: string }) {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Footer from "components/layout/footer";
-import { HomeCta, PolaroidFrame } from "components/home/home-decor";
+import { HomeCta, PolaroidFrame, SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
   bpBodySmClass,
@@ -48,6 +48,7 @@ export default async function ShopCategoryPage({
     >
       <TextureSection
         texture="secondary"
+        overlay="cream"
         className="px-4 py-10 md:px-10 md:py-14"
       >
         <div className="mx-auto max-w-[1400px]">
@@ -60,11 +61,7 @@ export default async function ShopCategoryPage({
 
           <div className="mt-8 grid gap-10 md:grid-cols-[1fr_1fr] md:items-center md:gap-14">
             <div>
-              <p
-                className={`${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}
-              >
-                The Archive
-              </p>
+              <SectionEyebrow>The Archive</SectionEyebrow>
               <h1 className="mt-1 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.92] text-bp-text">
                 {category.name}
               </h1>

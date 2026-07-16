@@ -1,12 +1,10 @@
 "use client";
 
 import { NewsletterSignupForm } from "components/newsletter/newsletter-signup-form";
+import { SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
-  bpEmphasisUtility,
   bpLinkUtility,
-  bpSubtitleClass,
-  bpSubtitleUtility,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
@@ -28,11 +26,7 @@ export function AboutNewsletter() {
 
       <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-10 md:py-20">
         <div className="max-w-xl">
-          <p
-            className={`${bpSubtitleClass} ${bpSubtitleUtility} ${bpEmphasisUtility} text-bp-accent`}
-          >
-            Stay in the loop
-          </p>
+          <SectionEyebrow>Stay in the loop</SectionEyebrow>
           <h2
             className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-4xl font-bold md:text-5xl`}
           >

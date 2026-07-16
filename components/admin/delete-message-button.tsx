@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteMessageAction } from "app/admin/messages/actions";
+import { deleteMessageAction } from "app/admin/(protected)/messages/actions";
 import { toast } from "sonner";
 
 export function DeleteMessageButton({ messageId }: { messageId: string }) {

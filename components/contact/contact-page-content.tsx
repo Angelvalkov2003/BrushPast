@@ -16,16 +16,17 @@ import {
   PUBLIC_CONTACT_EMAIL,
 } from "lib/site-config";
 import {
-  BrushUnderline,
   HomeCta,
   HomeSectionTitle,
   IndexCard,
   PolaroidFrame,
+  SectionEyebrow,
 } from "components/home/home-decor";
 import {
   bpBodyClass,
   bpEmphasisUtility,
   bpLinkUtility,
+  bpStoryVoiceUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -46,31 +47,38 @@ export function ContactPageContent() {
       >
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-            >
-              Get in touch
-            </p>
+            <SectionEyebrow>Get in touch</SectionEyebrow>
             <h1
               className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
             >
-              Let&apos;s start a conversation.
+              Let&apos;s start a
+              <br />
+              <span className="text-bp-accent">conversation.</span>
             </h1>
-            <p className={`${bpBodyClass} mt-6 max-w-lg text-bp-text/85`}>
-              <span className={`${bpEmphasisUtility} text-bp-accent`}>
-                Share a story.
-              </span>{" "}
-              Collaborate. Join a workshop. Or simply say hello - we&apos;d love
-              to hear from you.
-            </p>
-            <p className={`${bpBodyClass} mt-5 text-bp-text`}>
-              Brush Past is a{" "}
-              <span className="text-bp-accent">creative movement</span> for{" "}
-              <span className="text-bp-accent">second chances</span>, built in
-              public with real people and real spaces.
-            </p>
-            <p className={`${bpBodyClass} mt-5 text-bp-text/70`}>
-              No perfect pitch needed - just say hello.
+            <IndexCard
+              className="mt-6 max-w-xl"
+              panelTexture="secondary"
+              panelTone="cream"
+            >
+              <p className={`${bpBodyClass} text-bp-text/90`}>
+                <span className={`${bpEmphasisUtility} text-bp-accent`}>
+                  Share a story.
+                </span>{" "}
+                Collaborate. Join a workshop. Or simply say hello - we&apos;d
+                love to hear from you.
+              </p>
+              <p className={`${bpBodyClass} mt-4 text-bp-text/85`}>
+                Brush Past is a{" "}
+                <span className="text-bp-accent">creative movement</span> for{" "}
+                <span className="text-bp-accent">second chances</span>, built in
+                public with real people and real spaces.
+              </p>
+            </IndexCard>
+            <p
+              className={`${bpStoryVoiceUtility} mt-8 max-w-xl text-xl leading-relaxed text-bp-text/80 md:text-2xl`}
+            >
+              No perfect pitch needed.{" "}
+              <span className="text-bp-accent">Just say hello.</span>
             </p>
           </div>
 
@@ -121,11 +129,7 @@ export function ContactPageContent() {
           </PolaroidFrame>
 
           <div className="flex flex-col justify-center">
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-[clamp(1.35rem,3vw,1.85rem)] font-bold leading-snug text-bp-accent`}
-            >
-              <BrushUnderline>Rooted in real spaces</BrushUnderline>
-            </p>
+            <SectionEyebrow>Rooted in real spaces</SectionEyebrow>
             <h2
               className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
             >

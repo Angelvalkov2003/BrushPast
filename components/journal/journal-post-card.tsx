@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PolaroidFrame } from "components/home/home-decor";
-import { bpStoryVoiceUtility, bpWhisperUtility } from "components/home/home-typography";
+import {
+  bpBodyClass,
+  bpStoryVoiceUtility,
+  bpWhisperUtility,
+  homeHandClass,
+} from "components/home/home-typography";
 import { displayImageUrl } from "lib/image-url";
 import {
   formatJournalDate,
@@ -20,8 +25,12 @@ export function JournalPostCard({
   const image = displayImageUrl(post.main_image_url);
 
   const inner = (
-  <>
-      <PolaroidFrame index={index + 1} className="group-hover:rotate-0">
+    <>
+      <PolaroidFrame
+        index={index + 1}
+        cardboardBacking
+        className="group-hover:rotate-0"
+      >
         <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
           {image ? (
             <Image
@@ -39,22 +48,26 @@ export function JournalPostCard({
             </div>
           )}
         </div>
-        <p className="mt-3 text-center text-2xl font-bold text-bp-text">
-          {post.title || "Untitled"}
-        </p>
+        <div className="relative mt-3 min-h-[4.75rem] px-1 pb-7">
+          <p className="text-center text-2xl font-bold leading-snug text-bp-text md:text-[1.65rem]">
+            {post.title || "Untitled"}
+          </p>
+          <p
+            className={`${homeHandClass} ${bpWhisperUtility} absolute bottom-0 left-1 text-base font-bold text-bp-accent md:text-lg`}
+          >
+            {formatJournalDate(post.created_at)}
+          </p>
+        </div>
       </PolaroidFrame>
-      <p className={`${bpWhisperUtility} mt-4 text-center text-xl text-bp-accent md:text-2xl`}>
-        {formatJournalDate(post.created_at)}
-      </p>
       {post.description ? (
         <p
-          className={`${bpStoryVoiceUtility} mt-3 text-center text-lg leading-relaxed text-bp-text/75 md:text-xl`}
+          className={`${bpStoryVoiceUtility} mt-5 text-center text-xl leading-relaxed text-bp-text/80 md:text-2xl`}
         >
           {post.description}
         </p>
       ) : null}
       <p
-        className={`${bpWhisperUtility} mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl`}
+        className={`${bpBodyClass} mt-3 text-center font-semibold text-bp-accent opacity-0 transition-opacity group-hover:opacity-100`}
       >
         Read more →
       </p>
@@ -66,7 +79,10 @@ export function JournalPostCard({
   }
 
   return (
-    <Link href={href} className="group block h-full focus-visible:outline-offset-4">
+    <Link
+      href={href}
+      className="group block h-full focus-visible:outline-offset-4"
+    >
       {inner}
     </Link>
   );

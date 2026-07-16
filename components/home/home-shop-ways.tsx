@@ -55,6 +55,7 @@ export function HomeShopWays({ categories }: { categories: ShopCategory[] }) {
             eyebrow="The archive shop"
             title="Three ways to keep a story close"
             size="lg"
+            eyebrowVariant="workshop"
           />
         </Reveal>
         <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">

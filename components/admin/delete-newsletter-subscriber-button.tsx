@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteNewsletterSubscriberAction } from "app/admin/newsletter/actions";
+import { deleteNewsletterSubscriberAction } from "app/admin/(protected)/newsletter/actions";
 import { toast } from "sonner";
 
 export function DeleteNewsletterSubscriberButton({ subscriberId }: { subscriberId: string }) {

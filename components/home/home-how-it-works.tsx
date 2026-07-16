@@ -10,7 +10,11 @@ export function HomeHowItWorks() {
     <HomeTextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
-          <HomeSectionTitle eyebrow="Our model" title="How it works" />
+          <HomeSectionTitle
+            eyebrow="Our model"
+            title="How it works"
+            eyebrowVariant="workshop"
+          />
         </Reveal>
 
         <ol className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-stretch lg:grid-cols-4">

@@ -1,11 +1,31 @@
+import { ADMIN_SESSION_COOKIE } from "lib/admin-auth";
 import { createServerClient } from "@supabase/ssr";
 import { getSupabaseAnonKey, getSupabaseUrl } from "lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
+
+const ADMIN_SESSION_VALUE = "authenticated";
+
+function isAdminAuthenticated(request: NextRequest): boolean {
+  return (
+    request.cookies.get(ADMIN_SESSION_COOKIE)?.value === ADMIN_SESSION_VALUE
+  );
+}
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
+
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isAdminLogin = pathname === "/admin/login";
+
+  if (isAdminRoute && !isAdminLogin && !isAdminAuthenticated(request)) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
+
+  if (isAdminLogin && isAdminAuthenticated(request)) {
+    return NextResponse.redirect(new URL("/admin", request.url));
+  }
 
   let response = NextResponse.next({
     request: { headers: requestHeaders },
@@ -60,22 +80,13 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  // Refresh session if expired - required for Server Components
   await supabase.auth.getUser();
 
-  // Add pathname to headers for layout to check if we're in admin/login
   return response;
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

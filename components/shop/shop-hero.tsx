@@ -1,6 +1,6 @@
 import Image from "next/image";
 import clsx from "clsx";
-import { HomeCta, PolaroidFrame } from "components/home/home-decor";
+import { HomeCta, PolaroidFrame, SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
   bpWhisperUtility,
@@ -33,11 +33,7 @@ export function ShopHero({
     >
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:items-center md:gap-16">
         <div className={clsx(embedded && "md:order-2")}>
-          <p
-            className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-          >
-            The Archive
-          </p>
+          <SectionEyebrow>The Archive</SectionEyebrow>
           <HeadingTag className="mt-1 text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[0.92] text-bp-text">
             The Archive Shop
           </HeadingTag>

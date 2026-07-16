@@ -17,6 +17,7 @@ import {
   HomeSectionTitle,
   IndexCard,
   PolaroidFrame,
+  SectionEyebrow,
 } from "components/home/home-decor";
 import {
   bpBodyClass,
@@ -42,11 +43,7 @@ export function AboutPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
             <div>
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-              >
-                About Brush Past
-              </p>
+              <SectionEyebrow>About Brush Past</SectionEyebrow>
               <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.75rem)] font-bold leading-[0.92] text-bp-text">
                 Our mission.
                 <br />
@@ -108,11 +105,7 @@ export function AboutPageContent() {
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
           <Reveal>
             <IndexCard panelTexture="primary">
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}
-              >
-                Where it began
-              </p>
+              <SectionEyebrow>Where it began</SectionEyebrow>
               <blockquote
                 className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-[clamp(1.85rem,4.5vw,2.75rem)] font-bold leading-snug text-bp-text`}
               >
@@ -124,11 +117,7 @@ export function AboutPageContent() {
           </Reveal>
           <Reveal delay={REVEAL_STAGGER_MS}>
             <IndexCard className="h-full" panelTexture="primary">
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent md:text-2xl`}
-              >
-                Two paths. One belief.
-              </p>
+              <SectionEyebrow>Two paths. One belief.</SectionEyebrow>
               <p className={`${aboutBodyClass} mt-4`}>
                 A chance conversation between two people with very different
                 backgrounds became a shared belief:{" "}
@@ -227,11 +216,7 @@ export function AboutPageContent() {
               className="flex h-full flex-col justify-center"
               panelTexture="secondary"
             >
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-              >
-                Lived experience
-              </p>
+              <SectionEyebrow>Lived experience</SectionEyebrow>
               <p className={`${aboutBodyClass} mt-4`}>
                 Our mentors and facilitators bring{" "}
                 <span className="text-bp-accent">real understanding</span> -

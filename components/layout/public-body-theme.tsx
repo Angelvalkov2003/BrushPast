@@ -26,13 +26,6 @@ export function PublicBodyTheme() {
       document.documentElement.style.colorScheme = "";
       document.documentElement.classList.remove("dark");
     }
-
-    return () => {
-      document.body.classList.remove(BP_SITE_CLASS);
-      document.body.classList.remove(ADMIN_SITE_CLASS);
-      delete document.documentElement.dataset.adminTheme;
-      document.documentElement.style.colorScheme = "";
-    };
   }, [pathname]);
 
   return null;

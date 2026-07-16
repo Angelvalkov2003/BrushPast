@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteCategoryAction } from "app/admin/categories/actions";
+import { deleteCategoryAction } from "app/admin/(protected)/categories/actions";
 import { toast } from "sonner";
 
 export function DeleteCategoryButton({

@@ -1,6 +1,7 @@
 "use client";
 
 import { JOURNAL_HERO_TAGLINE } from "lib/journal-config";
+import { SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
   bpWhisperUtility,
@@ -13,17 +14,14 @@ export function JournalHero() {
   return (
     <TextureSection
       as="header"
-      texture="primary"
+      texture="secondary"
+      overlay="cream"
       className="px-4 py-14 md:px-10 md:py-20"
     >
       <div className="mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <Reveal>
           <div>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
-            >
-              Brush Past
-            </p>
+            <SectionEyebrow>Brush Past</SectionEyebrow>
             <h1 className="mt-1 text-[clamp(3.5rem,11vw,7rem)] font-bold leading-[0.9] text-bp-text">
               Journal
             </h1>
