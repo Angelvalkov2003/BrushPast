@@ -105,7 +105,12 @@ export function HomeSectionTitle({
   );
 }
 
-const TILTS = [-1.25, 0.85, -0.65, 1.1] as const;
+const TILT_CLASS = [
+  "max-md:rotate-0 md:rotate-[-1.25deg]",
+  "max-md:rotate-0 md:rotate-[0.85deg]",
+  "max-md:rotate-0 md:rotate-[-0.65deg]",
+  "max-md:rotate-0 md:rotate-[1.1deg]",
+] as const;
 
 export function PolaroidFrame({
   children,
@@ -121,17 +126,16 @@ export function PolaroidFrame({
   /** Secondary cardboard strip along the bottom edge (story cards). */
   cardboardBacking?: boolean;
 }) {
-  const tiltDeg = TILTS[index % TILTS.length] ?? 0;
-  const tiltStyle = tilt ? { transform: `rotate(${tiltDeg}deg)` } : undefined;
+  const tiltClass = tilt ? TILT_CLASS[index % TILT_CLASS.length] : undefined;
 
   if (!cardboardBacking) {
     return (
       <div
         className={clsx(
-          "relative bg-[#faf6f0] p-2.5 pb-9 shadow-[4px_5px_0_rgba(1,2,0,0.14)] border border-bp-text/10 transition-transform duration-500 hover:rotate-0",
+          "relative max-w-full bg-[#faf6f0] p-2.5 pb-9 shadow-[4px_5px_0_rgba(1,2,0,0.14)] border border-bp-text/10 transition-transform duration-500 md:hover:rotate-0",
+          tiltClass,
           className,
         )}
-        style={tiltStyle}
       >
         {children}
       </div>
@@ -141,10 +145,10 @@ export function PolaroidFrame({
   return (
     <div
       className={clsx(
-        "relative flex flex-col overflow-hidden border border-bp-text/10 shadow-[4px_5px_0_rgba(1,2,0,0.14)] transition-transform duration-500 hover:rotate-0",
+        "relative flex max-w-full flex-col overflow-hidden border border-bp-text/10 shadow-[4px_5px_0_rgba(1,2,0,0.14)] transition-transform duration-500 md:hover:rotate-0",
+        tiltClass,
         className,
       )}
-      style={tiltStyle}
     >
       <div className="relative flex flex-1 flex-col overflow-hidden p-2.5">
         <Image

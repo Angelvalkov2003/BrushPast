@@ -41,20 +41,20 @@ export function TextureSection({
 
   return (
     <Tag
-      className={clsx(
-        "relative border-b border-bp-text/10 overflow-hidden",
-        className,
-      )}
+      className={clsx("relative border-b border-bp-text/10", className)}
     >
       <div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-top bg-repeat-y bg-[length:100%_auto]"
-        style={{ backgroundImage: `url(${TEXTURE_IMAGES[texture]})` }}
-      />
-      <div
-        className={clsx("absolute inset-0", TEXTURE_OVERLAY_CLASS[overlay])}
-        aria-hidden
-      />
+      >
+        <div
+          className="absolute inset-0 bg-top bg-repeat-y bg-[length:100%_auto]"
+          style={{ backgroundImage: `url(${TEXTURE_IMAGES[texture]})` }}
+        />
+        <div
+          className={clsx("absolute inset-0", TEXTURE_OVERLAY_CLASS[overlay])}
+        />
+      </div>
       <div className="relative z-10">{children}</div>
     </Tag>
   );

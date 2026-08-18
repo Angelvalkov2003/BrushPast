@@ -1,9 +1,10 @@
-import { ADMIN_SESSION_COOKIE } from "lib/admin-auth";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_SESSION_VALUE,
+} from "lib/admin-session";
 import { createServerClient } from "@supabase/ssr";
 import { getSupabaseAnonKey, getSupabaseUrl } from "lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
-
-const ADMIN_SESSION_VALUE = "authenticated";
 
 function isAdminAuthenticated(request: NextRequest): boolean {
   return (

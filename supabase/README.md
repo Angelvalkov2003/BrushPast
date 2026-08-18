@@ -15,6 +15,14 @@ This file contains:
 
 To **refresh catalog only** (keep orders and contact messages), run only **Part 2** from `final_db.sql` (the section after `-- ########## PART 2: CATALOG SEED ##########`).
 
+### Existing databases (do not re-run Part 1)
+
+After `final_db.sql` is already applied, run incremental files in `migrations/` in order. First box-shop change:
+
+**`migrations/20260818150000_shop_boxes.sql`** — box type enum, Type B pair price table, `orders.gift_message` / `box_type` / `box_combo_id`, flatten metadata on `order_items`. Cart stays in the browser (`localStorage`).
+
+**`migrations/20260818162000_sponsors.sql`** — `sponsors` table for Get in Touch sponsorships (Stripe Checkout, admin list).
+
 ---
 
 ## Model

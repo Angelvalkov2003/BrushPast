@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrderByIdAdmin } from "lib/supabase/admin-orders";
 import { formatPrice } from "lib/currency";
+import { boxTypeLabel } from "lib/shop-box-config";
 import { AdminOrderEditForm } from "components/admin/admin-order-edit-form";
 import { adminPanelClass, adminPageTitleClass } from "components/admin/admin-form-styles";
 
@@ -91,6 +92,18 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               <dd>{order.grand_total != null ? formatPrice(Number(order.grand_total)) : "-"}</dd>
             </div>
           </dl>
+          {order.gift_message ? (
+            <div className="mt-4">
+              <p className="text-sm text-gray-500">Gift message</p>
+              <p className="text-sm whitespace-pre-line">{order.gift_message}</p>
+            </div>
+          ) : null}
+          {order.box_type ? (
+            <div className="mt-4">
+              <p className="text-sm text-gray-500">Box type</p>
+              <p className="text-sm">{boxTypeLabel(order.box_type)}</p>
+            </div>
+          ) : null}
           {order.customer_note ? (
             <div className="mt-4">
               <p className="text-sm text-gray-500">Customer note</p>

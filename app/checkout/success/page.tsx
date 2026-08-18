@@ -29,7 +29,7 @@ export default async function CheckoutSuccessPage({
           price: Number(i.unit_price ?? 0),
           quantity: i.quantity,
         })),
-        comment: order.customer_note || undefined,
+        comment: order.gift_message || order.customer_note || undefined,
       });
     } catch (e) {
       console.error("success page:", e);

@@ -6,6 +6,14 @@ import {
   parseVariantTitle,
 } from "lib/product-variants";
 import { checkStockQuantity } from "lib/cart-stock";
+import {
+  cartProductFromBox,
+  isBoxCartItem,
+  recalcBoxCartItem,
+  removeBoxContentItem,
+  type BoxCartPayload,
+} from "lib/shop-box-cart";
+import { boxTypeLabel } from "lib/shop-box-config";
 import type {
   Cart,
   CartItem,
@@ -33,6 +41,8 @@ type CartContextType = {
   clearStockError: () => void;
   updateCartItem: (itemId: string, updateType: UpdateType) => boolean;
   addCartItem: (variant: ProductVariant, product: Product, options?: AddCartOptions) => boolean;
+  addBoxItem: (box: BoxCartPayload) => boolean;
+  removeBoxContent: (itemId: string, contentId: string) => void;
   updateCartVariant: (itemId: string, variant: ProductVariant) => void;
   clearCart: () => void;
 };
@@ -125,6 +135,39 @@ function updateCartTotals(items: CartItem[]): Pick<Cart, "totalQuantity" | "subt
     subtotal,
     total: subtotal, // Add tax/shipping calculation here if needed
   };
+}
+
+function createBoxCartItem(box: BoxCartPayload): CartItem {
+  const first = box.contents[0];
+  return {
+    id: `box-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+    productId: first?.productId ?? "box",
+    variantId: first?.variantId ?? "box",
+    quantity: 1,
+    price: box.boxPrice,
+    kind: "box",
+    box,
+    product: cartProductFromBox(box.contents, boxTypeLabel(box.type)),
+    variant: {
+      id: first?.variantId ?? "box",
+      title: first?.variantLabel || "Box",
+      sku: first?.sku,
+    },
+  };
+}
+
+function checkBoxStock(box: BoxCartPayload): string | null {
+  for (const content of box.contents) {
+    const check = checkStockQuantity(
+      0,
+      content.quantity,
+      content.maxQuantity,
+      content.title,
+      content.variantLabel,
+    );
+    if (!check.ok) return check.error;
+  }
+  return null;
 }
 
 function createEmptyCart(): Cart {
@@ -273,6 +316,9 @@ export function CartProvider({
       if (!target) return currentCart;
 
       if (updateType === "plus") {
+        if (isBoxCartItem(target)) {
+          return currentCart;
+        }
         const check = checkStockQuantity(
           target.quantity,
           1,
@@ -334,7 +380,10 @@ export function CartProvider({
       );
 
       const existingItem = validItems.find(
-        (item) => item.productId === product.id && item.variantId === variant.id,
+        (item) =>
+          item.kind !== "box" &&
+          item.productId === product.id &&
+          item.variantId === variant.id,
       );
 
       const check = checkStockQuantity(
@@ -360,7 +409,9 @@ export function CartProvider({
 
       const updatedItems = existingItem
         ? validItems.map((item) =>
-            item.productId === product.id && item.variantId === variant.id
+            item.kind !== "box" &&
+            item.productId === product.id &&
+            item.variantId === variant.id
               ? updatedItem
               : item,
           )
@@ -379,6 +430,65 @@ export function CartProvider({
     return added;
   };
 
+  const addBoxItem = (box: BoxCartPayload): boolean => {
+    if (!box.contents.length) return false;
+
+    const stock = checkBoxStock(box);
+    if (stock) {
+      setStockError(stock);
+      return false;
+    }
+
+    setStockError(null);
+    setCart((currentCart) => {
+      const cart = currentCart || createEmptyCart();
+      const validItems = (cart.items || []).filter(
+        (item): item is CartItem => item !== null && item !== undefined && item.id !== undefined,
+      );
+      const nextItem = createBoxCartItem(box);
+      const updatedItems = [...validItems, nextItem];
+      return {
+        ...cart,
+        ...updateCartTotals(updatedItems),
+        items: updatedItems,
+      };
+    });
+    setCartPulse((n) => n + 1);
+    return true;
+  };
+
+  const removeBoxContent = (itemId: string, contentId: string) => {
+    setCart((currentCart) => {
+      if (!currentCart?.items) return currentCart;
+      const updatedItems = currentCart.items
+        .map((item) => {
+          if (item.id !== itemId) return item;
+          return removeBoxContentItem(item, contentId);
+        })
+        .filter((item): item is CartItem => item !== null && item !== undefined);
+
+      if (updatedItems.length === 0) {
+        return {
+          ...currentCart,
+          items: [],
+          totalQuantity: 0,
+          subtotal: 0,
+          total: 0,
+        };
+      }
+
+      const recalculated = updatedItems.map((item) =>
+        isBoxCartItem(item) ? recalcBoxCartItem(item) ?? item : item,
+      );
+
+      return {
+        ...currentCart,
+        ...updateCartTotals(recalculated),
+        items: recalculated,
+      };
+    });
+  };
+
   const updateCartVariant = (itemId: string, variant: ProductVariant) => {
     setCart((currentCart) => {
       if (!currentCart?.items) return currentCart;
@@ -388,7 +498,7 @@ export function CartProvider({
       );
 
       const target = validItems.find((item) => item.id === itemId);
-      if (!target || !variant.available) return currentCart;
+      if (!target || isBoxCartItem(target) || !variant.available) return currentCart;
 
       const existingSameVariant = validItems.find(
         (item) =>
@@ -464,6 +574,8 @@ export function CartProvider({
         clearStockError,
         updateCartItem,
         addCartItem,
+        addBoxItem,
+        removeBoxContent,
         updateCartVariant,
         clearCart,
       }}

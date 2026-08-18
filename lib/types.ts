@@ -96,6 +96,31 @@ export type CartVariantOption = {
   selectedOptions?: { name: string; value: string }[];
 };
 
+export type CartItemKind = "product" | "box";
+
+export type CartBoxContent = {
+  id: string;
+  productId: string;
+  variantId: string;
+  categoryKey: "coffee" | "tshirt" | "print";
+  title: string;
+  handle: string;
+  imageUrl: string;
+  variantLabel: string;
+  sku?: string;
+  unitPrice: number;
+  quantity: number;
+  maxQuantity?: number;
+};
+
+export type CartBox = {
+  type: "a" | "b" | "c" | "d";
+  comboId?: "print-tshirt" | "print-coffee" | "tshirt-coffee";
+  giftMessage: string;
+  contents: CartBoxContent[];
+  boxPrice: number;
+};
+
 export type CartItem = {
   id: string;
   productId: string;
@@ -118,6 +143,9 @@ export type CartItem = {
   variantOptions?: CartVariantOption[];
   /** Snapshot of stock limit at add-to-bag time (limited inventory only) */
   maxQuantity?: number;
+  /** Default "product" keeps standalone PDP / old category-page adds working. */
+  kind?: CartItemKind;
+  box?: CartBox;
 };
 
 export type Cart = {

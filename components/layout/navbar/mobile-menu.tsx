@@ -1,28 +1,21 @@
 "use client";
 
 import { Transition } from "@headlessui/react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
 import {
   Bars3Icon,
-  ChevronDownIcon,
   EnvelopeIcon,
   PhoneIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import clsx from "clsx";
 import { TEXTURE_IMAGES } from "components/shared/texture-section";
 import { CONTACT_PHONE_TEL, PUBLIC_CONTACT_EMAIL } from "lib/site-config";
 import { NavLink } from "./nav-link";
 
-type MenuItem = {
-  title: string;
-  path: string;
-};
-
 const MAIN_LINKS = [
   { label: "Stories", href: "/stories" },
+  { label: "Shop", href: "/shop" },
   { label: "Workshops", href: "/workshops" },
   { label: "Journal", href: "/journal" },
   { label: "About", href: "/about" },
@@ -32,8 +25,6 @@ const MAIN_LINKS = [
 /** Mobile drawer — one size/style for every top-level item (text-xl = 20px) */
 const mobileNavItemClass =
   "block py-3 text-xl font-normal text-bp-text/85 transition-colors hover:text-bp-accent";
-const mobileShopToggleClass =
-  "flex w-full items-center justify-between py-3 text-xl font-normal text-bp-text/85 transition-colors hover:text-bp-accent";
 
 const NAV_CONNECT_LINKS = [
   {
@@ -76,21 +67,13 @@ function MobileMenuConnect({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-export default function MobileMenu({
-  collections,
-  loading,
-}: {
-  collections: MenuItem[];
-  loading: boolean;
-}) {
+export default function MobileMenu() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [shopOpen, setShopOpen] = useState(false);
   const scrollLockY = useRef(0);
 
   const close = () => {
     setIsOpen(false);
-    setShopOpen(false);
   };
 
   useEffect(() => {
@@ -222,63 +205,13 @@ export default function MobileMenu({
                   aria-label="Mobile"
                 >
                   <ul className="space-y-0.5">
-                    <li>
-                      <NavLink
-                        href="/stories"
-                        className={mobileNavItemClass}
-                        onClick={close}
-                      >
-                        Stories
-                      </NavLink>
-                    </li>
-
-                    <li>
-                      <button
-                        type="button"
-                        onClick={() => setShopOpen((o) => !o)}
-                        className={mobileShopToggleClass}
-                      >
-                        Shop
-                        <ChevronDownIcon
-                          className={clsx(
-                            "h-5 w-5 transition-transform",
-                            shopOpen && "rotate-180",
-                          )}
-                        />
-                      </button>
-                      {shopOpen ? (
-                        <ul className="mb-2 ml-2 space-y-0.5 border-l-2 border-bp-accent/50 pl-4">
-                          <li>
-                            <Link
-                              href="/shop"
-                              onClick={close}
-                              className="block py-2 text-base text-bp-text/80 transition-colors hover:text-bp-accent"
-                            >
-                              The Archive Shop
-                            </Link>
-                          </li>
-                          {!loading &&
-                            collections.map((item) => (
-                              <li key={item.path}>
-                                <Link
-                                  href={item.path}
-                                  onClick={close}
-                                  className="block py-2 text-base text-bp-text/80 transition-colors hover:text-bp-accent"
-                                >
-                                  {item.title}
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
-                      ) : null}
-                    </li>
-
-                    {MAIN_LINKS.slice(1).map((link) => (
+                    {MAIN_LINKS.map((link) => (
                       <li key={link.href}>
                         <NavLink
                           href={link.href}
                           className={mobileNavItemClass}
                           onClick={close}
+                          activePrefix={link.href === "/shop" ? "/shop" : undefined}
                         >
                           {link.label}
                         </NavLink>

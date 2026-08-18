@@ -3,15 +3,17 @@ import {
   getAllOrdersAdmin,
   getAdminDashboardStats,
 } from "lib/supabase/admin-orders";
+import { getSponsorAdminStats } from "lib/supabase/sponsors";
 import { formatPrice } from "lib/currency";
 import { AdminTableShell } from "components/admin/admin-table-shell";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [stats, orders] = await Promise.all([
+  const [stats, orders, sponsorStats] = await Promise.all([
     getAdminDashboardStats(),
     getAllOrdersAdmin(),
+    getSponsorAdminStats(),
   ]);
   const recent = orders.slice(0, 10);
 
@@ -22,7 +24,7 @@ export default async function AdminDashboard() {
       </h1>
       <p className="mb-6 text-sm text-gray-600 sm:mb-8">Brush Past admin</p>
 
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:gap-6 md:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-lg bg-white p-4 shadow sm:p-6">
           <h3 className="text-sm text-gray-500">Total orders</h3>
           <p className="mt-2 text-2xl font-bold sm:text-3xl">
@@ -42,6 +44,20 @@ export default async function AdminDashboard() {
           </p>
           <p className="mt-1 text-sm text-gray-500">
             (excl. shipping, incl. pending orders)
+          </p>
+        </div>
+        <div className="rounded-lg bg-white p-4 shadow sm:p-6">
+          <h3 className="text-sm text-gray-500">Sponsors (paid)</h3>
+          <p className="mt-2 text-2xl font-bold text-green-700 sm:text-3xl">
+            {formatPrice(sponsorStats.paidTotalGbp)}
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+            {sponsorStats.paid} paid
+            {sponsorStats.pending ? ` · ${sponsorStats.pending} pending` : ""}
+            {" · "}
+            <Link href="/admin/sponsors" className="text-indigo-600 hover:underline">
+              View
+            </Link>
           </p>
         </div>
       </div>

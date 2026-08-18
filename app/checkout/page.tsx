@@ -5,12 +5,22 @@ import { useRouter } from "next/navigation";
 import { VariantLabel } from "components/product/variant-picker";
 import { useCart } from "components/cart/cart-context";
 import Price from "components/price";
-import { orderLineTitle } from "lib/product-variants";
 import { createOrder } from "app/checkout/actions";
 import LoadingDots from "components/loading-dots";
 import { CONTACT_PHONE, SHIPPING_UK } from "lib/site-config";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
+import {
+  boxComboIdToDb,
+  categoryLabel,
+} from "lib/shop-box-config";
+import {
+  boxStripeName,
+  collectGiftMessages,
+  flattenCartItemToOrderLines,
+  isBoxCartItem,
+  primaryBoxFromCart,
+} from "lib/shop-box-cart";
 
 const inputClass =
   "w-full border border-bp-text/20 bg-bp-canvas px-4 py-2 text-bp-text focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent";
@@ -72,6 +82,9 @@ export default function CheckoutPage() {
       const shipping_total = ukShippingPrice();
       const grand_total = cart.subtotal + shipping_total;
 
+      const giftMessage = collectGiftMessages(cart.items);
+      const primaryBox = primaryBoxFromCart(cart.items);
+
       const order = await createOrder({
         first_name,
         last_name,
@@ -84,22 +97,11 @@ export default function CheckoutPage() {
         courier_name: "DPD",
         payment_method: formData.payment_method,
         customer_note: formData.comment || undefined,
+        gift_message: giftMessage || undefined,
+        box_type: primaryBox?.type,
+        box_combo_id: boxComboIdToDb(primaryBox?.comboId),
         privacy_policy_accepted: true,
-        items: cart.items.map((item) => ({
-          product_id: item.productId,
-          variant_id: item.variantId !== item.productId ? item.variantId : undefined,
-          product_title: orderLineTitle(item.product.title, {
-            id: item.variant.id,
-            title: item.variant.title,
-            price: item.price,
-            available: true,
-            sku: item.variant.sku,
-            selectedOptions: item.variant.selectedOptions,
-          }),
-          quantity: item.quantity,
-          unit_price: item.price,
-          sku: item.variant.sku,
-        })),
+        items: cart.items.flatMap((item) => flattenCartItemToOrderLines(item)),
         subtotal: cart.subtotal,
         shipping_total,
         grand_total,
@@ -329,32 +331,59 @@ export default function CheckoutPage() {
               <h2 className="mb-4 text-xl font-semibold text-bp-text">Order summary</h2>
 
               <div className="mb-6 space-y-4">
-                {cart.items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex items-start justify-between border-b border-bp-text/10 pb-3"
-                  >
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-bp-text">{item.product.title}</p>
-                      <VariantLabel
-                        variant={{
-                          id: item.variant.id,
-                          title: item.variant.title,
-                          price: item.price,
-                          available: true,
-                          sku: item.variant.sku,
-                          selectedOptions: item.variant.selectedOptions,
-                        }}
+                {cart.items.map((item) => {
+                  const box = isBoxCartItem(item);
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex items-start justify-between border-b border-bp-text/10 pb-3"
+                    >
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-bp-text">
+                          {box ? boxStripeName(item) : item.product.title}
+                        </p>
+                        {box && item.box ? (
+                          <ul className="mt-1 space-y-0.5 text-xs text-bp-text/55">
+                            {item.box.contents.map((content) => (
+                              <li key={content.id}>
+                                {categoryLabel(content.categoryKey)}: {content.title}
+                                {content.variantLabel
+                                  ? ` (${content.variantLabel})`
+                                  : ""}
+                              </li>
+                            ))}
+                            {item.box.giftMessage ? (
+                              <li className="italic">
+                                Gift message: {item.box.giftMessage}
+                              </li>
+                            ) : null}
+                          </ul>
+                        ) : (
+                          <VariantLabel
+                            variant={{
+                              id: item.variant.id,
+                              title: item.variant.title,
+                              price: item.price,
+                              available: true,
+                              sku: item.variant.sku,
+                              selectedOptions: item.variant.selectedOptions,
+                            }}
+                          />
+                        )}
+                        {box ? null : (
+                          <p className="text-sm text-bp-text/55">
+                            Qty: {item.quantity}
+                          </p>
+                        )}
+                      </div>
+                      <Price
+                        amount={(item.price * item.quantity).toString()}
+                        currencyCode={cart.currency}
+                        className="text-sm font-medium"
                       />
-                      <p className="text-sm text-bp-text/55">Qty: {item.quantity}</p>
                     </div>
-                    <Price
-                      amount={(item.price * item.quantity).toString()}
-                      currencyCode={cart.currency}
-                      className="text-sm font-medium"
-                    />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="space-y-2 border-t border-bp-text/10 pt-4">

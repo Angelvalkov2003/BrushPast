@@ -5,6 +5,7 @@ import {
   rollbackCheckoutOrder,
   validateCheckoutInventory,
 } from "lib/inventory";
+import type { BoxCategoryKey, BoxTypeId } from "lib/shop-box-config";
 
 export type CheckoutLineItem = {
   product_id: string;
@@ -13,6 +14,8 @@ export type CheckoutLineItem = {
   quantity: number;
   unit_price: number;
   sku?: string;
+  box_category_key?: BoxCategoryKey;
+  source_box_type?: BoxTypeId;
 };
 
 export type CreateCheckoutOrderInput = {
@@ -31,6 +34,9 @@ export type CreateCheckoutOrderInput = {
   courier_name?: string;
   payment_method: "card" | "cash_on_delivery";
   customer_note?: string;
+  gift_message?: string;
+  box_type?: BoxTypeId;
+  box_combo_id?: "print_tshirt" | "print_coffee" | "tshirt_coffee";
   items: CheckoutLineItem[];
   subtotal: number;
   shipping_total: number;
@@ -64,6 +70,9 @@ export async function createCheckoutOrder(input: CreateCheckoutOrderInput) {
       subtotal: input.subtotal,
       grand_total: input.grand_total,
       customer_note: input.customer_note || null,
+      gift_message: input.gift_message || null,
+      box_type: input.box_type || null,
+      box_combo_id: input.box_combo_id || null,
     })
     .select()
     .single();
@@ -79,6 +88,8 @@ export async function createCheckoutOrder(input: CreateCheckoutOrderInput) {
     quantity: item.quantity,
     unit_price: item.unit_price,
     line_total: item.unit_price * item.quantity,
+    box_category_key: item.box_category_key || null,
+    source_box_type: item.source_box_type || null,
   }));
 
   const { error: itemsError } = await supabase.from("order_items").insert(rows);

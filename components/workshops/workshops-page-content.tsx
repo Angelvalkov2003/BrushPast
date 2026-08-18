@@ -41,7 +41,7 @@ function HeroButtons({ className }: { className?: string }) {
       <HomeCta href="/contact" variant="primary">
         Join a workshop →
       </HomeCta>
-      <HomeCta href="/contact" variant="outline">
+      <HomeCta href="/contact#become-a-sponsor" variant="outline">
         Host or sponsor →
       </HomeCta>
     </div>

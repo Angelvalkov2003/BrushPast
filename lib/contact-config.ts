@@ -36,10 +36,10 @@ export const CONTACT_CONNECT_CARDS = [
   },
   {
     title: "Support the work",
-    description: "Every purchase and donation helps",
-    descriptionAccent: "creators and programmes.",
-    cta: "Support Brush Past",
-    href: "/shop",
+    description: "Sponsor a workshop, an artist, or",
+    descriptionAccent: "the next community story.",
+    cta: "Become a sponsor",
+    href: "#become-a-sponsor",
     image: "/shop1.png",
   },
 ] as const;

@@ -1,8 +1,11 @@
 import { cookies } from "next/headers";
 import { timingSafeEqual } from "crypto";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_SESSION_VALUE,
+} from "lib/admin-session";
 
-export const ADMIN_SESSION_COOKIE = "bp_admin_session";
-const SESSION_VALUE = "authenticated";
+export { ADMIN_SESSION_COOKIE, ADMIN_SESSION_VALUE };
 
 export function getAdminPassword(): string {
   return process.env.ADMIN_PASSWORD?.trim() ?? "";
@@ -19,12 +22,12 @@ export function verifyAdminPassword(password: string): boolean {
 
 export async function isAdminAuthenticated(): Promise<boolean> {
   const cookieStore = await cookies();
-  return cookieStore.get(ADMIN_SESSION_COOKIE)?.value === SESSION_VALUE;
+  return cookieStore.get(ADMIN_SESSION_COOKIE)?.value === ADMIN_SESSION_VALUE;
 }
 
 export async function setAdminSession(): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set(ADMIN_SESSION_COOKIE, SESSION_VALUE, {
+  cookieStore.set(ADMIN_SESSION_COOKIE, ADMIN_SESSION_VALUE, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

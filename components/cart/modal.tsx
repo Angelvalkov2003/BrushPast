@@ -16,9 +16,12 @@ import { DeleteItemButton } from "./delete-item-button";
 import { EditItemQuantityButton } from "./edit-item-quantity-button";
 import OpenCart from "./open-cart";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY } from "lib/uk-copy";
+import { isBoxCartItem, boxStripeName } from "lib/shop-box-cart";
+import { categoryLabel } from "lib/shop-box-config";
+import { isValidImageUrl } from "lib/image-url";
 
 export default function CartModal() {
-  const { cart, cartPulse, updateCartItem, stockError, clearStockError } = useCart();
+  const { cart, cartPulse, updateCartItem, removeBoxContent, stockError, clearStockError } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const openCart = () => {
     clearStockError();
@@ -85,11 +88,15 @@ export default function CartModal() {
                         a.product.title.localeCompare(b.product.title),
                       )
                       .map((item, i) => {
-                        const productUrl = `/product/${item.product.handle}`;
+                        const box = isBoxCartItem(item);
+                        const productUrl = box
+                          ? "/shop"
+                          : `/product/${item.product.handle}`;
+                        const imageUrl = item.product.image.url;
 
                         return (
                           <li
-                            key={i}
+                            key={item.id || i}
                             className="flex w-full flex-col border-b border-bp-text/10"
                           >
                             <div className="relative flex w-full flex-row justify-between px-1 py-4">
@@ -101,23 +108,37 @@ export default function CartModal() {
                               </div>
                               <div className="flex flex-row">
                                 <div className="relative h-16 w-16 overflow-hidden border border-bp-text/15 bg-bp-text/5">
-                                  <Image
-                                    className="h-full w-full object-cover"
-                                    width={64}
-                                    height={64}
-                                    alt={item.product.image.altText || item.product.title}
-                                    src={item.product.image.url}
-                                  />
+                                  {isValidImageUrl(imageUrl) ? (
+                                    <Image
+                                      className="h-full w-full object-cover"
+                                      width={64}
+                                      height={64}
+                                      alt={item.product.image.altText || item.product.title}
+                                      src={imageUrl}
+                                    />
+                                  ) : null}
                                 </div>
                                 <div className="z-30 ml-2 flex flex-1 flex-col text-base">
-                                  <Link
-                                    href={productUrl}
-                                    onClick={closeCart}
-                                    className="leading-tight font-medium hover:underline"
-                                  >
-                                    {item.product.title}
-                                  </Link>
-                                  <CartLineVariant item={item} />
+                                  {box ? (
+                                    <p className="font-medium leading-tight">
+                                      {boxStripeName(item)}
+                                    </p>
+                                  ) : (
+                                    <Link
+                                      href={productUrl}
+                                      onClick={closeCart}
+                                      className="leading-tight font-medium hover:underline"
+                                    >
+                                      {item.product.title}
+                                    </Link>
+                                  )}
+                                  {box ? (
+                                    <p className="mt-1 text-xs uppercase tracking-[0.12em] text-bp-text/50">
+                                      Gift box
+                                    </p>
+                                  ) : (
+                                    <CartLineVariant item={item} />
+                                  )}
                                 </div>
                               </div>
                               <div className="flex h-16 flex-col justify-between">
@@ -126,25 +147,63 @@ export default function CartModal() {
                                   amount={(item.price * item.quantity).toString()}
                                   currencyCode={cart.currency}
                                 />
-                                <div className="ml-auto flex h-9 flex-row items-center border border-bp-text/15">
-                                  <EditItemQuantityButton
-                                    item={item}
-                                    type="minus"
-                                    optimisticUpdate={updateCartItem}
-                                  />
-                                  <p className="w-6 text-center">
-                                    <span className="w-full text-sm">
-                                      {item.quantity}
-                                    </span>
-                                  </p>
-                                  <EditItemQuantityButton
-                                    item={item}
-                                    type="plus"
-                                    optimisticUpdate={updateCartItem}
-                                  />
-                                </div>
+                                {box ? null : (
+                                  <div className="ml-auto flex h-9 flex-row items-center border border-bp-text/15">
+                                    <EditItemQuantityButton
+                                      item={item}
+                                      type="minus"
+                                      optimisticUpdate={updateCartItem}
+                                    />
+                                    <p className="w-6 text-center">
+                                      <span className="w-full text-sm">
+                                        {item.quantity}
+                                      </span>
+                                    </p>
+                                    <EditItemQuantityButton
+                                      item={item}
+                                      type="plus"
+                                      optimisticUpdate={updateCartItem}
+                                    />
+                                  </div>
+                                )}
                               </div>
                             </div>
+                            {box && item.box ? (
+                              <ul className="mb-4 ml-2 space-y-2 border-l border-bp-text/10 pl-4">
+                                {item.box.contents.map((content) => (
+                                  <li
+                                    key={content.id}
+                                    className="flex items-start justify-between gap-2 text-sm"
+                                  >
+                                    <div>
+                                      <p className="text-bp-text/80">
+                                        {categoryLabel(content.categoryKey)}:{" "}
+                                        {content.title}
+                                      </p>
+                                      {content.variantLabel ? (
+                                        <p className="text-xs text-bp-text/50">
+                                          {content.variantLabel}
+                                        </p>
+                                      ) : null}
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        removeBoxContent(item.id, content.id)
+                                      }
+                                      className="shrink-0 text-xs font-semibold text-bp-text/50 hover:text-bp-accent"
+                                    >
+                                      Remove
+                                    </button>
+                                  </li>
+                                ))}
+                                {item.box.giftMessage ? (
+                                  <li className="text-xs italic text-bp-text/55">
+                                    Message: {item.box.giftMessage}
+                                  </li>
+                                ) : null}
+                              </ul>
+                            ) : null}
                           </li>
                         );
                       })}

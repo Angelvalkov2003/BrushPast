@@ -9,6 +9,7 @@ import {
   adminPageHeaderClass,
   adminPrimaryLinkClass,
 } from "components/admin/admin-form-styles";
+import { boxCategoriesFromAdmin } from "lib/shop-box-config";
 
 export const dynamic = "force-dynamic";
 
@@ -36,13 +37,13 @@ export default async function AdminProductsPage({
         <Link href="/admin/products" className="rounded border px-3 py-2 text-sm">
           All
         </Link>
-        {categories.map((c) => (
+        {boxCategoriesFromAdmin(categories).map((c) => (
           <Link
             key={c.id}
             href={`/admin/products?category=${c.id}`}
             className="rounded border px-3 py-2 text-sm"
           >
-            {c.name || c.slug}
+            {c.label}
           </Link>
         ))}
       </div>

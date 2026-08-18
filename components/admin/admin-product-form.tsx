@@ -20,6 +20,7 @@ import {
   adminTextareaLgClass,
 } from "./admin-form-styles";
 import type { AdminCategory, AdminOrganisation, AdminProduct, AdminProductVariantInput, AdminStory, AdminWorkshop, ContentStatus, InventoryType } from "lib/types/admin";
+import { boxCategoriesFromAdmin } from "lib/shop-box-config";
 
 type Props = {
   product?: AdminProduct | null;
@@ -49,7 +50,11 @@ export function AdminProductForm({
   const [gallery, setGallery] = useState<string[]>(
     product?.images?.map((i) => i.image_url ?? "").filter(Boolean) ?? [],
   );
-  const [categoryIds, setCategoryIds] = useState<string[]>(product?.category_ids ?? []);
+  const boxCategories = boxCategoriesFromAdmin(categories);
+  const [categoryId, setCategoryId] = useState(() => {
+    const ids = product?.category_ids ?? [];
+    return ids.find((id) => boxCategories.some((item) => item.id === id)) ?? "";
+  });
   const [storyIds, setStoryIds] = useState<string[]>(product?.story_ids ?? []);
   const [organisationIds, setOrganisationIds] = useState<string[]>(
     product?.organisation_ids ?? [],
@@ -59,11 +64,9 @@ export function AdminProductForm({
     initialVariantsFromProduct(product?.variants),
   );
 
-  const toggleCategory = (id: string) => {
-    setCategoryIds((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id],
-    );
-  };
+  const adminBoxCategories = ["tshirt", "coffee", "print"].flatMap((key) =>
+    boxCategories.filter((item) => item.key === key),
+  );
 
   const toggleStory = (id: string) => {
     setStoryIds((prev) =>
@@ -79,13 +82,18 @@ export function AdminProductForm({
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!categoryId) {
+      toast.error("Choose one category: T-Shirt, Coffee or Print.");
+      return;
+    }
+
     const form = e.currentTarget;
     setLoading(true);
 
     try {
       const fd = new FormData(form);
       fd.set("main_image_url", mainImage);
-      fd.set("category_ids", JSON.stringify(categoryIds));
+      fd.set("category_id", categoryId);
       fd.set("story_ids", JSON.stringify(storyIds));
       fd.set("organisation_ids", JSON.stringify(organisationIds));
       fd.set("workshop_id", workshopId);
@@ -146,6 +154,38 @@ export function AdminProductForm({
           <label className={adminLabelClass}>Stock qty</label>
           <input name="inventory_quantity" type="number" min="0" defaultValue={product?.inventory_quantity ?? ""} className={adminInputClass} />
         </div>
+      </div>
+
+      <div>
+        <label className={`${adminLabelClass} mb-3`}>Category *</label>
+        <p className="mb-3 text-sm text-gray-600">
+          Each product belongs to one collection: T-Shirt, Coffee or Print.
+        </p>
+        {adminBoxCategories.length === 0 ? (
+          <p className="text-sm text-red-700">
+            The T-Shirt, Coffee and Print categories are missing. Add them under
+            Categories first.
+          </p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {adminBoxCategories.map((item) => (
+              <label
+                key={item.id}
+                className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm"
+              >
+                <input
+                  type="radio"
+                  name="category_id"
+                  value={item.id}
+                  checked={categoryId === item.id}
+                  onChange={() => setCategoryId(item.id)}
+                  required
+                />
+                {item.label}
+              </label>
+            ))}
+          </div>
+        )}
       </div>
 
       <div>
@@ -257,18 +297,6 @@ export function AdminProductForm({
               className={adminTextareaClass}
             />
           </div>
-        </div>
-      </div>
-
-      <div>
-        <label className={`${adminLabelClass} mb-3`}>Categories</label>
-        <div className="flex flex-wrap gap-2">
-          {categories.map((c) => (
-            <label key={c.id} className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm">
-              <input type="checkbox" checked={categoryIds.includes(c.id)} onChange={() => toggleCategory(c.id)} />
-              {c.name || c.slug}
-            </label>
-          ))}
         </div>
       </div>
 

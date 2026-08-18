@@ -13,6 +13,8 @@
 -- =============================================================================
 -- Cleanup legacy template
 -- =============================================================================
+DROP TABLE IF EXISTS sponsors CASCADE;
+DROP TABLE IF EXISTS box_pair_prices CASCADE;
 DROP TABLE IF EXISTS stripe_webhook_events CASCADE;
 DROP TABLE IF EXISTS order_status_history CASCADE;
 DROP TABLE IF EXISTS order_items CASCADE;
@@ -40,6 +42,10 @@ DROP TYPE IF EXISTS inventory_type CASCADE;
 DROP TYPE IF EXISTS payment_method CASCADE;
 DROP TYPE IF EXISTS payment_status CASCADE;
 DROP TYPE IF EXISTS order_status CASCADE;
+DROP TYPE IF EXISTS box_type CASCADE;
+DROP TYPE IF EXISTS box_pair_combo CASCADE;
+DROP TYPE IF EXISTS sponsor_tier CASCADE;
+DROP TYPE IF EXISTS sponsor_payment_status CASCADE;
 
 DROP FUNCTION IF EXISTS trg_orders_generate_order_number CASCADE;
 DROP FUNCTION IF EXISTS trg_orders_payment_paid_inventory CASCADE;
@@ -66,6 +72,21 @@ CREATE TYPE order_status AS ENUM (
   'shipped',
   'delivered',
   'cancelled',
+  'refunded'
+);
+CREATE TYPE box_type AS ENUM ('a', 'b', 'c', 'd');
+CREATE TYPE box_pair_combo AS ENUM ('print_tshirt', 'print_coffee', 'tshirt_coffee');
+CREATE TYPE sponsor_tier AS ENUM (
+  'supporter',
+  'creative_ally',
+  'project_backer',
+  'visionary',
+  'custom'
+);
+CREATE TYPE sponsor_payment_status AS ENUM (
+  'pending',
+  'paid',
+  'failed',
   'refunded'
 );
 
@@ -313,6 +334,9 @@ CREATE TABLE orders (
   shipping_total NUMERIC(10, 2) CHECK (shipping_total IS NULL OR shipping_total >= 0),
   grand_total NUMERIC(10, 2) CHECK (grand_total IS NULL OR grand_total >= 0),
   customer_note TEXT,
+  gift_message TEXT,
+  box_type box_type,
+  box_combo_id box_pair_combo,
   admin_note TEXT,
   inventory_decremented_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -353,12 +377,29 @@ CREATE TABLE order_items (
   unit_price NUMERIC(10, 2) CHECK (unit_price IS NULL OR unit_price >= 0),
   line_total NUMERIC(10, 2) CHECK (line_total IS NULL OR line_total >= 0),
   edition_number TEXT,
+  box_category_key TEXT,
+  source_box_type box_type,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE INDEX idx_order_items_order_id ON order_items (order_id);
 CREATE INDEX idx_order_items_product_id ON order_items (product_id);
 CREATE INDEX idx_order_items_variant_id ON order_items (variant_id);
+
+-- Type B pair prices (GBP filled when PM confirms amounts)
+CREATE TABLE box_pair_prices (
+  combo_id box_pair_combo PRIMARY KEY,
+  price_gbp NUMERIC(10, 2) CHECK (price_gbp IS NULL OR price_gbp >= 0),
+  label TEXT NOT NULL,
+  category_keys TEXT[] NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+INSERT INTO box_pair_prices (combo_id, price_gbp, label, category_keys) VALUES
+  ('print_tshirt', NULL, 'Print + T-shirt', ARRAY['print', 'tshirt']),
+  ('print_coffee', NULL, 'Print + Coffee', ARRAY['print', 'coffee']),
+  ('tshirt_coffee', NULL, 'T-shirt + Coffee', ARRAY['tshirt', 'coffee']);
 
 -- =============================================================================
 -- Order status history
@@ -401,6 +442,29 @@ CREATE TABLE newsletter_subscribers (
 
 CREATE INDEX idx_newsletter_subscribers_created_at ON newsletter_subscribers (created_at DESC);
 CREATE INDEX idx_newsletter_subscribers_source ON newsletter_subscribers (source);
+
+-- =============================================================================
+-- Sponsors (Get in Touch — Become a Sponsor)
+-- =============================================================================
+CREATE TABLE sponsors (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  full_name TEXT,
+  email TEXT,
+  amount_gbp NUMERIC(10, 2) NOT NULL CHECK (amount_gbp > 0),
+  tier sponsor_tier NOT NULL,
+  payment_status sponsor_payment_status NOT NULL DEFAULT 'pending',
+  stripe_checkout_session_id TEXT UNIQUE,
+  stripe_payment_intent_id TEXT UNIQUE,
+  privacy_policy_accepted_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_sponsors_created_at ON sponsors (created_at DESC);
+CREATE INDEX idx_sponsors_payment_status ON sponsors (payment_status);
+CREATE INDEX idx_sponsors_email ON sponsors (email);
+CREATE UNIQUE INDEX idx_sponsors_stripe_session ON sponsors (stripe_checkout_session_id)
+  WHERE stripe_checkout_session_id IS NOT NULL;
 
 -- =============================================================================
 -- Journal posts
@@ -558,6 +622,10 @@ CREATE TRIGGER product_variants_updated_at BEFORE UPDATE ON product_variants
   FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
 CREATE TRIGGER orders_updated_at BEFORE UPDATE ON orders
   FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
+CREATE TRIGGER box_pair_prices_updated_at BEFORE UPDATE ON box_pair_prices
+  FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
+CREATE TRIGGER sponsors_updated_at BEFORE UPDATE ON sponsors
+  FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
 CREATE TRIGGER journal_posts_updated_at BEFORE UPDATE ON journal_posts
   FOR EACH ROW EXECUTE FUNCTION trg_set_updated_at();
 
@@ -610,6 +678,7 @@ END;
 $$;
 
 COMMENT ON TABLE orders IS 'Guest checkout. order_number = BP-YYYYMMDD-######. stripe_checkout_session_id UNIQUE prevents duplicate card orders.';
+COMMENT ON COLUMN orders.gift_message IS 'Required gift message from the box builder. Separate from customer_note.';
 COMMENT ON COLUMN orders.stripe_checkout_session_id IS 'Set before redirect to Stripe; webhook matches this once.';
 COMMENT ON TABLE stripe_webhook_events IS 'Idempotent Stripe webhook processing by event id.';
 COMMENT ON FUNCTION complete_order_from_stripe IS 'Webhook: mark paid once; safe on Stripe retries.';
@@ -625,6 +694,8 @@ ALTER TABLE product_categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE customer_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE box_pair_prices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sponsors ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_status_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE stripe_webhook_events ENABLE ROW LEVEL SECURITY;
 
@@ -711,6 +782,11 @@ CREATE POLICY product_organisations_public_read ON product_organisations
   USING (true);
 
 -- orders / order_items: no anon policies (service role + admin only)
+
+CREATE POLICY box_pair_prices_public_read ON box_pair_prices
+  FOR SELECT TO anon, authenticated
+  USING (true);
+
 -- ########## PART 2: CATALOG SEED ##########
 UPDATE order_items
 SET product_id = NULL, variant_id = NULL

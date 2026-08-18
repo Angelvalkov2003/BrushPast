@@ -238,6 +238,57 @@ View order: ${siteUrl}/admin/orders/${data.orderId}
   }
 }
 
+export interface SponsorNotificationData {
+  sponsorId: string;
+  fullName: string;
+  email: string;
+  amountGbp: number;
+  tierLabel: string;
+}
+
+export async function sendNewSponsorNotification(data: SponsorNotificationData) {
+  try {
+    const amount = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(data.amountGbp);
+
+    const { error } = await resend.emails.send({
+      from: `New Sponsor <noreply@${getDomainFromEmail(contactEmail)}>`,
+      to: [contactEmail],
+      replyTo: data.email,
+      subject: `New sponsor — ${data.tierLabel} (${amount})`,
+      html: `
+        <h2>New sponsorship received</h2>
+        <p><strong>Name:</strong> ${escapeHtml(data.fullName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+        <p><strong>Amount:</strong> ${escapeHtml(amount)}</p>
+        <p><strong>Tier:</strong> ${escapeHtml(data.tierLabel)}</p>
+        <hr>
+        <p><small>View in admin: ${siteUrl}/admin/sponsors</small></p>
+      `,
+      text: `
+New sponsorship received
+
+Name: ${data.fullName}
+Email: ${data.email}
+Amount: ${amount}
+Tier: ${data.tierLabel}
+
+View in admin: ${siteUrl}/admin/sponsors
+      `,
+    });
+
+    if (error) {
+      console.error("Error sending sponsor notification:", error);
+      throw error;
+    }
+  } catch (error) {
+    console.error("Failed to send sponsor notification email:", error);
+    throw error;
+  }
+}
+
 /**
  * Helper function to get the sending domain for Resend
  * Resend requires verified domains. Use resend.dev for testing or your verified domain for production

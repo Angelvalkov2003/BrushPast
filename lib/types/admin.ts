@@ -146,6 +146,9 @@ export type AdminOrderDetail = AdminOrder & {
   customer_note: string | null;
   admin_note: string | null;
   stripe_checkout_session_id: string | null;
+  gift_message: string | null;
+  box_type: "a" | "b" | "c" | "d" | null;
+  box_combo_id: string | null;
   items: {
     id: string;
     product_title: string | null;
@@ -168,6 +171,16 @@ export type NewsletterSubscriber = {
   id: string;
   email: string;
   source: string;
+  created_at: string;
+};
+
+export type AdminSponsor = {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+  amount_gbp: number;
+  tier: "supporter" | "creative_ally" | "project_backer" | "visionary" | "custom";
+  payment_status: "pending" | "paid" | "failed" | "refunded";
   created_at: string;
 };
 

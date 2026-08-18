@@ -32,7 +32,7 @@ export function LaunchTransparencyBanner({
   return (
     <section
       aria-labelledby="launch-transparency-heading"
-      className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen border-b border-bp-text/10 bg-bp-dark text-bp-canvas"
+      className="w-full max-w-full border-b border-bp-text/10 bg-bp-dark text-bp-canvas"
     >
       <div className="relative mx-auto max-w-[1400px] overflow-hidden px-4 py-8 md:px-10 md:py-10">
         <div

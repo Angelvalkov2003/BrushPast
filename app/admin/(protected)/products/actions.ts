@@ -6,6 +6,8 @@ import {
   deleteProductAdmin,
   updateProductAdmin,
 } from "lib/supabase/admin-products";
+import { getAllCategoriesAdmin } from "lib/supabase/admin-categories";
+import { boxCategoriesFromAdmin } from "lib/shop-box-config";
 import type { ContentStatus, InventoryType, AdminProductVariantInput } from "lib/types/admin";
 
 function parseVariants(fd: FormData) {
@@ -18,7 +20,7 @@ function parseVariants(fd: FormData) {
 }
 
 function parseForm(fd: FormData) {
-  const categoryIds = JSON.parse((fd.get("category_ids") as string) || "[]") as string[];
+  const categoryIds = parseCategoryIds(fd);
   const gallery_urls = JSON.parse((fd.get("gallery_urls") as string) || "[]") as string[];
   const qty = fd.get("inventory_quantity") as string;
   const optional = (key: string) => {
@@ -56,11 +58,35 @@ function parseForm(fd: FormData) {
   };
 }
 
+function parseCategoryIds(fd: FormData): string[] {
+  const single = (fd.get("category_id") as string)?.trim();
+  if (single) return [single];
+  try {
+    const ids = JSON.parse((fd.get("category_ids") as string) || "[]") as string[];
+    return ids.filter(Boolean).slice(0, 1);
+  } catch {
+    return [];
+  }
+}
+
+async function requireBoxCategory(categoryIds: string[]) {
+  if (categoryIds.length !== 1) {
+    throw new Error("Choose one category: T-Shirt, Coffee or Print.");
+  }
+
+  const categories = await getAllCategoriesAdmin();
+  const allowed = new Set(boxCategoriesFromAdmin(categories).map((item) => item.id));
+  if (!allowed.has(categoryIds[0]!)) {
+    throw new Error("Choose one category: T-Shirt, Coffee or Print.");
+  }
+}
+
 export async function createProductAction(fd: FormData) {
   if (!(await isAdmin())) return { error: "Unauthorized" };
   try {
     const input = parseForm(fd);
     if (!input.title || Number.isNaN(input.price_gbp)) return { error: "Title and price required" };
+    await requireBoxCategory(input.category_ids);
     await createProductAdmin(input);
     return {};
   } catch (e: unknown) {
@@ -73,7 +99,9 @@ export async function updateProductAction(fd: FormData) {
   const id = fd.get("id") as string;
   if (!id) return { error: "Missing product id" };
   try {
-    await updateProductAdmin(id, parseForm(fd));
+    const input = parseForm(fd);
+    await requireBoxCategory(input.category_ids);
+    await updateProductAdmin(id, input);
     return {};
   } catch (e: unknown) {
     return { error: e instanceof Error ? e.message : "Failed to update" };

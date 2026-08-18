@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { STRIPE_CURRENCY, toStripeMinorUnits } from "lib/currency";
+import { boxStripeDescription, boxStripeName, isBoxCartItem } from "lib/shop-box-cart";
 import type { Cart } from "./types";
 
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -17,17 +18,27 @@ export async function createCheckoutSession(
   orderId: string,
   shippingPence: number,
 ) {
-  const lineItems = cart.items.map((item) => ({
-    price_data: {
-      currency: STRIPE_CURRENCY,
-      product_data: {
-        name: item.product.title,
-        images: item.product.image.url ? [item.product.image.url] : [],
-      },
-      unit_amount: toStripeMinorUnits(item.price),
-    },
-    quantity: item.quantity,
-  }));
+  const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
+    cart.items.map((item) => {
+      const productData: Stripe.Checkout.SessionCreateParams.LineItem.PriceData.ProductData =
+        {
+          name: isBoxCartItem(item) ? boxStripeName(item) : item.product.title,
+          images: item.product.image.url ? [item.product.image.url] : [],
+        };
+      const description = isBoxCartItem(item)
+        ? boxStripeDescription(item)
+        : undefined;
+      if (description) productData.description = description;
+
+      return {
+        price_data: {
+          currency: STRIPE_CURRENCY,
+          product_data: productData,
+          unit_amount: toStripeMinorUnits(item.price),
+        },
+        quantity: item.quantity,
+      };
+    });
 
   if (shippingPence > 0) {
     lineItems.push({

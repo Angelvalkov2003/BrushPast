@@ -15,7 +15,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div id="bp-site-shell">
       <ConditionalNavbar />
-      <main suppressHydrationWarning>{children}</main>
+      <main className="min-w-0 max-w-full" suppressHydrationWarning>
+        {children}
+      </main>
     </div>
   );
 }
