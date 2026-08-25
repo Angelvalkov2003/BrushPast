@@ -59,9 +59,6 @@ export const metadata: Metadata = {
     follow: true,
     index: true,
   },
-  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-    : undefined,
   icons: {
     icon: [{ url: "/logo.avif", type: "image/avif" }],
     apple: [{ url: "/logosmall.png" }],
