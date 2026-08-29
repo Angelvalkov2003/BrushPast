@@ -2,11 +2,22 @@ import { SHOP_COLLECTIONS } from "./shop-config";
 
 export type BoxTypeId = "a" | "b" | "c" | "d";
 
+/**
+ * Launch categories. Kept as a string union for TypeScript today;
+ * prefer iterating BOX_CATEGORY_ROWS so new categories can be added later
+ * without rewriting every UI surface.
+ */
 export type BoxCategoryKey = "coffee" | "tshirt" | "print";
 
 export type BoxPairComboId = "print-tshirt" | "print-coffee" | "tshirt-coffee";
 
 export type BoxBuilderStep = "choose" | "review" | "message";
+
+export type BoxPriceMode =
+  | "fixed-box"
+  | "pair-lookup"
+  | "category-fixed"
+  | "sku-sum-discount";
 
 export type BoxSelectionItem = {
   id: string;
@@ -34,7 +45,7 @@ export type BoxTypeRules = {
   maxTotal: number | null;
   maxPerCategory: number | null;
   distinctCategories: boolean;
-  priceMode: "sku-sum" | "pair-lookup";
+  priceMode: BoxPriceMode;
   minTotal: number;
 };
 
@@ -47,7 +58,6 @@ export type BoxHubCard = {
   href: string | null;
   available: boolean;
   comingSoon: boolean;
-  /** English description of the photo that should replace the placeholder. */
   imageAlt: string;
   imageNote: string;
 };
@@ -58,14 +68,32 @@ export const BOX_BUILDER_STEPS: { id: BoxBuilderStep; label: string }[] = [
   { id: "message", label: "Add Message" },
 ];
 
+/** Config-driven category list — extend here when new product families launch. */
 export const BOX_CATEGORY_ROWS: {
   key: BoxCategoryKey;
   slug: string;
   label: string;
+  /** Fixed Single Collection retail price (GBP). */
+  singlePriceGbp: number;
 }[] = [
-  { key: "coffee", slug: SHOP_COLLECTIONS[1].slug, label: "Coffee" },
-  { key: "tshirt", slug: SHOP_COLLECTIONS[0].slug, label: "T-Shirt" },
-  { key: "print", slug: SHOP_COLLECTIONS[2].slug, label: "Print" },
+  {
+    key: "coffee",
+    slug: SHOP_COLLECTIONS[1].slug,
+    label: "Coffee",
+    singlePriceGbp: 15,
+  },
+  {
+    key: "tshirt",
+    slug: SHOP_COLLECTIONS[0].slug,
+    label: "T-Shirt",
+    singlePriceGbp: 35,
+  },
+  {
+    key: "print",
+    slug: SHOP_COLLECTIONS[2].slug,
+    label: "Print",
+    singlePriceGbp: 28,
+  },
 ];
 
 export const BOX_CATEGORY_SLUGS = BOX_CATEGORY_ROWS.map((row) => row.slug);
@@ -91,92 +119,118 @@ export const BOX_TYPE_RULES: Record<BoxTypeId, BoxTypeRules> = {
     maxTotal: 3,
     maxPerCategory: 1,
     distinctCategories: true,
-    priceMode: "sku-sum",
+    priceMode: "fixed-box",
     minTotal: 3,
   },
   b: {
     maxTotal: 2,
-    maxPerCategory: 2,
-    distinctCategories: false,
-    priceMode: "sku-sum",
+    maxPerCategory: 1,
+    distinctCategories: true,
+    priceMode: "pair-lookup",
     minTotal: 2,
   },
   c: {
     maxTotal: 1,
     maxPerCategory: 1,
     distinctCategories: false,
-    priceMode: "sku-sum",
+    priceMode: "category-fixed",
     minTotal: 1,
   },
   d: {
-    maxTotal: 9,
+    maxTotal: 3,
     maxPerCategory: 3,
     distinctCategories: false,
-    priceMode: "sku-sum",
-    minTotal: 1,
+    priceMode: "sku-sum-discount",
+    minTotal: 2,
+  },
+};
+
+/** Next Chapter fixed price (GBP). */
+export const NEXT_CHAPTER_PRICE_GBP = 70;
+
+/** Build Your Own discounts on combined retail. */
+export const BYO_DISCOUNT = {
+  twoItems: 0.07,
+  threeItems: 0.1,
+} as const;
+
+export const PAIR_COMBO_META: Record<
+  BoxPairComboId,
+  { categories: [BoxCategoryKey, BoxCategoryKey]; label: string }
+> = {
+  "print-coffee": {
+    categories: ["coffee", "print"],
+    label: "Coffee + Print",
+  },
+  "tshirt-coffee": {
+    categories: ["coffee", "tshirt"],
+    label: "Coffee + T-Shirt",
+  },
+  "print-tshirt": {
+    categories: ["tshirt", "print"],
+    label: "T-Shirt + Print",
   },
 };
 
 export const BOX_HUB_CARDS: BoxHubCard[] = [
   {
     type: "a",
-    name: "Complete Box",
+    name: "Next Chapter",
     eyebrow: "All three",
     description:
-      "The complete creative box — one coffee, one t-shirt and one print, packed together.",
+      "One coffee, one t-shirt and one art print — the main Brush Past gift box.",
     cta: "Build this box →",
     href: "/shop/box/a",
     available: true,
     comingSoon: false,
     imageAlt:
-      "Photograph of a sealed Brush Past gift box tied with twine, representing the Complete Box",
+      "Photograph of a sealed Brush Past gift box tied with twine, representing Next Chapter",
     imageNote:
-      "IMAGE NEEDED: Photograph of a sealed Brush Past gift box tied with twine, representing the Complete Box.",
+      "IMAGE NEEDED: Photograph of a sealed Brush Past gift box tied with twine, representing Next Chapter.",
   },
   {
     type: "b",
-    name: "Pair Box",
+    name: "Curated Pairings",
     eyebrow: "Choose two",
     description:
-      "Two pieces from the archive — any coffee, t-shirt or print pairing you choose.",
-    cta: "Build this pair →",
+      "Three fixed pairings — coffee + print, coffee + t-shirt, or t-shirt + print.",
+    cta: "Choose a pairing →",
     href: "/shop/box/b",
     available: true,
     comingSoon: false,
     imageAlt:
-      "Two gifts paired together — a print stacked with a coffee bag — representing the Pair Box",
+      "Two gifts paired together — a print stacked with a coffee bag — representing Curated Pairings",
     imageNote:
-      "IMAGE NEEDED: Two gifts paired together (a print stacked with a coffee bag), representing the Pair Box.",
+      "IMAGE NEEDED: Two gifts paired together (a print stacked with a coffee bag), representing Curated Pairings.",
   },
   {
     type: "c",
-    name: "Single Box",
+    name: "Single Collection",
     eyebrow: "Choose one",
     description:
-      "One piece in a box — a t-shirt, a print, or a coffee edition. Choose the design, add a gift message, and we pack it as a box.",
+      "One piece packed as a Brush Past gift box — coffee, t-shirt or print.",
     cta: "Choose one piece →",
     href: "/shop/box/c",
     available: true,
     comingSoon: false,
-    imageAlt:
-      "A single wrapped gift on a table, representing the Single Box",
+    imageAlt: "A single wrapped gift on a table, representing Single Collection",
     imageNote:
-      "IMAGE NEEDED: A single wrapped gift on a table, representing the Single Box.",
+      "IMAGE NEEDED: A single wrapped gift on a table, representing Single Collection.",
   },
   {
     type: "d",
-    name: "Custom Box",
+    name: "Build Your Own",
     eyebrow: "Pick and mix",
     description:
-      "Build a custom mix — up to three pieces from each category (t-shirt, print, coffee). Any combination that is not a standard pair or single.",
+      "Choose exactly two or three pieces — any mix, including duplicates. Automatic discount applied.",
     cta: "Mix your box →",
     href: "/shop/box/d",
     available: true,
-    comingSoon: true,
+    comingSoon: false,
     imageAlt:
-      "An open gift box with a t-shirt, a print and a coffee bag mixed together, representing the Custom Box",
+      "An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own",
     imageNote:
-      "IMAGE NEEDED: An open gift box with a t-shirt, a print and a coffee bag mixed together, representing the Custom Box.",
+      "IMAGE NEEDED: An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own.",
   },
 ];
 
@@ -186,16 +240,28 @@ export function isBoxTypeId(value: string): value is BoxTypeId {
   return value === "a" || value === "b" || value === "c" || value === "d";
 }
 
+export function isBoxPairComboId(value: string): value is BoxPairComboId {
+  return (
+    value === "print-tshirt" ||
+    value === "print-coffee" ||
+    value === "tshirt-coffee"
+  );
+}
+
+export function isBoxCategoryKey(value: string): value is BoxCategoryKey {
+  return BOX_CATEGORY_ROWS.some((row) => row.key === value);
+}
+
 export function boxTypeLabel(type: BoxTypeId | string | null | undefined): string {
   switch (type) {
     case "a":
-      return "Complete Box";
+      return "Next Chapter";
     case "b":
-      return "Pair Box";
+      return "Curated Pairings";
     case "c":
-      return "Single Box";
+      return "Single Collection";
     case "d":
-      return "Custom Box";
+      return "Build Your Own";
     default:
       return type ? String(type) : "Box";
   }
@@ -203,6 +269,12 @@ export function boxTypeLabel(type: BoxTypeId | string | null | undefined): strin
 
 export function categoryLabel(key: BoxCategoryKey): string {
   return BOX_CATEGORY_ROWS.find((row) => row.key === key)?.label ?? key;
+}
+
+export function singlePriceForCategory(key: BoxCategoryKey): number {
+  return (
+    BOX_CATEGORY_ROWS.find((row) => row.key === key)?.singlePriceGbp ?? 0
+  );
 }
 
 export function boxComboIdToDb(
@@ -215,37 +287,62 @@ export function boxComboIdToDb(
     | "tshirt_coffee";
 }
 
+export function categoriesForCombo(
+  comboId: BoxPairComboId,
+): [BoxCategoryKey, BoxCategoryKey] {
+  return PAIR_COMBO_META[comboId].categories;
+}
+
+export function comboFromCategories(
+  keys: BoxCategoryKey[],
+): BoxPairComboId | undefined {
+  const set = new Set(keys);
+  if (set.size !== 2) return undefined;
+  const entry = (
+    Object.entries(PAIR_COMBO_META) as [
+      BoxPairComboId,
+      (typeof PAIR_COMBO_META)[BoxPairComboId],
+    ][]
+  ).find(([, meta]) =>
+    meta.categories.every((key) => set.has(key)),
+  );
+  return entry?.[0];
+}
+
 export function boxTypeIntro(type: BoxTypeId): { lead: string; choose: string } {
   switch (type) {
     case "a":
       return {
-        lead: "Choose one t-shirt, one coffee and one print. If a piece has sizes, pick one before it joins the box. Then review, add a gift message, and checkout.",
+        lead: "Next Chapter — one coffee, one t-shirt and one art print. Choose each design, add a gift message, and we pack it as a gift box.",
         choose:
-          "This box holds one of each. Pick a piece in every collection — choosing another in the same collection replaces it.",
+          "Pick one piece in every collection. Choosing another in the same collection replaces it.",
       };
     case "c":
       return {
-        lead: "Pick one t-shirt, print or coffee. If the piece has sizes, choose one before it joins the box. Then review, add a gift message, and checkout.",
-        choose:
-          "Choose one piece from any collection. Picking another replaces the one already in your box.",
+        lead: "Single Collection — one piece packed as a Brush Past gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
+        choose: "Choose one design from this collection.",
       };
     case "b":
       return {
-        lead: "Pick any two pieces — coffee, t-shirts or prints. If a piece has sizes, choose one before it joins the box. Then review, add a gift message, and checkout.",
-        choose:
-          "Choose two pieces from any collection. A third pick replaces the first.",
+        lead: "Curated Pairings — a fixed two-piece gift. Choose the design for each piece in the pair, add a gift message, and checkout.",
+        choose: "Choose one design for each piece in this pairing.",
       };
     case "d":
       return {
-        lead: "Mix your own box — up to three from each collection. Then review, add a gift message, and checkout.",
-        choose: "Add what you want. Up to three pieces from each collection.",
+        lead: "Build Your Own — choose exactly two or three pieces from any collection. Duplicates are welcome. Two pieces save 7%; three save 10%.",
+        choose:
+          "Add two or three pieces. You can pick the same category more than once. A fourth pick is not allowed.",
       };
   }
 }
 
-export function emptyBoxDraft(type: BoxTypeId): BoxDraft {
+export function emptyBoxDraft(
+  type: BoxTypeId,
+  comboId?: BoxPairComboId,
+): BoxDraft {
   return {
     type,
+    comboId,
     items: [],
     giftMessage: "",
   };

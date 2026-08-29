@@ -27,6 +27,7 @@ import { BoxImagePlaceholder } from "./box-image-placeholder";
 import {
   SHOP_BUILD_OWN,
   SHOP_GIFT_HERO,
+  SHOP_IMPACT,
   SHOP_MISSION_STEPS,
   SHOP_MOBILE_BOX_CARDS,
   SHOP_PAIR_OPTIONS,
@@ -166,7 +167,7 @@ function ShopGiftChooser() {
 
         <div className="mt-12 hidden space-y-8 md:block">
           <IndexCard>
-            <ChooserHeading number="01" title="Single collection (choose one)" />
+            <ChooserHeading number="01" title="Single Collection (choose one)" />
             <div className="grid gap-8 sm:grid-cols-3">
               {SHOP_SINGLE_OPTIONS.map((option, index) => (
                 <Link key={option.key} href={option.href} className="group block">
@@ -192,8 +193,8 @@ function ShopGiftChooser() {
           </IndexCard>
 
           <IndexCard>
-            <ChooserHeading number="02" title="Curated pairings (choose two)" />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <ChooserHeading number="02" title="Curated Pairings (choose two)" />
+            <div className="grid gap-6 sm:grid-cols-3">
               {SHOP_PAIR_OPTIONS.map((option, index) => (
                 <Link key={option.key} href={option.href} className="group block">
                   <PolaroidFrame index={index + 1} className="group-hover:rotate-0">
@@ -208,6 +209,9 @@ function ShopGiftChooser() {
                   >
                     {option.title}
                   </h4>
+                  <p className={`${bpBodySmClass} mt-1 font-bold text-bp-accent`}>
+                    {option.priceLabel}
+                  </p>
                   <GiftThis />
                 </Link>
               ))}
@@ -215,7 +219,7 @@ function ShopGiftChooser() {
           </IndexCard>
 
           <IndexCard>
-            <ChooserHeading number="03" title="Signature gift box (all three)" />
+            <ChooserHeading number="03" title="Next Chapter (all three)" />
             <Link
               href={SHOP_SIGNATURE.href}
               className="group grid gap-8 md:grid-cols-2 md:items-center"
@@ -228,13 +232,26 @@ function ShopGiftChooser() {
                 />
               </PolaroidFrame>
               <div>
+                <p
+                  className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent`}
+                >
+                  {SHOP_SIGNATURE.proposition}
+                </p>
                 <h4
-                  className={`${bpTitleClass} ${bpTitleUtility} text-[clamp(1.85rem,4vw,2.75rem)] font-bold uppercase leading-tight text-bp-text`}
+                  className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(1.85rem,4vw,2.75rem)] font-bold uppercase leading-tight text-bp-text`}
                 >
                   {SHOP_SIGNATURE.title}
                 </h4>
                 <p className={`${bpBodyClass} mt-4 text-bp-text/75`}>
+                  {SHOP_SIGNATURE.propositionDetail}
+                </p>
+                <p className={`${bpBodyClass} mt-3 text-bp-text/75`}>
                   {SHOP_SIGNATURE.description}
+                </p>
+                <p
+                  className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-3xl font-bold text-bp-accent`}
+                >
+                  {SHOP_SIGNATURE.priceLabel}
                 </p>
                 <GiftThis />
               </div>
@@ -242,7 +259,7 @@ function ShopGiftChooser() {
           </IndexCard>
 
           <IndexCard>
-            <ChooserHeading number="04" title="Build your own box (pick & mix)" />
+            <ChooserHeading number="04" title="Build Your Own (pick & mix)" />
             <div className="grid gap-8 md:grid-cols-2 md:items-center">
               <div>
                 <h4
@@ -281,6 +298,21 @@ function ShopGiftChooser() {
             </div>
           </IndexCard>
         </div>
+      </div>
+    </TextureSection>
+  );
+}
+
+function ShopImpactBanner() {
+  return (
+    <TextureSection texture="secondary" className="px-4 py-10 md:px-10 md:py-12">
+      <div className="mx-auto max-w-3xl text-center">
+        <p
+          className={`${bpTitleClass} ${bpTitleUtility} text-[clamp(1.5rem,4vw,2.25rem)] font-bold uppercase leading-tight text-bp-text`}
+        >
+          {SHOP_IMPACT.headline}
+        </p>
+        <p className={`${bpBodyClass} mt-4 text-bp-text/75`}>{SHOP_IMPACT.body}</p>
       </div>
     </TextureSection>
   );
@@ -393,7 +425,7 @@ function ShopGiftDonor() {
           Some simply want to help artists create. Sponsor a workshop, an
           artist, or the next community story.
         </p>
-        <HomeCta href="/contact#become-a-sponsor" className="mt-8" variant="primary">
+        <HomeCta href="/sponsor" className="mt-8" variant="primary">
           Become a donor
         </HomeCta>
       </div>
@@ -406,6 +438,7 @@ export function ShopGiftHub() {
     <>
       <ShopGiftHero />
       <ShopGiftChooser />
+      <ShopImpactBanner />
       <ShopGiftMission />
       <ShopGiftStories />
       <ShopGiftDonor />

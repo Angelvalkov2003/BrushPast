@@ -2,13 +2,16 @@
 
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { GridTileImage } from "components/grid/tile";
+import { OutOfStockPlaque } from "components/shop/out-of-stock-plaque";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function Gallery({
   images,
+  outOfStock = false,
 }: {
   images: { src: string; altText: string }[];
+  outOfStock?: boolean;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -123,6 +126,7 @@ export function Gallery({
             </div>
           </div>
         ) : null}
+        {outOfStock ? <OutOfStockPlaque size="lg" className="z-30" /> : null}
         </div>
       </div>
 

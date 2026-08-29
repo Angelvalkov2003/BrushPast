@@ -3,8 +3,8 @@ import clsx from "clsx";
 import { HomeCta, PolaroidFrame, SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
-  bpWhisperUtility,
-  homeHandClass,
+  bpTitleClass,
+  bpTitleUtility,
 } from "components/home/home-typography";
 import {
   TextureSection,
@@ -34,14 +34,16 @@ export function ShopHero({
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-2 md:items-center md:gap-16">
         <div className={clsx(embedded && "md:order-2")}>
           <SectionEyebrow>The Archive</SectionEyebrow>
-          <HeadingTag className="mt-1 text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[0.92] text-bp-text">
+          <HeadingTag
+            className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[0.92] text-bp-text`}
+          >
             The Archive Shop
           </HeadingTag>
           <p className={`${bpBodyClass} mt-6 max-w-md text-bp-text/85`}>
             Art, objects and editions created through lived experience.
           </p>
           <p
-            className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-2xl text-bp-text/90 md:text-3xl`}
+            className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-xl uppercase tracking-[0.06em] text-bp-text/90 md:text-2xl`}
           >
             Every piece shares a story.
           </p>
@@ -70,7 +72,7 @@ export function ShopHero({
             />
           </div>
           <p
-            className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
+            className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-center text-lg uppercase tracking-[0.08em] text-bp-text/75`}
           >
             Hold the story
           </p>

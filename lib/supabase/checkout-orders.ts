@@ -37,6 +37,8 @@ export type CreateCheckoutOrderInput = {
   gift_message?: string;
   box_type?: BoxTypeId;
   box_combo_id?: "print_tshirt" | "print_coffee" | "tshirt_coffee";
+  optional_contribution_gbp?: number;
+  contribution_allocation?: string;
   items: CheckoutLineItem[];
   subtotal: number;
   shipping_total: number;
@@ -73,6 +75,12 @@ export async function createCheckoutOrder(input: CreateCheckoutOrderInput) {
       gift_message: input.gift_message || null,
       box_type: input.box_type || null,
       box_combo_id: input.box_combo_id || null,
+      optional_contribution_gbp:
+        input.optional_contribution_gbp != null &&
+        input.optional_contribution_gbp > 0
+          ? input.optional_contribution_gbp
+          : null,
+      contribution_allocation: input.contribution_allocation || null,
     })
     .select()
     .single();

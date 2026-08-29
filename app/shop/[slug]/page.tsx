@@ -11,8 +11,11 @@ import {
 } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
 import { displayImageUrl } from "lib/image-url";
+import { sizeAvailabilityFromVariants } from "lib/product-variants";
+import { BOX_CATEGORY_ROWS } from "lib/shop-box-config";
 import { getShopCategoryBySlug } from "lib/supabase/categories";
 import { getCollectionProducts } from "lib/supabase/products";
+import { loadVariantsByProductIds } from "lib/supabase/product-variant-stock";
 import { TextureSection } from "components/shared/texture-section";
 
 export const dynamic = "force-dynamic";
@@ -41,6 +44,10 @@ export default async function ShopCategoryPage({
   if (!category) notFound();
 
   const products = await getCollectionProducts(slug);
+  const variantsById = await loadVariantsByProductIds(products);
+  const tshirtSlug = BOX_CATEGORY_ROWS.find((row) => row.key === "tshirt")?.slug;
+  const isTshirtCategory = slug === tshirtSlug;
+
 
   return (
     <div
@@ -112,6 +119,13 @@ export default async function ShopCategoryPage({
                   key={product.id}
                   product={product}
                   index={index}
+                  sizes={
+                    isTshirtCategory
+                      ? sizeAvailabilityFromVariants(
+                          variantsById.get(product.id) ?? [],
+                        )
+                      : []
+                  }
                 />
               ))}
             </div>

@@ -15,6 +15,7 @@ const MAIN_LINKS = [
   { label: "Workshops", href: "/workshops" },
   { label: "Journal", href: "/journal" },
   { label: "About", href: "/about" },
+  { label: "Sponsor", href: "/sponsor" },
   { label: "Get in Touch", href: "/contact" },
 ] as const;
 

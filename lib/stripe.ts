@@ -17,6 +17,8 @@ export async function createCheckoutSession(
   cancelUrl: string,
   orderId: string,
   shippingPence: number,
+  contributionGbp = 0,
+  contributionLabel?: string,
 ) {
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
     cart.items.map((item) => {
@@ -51,6 +53,20 @@ export async function createCheckoutSession(
     });
   }
 
+  if (contributionGbp > 0) {
+    lineItems.push({
+      price_data: {
+        currency: STRIPE_CURRENCY,
+        product_data: {
+          name: contributionLabel || "Additional contribution",
+          images: [],
+        },
+        unit_amount: toStripeMinorUnits(contributionGbp),
+      },
+      quantity: 1,
+    });
+  }
+
   return stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: lineItems,
@@ -60,7 +76,10 @@ export async function createCheckoutSession(
     currency: STRIPE_CURRENCY,
     locale: "en-GB",
     shipping_address_collection: { allowed_countries: ["GB"] },
-    metadata: { orderId },
+    metadata: {
+      orderId,
+      contributionGbp: contributionGbp > 0 ? String(contributionGbp) : "",
+    },
     client_reference_id: orderId,
   });
 }

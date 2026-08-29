@@ -39,7 +39,7 @@ export const CONTACT_CONNECT_CARDS = [
     description: "Sponsor a workshop, an artist, or",
     descriptionAccent: "the next community story.",
     cta: "Become a sponsor",
-    href: "#become-a-sponsor",
+    href: "/sponsor",
     image: "/shop1.png",
   },
 ] as const;

@@ -64,8 +64,8 @@ export async function POST(request: NextRequest) {
         tier,
         email,
         name: fullName,
-        successUrl: `${baseUrl}/contact/sponsor/success?sponsorId=${sponsor.id}`,
-        cancelUrl: `${baseUrl}/contact#become-a-sponsor`,
+        successUrl: `${baseUrl}/sponsor/success?sponsorId=${sponsor.id}`,
+        cancelUrl: `${baseUrl}/sponsor#choose-your-impact`,
       });
 
       if (!session.url) {

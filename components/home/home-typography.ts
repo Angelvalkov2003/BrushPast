@@ -1,27 +1,38 @@
-import { Caveat, Inter, Oswald } from "next/font/google";
+import { Caveat, Inter, Oswald, Stick_No_Bills } from "next/font/google";
 
 /**
  * Public site typography (admin excluded via body.bp-site):
- * - Inter: default body, UI chrome, form labels
- * - Oswald: h1–h3, CTAs (bp-title)
- * - Caveat: only bp-whisper (captions/asides) and bp-story-voice (personal stories)
+ * - Oswald: primary headings / CTAs (bp-title) — used widely
+ * - Stick No Bills: selected display headings (bp-display)
+ * - DIN: supporting / subtitle font when local files are present in
+ *   public/fonts/DIN-*.woff2 — otherwise falls back to Inter (see globals.css)
+ * - Inter: body UI until DIN files are supplied
+ * - Caveat: story voice only (bp-story-voice) — reduced sitewide use
  */
 export const homeHand = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-home-hand",
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
-/** Page titles (h1) */
+/** Page titles / CTAs — Oswald */
 export const bpTitle = Oswald({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-bp-title",
 });
 
-/** Subheadings directly under page titles */
+/** Selected hero / section display headings — Stick No Bills */
+export const bpDisplay = Stick_No_Bills({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-bp-display",
+  display: "swap",
+});
+
+/** Body / supporting — Inter (DIN when font files are added) */
 export const bpSubtitle = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
@@ -30,32 +41,31 @@ export const bpSubtitle = Inter({
 
 export const homeHandClass = homeHand.className;
 export const bpTitleClass = bpTitle.className;
+export const bpDisplayClass = bpDisplay.className;
 export const bpSubtitleClass = bpSubtitle.className;
-/** CSS utility — guarantees Caveat when paired with homeHandClass */
+
+/** CSS utility — Caveat; prefer bp-story-voice for personal stories only */
 export const bpHandUtility = "bp-hand";
-/** Wrapper for personal story copy (story pages, journal body, story cards) */
+/** Personal story copy only */
 export const bpStoryVoiceUtility = "bp-story-voice";
-/** Small labels, eyebrows, polaroid captions, quiet asides */
+/**
+ * Quiet asides — now Oswald-aligned via CSS (no cursive).
+ * Prefer bpTitleUtility for real headings.
+ */
 export const bpWhisperUtility = "bp-whisper";
-/** CSS utility — guarantees Oswald on page titles */
 export const bpTitleUtility = "bp-title";
-/** CSS utility — guarantees Inter on subtitles under page titles */
+/** Stick No Bills display headings */
+export const bpDisplayUtility = "bp-display";
 export const bpSubtitleUtility = "bp-subtitle";
-/** Inter body — default size (1.125rem) sitewide */
 export const bpBodyUtility = "bp-body";
-/** Inter small — meta, footer, captions (0.9375rem) */
 export const bpBodySmUtility = "bp-body-sm";
-/** Inter links — semibold + accent underline */
 export const bpLinkUtility = "bp-link";
-/** Inter emphasis — semibold, no underline */
 export const bpEmphasisUtility = "bp-emphasis";
 
-/** Inter body class bundle */
 export const bpBodyClass = `${bpSubtitleClass} ${bpSubtitleUtility}`;
-/** Inter small class bundle */
 export const bpBodySmClass = `${bpSubtitleClass} ${bpBodySmUtility}`;
 
-export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpSubtitle.variable}`;
+export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpDisplay.variable} ${bpSubtitle.variable}`;
 
 /** @deprecated Use bpSubtitle */
 export const homeSerif = bpSubtitle;

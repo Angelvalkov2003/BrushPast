@@ -6,7 +6,8 @@ import { baseUrl } from "lib/utils";
 
 export async function POST(request: NextRequest) {
   try {
-    const { orderId, cart, shippingTotal } = await request.json();
+    const { orderId, cart, shippingTotal, contributionGbp, contributionLabel } =
+      await request.json();
     if (!orderId || !cart?.items?.length) {
       return NextResponse.json({ error: "Invalid checkout data" }, { status: 400 });
     }
@@ -17,6 +18,8 @@ export async function POST(request: NextRequest) {
       `${baseUrl}/checkout/cancel`,
       orderId,
       toStripeMinorUnits(Number(shippingTotal ?? 0)),
+      Number(contributionGbp ?? 0),
+      typeof contributionLabel === "string" ? contributionLabel : undefined,
     );
 
     if (!session.url) {

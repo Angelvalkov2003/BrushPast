@@ -13,14 +13,16 @@ import { TextureSection } from "components/shared/texture-section";
 import {
   BOX_HUB_CARDS,
   boxTypeLabel,
+  isBoxPairComboId,
   isBoxTypeId,
+  type BoxPairComboId,
   type BoxTypeId,
 } from "lib/shop-box-config";
 import { getBoxCatalog } from "lib/supabase/shop-box-products";
 
 export const dynamic = "force-dynamic";
 
-const BUILDABLE: BoxTypeId[] = ["a", "b", "c"];
+const BUILDABLE: BoxTypeId[] = ["a", "b", "d"];
 
 export async function generateMetadata({
   params,
@@ -33,24 +35,35 @@ export async function generateMetadata({
     title: `${boxTypeLabel(type)} — Build your box`,
     description:
       type === "a"
-        ? "Choose one t-shirt, one coffee and one print. Packed as a Brush Past Complete Box with a gift message."
+        ? "Next Chapter — one coffee, one t-shirt and one print. Fixed £70 gift box with a gift message."
         : `Build a ${boxTypeLabel(type).toLowerCase()} with a gift message.`,
   };
 }
 
 export default async function ShopBoxTypePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ type: string }>;
+  searchParams: Promise<{ combo?: string }>;
 }) {
   const { type } = await params;
+  const { combo } = await searchParams;
   if (!isBoxTypeId(type) || type === "c") notFound();
+
+  let comboId: BoxPairComboId | undefined;
+  if (type === "b") {
+    if (!combo || !isBoxPairComboId(combo)) {
+      notFound();
+    }
+    comboId = combo;
+  }
 
   if (BUILDABLE.includes(type)) {
     const catalog = await getBoxCatalog();
     return (
       <div
-        className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+        className={`${bpFontVariables} max-w-full overflow-x-clip bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
       >
         <TextureSection
           texture="secondary"
@@ -58,7 +71,11 @@ export default async function ShopBoxTypePage({
           className="px-4 py-10 md:px-10 md:py-14"
         >
           <div className="mx-auto max-w-[1400px] pb-8 lg:pb-16">
-            <BoxBuilder boxType={type} catalog={catalog} />
+            <BoxBuilder
+              boxType={type}
+              catalog={catalog}
+              comboId={comboId}
+            />
           </div>
         </TextureSection>
         <Footer />
@@ -70,7 +87,7 @@ export default async function ShopBoxTypePage({
 
   return (
     <div
-      className={`${bpFontVariables} bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
+      className={`${bpFontVariables} max-w-full overflow-x-clip bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
       <TextureSection
         texture="secondary"
@@ -92,11 +109,11 @@ export default async function ShopBoxTypePage({
           </h1>
           <p className={`${bpBodyClass} mt-6 text-bp-text/80`}>
             {card?.description ??
-              "This box type is not ready to build yet. The Single Box and Complete Box are available now."}
+              "This box type is not ready to build yet."}
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <HomeCta href="/shop/box/c" variant="primary">
-              Try a Single Box →
+              Try Single Collection →
             </HomeCta>
             <HomeCta href="/shop" variant="outline">
               Back to shop

@@ -2,7 +2,7 @@ export const SHOP_GIFT_HERO = {
   eyebrow: "The Archive Shop",
   title: "Every Gift Tells a Story.",
   description:
-    "Curated gifts featuring coffee, wearable art and limited-edition prints that support artists and creative projects.",
+    "Curated gifts featuring coffee, wearable art and limited-edition prints that support artists and creative projects. Every purchase is packed as a Brush Past gift box.",
   primaryCta: "Build a gift box",
   primaryHref: "#choose-box",
   secondaryCta: "Explore the archive →",
@@ -15,73 +15,74 @@ export const SHOP_GIFT_HERO = {
 
 export const SHOP_SINGLE_OPTIONS = [
   {
-    key: "coffee",
+    key: "coffee" as const,
     title: "Coffee Box",
-    description: "Speciality coffee, beautifully presented.",
-    href: "/shop/box/c#box-section-coffee",
+    description: "Speciality coffee, beautifully presented. £15.",
+    href: "/shop/box/c?category=coffee",
     imageAlt: "Lifestyle photo of a Brush Past coffee gift box",
     imageNote:
       "IMAGE NEEDED: Lifestyle photograph of a specialty coffee bag in a gift box.",
   },
   {
-    key: "tshirt",
+    key: "tshirt" as const,
     title: "T-Shirt Box",
-    description: "Premium artist-designed apparel.",
-    href: "/shop/box/c#box-section-tshirt",
+    description: "Premium artist-designed apparel. £35.",
+    href: "/shop/box/c?category=tshirt",
     imageAlt: "Lifestyle photo of a Brush Past t-shirt gift box",
-    imageNote:
-      "IMAGE NEEDED: Folded story t-shirt packed in a gift box.",
+    imageNote: "IMAGE NEEDED: Folded story t-shirt packed in a gift box.",
   },
   {
-    key: "print",
+    key: "print" as const,
     title: "Print Box",
-    description: "Museum-quality art prints.",
-    href: "/shop/box/c#box-section-print",
+    description: "Museum-quality art prints. £28.",
+    href: "/shop/box/c?category=print",
     imageAlt: "Lifestyle photo of a Brush Past print gift box",
-    imageNote:
-      "IMAGE NEEDED: Framed or packed print in a gift box.",
+    imageNote: "IMAGE NEEDED: Framed or packed print in a gift box.",
   },
 ] as const;
 
 export const SHOP_PAIR_OPTIONS = [
   {
-    key: "coffee-tshirt",
-    title: "Coffee & T-Shirt",
-    href: "/shop/box/b",
-    imageAlt: "Coffee bag paired with a folded t-shirt",
-    imageNote:
-      "IMAGE NEEDED: Composite of a coffee bag and a t-shirt as a fixed pair.",
-  },
-  {
-    key: "coffee-print",
+    key: "coffee-print" as const,
+    comboId: "print-coffee" as const,
     title: "Coffee & Print",
-    href: "/shop/box/b",
+    priceLabel: "£40",
+    href: "/shop/box/b?combo=print-coffee",
     imageAlt: "Coffee bag paired with a print",
     imageNote:
       "IMAGE NEEDED: Composite of a coffee bag and a print as a fixed pair.",
   },
   {
-    key: "tshirt-print",
+    key: "coffee-tshirt" as const,
+    comboId: "tshirt-coffee" as const,
+    title: "Coffee & T-Shirt",
+    priceLabel: "£47",
+    href: "/shop/box/b?combo=tshirt-coffee",
+    imageAlt: "Coffee bag paired with a folded t-shirt",
+    imageNote:
+      "IMAGE NEEDED: Composite of a coffee bag and a t-shirt as a fixed pair.",
+  },
+  {
+    key: "tshirt-print" as const,
+    comboId: "print-tshirt" as const,
     title: "T-Shirt & Print",
-    href: "/shop/box/b",
+    priceLabel: "£58",
+    href: "/shop/box/b?combo=print-tshirt",
     imageAlt: "T-shirt paired with a print",
     imageNote:
       "IMAGE NEEDED: Composite of a t-shirt and a print as a fixed pair.",
   },
-  {
-    key: "curators",
-    title: "Curator's Favourite",
-    href: "/shop/box/b",
-    imageAlt: "A curator-selected pairing of two Brush Past pieces",
-    imageNote:
-      "IMAGE NEEDED: Two complementary gifts styled as the curator's favourite pairing.",
-  },
 ] as const;
 
 export const SHOP_SIGNATURE = {
-  title: "The Complete Creative Box",
-  description: "Everything together. Beautifully packaged.",
+  title: "Next Chapter",
+  description:
+    "One gift. Two impacts. One coffee, one t-shirt and one art print — £70.",
+  proposition: "One gift. Two impacts.",
+  propositionDetail:
+    "The first is the gift someone receives. The second is the opportunity it helps create.",
   href: "/shop/box/a",
+  priceLabel: "£70",
   imageAlt:
     "Premium gift box containing coffee, a t-shirt and a print together",
   imageNote:
@@ -89,20 +90,34 @@ export const SHOP_SIGNATURE = {
 } as const;
 
 export const SHOP_BUILD_OWN = {
-  title: "Build Your Own Box",
-  description: "Choose exactly what goes inside. Mix, match and make it yours.",
+  title: "Build Your Own",
+  description:
+    "Choose exactly two or three pieces — any mix, including duplicates. Two pieces save 7%; three save 10%.",
   href: "/shop/box/d",
-  checks: ["Coffee", "Prints", "T-Shirts", "More"],
+  checks: ["Coffee", "Prints", "T-Shirts", "Duplicates OK"],
   imageAlt: "Row of product icons for mixing a custom gift box",
   imageNote:
     "IMAGE NEEDED: Simple illustrations of coffee, a print and a t-shirt in a row.",
 } as const;
 
+export const SHOP_IMPACT = {
+  headline: "65% of profits are reinvested into creators, workshops and partner organisations.",
+  body: "Your purchase already gives back. If you’d like, you can make it go even further.",
+} as const;
+
 export const SHOP_MISSION_STEPS = [
   { title: "Create", note: "Ideas are born in community.", icon: "create" },
-  { title: "Produce", note: "Working with artists to bring ideas to life.", icon: "produce" },
+  {
+    title: "Produce",
+    note: "Working with artists to bring ideas to life.",
+    icon: "produce",
+  },
   { title: "Gift", note: "Thoughtful gifts that inspire.", icon: "gift" },
-  { title: "Reinvest", note: "Revenue supports artists and future projects.", icon: "reinvest" },
+  {
+    title: "Reinvest",
+    note: "Revenue supports artists and future projects.",
+    icon: "reinvest",
+  },
 ] as const;
 
 export const SHOP_STORY_CARDS = [
@@ -145,22 +160,38 @@ export const SHOP_STORY_CARDS = [
 
 export const SHOP_MOBILE_BOX_CARDS = [
   {
-    type: "c",
-    title: "Single Box",
-    description: "One piece — a coffee, a t-shirt or a print.",
+    type: "c" as const,
+    title: "Single Collection",
+    description: "One piece — coffee, t-shirt or print — packed as a gift box.",
     href: "/shop/box/c",
     imageAlt: "A single Brush Past gift box",
     imageNote:
       "IMAGE NEEDED: One gift box with a single piece inside — coffee, a t-shirt or a print.",
   },
   {
-    type: "b",
-    title: "Pair Box",
-    description: "Two pieces from the archive. Mix any two you like.",
-    href: "/shop/box/b",
+    type: "b" as const,
+    title: "Curated Pairings",
+    description: "Three fixed two-piece gifts. Choose the designs.",
+    href: "/shop#choose-box",
     imageAlt: "A Brush Past pair gift box",
     imageNote:
       "IMAGE NEEDED: A gift box styled as a pair — two pieces packed together.",
+  },
+  {
+    type: "a" as const,
+    title: "Next Chapter",
+    description: "Coffee, t-shirt and print together. £70.",
+    href: "/shop/box/a",
+    imageAlt: "Next Chapter gift box",
+    imageNote: "IMAGE NEEDED: Complete three-piece gift box.",
+  },
+  {
+    type: "d" as const,
+    title: "Build Your Own",
+    description: "Two or three pieces. Mix freely. Save 7–10%.",
+    href: "/shop/box/d",
+    imageAlt: "Build Your Own gift box",
+    imageNote: "IMAGE NEEDED: Mixed custom gift box.",
   },
 ] as const;
 
@@ -179,6 +210,6 @@ export const SHOP_VALUE_PROPS = [
   },
   {
     title: "Meaningful impact",
-    note: "Keeping creativity alive.",
+    note: "65% of profits reinvested.",
   },
 ] as const;

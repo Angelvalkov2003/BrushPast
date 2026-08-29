@@ -2,6 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrderByIdAdmin } from "lib/supabase/admin-orders";
 import { formatPrice } from "lib/currency";
+import { contributionAllocationLabel } from "lib/checkout-contribution";
+import {
+  paymentStatusBadgeClass,
+  paymentStatusLabel,
+} from "lib/payment-status";
 import { boxTypeLabel } from "lib/shop-box-config";
 import { AdminOrderEditForm } from "components/admin/admin-order-edit-form";
 import { adminPanelClass, adminPageTitleClass } from "components/admin/admin-form-styles";
@@ -23,6 +28,15 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   ]
     .filter(Boolean)
     .join("\n");
+
+  const contributionGbp =
+    order.optional_contribution_gbp != null
+      ? Number(order.optional_contribution_gbp)
+      : 0;
+  const hasContribution = contributionGbp > 0;
+  const allocationLabel = contributionAllocationLabel(
+    order.contribution_allocation,
+  );
 
   return (
     <div className="w-full">
@@ -65,9 +79,17 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               <dd className="whitespace-pre-line">{address || "-"}</dd>
             </div>
             <div>
-              <dt className="text-gray-500">Payment</dt>
+              <dt className="text-gray-500">Payment method</dt>
+              <dd>{order.payment_method || "-"}</dd>
+            </div>
+            <div>
+              <dt className="text-gray-500">Payment status</dt>
               <dd>
-                {order.payment_method} - {order.payment_status}
+                <span
+                  className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${paymentStatusBadgeClass(order.payment_status)}`}
+                >
+                  {paymentStatusLabel(order.payment_status)}
+                </span>
               </dd>
             </div>
           </dl>
@@ -87,11 +109,37 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 {order.shipping_method_name ? ` (${order.shipping_method_name})` : ""}
               </dd>
             </div>
+            {hasContribution ? (
+              <div className="flex justify-between text-emerald-800">
+                <dt>
+                  Additional contribution
+                  {allocationLabel ? (
+                    <span className="mt-0.5 block text-xs font-normal text-gray-500">
+                      {allocationLabel}
+                    </span>
+                  ) : null}
+                </dt>
+                <dd className="font-medium">{formatPrice(contributionGbp)}</dd>
+              </div>
+            ) : null}
             <div className="flex justify-between border-t pt-2 font-semibold">
               <dt>Grand total</dt>
               <dd>{order.grand_total != null ? formatPrice(Number(order.grand_total)) : "-"}</dd>
             </div>
           </dl>
+          {hasContribution ? (
+            <div className="mt-4 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-900">
+              Customer added an optional contribution of{" "}
+              <strong>{formatPrice(contributionGbp)}</strong>
+              {allocationLabel ? (
+                <>
+                  {" "}
+                  toward <strong>{allocationLabel}</strong>
+                </>
+              ) : null}
+              .
+            </div>
+          ) : null}
           {order.gift_message ? (
             <div className="mt-4">
               <p className="text-sm text-gray-500">Gift message</p>

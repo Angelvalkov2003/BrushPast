@@ -22,21 +22,27 @@ import {
 } from "components/home/home-typography";
 import { useCart } from "components/cart/cart-context";
 import {
-  BOX_CATEGORY_ROWS,
   BOX_GIFT_MESSAGE_MAX,
+  PAIR_COMBO_META,
   boxTypeIntro,
   boxTypeLabel,
   emptyBoxDraft,
+  singlePriceForCategory,
   type BoxBuilderStep,
+  type BoxCategoryKey,
   type BoxDraft,
+  type BoxPairComboId,
   type BoxSelectionItem,
   type BoxTypeId,
 } from "lib/shop-box-config";
 import { priceOfDraft } from "lib/shop-box-pricing";
 import {
   applySelection,
+  canSelectInCategory,
+  categoryRowsForBuilder,
   isBoxComplete,
   removeSelection,
+  totalItemCount,
 } from "lib/shop-box-rules";
 import { formatVariantLabel, optionsFromVariant } from "lib/product-variants";
 import type { BoxCatalog, BoxCatalogProduct } from "lib/supabase/shop-box-products";
@@ -47,7 +53,7 @@ function selectionFromProduct(
   variant: ProductVariant,
 ): BoxSelectionItem {
   return {
-    id: `${product.id}-${variant.id}`,
+    id: `${product.id}-${variant.id}-${Date.now()}`,
     productId: product.id,
     variantId: variant.id,
     categoryKey: product.categoryKey,
@@ -59,7 +65,7 @@ function selectionFromProduct(
       variant.title,
     ),
     sku: variant.sku,
-    unitPrice: variant.price,
+    unitPrice: singlePriceForCategory(product.categoryKey),
     quantity: 1,
     maxQuantity: variant.maxQuantity,
   };
@@ -68,14 +74,20 @@ function selectionFromProduct(
 export function BoxBuilder({
   boxType,
   catalog,
+  lockedCategory,
+  comboId,
 }: {
   boxType: BoxTypeId;
   catalog: BoxCatalog;
+  lockedCategory?: BoxCategoryKey;
+  comboId?: BoxPairComboId;
 }) {
   const router = useRouter();
   const { addBoxItem, stockError, clearStockError } = useCart();
   const [step, setStep] = useState<BoxBuilderStep>("choose");
-  const [draft, setDraft] = useState<BoxDraft>(() => emptyBoxDraft(boxType));
+  const [draft, setDraft] = useState<BoxDraft>(() =>
+    emptyBoxDraft(boxType, comboId),
+  );
   const [sizeProduct, setSizeProduct] = useState<BoxCatalogProduct | null>(
     null,
   );
@@ -83,6 +95,11 @@ export function BoxBuilder({
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const skipStepScroll = useRef(true);
+
+  useEffect(() => {
+    setDraft(emptyBoxDraft(boxType, comboId));
+    setStep("choose");
+  }, [boxType, comboId, lockedCategory]);
 
   useEffect(() => {
     clearStockError();
@@ -96,19 +113,34 @@ export function BoxBuilder({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [step]);
 
+  const categoryRows = categoryRowsForBuilder({
+    type: boxType,
+    lockedCategory,
+    comboId,
+  });
+
   const complete = isBoxComplete(draft);
   const messageOk = draft.giftMessage.trim().length > 0;
   const pendingVariantProduct = sizeProduct;
+  const selectedCount = totalItemCount(draft.items);
 
   const handlePickProduct = (product: BoxCatalogProduct) => {
     if (!product.available) return;
+    const gate = canSelectInCategory(draft, product.categoryKey);
+    if (!gate.ok && !gate.replaces) {
+      setSubmitError(gate.reason ?? "You cannot add that piece.");
+      return;
+    }
+    setSubmitError(null);
     if (productNeedsVariantChoice(product)) {
       setSizeProduct(product);
       return;
     }
     const variant = defaultVariantForProduct(product);
     if (!variant?.available) return;
-    setDraft((current) => applySelection(current, selectionFromProduct(product, variant)));
+    setDraft((current) =>
+      applySelection(current, selectionFromProduct(product, variant)),
+    );
   };
 
   const handleConfirmVariant = (variant: ProductVariant) => {
@@ -139,7 +171,9 @@ export function BoxBuilder({
       return;
     }
     if (trimmed.length > BOX_GIFT_MESSAGE_MAX) {
-      setMessageError(`Keep the message under ${BOX_GIFT_MESSAGE_MAX} characters.`);
+      setMessageError(
+        `Keep the message under ${BOX_GIFT_MESSAGE_MAX} characters.`,
+      );
       return;
     }
     setMessageError(null);
@@ -166,7 +200,8 @@ export function BoxBuilder({
 
   const summaryCta = useMemo(() => {
     if (step === "choose") return "Review your box →";
-    if (step === "review") return complete ? "Add a message →" : "Choose a piece →";
+    if (step === "review")
+      return complete ? "Add a message →" : "Choose a piece →";
     return "Checkout →";
   }, [step, complete]);
 
@@ -187,6 +222,13 @@ export function BoxBuilder({
       : step === "review"
         ? true
         : complete && messageOk;
+
+  const headingExtra =
+    boxType === "b" && comboId
+      ? PAIR_COMBO_META[comboId].label
+      : boxType === "c" && lockedCategory
+        ? categoryRows[0]?.label
+        : null;
 
   const cart = (
     <BoxCartPanel
@@ -214,10 +256,25 @@ export function BoxBuilder({
             className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.4rem,6vw,4.25rem)] font-bold uppercase leading-[0.92] text-bp-text`}
           >
             {boxTypeLabel(boxType)}
+            {headingExtra ? (
+              <span className="mt-2 block text-[clamp(1.25rem,3vw,2rem)] font-bold normal-case tracking-normal text-bp-accent">
+                {headingExtra}
+              </span>
+            ) : null}
           </h1>
           <p className={`${bpBodyClass} mt-4 max-w-xl text-bp-text/75`}>
             {boxTypeIntro(boxType).lead}
           </p>
+          {boxType === "d" ? (
+            <p className={`${bpBodyClass} mt-2 text-bp-accent`}>
+              {selectedCount} of 3 pieces selected
+              {selectedCount === 2
+                ? " · 7% off"
+                : selectedCount === 3
+                  ? " · 10% off"
+                  : ""}
+            </p>
+          ) : null}
 
           <div className="mt-8 lg:hidden">{cart}</div>
 
@@ -232,10 +289,12 @@ export function BoxBuilder({
 
           {step === "choose" ? (
             <div className="mt-4">
-              <p className={`${bpBodyClass} border-b border-bp-text/10 py-6 text-bp-text/70`}>
+              <p
+                className={`${bpBodyClass} border-b border-bp-text/10 py-6 text-bp-text/70`}
+              >
                 {boxTypeIntro(boxType).choose}
               </p>
-              {BOX_CATEGORY_ROWS.map((row) => {
+              {categoryRows.map((row) => {
                 const selectedId = draft.items.find(
                   (item) => item.categoryKey === row.key,
                 )?.productId;
@@ -245,8 +304,16 @@ export function BoxBuilder({
                     categoryKey={row.key}
                     label={row.label}
                     products={catalog[row.key]}
-                    selectedProductId={selectedId}
-                    selected={Boolean(selectedId)}
+                    selectedProductId={
+                      boxType === "d" ? undefined : selectedId
+                    }
+                    selected={
+                      boxType === "d"
+                        ? draft.items.some(
+                            (item) => item.categoryKey === row.key,
+                          )
+                        : Boolean(selectedId)
+                    }
                     onSelectProduct={handlePickProduct}
                   />
                 );

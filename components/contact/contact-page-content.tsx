@@ -37,7 +37,6 @@ import {
   TextureSection,
 } from "components/shared/texture-section";
 import { ContactForm } from "./contact-form";
-import { SponsorImpact } from "./sponsor-impact";
 
 export function ContactPageContent() {
   return (
@@ -233,8 +232,18 @@ export function ContactPageContent() {
         overlay="cream"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto max-w-[1400px]">
-          <SponsorImpact />
+        <div className="mx-auto max-w-3xl text-center">
+          <HomeSectionTitle
+            eyebrow="Sponsor"
+            title="Help creativity reach further"
+          />
+          <p className={`${bpBodyClass} mt-5 text-bp-text/75`}>
+            One-off contributions, custom amounts and partnership enquiries —
+            all on the Sponsor page.
+          </p>
+          <HomeCta href="/sponsor" className="mt-8" variant="primary">
+            Become a sponsor →
+          </HomeCta>
         </div>
       </TextureSection>
 
@@ -345,7 +354,7 @@ export function ContactPageContent() {
             <HomeCta href={`mailto:${PUBLIC_CONTACT_EMAIL}`} variant="outline">
               Email us →
             </HomeCta>
-            <HomeCta href="/contact#become-a-sponsor" variant="outline">
+            <HomeCta href="/sponsor" variant="outline">
               Become a sponsor →
             </HomeCta>
             <HomeCta href="#contact-form" variant="primary">

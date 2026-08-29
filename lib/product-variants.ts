@@ -182,3 +182,75 @@ export function orderLineTitle(productTitle: string, variant: ProductVariant): s
   const label = formatVariantLabel(optionsFromVariant(variant), variant.title);
   return label ? `${productTitle} - ${label}` : productTitle;
 }
+
+export type SizeAvailability = {
+  label: string;
+  available: boolean;
+};
+
+const SIZE_SORT_RANK: Record<string, number> = {
+  XXS: 0,
+  XS: 1,
+  S: 2,
+  M: 3,
+  L: 4,
+  XL: 5,
+  XXL: 6,
+  "2XL": 6,
+  "3XL": 7,
+  "4XL": 8,
+};
+
+function sizeSortKey(label: string): number {
+  const key = label.trim().toUpperCase();
+  if (key in SIZE_SORT_RANK) return SIZE_SORT_RANK[key]!;
+  const asNum = Number(label);
+  if (Number.isFinite(asNum)) return 100 + asNum;
+  return 200;
+}
+
+function sizeLabelFromVariant(variant: ProductVariant): string | null {
+  const fromOptions = optionsFromVariant(variant).find(
+    (opt) => opt.name === "Size",
+  )?.value;
+  if (fromOptions) return fromOptions.trim();
+
+  const title = variant.title.trim();
+  if (/^(xxs|xs|s|m|l|xl|xxl|2xl|3xl|4xl|\d+)$/i.test(title)) {
+    return title;
+  }
+  return null;
+}
+
+/** Size chips for product tiles — unavailable sizes stay listed but struck through. */
+export function sizeAvailabilityFromVariants(
+  variants: ProductVariant[],
+): SizeAvailability[] {
+  const byLabel = new Map<string, boolean>();
+
+  for (const variant of enrichVariants(variants)) {
+    const label = sizeLabelFromVariant(variant);
+    if (!label) continue;
+    byLabel.set(label, (byLabel.get(label) ?? false) || variant.available);
+  }
+
+  return Array.from(byLabel.entries())
+    .sort(([a], [b]) => {
+      const rank = sizeSortKey(a) - sizeSortKey(b);
+      return rank !== 0 ? rank : a.localeCompare(b, "en");
+    })
+    .map(([label, available]) => ({ label, available }));
+}
+
+/**
+ * When size/colour variants exist, stock is per-variant.
+ * Product-level `available` alone is not enough for tees.
+ */
+export function isSellableWithVariants(
+  productAvailable: boolean,
+  variants: ProductVariant[],
+): boolean {
+  if (!variants.length) return productAvailable;
+  return variants.some((variant) => variant.available);
+}
+

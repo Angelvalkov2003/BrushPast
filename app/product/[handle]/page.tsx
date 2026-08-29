@@ -103,7 +103,7 @@ export default async function ProductPage(props: {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-14 xl:gap-16">
             <div className="min-w-0">
               <BackButton />
-              <Gallery images={galleryImages} />
+              <Gallery images={galleryImages} outOfStock={!product.available} />
             </div>
             <div className="min-w-0 lg:row-span-2 lg:row-start-1 lg:col-start-2">
               <ProductDescription product={product} />

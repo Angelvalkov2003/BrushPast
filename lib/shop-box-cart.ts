@@ -8,7 +8,7 @@ import {
   type BoxTypeId,
 } from "./shop-box-config";
 import { priceOfBox } from "./shop-box-pricing";
-import { boxTypeAfterContentChange } from "./shop-box-rules";
+import { inferBoxFromContents } from "./shop-box-rules";
 
 export type FlattenedOrderLine = {
   product_id: string;
@@ -136,19 +136,21 @@ export function recalcBoxCartItem(item: CartItem): CartItem | null {
   const contents = item.box.contents.filter((content) => content.quantity > 0);
   if (contents.length === 0) return null;
 
-  const remaining = contents.reduce((sum, content) => sum + content.quantity, 0);
-  const type = boxTypeAfterContentChange(item.box.type, remaining);
-  const comboId = type === "b" ? item.box.comboId : undefined;
-  const boxPrice = priceOfBox(type, contents, comboId);
+  const inferred = inferBoxFromContents(
+    contents,
+    item.box.type,
+    item.box.comboId,
+  );
+  const boxPrice = priceOfBox(inferred.type, contents, inferred.comboId);
 
   return {
     ...item,
     price: boxPrice,
-    product: cartProductFromBox(contents, boxTypeLabel(type)),
+    product: cartProductFromBox(contents, boxTypeLabel(inferred.type)),
     box: {
       ...item.box,
-      type,
-      comboId,
+      type: inferred.type,
+      comboId: inferred.comboId,
       contents,
       boxPrice,
     },

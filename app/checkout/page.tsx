@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { VariantLabel } from "components/product/variant-picker";
 import { useCart } from "components/cart/cart-context";
@@ -10,6 +10,13 @@ import LoadingDots from "components/loading-dots";
 import { CONTACT_PHONE, SHIPPING_UK } from "lib/site-config";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
+import { CheckoutContribution } from "components/checkout/checkout-contribution";
+import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpTitleClass,
+  bpTitleUtility,
+} from "components/home/home-typography";
 import {
   boxComboIdToDb,
   categoryLabel,
@@ -21,10 +28,16 @@ import {
   isBoxCartItem,
   primaryBoxFromCart,
 } from "lib/shop-box-cart";
+import {
+  CONTRIBUTION_COPY,
+  contributionAllocationLabel,
+  parseContributionAmount,
+  validateContributionAmount,
+  type ContributionAllocationId,
+} from "lib/checkout-contribution";
 
-const inputClass =
-  "w-full border border-bp-text/20 bg-bp-canvas px-4 py-2 text-bp-text focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent";
-const labelClass = "mb-1 block text-sm font-medium text-bp-text/80";
+const inputClass = `${bpBodyClass} w-full border border-bp-text/20 bg-bp-canvas px-4 py-2.5 text-bp-text focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`;
+const labelClass = `${bpBodySmClass} mb-1 block font-medium text-bp-text/80`;
 const radioCardClass =
   "flex cursor-pointer items-center border border-bp-text/15 p-4 transition-colors hover:border-bp-accent/40";
 
@@ -37,25 +50,46 @@ export default function CheckoutPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [contributionPreset, setContributionPreset] = useState<number | null>(
+    null,
+  );
+  const [contributionCustomRaw, setContributionCustomRaw] = useState("");
+  const [allocation, setAllocation] = useState<ContributionAllocationId | "">(
+    "",
+  );
   const [formData, setFormData] = useState({
     customer_name: "",
     customer_email: "",
     customer_phone: "",
     customer_address: "",
-    payment_method: "cash_on_delivery" as "cash_on_delivery" | "card",
+    payment_method: "card" as "cash_on_delivery" | "card",
     comment: "",
     privacy_policy_accepted: false,
   });
+
+  const contributionGbp = useMemo(() => {
+    if (contributionCustomRaw.trim()) {
+      return parseContributionAmount(contributionCustomRaw);
+    }
+    return contributionPreset;
+  }, [contributionCustomRaw, contributionPreset]);
 
   if (!cart || cart.items.length === 0) {
     return (
       <div className="bp-surface flex min-h-screen flex-col items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-          <h1 className="mb-4 text-3xl font-bold text-bp-text">Your bag is empty</h1>
-          <p className="mb-8 text-lg text-bp-text/65">Add items before checkout.</p>
+          <h1
+            className={`${bpTitleClass} ${bpTitleUtility} mb-4 text-3xl font-bold text-bp-text`}
+          >
+            Your bag is empty
+          </h1>
+          <p className={`${bpBodyClass} mb-8 text-bp-text/65`}>
+            Add items before checkout.
+          </p>
           <button
-            onClick={() => router.push("/search")}
-            className="bg-bp-accent px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas transition-opacity hover:opacity-90"
+            type="button"
+            onClick={() => router.push("/shop")}
+            className={`${bpTitleClass} ${bpTitleUtility} bg-bp-accent px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-bp-canvas transition-opacity hover:opacity-90`}
           >
             Browse the shop
           </button>
@@ -63,6 +97,11 @@ export default function CheckoutPage() {
       </div>
     );
   }
+
+  const shippingCost = ukShippingPrice();
+  const contributionAmount =
+    contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
+  const orderTotal = cart.subtotal + shippingCost + contributionAmount;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,6 +112,19 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (contributionCustomRaw.trim()) {
+      const parsed = parseContributionAmount(contributionCustomRaw);
+      if (parsed == null) {
+        setError("Enter a valid contribution amount, or clear Other amount.");
+        return;
+      }
+      const valid = validateContributionAmount(parsed);
+      if (!valid.ok) {
+        setError(valid.error);
+        return;
+      }
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -80,10 +132,13 @@ export default function CheckoutPage() {
       const first_name = nameParts[0] || "";
       const last_name = nameParts.slice(1).join(" ") || first_name;
       const shipping_total = ukShippingPrice();
-      const grand_total = cart.subtotal + shipping_total;
+      const contribution =
+        contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
+      const grand_total = cart.subtotal + shipping_total + contribution;
 
       const giftMessage = collectGiftMessages(cart.items);
       const primaryBox = primaryBoxFromCart(cart.items);
+      const allocationLabel = contributionAllocationLabel(allocation);
 
       const order = await createOrder({
         first_name,
@@ -100,6 +155,8 @@ export default function CheckoutPage() {
         gift_message: giftMessage || undefined,
         box_type: primaryBox?.type,
         box_combo_id: boxComboIdToDb(primaryBox?.comboId),
+        optional_contribution_gbp: contribution || undefined,
+        contribution_allocation: allocation || undefined,
         privacy_policy_accepted: true,
         items: cart.items.flatMap((item) => flattenCartItemToOrderLines(item)),
         subtotal: cart.subtotal,
@@ -107,9 +164,11 @@ export default function CheckoutPage() {
         grand_total,
       });
 
-      // If card payment, redirect to Stripe
       if (formData.payment_method === "card") {
-        // Redirect to Stripe checkout
+        const stripeContributionName = allocationLabel
+          ? `${CONTRIBUTION_COPY.stripeName} — ${allocationLabel}`
+          : CONTRIBUTION_COPY.stripeName;
+
         const response = await fetch("/api/checkout/create-session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -117,6 +176,8 @@ export default function CheckoutPage() {
             orderId: order.id,
             cart,
             shippingTotal: shipping_total,
+            contributionGbp: contribution,
+            contributionLabel: stripeContributionName,
           }),
         });
 
@@ -130,34 +191,45 @@ export default function CheckoutPage() {
           return;
         }
       } else {
-        // Cash on delivery - redirect to success page
         router.push(`/checkout/success?orderId=${order.id}`);
       }
-    } catch (err: any) {
-      setError(err.message || "Could not place your order.");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : "Could not place your order.",
+      );
       setIsSubmitting(false);
     }
   };
 
-  const shippingCost = ukShippingPrice();
-  const orderTotal = cart.subtotal + shippingCost;
-
   return (
-    <div className="bp-surface min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="mb-8 text-3xl font-bold text-bp-text">Checkout</h1>
+    <div className="bp-surface min-h-screen px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl">
+        <h1
+          className={`${bpTitleClass} ${bpTitleUtility} mb-8 text-3xl font-bold uppercase tracking-wide text-bp-text`}
+        >
+          Checkout
+        </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Order Form */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="rounded-lg border border-bp-text/10 bg-bp-canvas p-6 shadow-sm">
-              <h2 className="mb-6 text-xl font-semibold text-bp-text">UK delivery details</h2>
+            <form
+              onSubmit={handleSubmit}
+              className="border border-bp-text/10 bg-bp-canvas p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)]"
+            >
+              <h2
+                className={`${bpTitleClass} ${bpTitleUtility} mb-6 text-xl font-bold uppercase tracking-wide text-bp-text`}
+              >
+                UK delivery details
+              </h2>
 
-              {error && (
-                <div className="mb-4 p-4 bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 rounded">
+              {error ? (
+                <div
+                  className="mb-4 border border-red-400 bg-red-50 p-4 text-red-700"
+                  role="alert"
+                >
                   {error}
                 </div>
-              )}
+              ) : null}
 
               <div className="space-y-4">
                 <div>
@@ -186,7 +258,10 @@ export default function CheckoutPage() {
                     required
                     value={formData.customer_email}
                     onChange={(e) =>
-                      setFormData({ ...formData, customer_email: e.target.value })
+                      setFormData({
+                        ...formData,
+                        customer_email: e.target.value,
+                      })
                     }
                     className={inputClass}
                   />
@@ -202,7 +277,10 @@ export default function CheckoutPage() {
                     placeholder={CONTACT_PHONE}
                     value={formData.customer_phone}
                     onChange={(e) =>
-                      setFormData({ ...formData, customer_phone: e.target.value })
+                      setFormData({
+                        ...formData,
+                        customer_phone: e.target.value,
+                      })
                     }
                     className={inputClass}
                   />
@@ -218,7 +296,10 @@ export default function CheckoutPage() {
                     rows={3}
                     value={formData.customer_address}
                     onChange={(e) =>
-                      setFormData({ ...formData, customer_address: e.target.value })
+                      setFormData({
+                        ...formData,
+                        customer_address: e.target.value,
+                      })
                     }
                     className={inputClass}
                   />
@@ -241,11 +322,22 @@ export default function CheckoutPage() {
 
                 <div>
                   <label className={labelClass}>UK delivery *</label>
-                  <p className="mt-2 border border-bp-text/15 p-4 text-sm text-bp-text/80">
-                    {SHIPPING_UK.dpd.label} - £{SHIPPING_UK.dpd.price.toFixed(2)} ({SHIPPING_UK.dpd.days}
-                    ). Shipping is paid by the customer.
+                  <p
+                    className={`${bpBodySmClass} mt-2 border border-bp-text/15 p-4 text-bp-text/80`}
+                  >
+                    {SHIPPING_UK.dpd.label} — £{SHIPPING_UK.dpd.price.toFixed(2)}{" "}
+                    ({SHIPPING_UK.dpd.days}). Shipping is paid by the customer.
                   </p>
                 </div>
+
+                <CheckoutContribution
+                  presetGbp={contributionPreset}
+                  customRaw={contributionCustomRaw}
+                  allocation={allocation}
+                  onPreset={setContributionPreset}
+                  onCustomRaw={setContributionCustomRaw}
+                  onAllocation={setAllocation}
+                />
 
                 <div>
                   <label className={`${labelClass} mb-3`}>Payment method *</label>
@@ -254,42 +346,44 @@ export default function CheckoutPage() {
                       <input
                         type="radio"
                         name="payment_method"
-                        value="cash_on_delivery"
-                        checked={formData.payment_method === "cash_on_delivery"}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            payment_method: e.target.value as "cash_on_delivery" | "card",
-                          })
+                        value="card"
+                        checked={formData.payment_method === "card"}
+                        onChange={() =>
+                          setFormData({ ...formData, payment_method: "card" })
                         }
                         className="mr-3 accent-bp-accent"
                       />
                       <div>
-                        <div className="font-medium text-bp-text">Pay on delivery</div>
-                        <div className="text-sm text-bp-text/60">
-                          Pay when your order arrives (UK)
+                        <div className={`${bpBodyClass} font-medium text-bp-text`}>
+                          Card payment
+                        </div>
+                        <div className={`${bpBodySmClass} text-bp-text/60`}>
+                          Secure checkout via Stripe (GBP)
                         </div>
                       </div>
                     </label>
-
                     <label className={radioCardClass}>
                       <input
                         type="radio"
                         name="payment_method"
-                        value="card"
-                        checked={formData.payment_method === "card"}
-                        onChange={(e) =>
+                        value="cash_on_delivery"
+                        checked={
+                          formData.payment_method === "cash_on_delivery"
+                        }
+                        onChange={() =>
                           setFormData({
                             ...formData,
-                            payment_method: e.target.value as "cash_on_delivery" | "card",
+                            payment_method: "cash_on_delivery",
                           })
                         }
                         className="mr-3 accent-bp-accent"
                       />
                       <div>
-                        <div className="font-medium text-bp-text">Card payment</div>
-                        <div className="text-sm text-bp-text/60">
-                          Secure checkout via Stripe (GBP)
+                        <div className={`${bpBodyClass} font-medium text-bp-text`}>
+                          Pay on delivery
+                        </div>
+                        <div className={`${bpBodySmClass} text-bp-text/60`}>
+                          Pay when your order arrives (UK)
                         </div>
                       </div>
                     </label>
@@ -313,7 +407,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !formData.privacy_policy_accepted}
-                  className="flex w-full items-center justify-center rounded-lg bg-bp-accent py-3 px-6 font-medium text-bp-canvas transition-colors hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className={`${bpTitleClass} ${bpTitleUtility} flex w-full items-center justify-center bg-bp-accent px-6 py-3.5 text-lg font-bold uppercase tracking-[0.08em] text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0`}
                 >
                   {isSubmitting ? (
                     <LoadingDots className="bg-white" />
@@ -325,10 +419,13 @@ export default function CheckoutPage() {
             </form>
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="sticky top-4 rounded-lg border border-bp-text/10 bg-bp-canvas p-6 shadow-sm">
-              <h2 className="mb-4 text-xl font-semibold text-bp-text">Order summary</h2>
+            <div className="sticky top-28 border border-bp-text/10 bg-bp-canvas p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)]">
+              <h2
+                className={`${bpTitleClass} ${bpTitleUtility} mb-4 text-xl font-bold uppercase tracking-wide text-bp-text`}
+              >
+                Order summary
+              </h2>
 
               <div className="mb-6 space-y-4">
                 {cart.items.map((item) => {
@@ -338,25 +435,21 @@ export default function CheckoutPage() {
                       key={item.id}
                       className="flex items-start justify-between border-b border-bp-text/10 pb-3"
                     >
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-bp-text">
+                      <div className="min-w-0 flex-1 pr-3">
+                        <p className={`${bpBodySmClass} font-medium text-bp-text`}>
                           {box ? boxStripeName(item) : item.product.title}
                         </p>
                         {box && item.box ? (
                           <ul className="mt-1 space-y-0.5 text-xs text-bp-text/55">
                             {item.box.contents.map((content) => (
                               <li key={content.id}>
-                                {categoryLabel(content.categoryKey)}: {content.title}
+                                {categoryLabel(content.categoryKey)}:{" "}
+                                {content.title}
                                 {content.variantLabel
                                   ? ` (${content.variantLabel})`
                                   : ""}
                               </li>
                             ))}
-                            {item.box.giftMessage ? (
-                              <li className="italic">
-                                Gift message: {item.box.giftMessage}
-                              </li>
-                            ) : null}
                           </ul>
                         ) : (
                           <VariantLabel
@@ -371,7 +464,7 @@ export default function CheckoutPage() {
                           />
                         )}
                         {box ? null : (
-                          <p className="text-sm text-bp-text/55">
+                          <p className={`${bpBodySmClass} text-bp-text/55`}>
                             Qty: {item.quantity}
                           </p>
                         )}
@@ -403,6 +496,21 @@ export default function CheckoutPage() {
                     className="text-bp-text"
                   />
                 </div>
+                {contributionAmount > 0 ? (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-bp-text/65">
+                      Contribution
+                      {allocation
+                        ? ` · ${contributionAllocationLabel(allocation)}`
+                        : ""}
+                    </span>
+                    <Price
+                      amount={contributionAmount.toString()}
+                      currencyCode={cart.currency}
+                      className="text-bp-text"
+                    />
+                  </div>
+                ) : null}
                 <div className="flex justify-between pt-2 text-lg font-bold">
                   <span className="text-bp-text">Total</span>
                   <Price
@@ -418,7 +526,9 @@ export default function CheckoutPage() {
                   <p className="mt-2 text-center text-xs leading-snug text-bp-text/55">
                     {UK_RETURNS_SUMMARY}
                   </p>
-                  <p className="mt-2 text-center text-xs text-bp-text/55">{UK_VAT_NOTE}</p>
+                  <p className="mt-2 text-center text-xs text-bp-text/55">
+                    {UK_VAT_NOTE}
+                  </p>
                 </div>
               </div>
             </div>

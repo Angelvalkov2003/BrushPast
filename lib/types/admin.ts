@@ -1,7 +1,14 @@
 export type ContentStatus = "draft" | "active" | "hidden" | "archived";
 export type InventoryType = "single" | "limited" | "unlimited";
 export type PaymentMethod = "card" | "cash_on_delivery";
-export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
+export type PaymentStatus =
+  | "pending"
+  | "paid"
+  | "stripe_confirmed"
+  | "received"
+  | "failed"
+  | "cancelled"
+  | "refunded";
 export type OrderStatus =
   | "pending"
   | "confirmed"
@@ -130,6 +137,7 @@ export type AdminOrder = {
   subtotal: number | null;
   shipping_total: number | null;
   grand_total: number | null;
+  optional_contribution_gbp: number | null;
   created_at: string;
 };
 
@@ -147,6 +155,8 @@ export type AdminOrderDetail = AdminOrder & {
   admin_note: string | null;
   stripe_checkout_session_id: string | null;
   gift_message: string | null;
+  optional_contribution_gbp: number | null;
+  contribution_allocation: string | null;
   box_type: "a" | "b" | "c" | "d" | null;
   box_combo_id: string | null;
   items: {

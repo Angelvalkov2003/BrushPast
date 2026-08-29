@@ -4,11 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { AdminOrderDetail, OrderStatus, PaymentStatus } from "lib/types/admin";
+import {
+  ADMIN_PAYMENT_STATUS_OPTIONS,
+  paymentStatusLabel,
+} from "lib/payment-status";
 import { updateOrderAdminAction } from "app/admin/(protected)/orders/[id]/actions";
 import {
   adminButtonClass,
   adminGrid2Class,
-  adminInputClass,
+  adminHelpClass,
   adminLabelClass,
   adminSelectClass,
   adminTextareaClass,
@@ -24,13 +28,13 @@ const ORDER_STATUSES: OrderStatus[] = [
   "refunded",
 ];
 
-const PAYMENT_STATUSES: PaymentStatus[] = ["pending", "paid", "failed", "refunded"];
-
 export function AdminOrderEditForm({ order }: { order: AdminOrderDetail }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [orderStatus, setOrderStatus] = useState<OrderStatus>(order.order_status);
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>(order.payment_status);
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>(
+    order.payment_status === "paid" ? "stripe_confirmed" : order.payment_status,
+  );
   const [adminNote, setAdminNote] = useState(order.admin_note ?? "");
 
   const save = async (e: React.FormEvent) => {
@@ -74,12 +78,17 @@ export function AdminOrderEditForm({ order }: { order: AdminOrderDetail }) {
             onChange={(e) => setPaymentStatus(e.target.value as PaymentStatus)}
             className={adminSelectClass}
           >
-            {PAYMENT_STATUSES.map((s) => (
+            {ADMIN_PAYMENT_STATUS_OPTIONS.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {paymentStatusLabel(s)}
               </option>
             ))}
           </select>
+          <p className={adminHelpClass}>
+            Card: use Sync from Stripe for &quot;Stripe confirmed&quot;. Set
+            &quot;Funds in account&quot; yourself once you see the money. Use
+            Cancelled / Refunded when needed.
+          </p>
         </div>
       </div>
       <div>

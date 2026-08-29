@@ -1,5 +1,6 @@
 import Grid from "components/grid";
 import { GridTileImage } from "components/grid/tile";
+import { OutOfStockPlaque } from "components/shop/out-of-stock-plaque";
 import { Product } from "lib/types";
 import Link from "next/link";
 
@@ -16,6 +17,11 @@ export default function ProductGridItems({
             className="relative inline-block h-full w-full"
             href={`/product/${product.handle}`}
             prefetch={true}
+            aria-label={
+              product.available
+                ? product.title
+                : `${product.title} — out of stock`
+            }
           >
             <GridTileImage
               alt={product.title}
@@ -29,6 +35,7 @@ export default function ProductGridItems({
               fill
               sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
             />
+            {!product.available ? <OutOfStockPlaque /> : null}
           </Link>
         </Grid.Item>
       ))}

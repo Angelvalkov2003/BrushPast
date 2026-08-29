@@ -30,6 +30,7 @@ export interface NewsletterSignupData {
 
 export interface OrderNotificationData {
   orderId: string;
+  orderNumber?: string;
   customerName: string;
   customerEmail: string;
   customerPhone?: string;
@@ -43,6 +44,8 @@ export interface OrderNotificationData {
     quantity: number;
   }>;
   comment?: string;
+  contributionGbp?: number;
+  contributionAllocation?: string | null;
 }
 
 /**
@@ -137,68 +140,93 @@ View subscribers: ${siteUrl}/admin/newsletter
  */
 export async function sendNewOrderNotification(data: OrderNotificationData) {
   try {
+    const gbp = (n: number) =>
+      new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: "GBP",
+      }).format(n);
+
     const productsList = data.products
       .map(
         (product) =>
-          `  • ${escapeHtml(product.name)} - ${product.quantity}x $${product.price.toFixed(2)} = $${(product.price * product.quantity).toFixed(2)}`
+          `  • ${escapeHtml(product.name)} - ${product.quantity}x ${gbp(product.price)} = ${gbp(product.price * product.quantity)}`,
       )
       .join("\n");
 
     const productsListHtml = data.products
       .map(
         (product) =>
-          `<li>${escapeHtml(product.name)} - ${product.quantity}x $${product.price.toFixed(2)} = $${(product.price * product.quantity).toFixed(2)}</li>`
+          `<li>${escapeHtml(product.name)} - ${product.quantity}x ${gbp(product.price)} = ${gbp(product.price * product.quantity)}</li>`,
       )
       .join("");
+
+    const contributionBlock =
+      data.contributionGbp && data.contributionGbp > 0
+        ? `
+        <h3>Optional contribution</h3>
+        <p><strong>Amount:</strong> ${gbp(data.contributionGbp)}</p>
+        ${
+          data.contributionAllocation
+            ? `<p><strong>Allocated to:</strong> ${escapeHtml(data.contributionAllocation)}</p>`
+            : ""
+        }
+      `
+        : "";
+
+    const contributionText =
+      data.contributionGbp && data.contributionGbp > 0
+        ? `
+Optional contribution: ${gbp(data.contributionGbp)}
+${data.contributionAllocation ? `Allocated to: ${data.contributionAllocation}\n` : ""}`
+        : "";
+
+    const ref = data.orderNumber || data.orderId.substring(0, 8);
 
     const { data: emailData, error } = await resend.emails.send({
       from: `New Order <noreply@${getDomainFromEmail(contactEmail)}>`,
       to: [contactEmail],
       replyTo: data.customerEmail,
-      subject: `New Order #${data.orderId.substring(0, 8)} - ${siteName}`,
+      subject: `New Order ${ref} - ${siteName}`,
       html: `
         <h2>New Order Received</h2>
-        <p><strong>Order ID:</strong> ${escapeHtml(data.orderId)}</p>
-        <p><strong>Total Price:</strong> $${data.totalPrice.toFixed(2)}</p>
+        <p><strong>Order:</strong> ${escapeHtml(ref)}</p>
+        <p><strong>Total Price:</strong> ${gbp(data.totalPrice)}</p>
         
         <h3>Customer Information</h3>
         <p><strong>Name:</strong> ${escapeHtml(data.customerName)}</p>
         <p><strong>Email:</strong> ${escapeHtml(data.customerEmail)}</p>
         ${data.customerPhone ? `<p><strong>Phone:</strong> ${escapeHtml(data.customerPhone)}</p>` : ""}
         <p><strong>Address:</strong> ${escapeHtml(data.customerAddress).replace(/\n/g, "<br>")}</p>
-        <p><strong>Payment Method:</strong> ${data.paymentMethod === "cash_on_delivery" ? "Cash on delivery" : "Card payment"}</p>
+        <p><strong>Payment Method:</strong> ${data.paymentMethod === "cash_on_delivery" ? "Pay on delivery" : "Card payment"}</p>
         
         <h3>Order Items</h3>
         <ul>
           ${productsListHtml}
         </ul>
-        
-        ${data.comment ? `<h3>Customer Comment</h3><p>${escapeHtml(data.comment).replace(/\n/g, "<br>")}</p>` : ""}
+        ${contributionBlock}
+        ${data.comment ? `<h3>Notes / gift message</h3><p>${escapeHtml(data.comment).replace(/\n/g, "<br>")}</p>` : ""}
         
         <hr>
-        <p><small>This email was sent automatically when a new order was placed on ${siteName}</small></p>
         <p><small>View order: ${siteUrl}/admin/orders/${data.orderId}</small></p>
       `,
       text: `
 New Order Received
 
-Order ID: ${data.orderId}
-Total Price: $${data.totalPrice.toFixed(2)}
+Order: ${ref}
+Total Price: ${gbp(data.totalPrice)}
 
 Customer Information:
 Name: ${data.customerName}
 Email: ${data.customerEmail}
 ${data.customerPhone ? `Phone: ${data.customerPhone}\n` : ""}
 Address: ${data.customerAddress}
-Payment Method: ${data.paymentMethod === "cash_on_delivery" ? "Cash on delivery" : "Card payment"}
+Payment Method: ${data.paymentMethod === "cash_on_delivery" ? "Pay on delivery" : "Card payment"}
 
 Order Items:
 ${productsList}
+${contributionText}
+${data.comment ? `Notes / gift message:\n${data.comment}\n` : ""}
 
-${data.comment ? `Customer Comment:\n${data.comment}\n` : ""}
-
----
-This email was sent automatically when a new order was placed on ${siteName}
 View order: ${siteUrl}/admin/orders/${data.orderId}
       `,
     });
@@ -226,6 +254,13 @@ View order: ${siteUrl}/admin/orders/${data.orderId}
       // Email sent but no data returned from Resend
     }
 
+    // Customer receipt (best-effort — do not fail admin notification path)
+    try {
+      await sendOrderConfirmationToCustomer(data);
+    } catch (customerEmailError) {
+      console.error("Customer order confirmation email failed:", customerEmailError);
+    }
+
     return { success: true };
   } catch (error: any) {
     console.error("Failed to send new order notification email:", {
@@ -236,6 +271,50 @@ View order: ${siteUrl}/admin/orders/${data.orderId}
     });
     throw error;
   }
+}
+
+async function sendOrderConfirmationToCustomer(data: OrderNotificationData) {
+  const gbp = (n: number) =>
+    new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(n);
+
+  const ref = data.orderNumber || data.orderId.substring(0, 8);
+  const itemsHtml = data.products
+    .map(
+      (product) =>
+        `<li>${escapeHtml(product.name)} × ${product.quantity} — ${gbp(product.price * product.quantity)}</li>`,
+    )
+    .join("");
+
+  const contributionHtml =
+    data.contributionGbp && data.contributionGbp > 0
+      ? `<p><strong>Additional contribution:</strong> ${gbp(data.contributionGbp)}${
+          data.contributionAllocation
+            ? ` (${escapeHtml(data.contributionAllocation)})`
+            : ""
+        }</p>
+         <p><em>Thank you. This gift gave a little more.</em></p>`
+      : "";
+
+  await resend.emails.send({
+    from: `${siteName} <noreply@${getDomainFromEmail(contactEmail)}>`,
+    to: [data.customerEmail],
+    subject: `Order confirmation ${ref} — ${siteName}`,
+    html: `
+      <h2>Thank you for your order</h2>
+      <p>Hi ${escapeHtml(data.customerName)},</p>
+      <p>We've received your order <strong>${escapeHtml(ref)}</strong>.</p>
+      <h3>Items</h3>
+      <ul>${itemsHtml}</ul>
+      ${contributionHtml}
+      <p><strong>Total:</strong> ${gbp(data.totalPrice)}</p>
+      <p>Payment: ${data.paymentMethod === "cash_on_delivery" ? "Pay on delivery" : "Card (Stripe)"}</p>
+      <p>We'll be in touch with delivery updates.</p>
+      <p>— ${siteName}</p>
+    `,
+  });
 }
 
 export interface SponsorNotificationData {

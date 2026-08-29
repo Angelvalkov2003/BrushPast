@@ -3,10 +3,10 @@ import { HomeCta, IndexCard, PolaroidFrame, SectionEyebrow } from "./home-decor"
 import { HomeTextureSection } from "./home-texture-section";
 import {
   bpBodyClass,
+  bpDisplayClass,
+  bpDisplayUtility,
   bpTitleClass,
   bpTitleUtility,
-  bpWhisperUtility,
-  homeHandClass,
 } from "./home-typography";
 
 export function HomeHero() {
@@ -24,7 +24,7 @@ export function HomeHero() {
         >
           <SectionEyebrow>Welcome in - take your time</SectionEyebrow>
           <h1
-            className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
+            className={`${bpDisplayClass} ${bpDisplayUtility} mt-2 text-[clamp(2.75rem,8vw,5rem)] font-bold leading-[0.95] text-bp-text`}
           >
             Stories that stay with you.
           </h1>
@@ -41,7 +41,7 @@ export function HomeHero() {
             </HomeCta>
           </div>
           <p
-            className={`${homeHandClass} ${bpWhisperUtility} mt-8 text-xl text-bp-text/70 md:text-2xl`}
+            className={`${bpTitleClass} ${bpTitleUtility} mt-8 text-lg uppercase tracking-[0.08em] text-bp-text/70 md:text-xl`}
           >
             Pull up a chair. Everyone belongs here.
           </p>
@@ -62,7 +62,7 @@ export function HomeHero() {
             />
           </div>
           <p
-            className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
+            className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-center text-lg uppercase tracking-[0.08em] text-bp-text/75`}
           >
             Drink the story
           </p>

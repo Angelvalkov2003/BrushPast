@@ -1,0 +1,11 @@
+category,design_code,slug,title,coffee_price_gbp,tshirt_price_gbp,print_price_gbp,variant,sku,stock_qty,story_slug,image_path,notes
+coffee,,,,15,,,,,,,,Confirm coffee SKUs with client
+tshirt,BP-TEE-01,tee-design-01,Design 01,,35,,S,BP-TEE-01-S,,,,16 designs × 4 sizes — fill each row
+tshirt,BP-TEE-01,tee-design-01,Design 01,,35,,M,BP-TEE-01-M,,,,
+tshirt,BP-TEE-01,tee-design-01,Design 01,,35,,L,BP-TEE-01-L,,,,
+tshirt,BP-TEE-01,tee-design-01,Design 01,,35,,XL,BP-TEE-01-XL,,,,
+print,BP-PRT-01,print-design-01,Print 01,,,28,A5,BP-PRT-01-A5,,,,8 designs — A5 size TBC
+tshirt,BP-TEE-02,tee-design-02,Design 02,,35,,S,BP-TEE-02-S,,,,
+tshirt,BP-TEE-02,tee-design-02,Design 02,,35,,M,BP-TEE-02-M,,,,
+tshirt,BP-TEE-02,tee-design-02,Design 02,,35,,L,BP-TEE-02-L,,,,
+tshirt,BP-TEE-02,tee-design-02,Design 02,,35,,XL,BP-TEE-02-XL,,,,

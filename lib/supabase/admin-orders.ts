@@ -11,7 +11,7 @@ export async function getAllOrdersAdmin(): Promise<AdminOrder[]> {
   const { data, error } = await supabase
     .from("orders")
     .select(
-      "id, order_number, first_name, last_name, email, phone, payment_method, payment_status, order_status, subtotal, shipping_total, grand_total, created_at",
+      "id, order_number, first_name, last_name, email, phone, payment_method, payment_status, order_status, subtotal, shipping_total, grand_total, optional_contribution_gbp, created_at",
     )
     .order("created_at", { ascending: false });
 
@@ -92,7 +92,11 @@ export async function getAdminDashboardStats() {
   const countsTowardWeekRevenue = (o: (typeof list)[number]) => {
     if (o.order_status === "cancelled" || o.order_status === "refunded")
       return false;
-    if (o.payment_status === "failed" || o.payment_status === "refunded")
+    if (
+      o.payment_status === "failed" ||
+      o.payment_status === "refunded" ||
+      o.payment_status === "cancelled"
+    )
       return false;
     if (new Date(o.created_at).getTime() < weekAgo) return false;
     return true;

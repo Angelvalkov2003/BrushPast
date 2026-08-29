@@ -64,7 +64,15 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TYPE content_status AS ENUM ('draft', 'active', 'hidden', 'archived');
 CREATE TYPE inventory_type AS ENUM ('single', 'limited', 'unlimited');
 CREATE TYPE payment_method AS ENUM ('card', 'cash_on_delivery');
-CREATE TYPE payment_status AS ENUM ('pending', 'paid', 'failed', 'refunded');
+CREATE TYPE payment_status AS ENUM (
+  'pending',
+  'paid',
+  'stripe_confirmed',
+  'received',
+  'failed',
+  'cancelled',
+  'refunded'
+);
 CREATE TYPE order_status AS ENUM (
   'pending',
   'confirmed',
@@ -337,6 +345,17 @@ CREATE TABLE orders (
   gift_message TEXT,
   box_type box_type,
   box_combo_id box_pair_combo,
+  optional_contribution_gbp NUMERIC(10, 2)
+    CHECK (optional_contribution_gbp IS NULL OR optional_contribution_gbp >= 0),
+  contribution_allocation TEXT
+    CHECK (
+      contribution_allocation IS NULL
+      OR contribution_allocation IN (
+        'support_creator',
+        'fund_workshop',
+        'where_needed'
+      )
+    ),
   admin_note TEXT,
   inventory_decremented_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -498,7 +517,7 @@ CREATE INDEX idx_journal_post_images_post ON journal_post_images (journal_post_i
 CREATE INDEX idx_journal_post_images_sort ON journal_post_images (journal_post_id, sort_order DESC);
 
 -- =============================================================================
--- Inventory on payment_status -> paid
+-- Inventory when payment becomes collected (Stripe confirmed / received / legacy paid)
 -- =============================================================================
 CREATE OR REPLACE FUNCTION decrement_inventory_for_order(p_order_id UUID)
 RETURNS VOID
@@ -554,7 +573,14 @@ RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $$
 BEGIN
-  IF NEW.payment_status = 'paid' AND (OLD.payment_status IS DISTINCT FROM 'paid') AND NEW.inventory_decremented_at IS NULL THEN
+  IF NEW.payment_status IN ('paid', 'stripe_confirmed', 'received')
+     AND (OLD.payment_status IS DISTINCT FROM NEW.payment_status)
+     AND (
+       OLD.payment_status IS NULL
+       OR OLD.payment_status NOT IN ('paid', 'stripe_confirmed', 'received')
+     )
+     AND NEW.inventory_decremented_at IS NULL
+  THEN
     PERFORM decrement_inventory_for_order(NEW.id);
     UPDATE orders SET inventory_decremented_at = NOW() WHERE id = NEW.id;
   END IF;
@@ -660,12 +686,12 @@ BEGIN
 
   UPDATE orders
   SET
-    payment_status = 'paid',
+    payment_status = 'stripe_confirmed',
     order_status = CASE WHEN order_status = 'pending' THEN 'confirmed' ELSE order_status END,
     stripe_payment_intent_id = COALESCE(p_stripe_payment_intent_id, stripe_payment_intent_id),
     updated_at = NOW()
   WHERE id = v_order_id
-    AND payment_status IS DISTINCT FROM 'paid';
+    AND payment_status IN ('pending', 'failed', 'paid');
 
   IF p_stripe_event_id IS NOT NULL THEN
     INSERT INTO stripe_webhook_events (stripe_event_id, event_type, order_id)

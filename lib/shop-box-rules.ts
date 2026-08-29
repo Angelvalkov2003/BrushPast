@@ -1,8 +1,12 @@
 import {
   BOX_CATEGORY_ROWS,
   BOX_TYPE_RULES,
+  PAIR_COMBO_META,
+  categoriesForCombo,
+  comboFromCategories,
   type BoxCategoryKey,
   type BoxDraft,
+  type BoxPairComboId,
   type BoxSelectionItem,
   type BoxTypeId,
 } from "./shop-box-config";
@@ -25,11 +29,18 @@ export function isBoxComplete(draft: BoxDraft): boolean {
   const total = totalItemCount(draft.items);
   if (total < rules.minTotal) return false;
   if (rules.maxTotal != null && total > rules.maxTotal) return false;
+
   if (draft.type === "a") {
     return BOX_CATEGORY_ROWS.every(
       (row) => countInCategory(draft.items, row.key) === 1,
     );
   }
+
+  if (draft.type === "b" && draft.comboId) {
+    const required = categoriesForCombo(draft.comboId);
+    return required.every((key) => countInCategory(draft.items, key) === 1);
+  }
+
   return true;
 }
 
@@ -45,13 +56,35 @@ export function canSelectInCategory(
   }
 
   if (draft.type === "b") {
-    return { ok: true, replaces: total >= 2 };
+    if (
+      draft.comboId &&
+      !PAIR_COMBO_META[draft.comboId].categories.includes(categoryKey)
+    ) {
+      return {
+        ok: false,
+        replaces: false,
+        reason: "This pairing does not include that collection.",
+      };
+    }
+    return {
+      ok: true,
+      replaces: countInCategory(draft.items, categoryKey) > 0,
+    };
   }
 
   if (draft.type === "a") {
     return {
       ok: true,
       replaces: countInCategory(draft.items, categoryKey) > 0,
+    };
+  }
+
+  // Build Your Own (d)
+  if (rules.maxTotal != null && total >= rules.maxTotal) {
+    return {
+      ok: false,
+      replaces: false,
+      reason: `This box holds up to ${rules.maxTotal} pieces.`,
     };
   }
 
@@ -66,18 +99,9 @@ export function canSelectInCategory(
     }
   }
 
-  if (rules.maxTotal != null && total >= rules.maxTotal) {
-    return {
-      ok: false,
-      replaces: false,
-      reason: `This box holds up to ${rules.maxTotal} pieces.`,
-    };
-  }
-
   return { ok: true, replaces: false };
 }
 
-/** Complete Box: one per category. Single Box: the new pick replaces any previous item. */
 export function applySelection(
   draft: BoxDraft,
   item: BoxSelectionItem,
@@ -86,34 +110,14 @@ export function applySelection(
     return { ...draft, items: [{ ...item, quantity: 1 }] };
   }
 
-  if (draft.type === "a") {
+  if (draft.type === "a" || draft.type === "b") {
     const rest = draft.items.filter(
       (current) => current.categoryKey !== item.categoryKey,
     );
     return { ...draft, items: [...rest, { ...item, quantity: 1 }] };
   }
 
-  if (draft.type === "b") {
-    const sameProduct = draft.items.find(
-      (current) => current.productId === item.productId,
-    );
-    if (sameProduct) {
-      return {
-        ...draft,
-        items: draft.items.map((current) =>
-          current.productId === item.productId ? { ...item, quantity: 1 } : current,
-        ),
-      };
-    }
-    if (draft.items.length < 2) {
-      return { ...draft, items: [...draft.items, { ...item, quantity: 1 }] };
-    }
-    return {
-      ...draft,
-      items: [draft.items[1]!, { ...item, quantity: 1 }],
-    };
-  }
-
+  // Build Your Own — allow duplicates (separate lines per variant)
   const existingIndex = draft.items.findIndex(
     (current) =>
       current.productId === item.productId &&
@@ -121,15 +125,29 @@ export function applySelection(
   );
 
   if (existingIndex >= 0) {
-    const next = draft.items.map((current, index) =>
-      index === existingIndex
-        ? { ...current, quantity: current.quantity + item.quantity }
-        : current,
-    );
-    return { ...draft, items: next };
+    const rules = BOX_TYPE_RULES.d;
+    const total = totalItemCount(draft.items);
+    if (rules.maxTotal != null && total >= rules.maxTotal) {
+      return draft;
+    }
+    return {
+      ...draft,
+      items: draft.items.map((current, index) =>
+        index === existingIndex
+          ? { ...current, quantity: current.quantity + 1 }
+          : current,
+      ),
+    };
   }
 
-  return { ...draft, items: [...draft.items, item] };
+  if (
+    BOX_TYPE_RULES.d.maxTotal != null &&
+    totalItemCount(draft.items) >= BOX_TYPE_RULES.d.maxTotal
+  ) {
+    return draft;
+  }
+
+  return { ...draft, items: [...draft.items, { ...item, quantity: 1 }] };
 }
 
 export function removeSelection(
@@ -165,10 +183,87 @@ export function categoryStatusLabel(
   return count > 0 ? `${count} selected` : "None";
 }
 
+/**
+ * After a cart edit, infer the correct box type + optional pairing combo.
+ *
+ * Confirmed (BYO):
+ * - 3 → 2 items: stay Build Your Own (−7%)
+ * - 1 item: Single Collection at full category price
+ *
+ * Fixed journeys (a/b):
+ * - 2 items matching an official pair → Curated Pairings
+ * - 1 item → Single Collection
+ */
+export function inferBoxFromContents(
+  items: BoxSelectionItem[],
+  previousType: BoxTypeId,
+  previousComboId?: BoxPairComboId,
+): { type: BoxTypeId; comboId?: BoxPairComboId } {
+  const count = totalItemCount(items);
+  if (count <= 0) {
+    return { type: previousType, comboId: previousComboId };
+  }
+
+  if (count === 1) {
+    return { type: "c" };
+  }
+
+  if (previousType === "d") {
+    return { type: "d" };
+  }
+
+  if (count === 2) {
+    const keys = items.flatMap((item) =>
+      Array.from({ length: item.quantity }, () => item.categoryKey),
+    );
+    const unique = [...new Set(keys)];
+    const combo =
+      unique.length === 2 ? comboFromCategories(unique) : undefined;
+    if (combo) {
+      return { type: "b", comboId: combo };
+    }
+    if (previousType === "b" && previousComboId) {
+      return { type: "b", comboId: previousComboId };
+    }
+    return { type: "d" };
+  }
+
+  if (count >= 3) {
+    if (previousType === "a") {
+      const hasAll = BOX_CATEGORY_ROWS.every(
+        (row) => countInCategory(items, row.key) === 1,
+      );
+      if (hasAll && count === 3) return { type: "a" };
+    }
+    return { type: "d" };
+  }
+
+  return { type: previousType, comboId: previousComboId };
+}
+
+/** @deprecated Prefer inferBoxFromContents */
 export function boxTypeAfterContentChange(
   type: BoxTypeId,
   remainingCount: number,
 ): BoxTypeId {
+  if (remainingCount === 1) return "c";
   if (type === "b" && remainingCount === 1) return "c";
   return type;
+}
+
+export function categoryRowsForBuilder(options: {
+  type: BoxTypeId;
+  lockedCategory?: BoxCategoryKey;
+  comboId?: BoxPairComboId;
+}) {
+  if (options.type === "c" && options.lockedCategory) {
+    return BOX_CATEGORY_ROWS.filter(
+      (row) => row.key === options.lockedCategory,
+    );
+  }
+  if (options.type === "b" && options.comboId) {
+    const allowed = new Set(categoriesForCombo(options.comboId));
+    return BOX_CATEGORY_ROWS.filter((row) => allowed.has(row.key));
+  }
+  return BOX_CATEGORY_ROWS;
 }

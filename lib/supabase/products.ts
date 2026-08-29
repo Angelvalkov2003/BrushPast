@@ -77,6 +77,8 @@ export async function getProducts(params?: {
   maxPrice?: number;
   categories?: string[];
   onSaleOnly?: boolean;
+  /** Keep sold-out products in the list (show with Out of stock UI). */
+  includeOutOfStock?: boolean;
 }): Promise<Product[]> {
   try {
     const supabase = await createServerClient();
@@ -127,9 +129,16 @@ export async function getProducts(params?: {
       supabase,
       data.map((p) => p.id),
     );
-    return data
-      .filter((p) => isAvailable(p))
-      .map((p) => transformProduct(p, galleries.get(p.id) ?? []));
+    const mapped = data.map((p) =>
+      transformProduct(p, galleries.get(p.id) ?? []),
+    );
+
+    // Per-variant stock (e.g. tee sizes) can sell out while product row still looks available.
+    const { applyVariantAvailability } = await import("./product-variant-stock");
+    const withVariantStock = await applyVariantAvailability(mapped);
+
+    if (params?.includeOutOfStock) return withVariantStock;
+    return withVariantStock.filter((p) => p.available);
   } catch (error) {
     if (isReactPostpone(error)) throw error;
     console.error("getProducts:", error);
@@ -179,5 +188,5 @@ export async function getCollections(): Promise<Collection[]> {
 }
 
 export async function getCollectionProducts(handle: string): Promise<Product[]> {
-  return getProducts({ collection: handle });
+  return getProducts({ collection: handle, includeOutOfStock: true });
 }
