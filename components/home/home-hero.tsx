@@ -23,18 +23,18 @@ export function HomeHero() {
       actions={
         <div className="flex max-w-md flex-col gap-4">
           <HomeCta
-            href="/stories"
+            href="/shop"
             variant="primary"
             className="w-full justify-center uppercase"
           >
-            Meet the creators →
+            Shop gifts that give back →
           </HomeCta>
           <HomeCta
-            href="/shop"
+            href="/stories"
             variant="outline"
             className="w-full justify-center uppercase"
           >
-            Shop gifts that give back →
+            Meet the creators →
           </HomeCta>
         </div>
       }
