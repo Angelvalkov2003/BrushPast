@@ -12,7 +12,7 @@ import type { EnehPhoto } from "lib/stories/eneh-content";
 import { ENEH_STORY } from "lib/stories/eneh-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = ENEH_STORY;
 
@@ -89,7 +89,7 @@ export async function EnehPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
               Photography
             </p>
-            <h1 className="mt-3 text-[clamp(2.25rem,7vw,4.5rem)] uppercase leading-[0.92] tracking-tight">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.headline}
             </h1>
             <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/70`}>

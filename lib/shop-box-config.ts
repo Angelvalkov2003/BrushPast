@@ -1,4 +1,5 @@
 import { SHOP_COLLECTIONS } from "./shop-config";
+import { PHOTO } from "./photo-placeholder";
 
 export type BoxTypeId = "a" | "b" | "c" | "d";
 
@@ -60,6 +61,7 @@ export type BoxHubCard = {
   comingSoon: boolean;
   imageAlt: string;
   imageNote: string;
+  photoNumber: number;
 };
 
 export const BOX_BUILDER_STEPS: { id: BoxBuilderStep; label: string }[] = [
@@ -187,6 +189,7 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
       "Photograph of a sealed Brush Past gift box tied with twine, representing Next Chapter",
     imageNote:
       "IMAGE NEEDED: Photograph of a sealed Brush Past gift box tied with twine, representing Next Chapter.",
+    photoNumber: PHOTO.boxHubNextChapter,
   },
   {
     type: "b",
@@ -202,6 +205,7 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
       "Two gifts paired together — a print stacked with a coffee bag — representing Curated Pairings",
     imageNote:
       "IMAGE NEEDED: Two gifts paired together (a print stacked with a coffee bag), representing Curated Pairings.",
+    photoNumber: PHOTO.boxHubPairings,
   },
   {
     type: "c",
@@ -216,6 +220,7 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
     imageAlt: "A single wrapped gift on a table, representing Single Collection",
     imageNote:
       "IMAGE NEEDED: A single wrapped gift on a table, representing Single Collection.",
+    photoNumber: PHOTO.boxHubSingle,
   },
   {
     type: "d",
@@ -231,6 +236,7 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
       "An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own",
     imageNote:
       "IMAGE NEEDED: An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own.",
+    photoNumber: PHOTO.boxHubBuildOwn,
   },
 ];
 

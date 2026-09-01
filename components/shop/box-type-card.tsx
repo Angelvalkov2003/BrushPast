@@ -54,7 +54,11 @@ export function BoxTypeCard({
       </div>
 
       <PolaroidFrame index={index + 1} className="group-hover:rotate-0">
-        <BoxImagePlaceholder alt={card.imageAlt} note={card.imageNote} />
+        <BoxImagePlaceholder
+          alt={card.imageAlt}
+          note={card.imageNote}
+          labelNumber={card.photoNumber}
+        />
       </PolaroidFrame>
     </>
   );

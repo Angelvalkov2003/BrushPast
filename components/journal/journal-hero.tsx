@@ -1,47 +1,25 @@
 "use client";
 
 import { JOURNAL_HERO_TAGLINE } from "lib/journal-config";
-import { SectionEyebrow } from "components/home/home-decor";
-import {
-  bpBodyClass,
-  bpWhisperUtility,
-  homeHandClass,
-} from "components/home/home-typography";
+import { PageHero } from "components/shared/page-hero";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
-import { TextureSection } from "components/shared/texture-section";
 
 export function JournalHero() {
   return (
-    <TextureSection
-      as="header"
-      texture="secondary"
-      overlay="cream"
-      className="px-4 py-14 md:px-10 md:py-20"
-    >
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-        <Reveal>
-          <div>
-            <SectionEyebrow>Brush Past</SectionEyebrow>
-            <h1 className="mt-1 text-[clamp(3.5rem,11vw,7rem)] font-bold leading-[0.9] text-bp-text">
-              Journal
-            </h1>
-            <p className={`${bpBodyClass} mt-5 max-w-xl text-bp-text/85`}>
-              {JOURNAL_HERO_TAGLINE}
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={REVEAL_STAGGER_MS}>
-          <div className="lg:text-right">
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
-            >
-              Updates from
-              <br />
-              the journey.
-            </p>
-          </div>
-        </Reveal>
-      </div>
-    </TextureSection>
+    <Reveal>
+      <PageHero
+        variant="index"
+        eyebrow="Brush Past"
+        title="Journal"
+        intro={JOURNAL_HERO_TAGLINE}
+        aside={
+          <>
+            Updates from
+            <br />
+            the journey.
+          </>
+        }
+      />
+    </Reveal>
   );
 }

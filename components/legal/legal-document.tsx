@@ -5,6 +5,7 @@ import {
   bpBodySmClass,
   bpEmphasisUtility,
   bpLinkUtility,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpWhisperUtility,
 } from "components/home/home-typography";
 import type { LegalPageContent } from "lib/legal/types";
@@ -47,7 +48,7 @@ export function LegalDocument({
         >
           {SITE_NAME} · United Kingdom
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-bp-text md:text-4xl">
+        <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-2`}>
           {page.title}
         </h1>
         <p className={`${bpBodySmClass} mt-3 text-bp-text/65`}>

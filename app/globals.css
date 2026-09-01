@@ -61,7 +61,8 @@ body.bp-site {
 }
 
 body.bp-site :where(h1) {
-  font-family: var(--font-bp-title), sans-serif;
+  font-family: var(--font-bp-display), var(--font-bp-title), sans-serif;
+  font-weight: 700;
 }
 
 body.bp-site .bp-title {

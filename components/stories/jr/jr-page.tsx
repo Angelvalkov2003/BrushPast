@@ -7,7 +7,7 @@ import {
   MapPinIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { homeHandClass } from "components/home/home-typography";
+import {homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -129,7 +129,7 @@ export async function JrPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               Artist story
             </p>
-            <h1 className="mt-3 text-[clamp(4rem,14vw,7.5rem)] uppercase leading-[0.82] tracking-tighter">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.artistHeadline}
             </h1>
             <span className="mt-3 block h-1 w-24 max-w-[40%] bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]" aria-hidden />

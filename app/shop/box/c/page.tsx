@@ -11,6 +11,7 @@ import {
 import {
   bpBodyClass,
   bpFontVariables,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
@@ -72,9 +73,7 @@ export default async function ShopBoxCPage({
               ← Choose a box type
             </Link>
             <SectionEyebrow className="mt-8">Single Collection</SectionEyebrow>
-            <h1
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.4rem,6vw,4.25rem)] font-bold uppercase leading-[0.92] text-bp-text`}
-            >
+            <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-2 uppercase`}>
               Choose one collection
             </h1>
             <p className={`${bpBodyClass} mt-4 max-w-xl text-bp-text/75`}>
@@ -92,6 +91,7 @@ export default async function ShopBoxCPage({
                     <BoxImagePlaceholder
                       alt={option.imageAlt}
                       note={option.imageNote}
+                      labelNumber={option.photoNumber}
                       className="aspect-[4/5] min-h-[200px]"
                     />
                   </PolaroidFrame>

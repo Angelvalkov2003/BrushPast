@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import clsx from "clsx";
 import { notFound } from "next/navigation";
 import Footer from "components/layout/footer";
 import { HomeCta, PolaroidFrame, SectionEyebrow } from "components/home/home-decor";
@@ -7,6 +8,12 @@ import {
   bpBodyClass,
   bpBodySmClass,
   bpFontVariables,
+  PAGE_HERO_CONTAINER_CLASS,
+  PAGE_HERO_GRID_SPLIT_CLASS,
+  PAGE_HERO_H1_MINIMAL_CLASS,
+  PAGE_HERO_INTRO_CLASS,
+  PAGE_HERO_POLAROID_WRAP_CLASS,
+  PAGE_HERO_SECTION_COMPACT_CLASS,
   bpWhisperUtility,
 } from "components/home/home-typography";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -55,10 +62,10 @@ export default async function ShopCategoryPage({
     >
       <TextureSection
         texture="secondary"
-        overlay="cream"
-        className="px-4 py-10 md:px-10 md:py-14"
+        overlay="heroShell"
+        className={PAGE_HERO_SECTION_COMPACT_CLASS}
       >
-        <div className="mx-auto max-w-[1400px]">
+        <div className={PAGE_HERO_CONTAINER_CLASS}>
           <Link
             href="/shop"
             className={`${bpWhisperUtility} inline-flex items-center text-lg text-bp-text/65 transition-colors hover:text-bp-accent`}
@@ -66,14 +73,14 @@ export default async function ShopCategoryPage({
             ← The Archive Shop
           </Link>
 
-          <div className="mt-8 grid gap-10 md:grid-cols-[1fr_1fr] md:items-center md:gap-14">
+          <div className={clsx(PAGE_HERO_GRID_SPLIT_CLASS, "mt-8")}>
             <div>
               <SectionEyebrow>The Archive</SectionEyebrow>
-              <h1 className="mt-1 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.92] text-bp-text">
+              <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-3`}>
                 {category.name}
               </h1>
               {category.short_description ? (
-                <p className={`${bpBodyClass} mt-4 max-w-lg text-bp-text/85`}>
+                <p className={PAGE_HERO_INTRO_CLASS}>
                   {category.short_description}
                 </p>
               ) : null}
@@ -83,10 +90,7 @@ export default async function ShopCategoryPage({
             </div>
 
             {displayImageUrl(category.image_url) ? (
-              <PolaroidFrame
-                index={0}
-                className="mx-auto max-w-md md:max-w-none"
-              >
+              <PolaroidFrame index={0} className={PAGE_HERO_POLAROID_WRAP_CLASS}>
                 <div className="relative aspect-[3/4] max-h-[400px] w-full overflow-hidden bg-bp-surface">
                   <Image
                     src={displayImageUrl(category.image_url)!}

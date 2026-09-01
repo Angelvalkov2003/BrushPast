@@ -1,0 +1,48 @@
+/** Numbered placeholder copy for Polaroid / framed photo slots. */
+export function formatPhotoPlaceholderLabel(number: number): string {
+  return `снимка ${number}`;
+}
+
+/** Stable site-wide photo reference numbers (for placeholders and asset naming). */
+export const PHOTO = {
+  homeHero: 1,
+  shopGiftHero: 2,
+  homeGiftTeaserOpenBox: 3,
+  homeGiftTeaserFlatLay: 4,
+  shopImpact: 5,
+  shopSingleCoffee: 6,
+  shopSingleTshirt: 7,
+  shopSinglePrint: 8,
+  shopPairCoffeePrint: 9,
+  shopPairCoffeeTshirt: 10,
+  shopPairTshirtPrint: 11,
+  shopNextChapter: 12,
+  shopBuildOwn: 13,
+  shopMobileSingle: 14,
+  shopMobilePairings: 15,
+  shopMobileNextChapter: 16,
+  shopMobileBuildOwn: 17,
+  shopStoryMeetArtist: 18,
+  shopStoryBehindScenes: 19,
+  shopStoryWorkshops: 20,
+  shopStoryJournal: 21,
+  shopStoryExhibitions: 22,
+  aboutWorkshopMoments: 23,
+  contactPeckham: 24,
+  contactJoinWorkshop: 25,
+  contactCollaborate: 26,
+  contactSupportWork: 27,
+  sponsorHeroWorkshop: 28,
+  sponsorHeroSketchbook: 29,
+  sponsorArtistProjects: 30,
+  sponsorWorkshopsEducation: 31,
+  sponsorExhibitionsEvents: 32,
+  sponsorStudioResources: 33,
+  sponsorCommunityInitiatives: 34,
+  sponsorTestimonial: 35,
+  sponsorClosingMug: 36,
+  boxHubNextChapter: 37,
+  boxHubPairings: 38,
+  boxHubSingle: 39,
+  boxHubBuildOwn: 40,
+} as const;

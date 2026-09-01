@@ -4,6 +4,7 @@ import { formatSponsorAmount, sponsorTierLabel } from "lib/sponsor-config";
 import {
   bpBodyClass,
   bpFontVariables,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -42,9 +43,7 @@ export default async function SponsorSuccessPage({
           >
             You&apos;re special to this cause.
           </p>
-          <h1
-            className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-[clamp(2.5rem,6vw,4rem)] font-bold uppercase leading-[0.95] text-bp-text`}
-          >
+          <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-3 uppercase`}>
             Thank you.
           </h1>
           {sponsor ? (

@@ -1,48 +1,26 @@
 "use client";
 
-import {
-  bpBodyClass,
-  bpWhisperUtility,
-  homeHandClass,
-} from "components/home/home-typography";
-import { SectionEyebrow } from "components/home/home-decor";
-import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
-import { TextureSection } from "components/shared/texture-section";
+import { PageHero } from "components/shared/page-hero";
+import { Reveal } from "components/shared/reveal";
 
 const STORIES_TAGLINE = "Art. Writing. Photography. Real people. Real voices.";
 
 export function StoriesHero() {
   return (
-    <TextureSection
-      as="header"
-      texture="secondary"
-      overlay="cream"
-      className="px-4 py-14 md:px-10 md:py-20"
-    >
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-        <Reveal>
-          <div>
-            <SectionEyebrow>Brush Past</SectionEyebrow>
-            <h1 className="mt-1 text-[clamp(3.5rem,12vw,8rem)] font-bold leading-[0.88] text-bp-text">
-              Stories
-            </h1>
-            <p className={`${bpBodyClass} mt-5 max-w-xl text-bp-text/85`}>
-              {STORIES_TAGLINE}
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={REVEAL_STAGGER_MS}>
-          <div className="lg:text-right">
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} max-w-xs text-3xl leading-snug text-bp-text md:text-4xl lg:ml-auto`}
-            >
-              Not spoken about.
-              <br />
-              <span className="text-bp-accent">But speaking.</span>
-            </p>
-          </div>
-        </Reveal>
-      </div>
-    </TextureSection>
+    <Reveal>
+      <PageHero
+        variant="index"
+        eyebrow="Brush Past"
+        title="Stories"
+        intro={STORIES_TAGLINE}
+        aside={
+          <>
+            Not spoken about.
+            <br />
+            <span className="text-bp-accent">But speaking.</span>
+          </>
+        }
+      />
+    </Reveal>
   );
 }

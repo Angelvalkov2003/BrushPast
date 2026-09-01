@@ -17,6 +17,7 @@ import { TextureSection } from "components/shared/texture-section";
 import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
 import {
   SHOP_BUILD_OWN,
+  SHOP_MOBILE_BOX_CARDS,
   SHOP_PAIR_OPTIONS,
   SHOP_SIGNATURE,
   SHOP_SINGLE_OPTIONS,
@@ -30,6 +31,7 @@ const JOURNEYS = [
     href: "/shop/box/c",
     imageAlt: SHOP_SINGLE_OPTIONS[0].imageAlt,
     imageNote: SHOP_SINGLE_OPTIONS[0].imageNote,
+    photoNumber: SHOP_MOBILE_BOX_CARDS[0].photoNumber,
   },
   {
     key: "pair",
@@ -38,6 +40,7 @@ const JOURNEYS = [
     href: "/shop#choose-box",
     imageAlt: SHOP_PAIR_OPTIONS[0].imageAlt,
     imageNote: SHOP_PAIR_OPTIONS[0].imageNote,
+    photoNumber: SHOP_MOBILE_BOX_CARDS[1].photoNumber,
   },
   {
     key: "next",
@@ -46,6 +49,7 @@ const JOURNEYS = [
     href: SHOP_SIGNATURE.href,
     imageAlt: SHOP_SIGNATURE.imageAlt,
     imageNote: SHOP_SIGNATURE.imageNote,
+    photoNumber: SHOP_MOBILE_BOX_CARDS[2].photoNumber,
   },
   {
     key: "byo",
@@ -54,6 +58,7 @@ const JOURNEYS = [
     href: SHOP_BUILD_OWN.href,
     imageAlt: SHOP_BUILD_OWN.imageAlt,
     imageNote: SHOP_BUILD_OWN.imageNote,
+    photoNumber: SHOP_MOBILE_BOX_CARDS[3].photoNumber,
   },
 ] as const;
 
@@ -83,6 +88,7 @@ export function HomeGiftBoxes() {
                 <BoxImagePlaceholder
                   alt={journey.imageAlt}
                   note={journey.imageNote}
+                  labelNumber={journey.photoNumber}
                   className="aspect-[4/5] min-h-[180px]"
                 />
               </PolaroidFrame>

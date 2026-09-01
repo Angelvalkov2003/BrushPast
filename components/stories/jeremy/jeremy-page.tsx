@@ -10,7 +10,7 @@ import type { JeremyParagraph } from "lib/stories/jeremy-content";
 import { JEREMY_STORY } from "lib/stories/jeremy-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = JEREMY_STORY;
 
@@ -117,7 +117,7 @@ export async function JeremyPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
               {COPY.fullName}
             </p>
-            <h1 className="mt-2 text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter text-bp-text">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.title}
             </h1>
             <p className="mt-3 text-lg font-bold uppercase tracking-[0.14em] text-bp-text/80 md:text-xl">

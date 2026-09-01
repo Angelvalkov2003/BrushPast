@@ -8,7 +8,7 @@ import {
   TagIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { homeHandClass } from "components/home/home-typography";
+import {homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
 import { ShopProductCard } from "components/shop/shop-product-card";
@@ -71,7 +71,7 @@ export async function RoundaboutMeetingPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
               Artist story
             </p>
-            <h1 className="mt-3 text-[clamp(3rem,10vw,5.5rem)] font-bold uppercase leading-[0.9] tracking-tight">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.artistHeadline}
             </h1>
             <span className="mt-2 block h-0.5 w-16 bg-bp-accent" aria-hidden />

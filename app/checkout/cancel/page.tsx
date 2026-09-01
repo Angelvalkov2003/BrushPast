@@ -1,8 +1,14 @@
 import Link from "next/link";
+import {
+  bpFontVariables,
+  PAGE_HERO_H1_MINIMAL_CLASS,
+} from "components/home/home-typography";
 
 export default function CheckoutCancelPage() {
   return (
-    <div className="bp-surface flex min-h-screen flex-col items-center justify-center px-4">
+    <div
+      className={`${bpFontVariables} bp-surface flex min-h-screen flex-col items-center justify-center px-4`}
+    >
       <div className="w-full max-w-md text-center">
         <div className="mb-6">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-bp-accent-bg">
@@ -21,7 +27,7 @@ export default function CheckoutCancelPage() {
             </svg>
           </div>
         </div>
-        <h1 className="mb-4 text-3xl font-bold text-bp-text">Payment cancelled</h1>
+        <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mb-4`}>Payment cancelled</h1>
         <p className="mb-8 text-lg text-bp-text/65">
           Your order was not completed. You can try again when ready.
         </p>

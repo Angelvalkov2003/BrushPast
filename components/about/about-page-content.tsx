@@ -22,11 +22,16 @@ import {
 import {
   bpBodyClass,
   bpBodySmClass,
+  PAGE_HERO_POLAROID_WRAP_CLASS,
+  PAGE_HERO_WHISPER_INLINE_CLASS,
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
+import { PageHero } from "components/shared/page-hero";
 import { Reveal, REVEAL_STAGGER_MS } from "components/shared/reveal";
 import { TextureSection } from "components/shared/texture-section";
+import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
+import { PHOTO } from "lib/photo-placeholder";
 import { AboutLaunchBanner } from "./about-launch-banner";
 import { AboutNewsletter } from "./about-newsletter";
 
@@ -36,67 +41,62 @@ const aboutBodySmClass = `${bpBodySmClass} text-bp-text/85`;
 export function AboutPageContent() {
   return (
     <>
-      <TextureSection
-        texture="primary"
-        className="px-4 py-14 md:px-10 md:py-24"
-      >
-        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-          <Reveal>
-            <div>
-              <SectionEyebrow>About Brush Past</SectionEyebrow>
-              <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.75rem)] font-bold leading-[0.92] text-bp-text">
-                Our mission.
-                <br />
-                Our purpose.
-              </h1>
-              <IndexCard className="mt-6 max-w-xl" panelTexture="secondary">
-                <p className={aboutBodyClass}>
-                  BrushPast exists to{" "}
-                  <span className="text-bp-accent">
-                    unlock overlooked creativity
-                  </span>{" "}
-                  in people rebuilding from homelessness, addiction,
-                  incarceration and life&apos;s hardest chapters. Through art,
-                  writing, photography and design, we help people{" "}
-                  <span className="text-bp-accent">rebuild identity</span>, gain
-                  confidence and connect with community - while a social
-                  enterprise model funds the next opportunity.
+      <Reveal>
+        <PageHero
+          eyebrow="About Brush Past"
+          title={
+            <>
+              Our mission.
+              <br />
+              Our purpose.
+            </>
+          }
+          media={
+            <Reveal variant="fade-scale" delay={REVEAL_STAGGER_MS}>
+              <PolaroidFrame
+                index={0}
+                className={PAGE_HERO_POLAROID_WRAP_CLASS}
+              >
+                <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
+                  <Image
+                    src={ABOUT_HERO_IMAGE.src}
+                    alt={ABOUT_HERO_IMAGE.alt}
+                    fill
+                    className="object-cover"
+                    style={{ objectPosition: "50% 44%" }}
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+                <p
+                  className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75 md:text-2xl`}
+                >
+                  Jeremy &amp; David
                 </p>
-              </IndexCard>
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} mt-8 text-[clamp(1.75rem,4vw,2.25rem)] text-bp-text`}
-              >
-                Not spoken about.{" "}
-                <span className="text-bp-accent">But speaking.</span>
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal variant="fade-scale" delay={REVEAL_STAGGER_MS}>
-            <PolaroidFrame
-              index={0}
-              className="mx-auto w-full max-w-md lg:max-w-none"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
-                <Image
-                  src={ABOUT_HERO_IMAGE.src}
-                  alt={ABOUT_HERO_IMAGE.alt}
-                  fill
-                  className="object-cover"
-                  style={{ objectPosition: "50% 44%" }}
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75 md:text-2xl`}
-              >
-                Jeremy &amp; David
-              </p>
-            </PolaroidFrame>
-          </Reveal>
-        </div>
-      </TextureSection>
+              </PolaroidFrame>
+            </Reveal>
+          }
+        >
+          <IndexCard className="mt-6 max-w-xl" panelTexture="secondary">
+            <p className={aboutBodyClass}>
+              BrushPast exists to{" "}
+              <span className="text-bp-accent">
+                unlock overlooked creativity
+              </span>{" "}
+              in people rebuilding from homelessness, addiction,
+              incarceration and life&apos;s hardest chapters. Through art,
+              writing, photography and design, we help people{" "}
+              <span className="text-bp-accent">rebuild identity</span>, gain
+              confidence and connect with community - while a social
+              enterprise model funds the next opportunity.
+            </p>
+          </IndexCard>
+          <p className={PAGE_HERO_WHISPER_INLINE_CLASS}>
+            Not spoken about.{" "}
+            <span className="text-bp-accent">But speaking.</span>
+          </p>
+        </PageHero>
+      </Reveal>
 
       <TextureSection
         texture="secondary"
@@ -194,15 +194,12 @@ export function AboutPageContent() {
 
           <Reveal variant="fade-scale" delay={REVEAL_STAGGER_MS}>
             <PolaroidFrame index={2} className="h-fit">
-              <div className="relative min-h-[240px] overflow-hidden bg-bp-text/5 lg:min-h-[300px]">
-                <Image
-                  src="/home-hero.png"
-                  alt="Creative workshop at Brush Past"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                />
-              </div>
+              <BoxImagePlaceholder
+                alt="Creative workshop at Brush Past"
+                note="Workshop moments photograph for the about page."
+                labelNumber={PHOTO.aboutWorkshopMoments}
+                className="min-h-[240px] lg:min-h-[300px]"
+              />
               <p
                 className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/70 md:text-2xl`}
               >

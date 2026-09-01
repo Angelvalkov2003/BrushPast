@@ -10,7 +10,7 @@ import type { RobParagraph, RobPoemLine } from "lib/stories/rob-content";
 import { ROB_STORY } from "lib/stories/rob-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = ROB_STORY;
 
@@ -123,7 +123,7 @@ export async function RobPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-bp-accent">
               {COPY.poemTitle}
             </p>
-            <h1 className="mt-2 text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.title}
             </h1>
             <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-bp-text/60">

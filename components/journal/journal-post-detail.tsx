@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { HomeCta, IndexCard, PolaroidFrame } from "components/home/home-decor";
 import {
   bpBodyClass,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpStoryVoiceUtility,
   bpWhisperUtility,
 } from "components/home/home-typography";
@@ -48,7 +49,7 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
               <p className={`${bpWhisperUtility} mt-8 text-xl text-bp-accent`}>
                 {formatJournalDate(post.created_at)}
               </p>
-              <h1 className="mt-2 max-w-4xl text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] text-bp-text">
+              <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-2 max-w-4xl`}>
                 {post.title}
               </h1>
               {post.description ? (

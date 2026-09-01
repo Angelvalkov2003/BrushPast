@@ -3,8 +3,11 @@
  * Payment tiers live in lib/sponsor-config.ts.
  */
 
+import { PHOTO } from "./photo-placeholder";
+
 export const SPONSOR_PAGE = {
   hero: {
+    eyebrow: "Support Brush Past",
     title: "Become a Sponsor.",
     whisper: "Help creativity reach further.",
     body: "Your support funds artists, workshops and the next chapter of community storytelling. Every contribution helps creativity reach further.",
@@ -47,26 +50,31 @@ export const SPONSOR_PAGE = {
         title: "Artist Projects",
         note: "Materials, mentoring and time to make new work.",
         imageNote: "IMAGE NEEDED: Artist working in studio.",
+        photoNumber: PHOTO.sponsorArtistProjects,
       },
       {
         title: "Workshops & Education",
         note: "Safe creative spaces for people rebuilding identity.",
         imageNote: "IMAGE NEEDED: Workshop session.",
+        photoNumber: PHOTO.sponsorWorkshopsEducation,
       },
       {
         title: "Exhibitions & Events",
         note: "Public moments where stories meet community.",
         imageNote: "IMAGE NEEDED: Exhibition or mural.",
+        photoNumber: PHOTO.sponsorExhibitionsEvents,
       },
       {
         title: "Studio & Resources",
         note: "Tools, space and support for making.",
         imageNote: "IMAGE NEEDED: Studio resources / blueprints.",
+        photoNumber: PHOTO.sponsorStudioResources,
       },
       {
         title: "Community Initiatives",
         note: "Partnerships that open new doors.",
         imageNote: "IMAGE NEEDED: Community gathering.",
+        photoNumber: PHOTO.sponsorCommunityInitiatives,
       },
     ],
   },
@@ -81,6 +89,7 @@ export const SPONSOR_PAGE = {
       "Thanks to our sponsors, I had the time, materials and space to finally create the work I've been dreaming about.",
     attribution: "— Brush Past Artist",
     imageNote: "IMAGE NEEDED: Artwork / sketchbook still life.",
+    photoNumber: PHOTO.sponsorTestimonial,
   },
   cycle: {
     title: "The Cycle of Creativity",
@@ -116,5 +125,19 @@ export const SPONSOR_PAGE = {
     ctaHref: "#choose-your-impact",
     note: "Art of empowerment.",
     imageNote: "IMAGE NEEDED: Hand holding Brush Past mug.",
+    photoNumber: PHOTO.sponsorClosingMug,
+  },
+} as const;
+
+export const SPONSOR_HERO_PHOTOS = {
+  workshop: {
+    alt: "Sponsor collage — workshop",
+    note: "IMAGE NEEDED: Workshop / collage photo for sponsor hero.",
+    photoNumber: PHOTO.sponsorHeroWorkshop,
+  },
+  sketchbook: {
+    alt: "Sponsor collage — sketchbook",
+    note: "IMAGE NEEDED: Sketchbook / dried flower still life.",
+    photoNumber: PHOTO.sponsorHeroSketchbook,
   },
 } as const;

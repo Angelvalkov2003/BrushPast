@@ -4,6 +4,7 @@ import { HomeCta } from "components/home/home-decor";
 import {
   bpBodyClass,
   bpFontVariables,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
@@ -29,7 +30,7 @@ export default function NotFound() {
           >
             404
           </p>
-          <h1 className="mt-3 text-[clamp(2.25rem,6vw,4rem)] font-bold leading-tight text-bp-text">
+          <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-3`}>
             This page could not be found.
           </h1>
           <p className={`${bpBodyClass} mx-auto mt-5 max-w-lg text-bp-text/80`}>

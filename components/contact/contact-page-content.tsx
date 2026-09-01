@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   CONTACT_CONNECT_CARDS,
   CONTACT_HERO_IMAGE,
+  CONTACT_PECKHAM_PHOTO,
   CONTACT_SPACES,
 } from "lib/contact-config";
 import {
@@ -27,6 +28,7 @@ import {
   bpEmphasisUtility,
   bpLinkUtility,
   bpStoryVoiceUtility,
+  PAGE_HERO_POLAROID_WRAP_CLASS,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -36,56 +38,24 @@ import {
   TEXTURE_IMAGES,
   TextureSection,
 } from "components/shared/texture-section";
+import { PageHero } from "components/shared/page-hero";
 import { ContactForm } from "./contact-form";
+import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
 
 export function ContactPageContent() {
   return (
     <>
-      <TextureSection
-        texture="primary"
-        className="px-4 py-14 md:px-10 md:py-24"
-      >
-        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-          <div>
-            <SectionEyebrow>Get in touch</SectionEyebrow>
-            <h1
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text`}
-            >
-              Let&apos;s start a
-              <br />
-              <span className="text-bp-accent">conversation.</span>
-            </h1>
-            <IndexCard
-              className="mt-6 max-w-xl"
-              panelTexture="secondary"
-              panelTone="cream"
-            >
-              <p className={`${bpBodyClass} text-bp-text/90`}>
-                <span className={`${bpEmphasisUtility} text-bp-accent`}>
-                  Share a story.
-                </span>{" "}
-                Collaborate. Join a workshop. Or simply say hello - we&apos;d
-                love to hear from you.
-              </p>
-              <p className={`${bpBodyClass} mt-4 text-bp-text/85`}>
-                Brush Past is a{" "}
-                <span className="text-bp-accent">creative movement</span> for{" "}
-                <span className="text-bp-accent">second chances</span>, built in
-                public with real people and real spaces.
-              </p>
-            </IndexCard>
-            <p
-              className={`${bpStoryVoiceUtility} mt-8 max-w-xl text-xl leading-relaxed text-bp-text/80 md:text-2xl`}
-            >
-              No perfect pitch needed.{" "}
-              <span className="text-bp-accent">Just say hello.</span>
-            </p>
-          </div>
-
-          <PolaroidFrame
-            index={0}
-            className="mx-auto w-full max-w-md lg:max-w-none"
-          >
+      <PageHero
+        eyebrow="Get in touch"
+        title={
+          <>
+            Let&apos;s start a
+            <br />
+            <span className="text-bp-accent">conversation.</span>
+          </>
+        }
+        media={
+          <PolaroidFrame index={0} className={PAGE_HERO_POLAROID_WRAP_CLASS}>
             <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
               <Image
                 src={CONTACT_HERO_IMAGE.src}
@@ -103,8 +73,34 @@ export function ContactPageContent() {
               Real people, real spaces
             </p>
           </PolaroidFrame>
-        </div>
-      </TextureSection>
+        }
+      >
+        <IndexCard
+          className="mt-6 max-w-xl"
+          panelTexture="secondary"
+          panelTone="cream"
+        >
+          <p className={`${bpBodyClass} text-bp-text/90`}>
+            <span className={`${bpEmphasisUtility} text-bp-accent`}>
+              Share a story.
+            </span>{" "}
+            Collaborate. Join a workshop. Or simply say hello - we&apos;d
+            love to hear from you.
+          </p>
+          <p className={`${bpBodyClass} mt-4 text-bp-text/85`}>
+            Brush Past is a{" "}
+            <span className="text-bp-accent">creative movement</span> for{" "}
+            <span className="text-bp-accent">second chances</span>, built in
+            public with real people and real spaces.
+          </p>
+        </IndexCard>
+        <p
+          className={`${bpStoryVoiceUtility} mt-8 max-w-xl text-xl leading-relaxed text-bp-text/80 md:text-2xl`}
+        >
+          No perfect pitch needed.{" "}
+          <span className="text-bp-accent">Just say hello.</span>
+        </p>
+      </PageHero>
 
       <TextureSection
         texture="primary"
@@ -112,15 +108,12 @@ export function ContactPageContent() {
       >
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
           <PolaroidFrame index={1} className="h-fit">
-            <div className="relative aspect-[4/3] overflow-hidden bg-bp-text/5 lg:aspect-auto lg:min-h-[280px]">
-              <Image
-                src="/home-hero.png"
-                alt="London Coffee Factory space"
-                fill
-                className="object-cover"
-                sizes="33vw"
-              />
-            </div>
+            <BoxImagePlaceholder
+              alt={CONTACT_PECKHAM_PHOTO.alt}
+              note={CONTACT_PECKHAM_PHOTO.note}
+              labelNumber={CONTACT_PECKHAM_PHOTO.photoNumber}
+              className="aspect-[4/3] min-h-[240px] lg:aspect-auto lg:min-h-[280px]"
+            />
             <p
               className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-lg text-bp-text/70`}
             >
@@ -193,15 +186,12 @@ export function ContactPageContent() {
                 className="group block focus-visible:outline-offset-4"
               >
                 <PolaroidFrame index={index + 2}>
-                  <div className="relative aspect-[4/5] overflow-hidden bg-bp-text/5">
-                    <Image
-                      src={card.image}
-                      alt=""
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
+                  <BoxImagePlaceholder
+                    alt={card.title}
+                    note={card.description}
+                    labelNumber={card.photoNumber}
+                    className="aspect-[4/5] min-h-[220px]"
+                  />
                   <p
                     className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-center font-bold text-bp-text`}
                   >

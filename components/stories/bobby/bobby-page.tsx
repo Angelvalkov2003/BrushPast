@@ -10,7 +10,7 @@ import { displayImageUrl } from "lib/image-url";
 import { BOBBY_STORY } from "lib/stories/bobby-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = BOBBY_STORY;
 
@@ -64,7 +64,7 @@ export async function BobbyPage() {
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Story</p>
-            <h1 className="mt-3 text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.headline}
             </h1>
             <p className="mt-2 text-sm font-bold uppercase tracking-[0.18em] text-bp-text/70 md:text-base">

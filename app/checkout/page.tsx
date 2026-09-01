@@ -7,13 +7,19 @@ import { useCart } from "components/cart/cart-context";
 import Price from "components/price";
 import { createOrder } from "app/checkout/actions";
 import LoadingDots from "components/loading-dots";
-import { CONTACT_PHONE, SHIPPING_UK } from "lib/site-config";
+import { SHIPPING_UK } from "lib/site-config";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import { CheckoutContribution } from "components/checkout/checkout-contribution";
+import { UkDeliveryFields } from "components/checkout/uk-delivery-fields";
+import {
+  validateUkDeliveryFields,
+  type UkDeliveryFormData,
+} from "lib/uk-delivery";
 import {
   bpBodyClass,
   bpBodySmClass,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
@@ -57,12 +63,25 @@ export default function CheckoutPage() {
   const [allocation, setAllocation] = useState<ContributionAllocationId | "">(
     "",
   );
-  const [formData, setFormData] = useState({
-    customer_name: "",
-    customer_email: "",
-    customer_phone: "",
-    customer_address: "",
-    payment_method: "card" as "cash_on_delivery" | "card",
+  const [formData, setFormData] = useState<{
+    delivery: UkDeliveryFormData;
+    payment_method: "cash_on_delivery" | "card";
+    comment: string;
+    privacy_policy_accepted: boolean;
+  }>({
+    delivery: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_kind: "mobile",
+      phone: "",
+      address_line_1: "",
+      address_line_2: "",
+      postcode: "",
+      city: "",
+      county: "",
+    },
+    payment_method: "card",
     comment: "",
     privacy_policy_accepted: false,
   });
@@ -78,9 +97,7 @@ export default function CheckoutPage() {
     return (
       <div className="bp-surface flex min-h-screen flex-col items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-          <h1
-            className={`${bpTitleClass} ${bpTitleUtility} mb-4 text-3xl font-bold text-bp-text`}
-          >
+          <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mb-4`}>
             Your bag is empty
           </h1>
           <p className={`${bpBodyClass} mb-8 text-bp-text/65`}>
@@ -125,12 +142,16 @@ export default function CheckoutPage() {
       }
     }
 
+    const deliveryResult = validateUkDeliveryFields(formData.delivery);
+    if (!deliveryResult.ok) {
+      setError(deliveryResult.error);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const nameParts = formData.customer_name.trim().split(/\s+/);
-      const first_name = nameParts[0] || "";
-      const last_name = nameParts.slice(1).join(" ") || first_name;
+      const delivery = deliveryResult.values;
       const shipping_total = ukShippingPrice();
       const contribution =
         contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
@@ -141,11 +162,16 @@ export default function CheckoutPage() {
       const allocationLabel = contributionAllocationLabel(allocation);
 
       const order = await createOrder({
-        first_name,
-        last_name,
-        email: formData.customer_email,
-        phone: formData.customer_phone || undefined,
-        address_line_1: formData.customer_address,
+        delivery,
+        first_name: delivery.first_name,
+        last_name: delivery.last_name,
+        email: delivery.email,
+        phone: delivery.phone,
+        address_line_1: delivery.address_line_1,
+        address_line_2: delivery.address_line_2 || undefined,
+        postcode: delivery.postcode,
+        city: delivery.city,
+        county: delivery.county || undefined,
         country: "GB",
         shipping_method_name: SHIPPING_UK.dpd.label,
         shipping_price: shipping_total,
@@ -204,9 +230,7 @@ export default function CheckoutPage() {
   return (
     <div className="bp-surface min-h-screen px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
-        <h1
-          className={`${bpTitleClass} ${bpTitleUtility} mb-8 text-3xl font-bold uppercase tracking-wide text-bp-text`}
-        >
+        <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mb-8 uppercase tracking-wide`}>
           Checkout
         </h1>
 
@@ -232,78 +256,12 @@ export default function CheckoutPage() {
               ) : null}
 
               <div className="space-y-4">
-                <div>
-                  <label htmlFor="customer_name" className={labelClass}>
-                    Full name *
-                  </label>
-                  <input
-                    type="text"
-                    id="customer_name"
-                    required
-                    value={formData.customer_name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, customer_name: e.target.value })
-                    }
-                    className={inputClass}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="customer_email" className={labelClass}>
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="customer_email"
-                    required
-                    value={formData.customer_email}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        customer_email: e.target.value,
-                      })
-                    }
-                    className={inputClass}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="customer_phone" className={labelClass}>
-                    Phone (UK)
-                  </label>
-                  <input
-                    type="tel"
-                    id="customer_phone"
-                    placeholder={CONTACT_PHONE}
-                    value={formData.customer_phone}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        customer_phone: e.target.value,
-                      })
-                    }
-                    className={inputClass}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="customer_address" className={labelClass}>
-                    UK delivery address *
-                  </label>
-                  <textarea
-                    id="customer_address"
-                    required
-                    rows={3}
-                    value={formData.customer_address}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        customer_address: e.target.value,
-                      })
-                    }
-                    className={inputClass}
-                  />
-                </div>
+                <UkDeliveryFields
+                  value={formData.delivery}
+                  onChange={(delivery) =>
+                    setFormData((current) => ({ ...current, delivery }))
+                  }
+                />
 
                 <div>
                   <label htmlFor="comment" className={labelClass}>

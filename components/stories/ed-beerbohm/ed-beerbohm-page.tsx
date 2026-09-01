@@ -10,7 +10,7 @@ import type { EdBeerbohmParagraph } from "lib/stories/ed-beerbohm-content";
 import { ED_BEERBOHM_STORY } from "lib/stories/ed-beerbohm-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = ED_BEERBOHM_STORY;
 
@@ -117,7 +117,7 @@ export async function EdBeerbohmPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">
               Art &amp; film
             </p>
-            <h1 className="mt-3 text-[clamp(2.5rem,9vw,5.5rem)] uppercase leading-[0.9] tracking-tighter">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.title}
             </h1>
             <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>

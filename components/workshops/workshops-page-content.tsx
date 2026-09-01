@@ -15,12 +15,16 @@ import {
 import {
   bpBodyClass,
   bpBodySmClass,
+  PAGE_HERO_POLAROID_WRAP_CLASS,
+  PAGE_HERO_WHISPER_INLINE_CLASS,
+  PAGE_HERO_MEDIA_FRAMELESS_CLASS,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
 import { LaunchTransparencyBanner } from "components/shared/launch-transparency-banner";
+import { PageHero } from "components/shared/page-hero";
 import { TextureSection } from "components/shared/texture-section";
 import { WorkshopArchiveCard } from "components/workshops/workshop-archive-card";
 import type { PublicWorkshop } from "lib/supabase/workshops";
@@ -57,49 +61,23 @@ export function WorkshopsPageContent({
 
   return (
     <>
-      <TextureSection
-        texture="primary"
-        className="px-4 py-14 md:px-10 md:py-24"
-      >
-        <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-          <div>
-            <SectionEyebrow>Brush Past workshops</SectionEyebrow>
-            <h1 className="mt-2 text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-[0.95] text-bp-text">
-              <span className="text-bp-accent">Safe</span> space.{" "}
-              <span className="text-bp-accent">Create</span> freely.
-              <br />
-              <span className="text-bp-accent">Find</span> your people.
-            </h1>
-            <IndexCard
-              className="mt-6 max-w-xl"
-              panelTexture="secondary"
-              panelTone="cream"
-            >
-              <p className={workshopBodyClass}>
-                A space to{" "}
-                <span className="text-bp-accent">breathe, make something</span>,
-                and be yourself - without pressure to perform or explain.
-                Creative workshops for anyone with a story, at any skill level.
-              </p>
-            </IndexCard>
-            <HeroButtons className="mt-8" />
+      <PageHero
+        eyebrow="Brush Past workshops"
+        title={
+          <>
+            <span className="text-bp-accent">Safe</span> space.{" "}
+            <span className="text-bp-accent">Create</span> freely.
+            <br />
+            <span className="text-bp-accent">Find</span> your people.
+          </>
+        }
+        titleClassName="leading-[0.92]"
+        actions={<HeroButtons />}
+        media={
+          <PolaroidFrame index={0} className={PAGE_HERO_POLAROID_WRAP_CLASS}>
             <div
-              className={`${homeHandClass} ${bpWhisperUtility} mt-8 flex items-center gap-3 text-2xl text-bp-text md:text-3xl`}
+              className={`relative overflow-hidden bg-bp-surface ${PAGE_HERO_MEDIA_FRAMELESS_CLASS}`}
             >
-              <BrushPastIconBadge
-                icon={brushPastIcons.workshopsPage.safeSpace}
-                size="sm"
-                className="!h-10 !w-10"
-              />
-              Everyone is welcome. Exactly as you are.
-            </div>
-          </div>
-
-          <PolaroidFrame
-            index={0}
-            className="mx-auto w-full max-w-md lg:max-w-none"
-          >
-            <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface lg:aspect-[5/4]">
               <Image
                 src="/workshops.png"
                 alt="Brush Past creative workshop"
@@ -115,8 +93,31 @@ export function WorkshopsPageContent({
               Art of empowerment ★
             </p>
           </PolaroidFrame>
+        }
+      >
+        <IndexCard
+          className="mt-6 max-w-xl"
+          panelTexture="secondary"
+          panelTone="cream"
+        >
+          <p className={workshopBodyClass}>
+            A space to{" "}
+            <span className="text-bp-accent">breathe, make something</span>,
+            and be yourself - without pressure to perform or explain.
+            Creative workshops for anyone with a story, at any skill level.
+          </p>
+        </IndexCard>
+        <div
+          className={`${PAGE_HERO_WHISPER_INLINE_CLASS} flex items-center gap-3 !mt-8`}
+        >
+          <BrushPastIconBadge
+            icon={brushPastIcons.workshopsPage.safeSpace}
+            size="sm"
+            className="!h-10 !w-10"
+          />
+          Everyone is welcome. Exactly as you are.
         </div>
-      </TextureSection>
+      </PageHero>
 
       <TextureSection
         texture="secondary"

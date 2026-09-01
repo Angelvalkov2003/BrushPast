@@ -28,6 +28,7 @@ import {
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
+import { PageHero } from "components/shared/page-hero";
 import { TextureSection } from "components/shared/texture-section";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import { Modal } from "components/ui/modal";
@@ -40,7 +41,7 @@ import {
   validateSponsorAmount,
   type SponsorTier,
 } from "lib/sponsor-config";
-import { SPONSOR_PAGE } from "lib/sponsor-page-config";
+import { SPONSOR_HERO_PHOTOS, SPONSOR_PAGE } from "lib/sponsor-page-config";
 
 function SprayCanIcon({ className }: { className?: string }) {
   return (
@@ -445,40 +446,29 @@ export function SponsorPageContent() {
 
   return (
     <>
-      <TextureSection
-        as="header"
-        texture="secondary"
-        className="px-4 py-14 md:px-10 md:py-20"
-      >
-        <div className="mx-auto grid max-w-[1400px] items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-14">
-          <div className="min-w-0">
-            <h1
-              className={`${bpTitleClass} ${bpTitleUtility} text-[clamp(2.75rem,7vw,5rem)] font-bold uppercase leading-[0.92] text-bp-text`}
-            >
-              {page.hero.title}
-            </h1>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-2xl text-bp-accent md:text-3xl`}
-            >
-              {page.hero.whisper}
-            </p>
-            <p className={`${bpBodyClass} mt-6 max-w-lg text-bp-text/80`}>
-              {page.hero.body}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <HomeCta href={page.hero.primaryHref} variant="primary">
-                {page.hero.primaryCta}
-              </HomeCta>
-              <HomeCta href={page.hero.secondaryHref} variant="outline">
-                {page.hero.secondaryCta}
-              </HomeCta>
-            </div>
-          </div>
+      <PageHero
+        eyebrow={page.hero.eyebrow}
+        title={page.hero.title}
+        handLine={page.hero.whisper}
+        intro={page.hero.body}
+        titleUppercase
+        actions={
+          <>
+            <HomeCta href={page.hero.primaryHref} variant="primary">
+              {page.hero.primaryCta}
+            </HomeCta>
+            <HomeCta href={page.hero.secondaryHref} variant="outline">
+              {page.hero.secondaryCta}
+            </HomeCta>
+          </>
+        }
+        media={
           <div className="grid min-w-0 grid-cols-2 gap-4">
             <PolaroidFrame index={0} tilt={false}>
               <BoxImagePlaceholder
-                alt="Sponsor collage — workshop"
-                note="IMAGE NEEDED: Workshop / collage photo for sponsor hero."
+                alt={SPONSOR_HERO_PHOTOS.workshop.alt}
+                note={SPONSOR_HERO_PHOTOS.workshop.note}
+                labelNumber={SPONSOR_HERO_PHOTOS.workshop.photoNumber}
                 className="aspect-[4/5] min-h-[160px]"
               />
             </PolaroidFrame>
@@ -495,15 +485,16 @@ export function SponsorPageContent() {
               </IndexCard>
               <PolaroidFrame index={1} tilt={false}>
                 <BoxImagePlaceholder
-                  alt="Sponsor collage — sketchbook"
-                  note="IMAGE NEEDED: Sketchbook / dried flower still life."
+                  alt={SPONSOR_HERO_PHOTOS.sketchbook.alt}
+                  note={SPONSOR_HERO_PHOTOS.sketchbook.note}
+                  labelNumber={SPONSOR_HERO_PHOTOS.sketchbook.photoNumber}
                   className="aspect-square min-h-[140px]"
                 />
               </PolaroidFrame>
             </div>
           </div>
-        </div>
-      </TextureSection>
+        }
+      />
 
       <TextureSection texture="primary" className="px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-8 sm:grid-cols-2 lg:grid-cols-5">
@@ -539,6 +530,7 @@ export function SponsorPageContent() {
                   <BoxImagePlaceholder
                     alt={item.title}
                     note={item.imageNote}
+                    labelNumber={item.photoNumber}
                     className="aspect-[4/3] min-h-[120px]"
                   />
                 </PolaroidFrame>
@@ -591,6 +583,7 @@ export function SponsorPageContent() {
               <BoxImagePlaceholder
                 alt="Sponsor testimonial artwork"
                 note={page.testimonial.imageNote}
+                labelNumber={page.testimonial.photoNumber}
                 className="aspect-[4/3] min-h-[200px]"
               />
             </PolaroidFrame>
@@ -666,6 +659,7 @@ export function SponsorPageContent() {
               <BoxImagePlaceholder
                 alt="Brush Past branded mug"
                 note={page.closing.imageNote}
+                labelNumber={page.closing.photoNumber}
                 className="aspect-[4/3] min-h-[200px]"
               />
             </PolaroidFrame>

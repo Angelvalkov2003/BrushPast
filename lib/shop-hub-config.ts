@@ -1,3 +1,5 @@
+import { PHOTO } from "./photo-placeholder";
+
 export const SHOP_GIFT_HERO = {
   eyebrow: "The Archive Shop",
   title: "Every Gift Tells a Story.",
@@ -11,6 +13,29 @@ export const SHOP_GIFT_HERO = {
     "Open Brush Past gift box with a t-shirt, coffee bag, framed print and a small bottle arranged on a table",
   imageNote:
     "IMAGE NEEDED: Lifestyle photograph of an open cardboard Brush Past box containing a t-shirt, a bag of coffee, a framed print and a small bottle.",
+  photoNumber: PHOTO.shopGiftHero,
+} as const;
+
+/** Full-page shop opening — /shop hero (homepage uses compact ShopGiftHero). */
+export const SHOP_PAGE_HERO = {
+  eyebrow: "The Archive Shop",
+  title: "Every gift tells a story.",
+  handLine: "Packed to give back.",
+  intro:
+    "Curated coffee, wearable art and limited-edition prints — each order a Brush Past gift box, ready to give with your message inside.",
+  impactLine:
+    "65% of profits go back to creators, workshops and partner organisations.",
+  cta: "Choose your gift box",
+  ctaHref: "#choose-box",
+  imageAlt: SHOP_GIFT_HERO.imageAlt,
+  photoNumber: PHOTO.shopGiftHero,
+} as const;
+
+export const SHOP_GIFT_CHOOSER = {
+  eyebrow: "The archive",
+  title: "Choose your gift box",
+  subtitle:
+    "Thoughtfully curated. Beautifully packaged. Meaningfully made.",
 } as const;
 
 export const SHOP_SINGLE_OPTIONS = [
@@ -22,6 +47,7 @@ export const SHOP_SINGLE_OPTIONS = [
     imageAlt: "Lifestyle photo of a Brush Past coffee gift box",
     imageNote:
       "IMAGE NEEDED: Lifestyle photograph of a specialty coffee bag in a gift box.",
+    photoNumber: PHOTO.shopSingleCoffee,
   },
   {
     key: "tshirt" as const,
@@ -30,6 +56,7 @@ export const SHOP_SINGLE_OPTIONS = [
     href: "/shop/box/c?category=tshirt",
     imageAlt: "Lifestyle photo of a Brush Past t-shirt gift box",
     imageNote: "IMAGE NEEDED: Folded story t-shirt packed in a gift box.",
+    photoNumber: PHOTO.shopSingleTshirt,
   },
   {
     key: "print" as const,
@@ -38,6 +65,7 @@ export const SHOP_SINGLE_OPTIONS = [
     href: "/shop/box/c?category=print",
     imageAlt: "Lifestyle photo of a Brush Past print gift box",
     imageNote: "IMAGE NEEDED: Framed or packed print in a gift box.",
+    photoNumber: PHOTO.shopSinglePrint,
   },
 ] as const;
 
@@ -51,6 +79,7 @@ export const SHOP_PAIR_OPTIONS = [
     imageAlt: "Coffee bag paired with a print",
     imageNote:
       "IMAGE NEEDED: Composite of a coffee bag and a print as a fixed pair.",
+    photoNumber: PHOTO.shopPairCoffeePrint,
   },
   {
     key: "coffee-tshirt" as const,
@@ -61,6 +90,7 @@ export const SHOP_PAIR_OPTIONS = [
     imageAlt: "Coffee bag paired with a folded t-shirt",
     imageNote:
       "IMAGE NEEDED: Composite of a coffee bag and a t-shirt as a fixed pair.",
+    photoNumber: PHOTO.shopPairCoffeeTshirt,
   },
   {
     key: "tshirt-print" as const,
@@ -71,6 +101,7 @@ export const SHOP_PAIR_OPTIONS = [
     imageAlt: "T-shirt paired with a print",
     imageNote:
       "IMAGE NEEDED: Composite of a t-shirt and a print as a fixed pair.",
+    photoNumber: PHOTO.shopPairTshirtPrint,
   },
 ] as const;
 
@@ -87,6 +118,7 @@ export const SHOP_SIGNATURE = {
     "Premium gift box containing coffee, a t-shirt and a print together",
   imageNote:
     "IMAGE NEEDED: High-end gift box containing coffee, a t-shirt and a print.",
+  photoNumber: PHOTO.shopNextChapter,
 } as const;
 
 export const SHOP_BUILD_OWN = {
@@ -98,11 +130,19 @@ export const SHOP_BUILD_OWN = {
   imageAlt: "Row of product icons for mixing a custom gift box",
   imageNote:
     "IMAGE NEEDED: Simple illustrations of coffee, a print and a t-shirt in a row.",
+  photoNumber: PHOTO.shopBuildOwn,
 } as const;
 
 export const SHOP_IMPACT = {
-  headline: "65% of profits are reinvested into creators, workshops and partner organisations.",
+  eyebrow: "Your purchase gives back",
+  headline:
+    "65% of profits are reinvested into creators, workshops and partner organisations.",
   body: "Your purchase already gives back. If you’d like, you can make it go even further.",
+  imageAlt: "Community workshop or artist at work supported by Brush Past",
+  imageNote:
+    "IMAGE NEEDED: Warm photograph of a workshop, artist, or gift moment tied to impact.",
+  polaroidCaption: "Creativity that keeps creating",
+  photoNumber: PHOTO.shopImpact,
 } as const;
 
 export const SHOP_MISSION_STEPS = [
@@ -127,6 +167,7 @@ export const SHOP_STORY_CARDS = [
     href: "/stories",
     imageAlt: "Portrait of a Brush Past artist in the studio",
     imageNote: "IMAGE NEEDED: Portrait of a community artist.",
+    photoNumber: PHOTO.shopStoryMeetArtist,
   },
   {
     title: "Behind the Scenes",
@@ -134,6 +175,7 @@ export const SHOP_STORY_CARDS = [
     href: "/journal",
     imageAlt: "Workshop table with prints and coffee in progress",
     imageNote: "IMAGE NEEDED: Behind-the-scenes making photograph.",
+    photoNumber: PHOTO.shopStoryBehindScenes,
   },
   {
     title: "Workshops",
@@ -141,6 +183,7 @@ export const SHOP_STORY_CARDS = [
     href: "/workshops",
     imageAlt: "People making work together in a workshop",
     imageNote: "IMAGE NEEDED: Workshop session photograph.",
+    photoNumber: PHOTO.shopStoryWorkshops,
   },
   {
     title: "Studio Journal",
@@ -148,6 +191,7 @@ export const SHOP_STORY_CARDS = [
     href: "/journal",
     imageAlt: "Studio journal pages and materials",
     imageNote: "IMAGE NEEDED: Studio still life for the journal.",
+    photoNumber: PHOTO.shopStoryJournal,
   },
   {
     title: "Exhibitions",
@@ -155,6 +199,7 @@ export const SHOP_STORY_CARDS = [
     href: "/stories",
     imageAlt: "Exhibition wall of Brush Past prints",
     imageNote: "IMAGE NEEDED: Exhibition or hanging of prints.",
+    photoNumber: PHOTO.shopStoryExhibitions,
   },
 ] as const;
 
@@ -167,6 +212,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
     imageAlt: "A single Brush Past gift box",
     imageNote:
       "IMAGE NEEDED: One gift box with a single piece inside — coffee, a t-shirt or a print.",
+    photoNumber: PHOTO.shopMobileSingle,
   },
   {
     type: "b" as const,
@@ -176,6 +222,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
     imageAlt: "A Brush Past pair gift box",
     imageNote:
       "IMAGE NEEDED: A gift box styled as a pair — two pieces packed together.",
+    photoNumber: PHOTO.shopMobilePairings,
   },
   {
     type: "a" as const,
@@ -184,6 +231,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
     href: "/shop/box/a",
     imageAlt: "Next Chapter gift box",
     imageNote: "IMAGE NEEDED: Complete three-piece gift box.",
+    photoNumber: PHOTO.shopMobileNextChapter,
   },
   {
     type: "d" as const,
@@ -192,6 +240,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
     href: "/shop/box/d",
     imageAlt: "Build Your Own gift box",
     imageNote: "IMAGE NEEDED: Mixed custom gift box.",
+    photoNumber: PHOTO.shopMobileBuildOwn,
   },
 ] as const;
 

@@ -17,6 +17,7 @@ import { BoxMessage } from "./box-message";
 import { SectionEyebrow } from "components/home/home-decor";
 import {
   bpBodyClass,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
@@ -252,9 +253,7 @@ export function BoxBuilder({
       <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-14">
         <div className="min-w-0 pb-24 lg:pb-0">
           <SectionEyebrow>Build your box</SectionEyebrow>
-          <h1
-            className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2.4rem,6vw,4.25rem)] font-bold uppercase leading-[0.92] text-bp-text`}
-          >
+          <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-2 uppercase`}>
             {boxTypeLabel(boxType)}
             {headingExtra ? (
               <span className="mt-2 block text-[clamp(1.25rem,3vw,2rem)] font-bold normal-case tracking-normal text-bp-accent">

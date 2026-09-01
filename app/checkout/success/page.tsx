@@ -9,6 +9,7 @@ import {
 } from "lib/checkout-contribution";
 import {
   bpBodyClass,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
@@ -72,9 +73,7 @@ export default async function CheckoutSuccessPage({
       <ClearCartOnSuccess />
       <div className="bp-surface flex min-h-screen flex-col items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-          <h1
-            className={`${bpTitleClass} ${bpTitleUtility} mb-4 text-3xl font-bold uppercase tracking-wide text-bp-text`}
-          >
+          <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mb-4 uppercase tracking-wide`}>
             {hasContribution
               ? CONTRIBUTION_COPY.thankYouTitle
               : "Order received"}

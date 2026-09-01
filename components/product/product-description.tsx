@@ -6,6 +6,7 @@ import {
   bpBodyClass,
   bpBodySmClass,
   bpLinkUtility,
+  PAGE_HERO_H1_MINIMAL_CLASS,
   bpSubtitleClass,
   bpSubtitleUtility,
   bpTitleClass,
@@ -67,7 +68,7 @@ export function ProductDescription({ product }: { product: ProductDetail }) {
         </Link>
       ) : null}
 
-      <h1 className="mt-3 text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[0.95] text-bp-text">
+      <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-3`}>
         {product.title}
       </h1>
 

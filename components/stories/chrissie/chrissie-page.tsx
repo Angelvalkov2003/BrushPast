@@ -10,7 +10,7 @@ import type { ChrissieParagraph } from "lib/stories/chrissie-content";
 import { CHRISSIE_STORY } from "lib/stories/chrissie-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { bpWhisperUtility, homeHandClass } from "components/home/home-typography";
+import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = CHRISSIE_STORY;
 
@@ -114,7 +114,7 @@ export async function ChrissiePage() {
       <RevealSection className="border-b border-bp-text/10">
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
           <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
-            <h1 className="text-[clamp(3.5rem,12vw,6.5rem)] uppercase leading-[0.85] tracking-tighter text-bp-text">
+            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
               {COPY.title}
             </h1>
             <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>

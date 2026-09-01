@@ -8,6 +8,8 @@ import {
 } from "components/shared/texture-section";
 import { PANEL_OVERLAY_CLASS } from "components/shared/panel-overlay";
 import {
+  bpDisplayClass,
+  bpDisplayUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -73,6 +75,7 @@ export function HomeSectionTitle({
   align = "center",
   className,
   size = "default",
+  headingAs = "h2",
   eyebrowVariant: _eyebrowVariant,
 }: {
   eyebrow?: string;
@@ -80,13 +83,23 @@ export function HomeSectionTitle({
   align?: "center" | "left";
   className?: string;
   size?: "default" | "lg";
+  headingAs?: "h1" | "h2";
   /** @deprecated Eyebrows are unified sitewide; prop kept for call-site compatibility */
   eyebrowVariant?: "default" | "workshop";
 }) {
-  const titleSize =
+  const Heading = headingAs;
+  const sectionTitleSize =
     size === "lg"
       ? "text-[clamp(2.25rem,5.5vw,3.5rem)]"
       : "text-[clamp(2rem,5vw,3.25rem)]";
+  const pageTitleSize =
+    size === "lg"
+      ? "text-[clamp(2.75rem,7vw,5rem)] leading-[0.92]"
+      : "text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[0.92]";
+  const titleClass =
+    headingAs === "h1"
+      ? `${bpDisplayClass} ${bpDisplayUtility} mt-1 ${pageTitleSize} font-bold text-bp-text`
+      : `${bpTitleClass} ${bpTitleUtility} mt-1 ${sectionTitleSize} font-bold leading-[1.05] text-bp-text`;
 
   return (
     <div
@@ -96,11 +109,7 @@ export function HomeSectionTitle({
       )}
     >
       {eyebrow ? <SectionEyebrow>{eyebrow}</SectionEyebrow> : null}
-      <h2
-        className={`${bpTitleClass} ${bpTitleUtility} mt-1 ${titleSize} font-bold leading-[1.05] text-bp-text`}
-      >
-        {title}
-      </h2>
+      <Heading className={titleClass}>{title}</Heading>
     </div>
   );
 }
