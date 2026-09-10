@@ -10,30 +10,46 @@ import {
   bpTitleUtility,
   bpWhisperUtility,
   homeHandClass,
+  PAGE_HERO_SECTION_CLASS,
 } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
 import { SHOP_IMPACT, SHOP_VALUE_PROPS } from "lib/shop-hub-config";
 
-/** 65% impact block — shared on homepage and /shop opening. */
-export function ShopImpactSection() {
+type ShopImpactSectionProps = {
+  /** Use as page opening on /shop */
+  as?: "header" | "section";
+};
+
+/** 65% impact block — page opening on /shop. */
+export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
+  const isPageHero = as === "header";
+
   return (
-    <TextureSection texture="secondary" className="px-4 py-12 md:px-10 md:py-16">
+    <TextureSection
+      as={as}
+      texture="secondary"
+      overlay={isPageHero ? "heroShell" : undefined}
+      className={
+        isPageHero ? PAGE_HERO_SECTION_CLASS : "px-4 py-12 md:px-10 md:py-16"
+      }
+    >
       <div className="mx-auto max-w-[1400px]">
         <IndexCard panelTexture="secondary" panelTone="cream">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start">
             <div className="min-w-0">
               <SectionEyebrow>{SHOP_IMPACT.eyebrow}</SectionEyebrow>
               <p
                 className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-[clamp(3.25rem,9vw,4.75rem)] font-bold leading-none text-bp-accent`}
+                aria-hidden
               >
                 65%
               </p>
-              <p
+              <h1
                 className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-lg font-bold uppercase leading-snug text-bp-text md:text-xl`}
               >
                 {SHOP_IMPACT.headline}
-              </p>
+              </h1>
               <p className={`${bpBodyClass} mt-3 max-w-lg text-sm text-bp-text/75 md:text-base`}>
                 {SHOP_IMPACT.body}
               </p>

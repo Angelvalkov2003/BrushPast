@@ -25,7 +25,7 @@ import { TextureSection } from "components/shared/texture-section";
 import { BrushPastIconBadge } from "components/icons/brush-past-icons";
 import { BoxImagePlaceholder } from "./box-image-placeholder";
 import { ShopGiftChooser } from "./shop-gift-chooser";
-import { ShopPageHero } from "./shop-page-hero";
+import { ShopImpactSection } from "./shop-impact-section";
 import {
   SHOP_MISSION_STEPS,
   SHOP_STORY_CARDS,
@@ -157,7 +157,7 @@ function ShopGiftDonor() {
 export function ShopGiftHub() {
   return (
     <>
-      <ShopPageHero />
+      <ShopImpactSection as="header" />
       <ShopGiftChooser />
       <ShopGiftMission />
       <ShopGiftStories />

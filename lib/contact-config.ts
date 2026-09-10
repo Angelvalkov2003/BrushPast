@@ -1,4 +1,3 @@
-import type { ContactSpaceIconKey } from "components/icons/brush-past-icons";
 import { PHOTO } from "./photo-placeholder";
 
 export const CONTACT_SOURCE = "get-in-touch" as const;
@@ -47,18 +46,3 @@ export const CONTACT_CONNECT_CARDS = [
     photoNumber: PHOTO.contactSupportWork,
   },
 ] as const;
-
-export const CONTACT_PECKHAM_PHOTO = {
-  alt: "London Coffee Factory space in Peckham",
-  note: "Peckham, London — London Coffee Factory space.",
-  photoNumber: PHOTO.contactPeckham,
-} as const;
-
-export const CONTACT_SPACES: { label: string; icon: ContactSpaceIconKey }[] = [
-  { label: "Conversations", icon: "conversations" },
-  { label: "Workshops", icon: "workshops" },
-  { label: "Exhibitions", icon: "exhibitions" },
-  { label: "Collaboration", icon: "collaboration" },
-  { label: "Coffee", icon: "coffee" },
-  { label: "Community", icon: "community" },
-];

@@ -8,6 +8,8 @@ import {
   ABOUT_MENTORING_POINTS,
   ABOUT_PROCESS,
   ABOUT_QUOTE,
+  ABOUT_ROOTED,
+  ABOUT_SPACES,
   ABOUT_VALUES,
 } from "lib/about-config";
 import { MISSION_SUMMARY } from "lib/site-config";
@@ -22,8 +24,11 @@ import {
 import {
   bpBodyClass,
   bpBodySmClass,
+  bpEmphasisUtility,
   PAGE_HERO_POLAROID_WRAP_CLASS,
   PAGE_HERO_WHISPER_INLINE_CLASS,
+  bpTitleClass,
+  bpTitleUtility,
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
@@ -126,6 +131,77 @@ export function AboutPageContent() {
                 </span>{" "}
                 - and that belief became{" "}
                 <span className="font-bold">Brush Past</span>.
+              </p>
+            </IndexCard>
+          </Reveal>
+        </div>
+      </TextureSection>
+
+      <TextureSection
+        texture="primary"
+        className="px-4 py-14 md:px-10 md:py-20"
+      >
+        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
+          <Reveal>
+            <PolaroidFrame index={1} className="h-fit">
+              <BoxImagePlaceholder
+                alt={ABOUT_ROOTED.photo.alt}
+                note={ABOUT_ROOTED.photo.note}
+                labelNumber={ABOUT_ROOTED.photo.photoNumber}
+                className="aspect-[4/3] min-h-[240px] lg:aspect-auto lg:min-h-[280px]"
+              />
+              <p
+                className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-lg text-bp-text/70`}
+              >
+                {ABOUT_ROOTED.caption}
+              </p>
+            </PolaroidFrame>
+          </Reveal>
+
+          <Reveal delay={REVEAL_STAGGER_MS}>
+            <div className="flex flex-col justify-center">
+              <SectionEyebrow>{ABOUT_ROOTED.eyebrow}</SectionEyebrow>
+              <h2
+                className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
+              >
+                {ABOUT_ROOTED.title}
+              </h2>
+              <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {ABOUT_SPACES.map((item) => {
+                  const Icon = brushPastIcons.contactPage[item.icon];
+                  return (
+                    <li
+                      key={item.label}
+                      className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
+                    >
+                      <BrushPastIconBadge
+                        icon={Icon}
+                        size="sm"
+                        className="mb-2"
+                      />
+                      <span
+                        className={`${bpWhisperUtility} text-base text-bp-text/75`}
+                      >
+                        {item.label}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </Reveal>
+
+          <Reveal delay={REVEAL_STAGGER_MS * 2}>
+            <IndexCard className="flex items-center">
+              <p className={`${aboutBodyClass} ${bpEmphasisUtility}`}>
+                We&apos;re building this{" "}
+                <span className="text-bp-accent">in public</span> - with honesty,
+                creativity and care.
+              </p>
+              <p
+                className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-lg italic text-bp-text/70`}
+              >
+                - {ABOUT_ROOTED.quoteAttribution}
               </p>
             </IndexCard>
           </Reveal>

@@ -2,8 +2,10 @@
 
 import type {
   AboutValuesIconKey,
+  ContactSpaceIconKey,
   HowWeCreateChangeIconKey,
 } from "components/icons/brush-past-icons";
+import { PHOTO } from "./photo-placeholder";
 
 export const ABOUT_HERO_IMAGE = {
   src: "/about1.png",
@@ -93,3 +95,27 @@ export const ABOUT_QUOTE =
 
 export const ABOUT_QUOTE_ASIDE =
   "A chance conversation between two people with very different backgrounds became a shared belief: creativity can rebuild identity, confidence and connection - and that belief became Brush Past.";
+
+/** Rooted-in spaces block (moved from Contact / Get in Touch). */
+export const ABOUT_ROOTED = {
+  eyebrow: "Rooted in real spaces",
+  title: "London Coffee Factory",
+  caption: "Peckham, London",
+  quote:
+    "We're building this in public - with honesty, creativity and care.",
+  quoteAttribution: "Jeremy & David",
+  photo: {
+    alt: "London Coffee Factory space in Peckham",
+    note: "Peckham, London — London Coffee Factory space.",
+    photoNumber: PHOTO.contactPeckham,
+  },
+} as const;
+
+export const ABOUT_SPACES: { label: string; icon: ContactSpaceIconKey }[] = [
+  { label: "Conversations", icon: "conversations" },
+  { label: "Workshops", icon: "workshops" },
+  { label: "Exhibitions", icon: "exhibitions" },
+  { label: "Collaboration", icon: "collaboration" },
+  { label: "Coffee", icon: "coffee" },
+  { label: "Community", icon: "community" },
+];

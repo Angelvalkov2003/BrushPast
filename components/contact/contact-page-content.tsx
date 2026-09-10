@@ -3,13 +3,7 @@ import Link from "next/link";
 import {
   CONTACT_CONNECT_CARDS,
   CONTACT_HERO_IMAGE,
-  CONTACT_PECKHAM_PHOTO,
-  CONTACT_SPACES,
 } from "lib/contact-config";
-import {
-  BrushPastIconBadge,
-  brushPastIcons,
-} from "components/icons/brush-past-icons";
 import {
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
@@ -21,7 +15,6 @@ import {
   HomeSectionTitle,
   IndexCard,
   PolaroidFrame,
-  SectionEyebrow,
 } from "components/home/home-decor";
 import {
   bpBodyClass,
@@ -101,71 +94,6 @@ export function ContactPageContent() {
           <span className="text-bp-accent">Just say hello.</span>
         </p>
       </PageHero>
-
-      <TextureSection
-        texture="primary"
-        className="px-4 py-14 md:px-10 md:py-20"
-      >
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
-          <PolaroidFrame index={1} className="h-fit">
-            <BoxImagePlaceholder
-              alt={CONTACT_PECKHAM_PHOTO.alt}
-              note={CONTACT_PECKHAM_PHOTO.note}
-              labelNumber={CONTACT_PECKHAM_PHOTO.photoNumber}
-              className="aspect-[4/3] min-h-[240px] lg:aspect-auto lg:min-h-[280px]"
-            />
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-lg text-bp-text/70`}
-            >
-              Peckham, London
-            </p>
-          </PolaroidFrame>
-
-          <div className="flex flex-col justify-center">
-            <SectionEyebrow>Rooted in real spaces</SectionEyebrow>
-            <h2
-              className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
-            >
-              London Coffee Factory
-            </h2>
-            <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {CONTACT_SPACES.map((item) => {
-                const Icon = brushPastIcons.contactPage[item.icon];
-                return (
-                  <li
-                    key={item.label}
-                    className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
-                  >
-                    <BrushPastIconBadge
-                      icon={Icon}
-                      size="sm"
-                      className="mb-2"
-                    />
-                    <span
-                      className={`${bpWhisperUtility} text-base text-bp-text/75`}
-                    >
-                      {item.label}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <IndexCard className="flex items-center">
-            <p className={`${bpBodyClass} ${bpEmphasisUtility}`}>
-              We&apos;re building this{" "}
-              <span className="text-bp-accent">in public</span> - with honesty,
-              creativity and care.
-            </p>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-lg italic text-bp-text/70`}
-            >
-              - Jeremy &amp; David
-            </p>
-          </IndexCard>
-        </div>
-      </TextureSection>
 
       <TextureSection
         texture="secondary"

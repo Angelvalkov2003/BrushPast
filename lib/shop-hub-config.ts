@@ -16,21 +16,6 @@ export const SHOP_GIFT_HERO = {
   photoNumber: PHOTO.shopGiftHero,
 } as const;
 
-/** Full-page shop opening — /shop hero (homepage uses compact ShopGiftHero). */
-export const SHOP_PAGE_HERO = {
-  eyebrow: "The Archive Shop",
-  title: "Every gift tells a story.",
-  handLine: "Packed to give back.",
-  intro:
-    "Curated coffee, wearable art and limited-edition prints — each order a Brush Past gift box, ready to give with your message inside.",
-  impactLine:
-    "65% of profits go back to creators, workshops and partner organisations.",
-  cta: "Choose your gift box",
-  ctaHref: "#choose-box",
-  imageAlt: SHOP_GIFT_HERO.imageAlt,
-  photoNumber: PHOTO.shopGiftHero,
-} as const;
-
 export const SHOP_GIFT_CHOOSER = {
   eyebrow: "The archive",
   title: "Choose your gift box",

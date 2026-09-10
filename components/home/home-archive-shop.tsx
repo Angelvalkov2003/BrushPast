@@ -1,8 +1,7 @@
 import { HomeShopGiftTeaser } from "components/home/home-shop-gift-teaser";
-import { HomeShopImpact } from "components/home/home-shop-impact";
 import { ShopGiftHero } from "components/shop/shop-gift-hero";
 
-/** Archive Shop block on homepage — intro, process teaser, 65% impact. */
+/** Archive Shop block on homepage — intro + process teaser (65% lives on /shop). */
 export function HomeArchiveShop() {
   return (
     <>
@@ -12,7 +11,6 @@ export function HomeArchiveShop() {
         secondaryHref="/shop"
       />
       <HomeShopGiftTeaser />
-      <HomeShopImpact />
     </>
   );
 }
