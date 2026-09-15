@@ -1,6 +1,5 @@
 import {
   IndexCard,
-  PolaroidFrame,
   SectionEyebrow,
 } from "components/home/home-decor";
 import {
@@ -35,8 +34,8 @@ export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
       }
     >
       <div className="mx-auto max-w-[1400px]">
-        <IndexCard panelTexture="secondary" panelTone="cream">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start">
+        <IndexCard panelTexture="secondary" panelTone="cream" className="!overflow-visible">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-10">
             <div className="min-w-0">
               <SectionEyebrow>{SHOP_IMPACT.eyebrow}</SectionEyebrow>
               <p
@@ -73,19 +72,33 @@ export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
               </div>
             </div>
 
-            <PolaroidFrame index={0} className="mx-auto w-full max-w-md lg:max-w-none">
-              <BoxImagePlaceholder
-                alt={SHOP_IMPACT.imageAlt}
-                note={SHOP_IMPACT.imageNote}
-                labelNumber={SHOP_IMPACT.photoNumber}
-                className="aspect-[4/5] min-h-[240px] md:min-h-[320px]"
+            {/* Frameless media — height capped to the copy column on desktop */}
+            <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
+              <div
+                className="pointer-events-none absolute -left-3 -top-3 h-16 w-16 border-l-2 border-t-2 border-bp-accent/70"
+                aria-hidden
               />
-              <p
-                className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-center text-sm uppercase tracking-[0.1em] text-bp-text/70`}
-              >
-                {SHOP_IMPACT.polaroidCaption}
-              </p>
-            </PolaroidFrame>
+              <div
+                className="pointer-events-none absolute -bottom-3 -right-3 h-16 w-16 border-b-2 border-r-2 border-bp-accent/70"
+                aria-hidden
+              />
+              <div className="relative rotate-[-1.5deg] overflow-hidden shadow-[8px_10px_0_rgba(1,2,0,0.08)] transition-transform duration-500 hover:rotate-0">
+                <BoxImagePlaceholder
+                  alt={SHOP_IMPACT.imageAlt}
+                  note={SHOP_IMPACT.imageNote}
+                  labelNumber={SHOP_IMPACT.photoNumber}
+                  objectFit="contain"
+                  className="!aspect-auto h-[260px] w-full sm:h-[300px] lg:h-[320px]"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-dark/75 via-bp-dark/25 to-transparent px-4 pb-3 pt-10">
+                  <p
+                    className={`${bpTitleClass} ${bpTitleUtility} text-sm uppercase tracking-[0.12em] text-bp-canvas`}
+                  >
+                    {SHOP_IMPACT.polaroidCaption}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </IndexCard>
       </div>

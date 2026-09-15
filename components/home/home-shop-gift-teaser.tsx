@@ -1,7 +1,6 @@
 import {
   HomeCta,
   HomeSectionTitle,
-  PolaroidFrame,
 } from "components/home/home-decor";
 import {
   bpBodyClass,
@@ -15,6 +14,8 @@ import { HOME_GIFT_BOX_PROCESS } from "lib/home-shop-config";
 
 /** Compact gift-box process teaser — links to full shop chooser. */
 export function HomeShopGiftTeaser() {
+  const photo = HOME_GIFT_BOX_PROCESS.photo;
+
   return (
     <TextureSection texture="primary" className="px-4 py-10 md:px-10 md:py-14">
       <div className="mx-auto max-w-[1400px]">
@@ -27,7 +28,7 @@ export function HomeShopGiftTeaser() {
           {HOME_GIFT_BOX_PROCESS.intro}
         </p>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-start">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center lg:gap-12">
           <ol className="space-y-4">
             {HOME_GIFT_BOX_PROCESS.steps.map((step, index) => (
               <li
@@ -53,17 +54,24 @@ export function HomeShopGiftTeaser() {
             ))}
           </ol>
 
-          <div className="grid grid-cols-2 gap-4">
-            {HOME_GIFT_BOX_PROCESS.photos.map((photo, index) => (
-              <PolaroidFrame key={photo.alt} index={index + 1} tilt={index === 1}>
-                <BoxImagePlaceholder
-                  alt={photo.alt}
-                  note={photo.note}
-                  labelNumber={photo.photoNumber}
-                  className="aspect-[4/5] min-h-[140px]"
-                />
-              </PolaroidFrame>
-            ))}
+          <div className="relative mx-auto w-full max-w-xl lg:mx-0 lg:max-w-none">
+            <div
+              className="pointer-events-none absolute -left-2 -top-2 h-14 w-14 border-l-2 border-t-2 border-bp-accent/60 md:-left-3 md:-top-3 md:h-16 md:w-16"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute -bottom-2 -right-2 h-14 w-14 border-b-2 border-r-2 border-bp-accent/60 md:-bottom-3 md:-right-3 md:h-16 md:w-16"
+              aria-hidden
+            />
+            <div className="relative rotate-[1.25deg] overflow-hidden bg-bp-canvas/40 shadow-[10px_12px_0_rgba(1,2,0,0.07)] transition-transform duration-500 hover:rotate-0">
+              <BoxImagePlaceholder
+                alt={photo.alt}
+                note={photo.note}
+                labelNumber={photo.photoNumber}
+                objectFit="contain"
+                className="aspect-[4/3] min-h-0 w-full"
+              />
+            </div>
           </div>
         </div>
 

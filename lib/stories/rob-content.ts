@@ -33,7 +33,7 @@ export const ROB_STORY = {
   tags: "Writing. Art. Recovery.",
   heroQuote: "I am just a glitch in your perfect system.",
   heroQuoteHighlight: "glitch",
-  heroImage: "/stories/ROB'S-POEM/1.png",
+  heroImage: "/stories/ROB'S-POEM/1i2.png",
   poemIntro: '"There has been a…"',
   poemStanzas: [
     {
@@ -117,7 +117,7 @@ export const ROB_STORY = {
     {
       paragraphs: [
         {
-          text: "I hope that through some of my Poems and words people may Gain a greater understanding of the problems faced by Homelessness and through some of my Art that people will realise that even those who have had to spend a majority of their lives \"Living in the gutter\" are STILL CAPABLE of Creating things of Beauty and have something to offer the World…",
+          text: 'I hope that through some of my Poems and words people may Gain a greater understanding of the problems faced by Homelessness and through some of my Art that people will realise that even those who have had to spend a majority of their lives "Living in the gutter" are STILL CAPABLE of Creating things of Beauty and have something to offer the World…',
           emphasis: true,
           highlight: "STILL CAPABLE",
         },
@@ -125,7 +125,7 @@ export const ROB_STORY = {
           text: "We are ALL Beautiful people regardless of our circumstances 🙏🙂…",
         },
         {
-          text: "For anyone who is Struggling - Have Faith, Belief in yourself and Never Give Up!!! Remember you Are \"Priceless\" ❤️",
+          text: 'For anyone who is Struggling - Have Faith, Belief in yourself and Never Give Up!!! Remember you Are "Priceless" ❤️',
           pull: true,
           highlight: "Priceless",
         },

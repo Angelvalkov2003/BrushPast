@@ -3,6 +3,29 @@ export function formatPhotoPlaceholderLabel(number: number): string {
   return `снимка ${number}`;
 }
 
+/**
+ * Public URLs for numbered site photos in /public/mainphotos.
+ * Missing numbers stay placeholders until assets are added.
+ * Position 2 reuses снимка 12 (same artwork).
+ */
+export const PHOTO_SRC: Partial<Record<number, string>> = {
+  1: "/mainphotos/1i2.png",
+  2: "/mainphotos/2.jpg",
+  3: "/mainphotos/3.jpg",
+  5: "/mainphotos/5.jpg",
+  6: "/mainphotos/6.jpg",
+  7: "/mainphotos/7.jpg",
+  8: "/mainphotos/8.jpg",
+  9: "/mainphotos/9.jpg",
+  10: "/mainphotos/10.jpg",
+  11: "/mainphotos/11.jpg",
+  12: "/mainphotos/12.png",
+};
+
+export function photoSrcForNumber(number: number): string | undefined {
+  return PHOTO_SRC[number];
+}
+
 /** Stable site-wide photo reference numbers (for placeholders and asset naming). */
 export const PHOTO = {
   homeHero: 1,

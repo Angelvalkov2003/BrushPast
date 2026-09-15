@@ -22,16 +22,9 @@ export const HOME_GIFT_BOX_PROCESS = {
   ],
   cta: "Choose your gift box",
   ctaHref: "/shop#choose-box",
-  photos: [
-    {
-      alt: "Brush Past gift box being opened",
-      note: "IMAGE NEEDED: Lifestyle photo of an open gift box.",
-      photoNumber: PHOTO.homeGiftTeaserOpenBox,
-    },
-    {
-      alt: "Coffee, tee and print arranged as a gift",
-      note: "IMAGE NEEDED: Flat lay of box contents.",
-      photoNumber: PHOTO.homeGiftTeaserFlatLay,
-    },
-  ],
+  photo: {
+    alt: "Brush Past gift box with coffee, tee and print",
+    note: "Gift box lifestyle photograph.",
+    photoNumber: PHOTO.homeGiftTeaserOpenBox,
+  },
 } as const;

@@ -1,11 +1,7 @@
 import { HomeCta } from "./home-decor";
-import {
-  bpBodyClass,
-  PAGE_HERO_BODY_CLASS,
-  PAGE_HERO_MEDIA_FRAMELESS_CLASS,
-} from "./home-typography";
+import { HomeHeroCollage } from "./home-hero-collage";
+import { bpBodyClass, PAGE_HERO_BODY_CLASS } from "./home-typography";
 import { PageHero } from "components/shared/page-hero";
-import { formatPhotoPlaceholderLabel, PHOTO } from "lib/photo-placeholder";
 
 export function HomeHero() {
   return (
@@ -38,16 +34,7 @@ export function HomeHero() {
           </HomeCta>
         </div>
       }
-      media={
-        <div
-          className={`flex w-full items-center justify-center bg-bp-text/[0.04] ${PAGE_HERO_MEDIA_FRAMELESS_CLASS}`}
-          aria-hidden
-        >
-          <span className={`${bpBodyClass} text-bp-text/45`}>
-            {formatPhotoPlaceholderLabel(PHOTO.homeHero)}
-          </span>
-        </div>
-      }
+      media={<HomeHeroCollage />}
     >
       <p className={PAGE_HERO_BODY_CLASS}>
         Brush Past is a curated collection of stories expressed through art,

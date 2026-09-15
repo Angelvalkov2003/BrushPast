@@ -21,5 +21,27 @@ export const HOME_HOW_IT_WORKS: { title: string; icon: HomepageIconKey }[] = [
 export const HOME_IMPACT_PILLARS: { title: string; icon: HomepageIconKey }[] = [
   { title: "Creators earn fairly", icon: "creatorsEarnFairly" },
   { title: "Workshops and skills funded", icon: "workshopsSkillsFunded" },
-  { title: "Recovery organisations supported", icon: "recoveryOrganisationsSupported" },
+  {
+    title: "Recovery organisations supported",
+    icon: "recoveryOrganisationsSupported",
+  },
 ];
+
+/**
+ * Homepage hero collage (снимка 1).
+ * Polaroid details are baked into the artwork — render frameless in layout.
+ */
+export const HOME_HERO_COLLAGE = {
+  ready: true,
+  alt: "Brush Past collage — stories, makers and gifts",
+  desktop: {
+    src: "/mainphotos/1i2.png",
+    width: 1400,
+    height: 1750,
+  },
+  mobile: {
+    src: "/mainphotos/1i2.png",
+    width: 1200,
+    height: 1500,
+  },
+} as const;
