@@ -1,6 +1,10 @@
 import Footer from "components/layout/footer";
 import { ShopGiftHub } from "components/shop/shop-gift-hub";
 import { ShopValuesBar } from "components/shop/shop-values-bar";
+import {
+  CriticalImagePreloads,
+  SHOP_CRITICAL_IMAGES,
+} from "components/layout/critical-image-preloads";
 import { bpFontVariables } from "components/home/home-typography";
 
 export const metadata = {
@@ -16,6 +20,7 @@ export default function ShopPage() {
     <div
       className={`${bpFontVariables} max-w-full overflow-x-clip bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
+      <CriticalImagePreloads hrefs={SHOP_CRITICAL_IMAGES} />
       <ShopGiftHub />
       <ShopValuesBar />
       <Footer />

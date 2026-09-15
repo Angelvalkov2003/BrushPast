@@ -69,6 +69,7 @@ export function HomeShopGiftTeaser() {
                 note={photo.note}
                 labelNumber={photo.photoNumber}
                 objectFit="contain"
+                priority
                 className="aspect-[4/3] min-h-0 w-full"
               />
             </div>

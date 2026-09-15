@@ -1,6 +1,7 @@
 import { CartProvider } from "components/cart/cart-context";
 import { PublicBodyTheme } from "components/layout/public-body-theme";
 import { AdminThemeScript } from "components/layout/admin-theme-script";
+import { CriticalImageWarmer } from "components/layout/critical-image-warmer";
 import { NavigationLoading } from "components/layout/navigation-loading";
 import { SiteShell } from "components/layout/site-shell";
 import { CookieConsent } from "components/cookie-consent";
@@ -88,6 +89,7 @@ export default async function RootLayout({
       >
         <PublicBodyTheme />
         <NavigationLoading>
+          <CriticalImageWarmer />
           <CartProvider>
             <SiteShell>
               {children}

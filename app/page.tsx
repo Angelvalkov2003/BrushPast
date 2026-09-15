@@ -4,6 +4,10 @@ import { HomeArchiveShop } from "components/home/home-archive-shop";
 import { HomeStoriesPreview } from "components/home/home-stories-preview";
 import { HomeHowItWorks } from "components/home/home-how-it-works";
 import { HomeNewsletter } from "components/home/home-newsletter";
+import {
+  CriticalImagePreloads,
+  HOME_CRITICAL_IMAGES,
+} from "components/layout/critical-image-preloads";
 import { bpFontVariables } from "components/home/home-typography";
 import { getPublicStories } from "lib/supabase/stories";
 import { SITE_NAME, SITE_TAGLINE } from "lib/site-config";
@@ -34,6 +38,7 @@ export default async function HomePage() {
     <div
       className={`${bpFontVariables} max-w-full overflow-x-clip bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
     >
+      <CriticalImagePreloads hrefs={HOME_CRITICAL_IMAGES} />
       <HomeHero />
       <HomeArchiveShop />
       <HomeStoriesPreview stories={stories} />

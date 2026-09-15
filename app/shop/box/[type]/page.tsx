@@ -10,6 +10,10 @@ import {
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
+import {
+  BOX_BUILDER_CRITICAL_IMAGES,
+  CriticalImagePreloads,
+} from "components/layout/critical-image-preloads";
 import { TextureSection } from "components/shared/texture-section";
 import {
   BOX_HUB_CARDS,
@@ -66,6 +70,7 @@ export default async function ShopBoxTypePage({
       <div
         className={`${bpFontVariables} max-w-full overflow-x-clip bg-bp-canvas text-bp-text selection:bg-bp-accent-bg`}
       >
+        <CriticalImagePreloads hrefs={BOX_BUILDER_CRITICAL_IMAGES} />
         <TextureSection
           texture="secondary"
           overlay="cream"

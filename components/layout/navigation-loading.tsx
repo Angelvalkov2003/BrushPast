@@ -13,8 +13,8 @@ import { usePathname } from "next/navigation";
 import type { TextureVariant } from "components/shared/texture-section";
 import { NavigationLoadingScreen } from "./navigation-loading-screen";
 
-const SHOW_DELAY_MS = 150;
-const MIN_VISIBLE_MS = 400;
+const SHOW_DELAY_MS = 80;
+const MIN_VISIBLE_MS = 350;
 const MAX_WAIT_MS = 15000;
 
 type NavigationLoadingContextValue = {
@@ -29,13 +29,13 @@ export function useNavigationLoading() {
 }
 
 function textureForPath(path: string): TextureVariant {
-  if (path.startsWith("/shop/") && path !== "/shop") return "secondary";
+  if (path === "/" || path.startsWith("/shop")) return "secondary";
   return "primary";
 }
 
 function shouldShowLoadingForPath(path: string): boolean {
-  // Home is force-dynamic and heavy — skip overlay so client routing stays reliable.
-  return path !== "/shop" && path !== "/";
+  // Show cardboard+logo on all public navigations including home & shop hubs.
+  return true;
 }
 
 export function NavigationLoading({ children }: { children?: ReactNode }) {

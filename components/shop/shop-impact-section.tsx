@@ -88,6 +88,7 @@ export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
                   note={SHOP_IMPACT.imageNote}
                   labelNumber={SHOP_IMPACT.photoNumber}
                   objectFit="contain"
+                  priority
                   className="!aspect-auto h-[260px] w-full sm:h-[300px] lg:h-[320px]"
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-dark/75 via-bp-dark/25 to-transparent px-4 pb-3 pt-10">

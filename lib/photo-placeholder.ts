@@ -6,11 +6,11 @@ export function formatPhotoPlaceholderLabel(number: number): string {
 /**
  * Public URLs for numbered site photos in /public/mainphotos.
  * Missing numbers stay placeholders until assets are added.
- * Position 2 reuses снимка 12 (same artwork).
+ * Position 2 reuses the high-quality снимка 12 artwork.
  */
 export const PHOTO_SRC: Partial<Record<number, string>> = {
   1: "/mainphotos/1i2.png",
-  2: "/mainphotos/2.jpg",
+  2: "/mainphotos/12.png",
   3: "/mainphotos/3.jpg",
   5: "/mainphotos/5.jpg",
   6: "/mainphotos/6.jpg",

@@ -14,12 +14,14 @@ export function BoxImagePlaceholder({
   className,
   labelNumber,
   objectFit = "cover",
+  priority = false,
 }: {
   alt: string;
   note?: string;
   className?: string;
   labelNumber: number;
   objectFit?: "cover" | "contain";
+  priority?: boolean;
 }) {
   const displayLabel = formatPhotoPlaceholderLabel(labelNumber);
   const src = photoSrcForNumber(labelNumber);
@@ -40,6 +42,7 @@ export function BoxImagePlaceholder({
           src={src}
           alt={alt}
           fill
+          priority={priority}
           className={clsx(
             "object-center",
             objectFit === "contain" ? "object-contain" : "object-cover",
