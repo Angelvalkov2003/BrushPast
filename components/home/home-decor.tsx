@@ -76,6 +76,7 @@ export function HomeSectionTitle({
   className,
   size = "default",
   headingAs = "h2",
+  font = "title",
   eyebrowVariant: _eyebrowVariant,
 }: {
   eyebrow?: string;
@@ -84,6 +85,8 @@ export function HomeSectionTitle({
   className?: string;
   size?: "default" | "lg";
   headingAs?: "h1" | "h2";
+  /** Stick No Bills for selected display headings */
+  font?: "title" | "display";
   /** @deprecated Eyebrows are unified sitewide; prop kept for call-site compatibility */
   eyebrowVariant?: "default" | "workshop";
 }) {
@@ -96,10 +99,12 @@ export function HomeSectionTitle({
     size === "lg"
       ? "text-[clamp(2.75rem,7vw,5rem)] leading-[0.92]"
       : "text-[clamp(2.25rem,5.5vw,3.75rem)] leading-[0.92]";
-  const titleClass =
-    headingAs === "h1"
-      ? `${bpDisplayClass} ${bpDisplayUtility} mt-1 ${pageTitleSize} font-bold text-bp-text`
-      : `${bpTitleClass} ${bpTitleUtility} mt-1 ${sectionTitleSize} font-bold leading-[1.05] text-bp-text`;
+  const useDisplay = headingAs === "h1" || font === "display";
+  const titleClass = useDisplay
+    ? `${bpDisplayClass} ${bpDisplayUtility} mt-1 ${
+        headingAs === "h1" ? pageTitleSize : sectionTitleSize
+      } font-bold leading-[0.95] text-bp-text`
+    : `${bpTitleClass} ${bpTitleUtility} mt-1 ${sectionTitleSize} font-bold leading-[1.05] text-bp-text`;
 
   return (
     <div

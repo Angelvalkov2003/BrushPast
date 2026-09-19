@@ -209,7 +209,11 @@ export async function RobPage() {
           }}
         />
         <div className="relative mx-auto max-w-[1400px] px-4 pb-14 md:px-10 md:pb-20">
-          <div className="grid gap-12 lg:grid-cols-3 lg:gap-10">
+          <div
+            className={`grid gap-12 lg:gap-10 ${
+              COPY.storyColumns.length > 1 ? "lg:grid-cols-3" : "lg:grid-cols-1 lg:max-w-3xl lg:mx-auto"
+            }`}
+          >
             {COPY.storyColumns.map((column, colIdx) => (
               <StoryPanel
                 key={colIdx}

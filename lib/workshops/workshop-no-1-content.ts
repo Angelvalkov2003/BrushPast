@@ -1,25 +1,25 @@
-/** Hand-coded copy for /workshops/workshop-no-1 - Edward Allsop Court */
+/** Hand-coded copy for /workshops/workshop-no-1 - Edward Alsop */
 
 export const WORKSHOP_NO_1 = {
   slug: "workshop-no-1",
-  title: "Workshop No.1",
-  headline: "Workshop No.1",
-  location: "Edward Allsop Court, London",
+  title: "T-Shirt Workshop at Edward Alsop",
+  headline: "T-Shirt Workshop at Edward Alsop",
+  location: "Edward Alsop homeless hostel, Victoria, London",
   tagline:
-    "Nine t-shirts, nine voices, one afternoon that proved creativity belongs to everyone.",
+    "We worked with Evolve so people could design their own T-shirts—and begin to see the value in their own work.",
   heroImage: "/workshops/workshop-no-1/hero.jpg",
   narrativeColumns: [
     {
-      title: "The beginning",
-      body: "BrushPast began with a simple belief: everyone has a story, and everyone can make something real. Workshop No.1 at Edward Allsop Court was where that belief left the page - nine people around one table, markers in hand, no pressure to perform or explain.",
+      title: "With Evolve",
+      body: "We worked with Evolve to create a workshop where people could design their own T-shirts, with the possibility of developing longer-term collaborations.",
     },
     {
-      title: "More than a t-shirt",
-      body: "Each design is evidence - not of talent reserved for studios, but of creativity showing up in an ordinary afternoon. Every shirt is original, every mark made by hand. Nothing copied, nothing manufactured without a person behind it.",
+      title: "Learning as you make",
+      body: "Participants can have the opportunity to feature their T-shirts on the Brushpast website while learning about social media marketing and basic business principles.",
     },
     {
-      title: "Why it matters",
-      body: "We make space for connection - between neighbours, between strangers who become collaborators, between a lived moment and something you can hold. Creativity is not reserved for galleries. It belongs in community rooms, at kitchen tables, wherever people gather.",
+      title: "Value in your own work",
+      body: "The idea is to encourage people to recognise the value in their own work, stories, lived experience, creativity, and self-expression. We are following up with an arranged marketing workshop to help participants put their designs out into the world.",
     },
   ],
   processTitle: "From sketch to shirt",
@@ -35,15 +35,15 @@ export const WORKSHOP_NO_1 = {
   ],
   archive: {
     title: "A living archive",
-    body: "Workshop No.1 marks the start of the BrushPast archive - a record of what happens when people are given time, materials and the freedom to make something their own. Every collection begins here.",
-    statsTitle: "Workshop No.1",
-    statsLocation: "Edward Allsop Court • London",
+    body: "This Edward Alsop workshop marks a chapter of the BrushPast archive—creativity shared in a hostel, with room for longer collaborations to grow.",
+    statsTitle: "Edward Alsop",
+    statsLocation: "Victoria • London · Partner: Evolve",
     stats: [
       { value: "9", label: "creators", icon: "people" as const },
       { value: "9", label: "original designs", icon: "shirt" as const },
       { value: "1", label: "shared experience", icon: "heart" as const },
     ],
-    footerLine: "The first chapter of BrushPast.",
+    footerLine: "Partner: Evolve — logo available.",
   },
   collectionTitle: "The collection",
   collection: [
@@ -58,7 +58,7 @@ export const WORKSHOP_NO_1 = {
     { number: "09", title: "Workshop cross", image: "/workshops/workshop-no-1/collection/09-workshop-cross.jpg" },
   ],
   closing: {
-    left: "Every collection starts with one piece. Workshop No.1 will always be where the BrushPast archive began.",
+    left: "Every collection starts with people recognising the value in their own work.",
     right:
       "65% of profits are reinvested into creators, workshops and programmes that create new opportunities through creativity.",
   },

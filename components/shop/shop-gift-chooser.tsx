@@ -104,6 +104,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
           align="left"
           size={compact ? "default" : "lg"}
           headingAs="h2"
+          font="display"
         />
         <p
           className={clsx(

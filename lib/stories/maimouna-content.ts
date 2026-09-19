@@ -74,5 +74,15 @@ export const MAIMOUNA_STORY = {
   ] satisfies MaimounaSection[],
   inspirationNote:
     '*Inspired by the book "Need to Know? Sleep" by Doctor Chris Idzikowski ISBN: 9780007202232',
+  plantsNeedTheSoil: {
+    title: "Plants need the soil",
+    handle: "@myteakultcha",
+    brand: "Mighty Culture",
+    lines: [
+      "Plants need the soil, which contains their food.",
+      "They must also have water and the light and warmth of the sun.",
+      "Plants take in food and water through their roots, and sunlight through their leaves.",
+    ],
+  },
   closingQuote: "Temporary answers - many of them have side-effects.",
 } as const;

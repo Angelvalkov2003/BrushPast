@@ -5,6 +5,8 @@ import {
 import {
   bpBodyClass,
   bpBodySmClass,
+  bpDisplayClass,
+  bpDisplayUtility,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -45,7 +47,7 @@ export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
                 65%
               </p>
               <h1
-                className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-lg font-bold uppercase leading-snug text-bp-text md:text-xl`}
+                className={`${bpDisplayClass} ${bpDisplayUtility} mt-4 text-lg font-bold uppercase leading-snug text-bp-text md:text-xl`}
               >
                 {SHOP_IMPACT.headline}
               </h1>

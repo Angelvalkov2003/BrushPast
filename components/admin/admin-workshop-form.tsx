@@ -83,8 +83,8 @@ export function AdminWorkshopForm({
           >
             <option value="">-</option>
             {WORKSHOP_CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
               </option>
             ))}
           </select>

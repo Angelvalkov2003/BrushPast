@@ -78,65 +78,30 @@ export const ROB_STORY = {
   ] satisfies RobPoemStanza[],
   storyHeading: "Rob's story",
   storyIntro:
-    "Homelessness is devastating - mentally, emotionally and physically. In Rob's own words.",
+    "Homelessness is devastating—mentally, emotionally, and physically.",
   storyColumns: [
     {
       paragraphs: [
         {
-          text: "Homelessness is Devastating… Mentally, Emotionally and Physically… It impacts your whole World. Your Relationships, your prospects, your health, your self-esteem, confidence and ability to provide for yourself and those you care for…",
+          text: "Homelessness is devastating—mentally, emotionally, and physically. It impacts your whole world: your relationships, prospects, health, self-esteem, confidence, and ability to provide for yourself and the people you care for.",
           emphasis: true,
         },
         {
-          text: "Having Experienced Homelessness now on and off for the last 16 years, I consider myself very lucky to be Alive!!! By the grace of God, good people and my tenacity to overcome obstacles I am still here… although barely!",
+          text: "Having experienced homelessness on and off for the last 16 years, I consider myself very lucky to be alive.",
           pull: true,
-          highlight: "lucky to be Alive",
+          highlight: "lucky to be alive",
         },
         {
-          text: "Often broken, troubled, tormented and Confused I somehow managed to navigate the Trauma, craziness and Insanity often found 'Rough-Sleeping', Sofa-surfing and being insecurely housed in temporary or short-term accommodations.",
-        },
-      ],
-    },
-    {
-      paragraphs: [
-        {
-          text: "The loneliness, isolation and depression. The constant fear and threat of violence and abuse whilst living on the streets and constant temptation to succumb to 'Whatever Substances' may Annihilate my pain were ever present….",
-        },
-        {
-          text: "In short, I would NOT wish Homelessness on anyone…",
-          pull: true,
-        },
-        {
-          text: "Being able to Write, paint and draw along with Meditation allowed me to Keep a sense of purpose and hope and thanks to Jeremy and David at Brushpast I now have an opportunity to share some of my work with you!!!",
-          highlight: "sense of purpose and hope",
-        },
-        {
-          text: "There's loads to come - although it may take some time!!!",
-        },
-      ],
-    },
-    {
-      paragraphs: [
-        {
-          text: 'I hope that through some of my Poems and words people may Gain a greater understanding of the problems faced by Homelessness and through some of my Art that people will realise that even those who have had to spend a majority of their lives "Living in the gutter" are STILL CAPABLE of Creating things of Beauty and have something to offer the World…',
-          emphasis: true,
-          highlight: "STILL CAPABLE",
-        },
-        {
-          text: "We are ALL Beautiful people regardless of our circumstances 🙏🙂…",
-        },
-        {
-          text: 'For anyone who is Struggling - Have Faith, Belief in yourself and Never Give Up!!! Remember you Are "Priceless" ❤️',
-          pull: true,
-          highlight: "Priceless",
+          text: "By the grace of God, good people, and my tenacity to overcome obstacles, I am still here—although barely.",
         },
       ],
     },
   ] satisfies RobColumn[],
   glitchNote: {
     title: "Glitch",
-    quote: "You just look right through me.",
+    quote: "I'm just a glitch in your perfect system.",
   },
   notebookQuote:
-    "Even those who have spent a majority of their lives living in the gutter are still capable of creating things of beauty.",
-  closingQuote: "Remember you are Priceless.",
+    "Having experienced homelessness on and off for the last 16 years, I consider myself very lucky to be alive.",
+  closingQuote: "I'm just a glitch in your perfect system.",
 } as const;

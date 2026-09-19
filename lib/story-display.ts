@@ -12,6 +12,11 @@ import { JAMIE_STORY } from "lib/stories/jamie-content";
 import { JEREMY_STORY } from "lib/stories/jeremy-content";
 import { LITTLE_GEORGE_STORY } from "lib/stories/little-george-content";
 import { JR_STORY } from "lib/stories/jr-content";
+import {
+  KARL_STORY,
+  JED_STORY,
+  SANDRA_STORY,
+} from "lib/stories/portrait-stories-content";
 import type { PublicStory } from "lib/supabase/stories";
 
 const STORY_IMAGE_FALLBACKS: Record<string, string> = {
@@ -29,6 +34,33 @@ const STORY_IMAGE_FALLBACKS: Record<string, string> = {
   [JR_STORY.slug]: JR_STORY.heroImage,
   [DAVID_STORY.slug]: DAVID_STORY.heroImage,
 };
+
+/** Hand-coded story routes that may not yet have DB rows */
+export const STATIC_STORY_LISTING: {
+  slug: string;
+  title: string;
+  page_url: string;
+  short_description: string;
+}[] = [
+  {
+    slug: KARL_STORY.slug,
+    title: KARL_STORY.title,
+    page_url: `/stories/${KARL_STORY.slug}`,
+    short_description: KARL_STORY.heroQuote ?? "",
+  },
+  {
+    slug: JED_STORY.slug,
+    title: JED_STORY.title,
+    page_url: `/stories/${JED_STORY.slug}`,
+    short_description: JED_STORY.heroQuote ?? "",
+  },
+  {
+    slug: SANDRA_STORY.slug,
+    title: SANDRA_STORY.title,
+    page_url: `/stories/${SANDRA_STORY.slug}`,
+    short_description: SANDRA_STORY.heroQuote ?? "",
+  },
+];
 
 export function storyCardImageUrl(story: PublicStory): string | undefined {
   const slug = story.slug?.trim();

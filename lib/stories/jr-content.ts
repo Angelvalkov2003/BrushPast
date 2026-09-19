@@ -15,8 +15,8 @@ export const JR_STORY = {
   slug: "jr",
   title: "JR",
   artistHeadline: "JR",
-  heroQuote: "I painted the word love because I needed something to hold onto.",
-  heroQuoteHighlight: "love",
+  heroQuote: "I painted the word LOVE because I needed something to hold onto.",
+  heroQuoteHighlight: "LOVE",
   location: "London",
   year: "2023",
   organisation: "London Coffee Factory",
@@ -24,31 +24,41 @@ export const JR_STORY = {
   myStory: {
     title: "My story",
     lines: [
-      { text: "This painting meant so much in the time of despair for me." },
+      {
+        text: "This painting meant so much during a time of despair for me.",
+      },
       { text: "I had been through court fighting for access to my son." },
       { text: "I soon lost contact again." },
-      { text: "This destroyed my world - leading to suicidal thoughts.", emphasis: true },
-      { text: "I had to do something to distract my mind." },
-      { text: "Focus one step at a time.", emphasis: true },
-      { text: "I painted the word 'love' as a reminder.", highlight: "love" },
-      { text: "Why it hurts. Why it was worth the fight." },
-      { text: "I had to go on." },
+      {
+        text: "I had to do something to distract my mind and focus one step at a time.",
+        emphasis: true,
+      },
+      {
+        text: "I painted the word LOVE as a reminder—why it hurts, why it was worth the fight, and why I had to go on.",
+        highlight: "LOVE",
+      },
     ] satisfies JrStoryLine[],
+  },
+  makingForward: {
+    title: "Making became part of moving forward",
+    paragraphs: [
+      "What began as something to focus my mind became something much bigger.",
+      "I kept drawing. I kept experimenting—dogs, music, street art, graphic work, and painting. Sometimes detailed, sometimes loose, and sometimes simply an idea I wanted to get onto paper.",
+      "There isn't one style. That's part of it.",
+      "Creating gives me somewhere to put what I'm feeling. It keeps my mind occupied, gives me something to work towards, and reminds me that I can still make something positive.",
+    ],
   },
   inMyWords: {
     title: "In my words",
     paragraphs: [
-      "Court took everything I thought I had left. Losing contact with my son again broke me in ways I still struggle to name. Some days the only thing between me and giving up was finding one small task I could finish.",
-      "Painting became that task. Not a grand project - just a word, one letter at a time, until the canvas said something I could read back to myself when the room went quiet.",
-      "Having gone to court a second time, I won my case against adversity. That word on the canvas gave me the drive and strength I needed to keep showing up - for my son, for myself, for the next ordinary day.",
+      "Creating gives me somewhere to put what I'm feeling. It keeps my mind occupied, gives me something to work towards, and reminds me that I can still make something positive.",
     ],
   },
   aboutTheArtwork: {
     title: "About the artwork",
     paragraphs: [
-      "The love painting is raw on purpose - black and white ground, red and yellow pushed into the letters like they were scraped out of feeling rather than planned.",
-      "It is not decoration. It is a lifeline I made when language failed. Every mark is a step I took when I could not see the next one.",
-      "The sketches alongside it - dogs, faces, small studies - are how I practise staying present. Art helps me keep showing up.",
+      "The LOVE painting is a reminder—why it hurts, why it was worth the fight, and why I had to go on.",
+      "The sketches alongside it—dogs, music, street art, graphic work—are how I practise staying present.",
     ],
   },
   gallery: {
@@ -69,19 +79,20 @@ export const JR_STORY = {
     items: [
       {
         title: "Love",
-        quote: "I painted the word love because I needed something to hold onto.",
+        quote:
+          "I painted the word LOVE because I needed something to hold onto.",
       },
       {
-        title: "One day",
-        quote: "Focus one step at a time - that was all I could manage.",
+        title: "One step",
+        quote: "Focus one step at a time.",
       },
       {
-        title: "Art",
-        quote: "Making something with my hands kept the darkness from swallowing me whole.",
+        title: "Making",
+        quote: "Making became part of moving forward.",
       },
       {
-        title: "Reiley",
-        quote: "Every stroke was for my son - a reminder of why the fight mattered.",
+        title: "Present",
+        quote: "I paint to stay present. Art helps me keep showing up.",
       },
     ] satisfies JrFragment[],
   },

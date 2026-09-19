@@ -204,6 +204,43 @@ export async function MaimounaPage() {
         </div>
       </RevealSection>
 
+      {/* Plants need the soil */}
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
+              {COPY.plantsNeedTheSoil.brand} · {COPY.plantsNeedTheSoil.handle}
+            </p>
+            <h2 className={`${PAGE_HERO_H1_STORY_CLASS} mt-3 text-[clamp(2rem,5vw,3.25rem)]`}>
+              {COPY.plantsNeedTheSoil.title}
+            </h2>
+            <div className="mt-8 space-y-4">
+              {COPY.plantsNeedTheSoil.lines.map((line) => (
+                <p
+                  key={line}
+                  className={`${homeHandClass} text-[1.35rem] leading-relaxed text-bp-text/90 md:text-[1.5rem]`}
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+          </div>
+          <div
+            className="relative flex min-h-[280px] items-center justify-center border border-dashed border-bp-text/25 bg-bp-text/[0.03] p-8"
+            role="img"
+            aria-label="Artwork placeholder for Plants need the soil"
+          >
+            <p className={`${homeHandClass} text-center text-lg text-bp-text/45`}>
+              Artwork space ready
+              <br />
+              <span className="text-sm uppercase tracking-[0.18em]">
+                Photo / print to follow
+              </span>
+            </p>
+          </div>
+        </div>
+      </RevealSection>
+
       {/* Footnote + closing */}
       <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-2 lg:gap-10">

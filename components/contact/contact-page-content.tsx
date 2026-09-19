@@ -63,7 +63,7 @@ export function ContactPageContent() {
             <p
               className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
             >
-              Real people, real spaces
+              Real people, real spaces · Social Impact Coffee
             </p>
           </PolaroidFrame>
         }

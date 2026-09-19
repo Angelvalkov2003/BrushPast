@@ -109,7 +109,14 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
       if (event.defaultPrevented || event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-      const anchor = (event.target as Element | null)?.closest("a");
+      const target = event.target;
+      const el =
+        target instanceof Element
+          ? target
+          : target instanceof Text
+            ? target.parentElement
+            : null;
+      const anchor = el?.closest?.("a");
       if (!anchor) return;
       if (anchor.target === "_blank" || anchor.hasAttribute("download")) return;
 

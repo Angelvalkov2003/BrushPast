@@ -4,7 +4,7 @@ export const CONTACT_SOURCE = "get-in-touch" as const;
 
 export const CONTACT_HERO_IMAGE = {
   src: "/getintouch.png",
-  alt: "Community workshop at Brush Past - people collaborating around a table",
+  alt: "Women and community members with Social Impact Coffee at a Brush Past gathering",
 } as const;
 
 export const CONTACT_SUBJECTS = [

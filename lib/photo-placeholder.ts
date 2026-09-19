@@ -68,4 +68,6 @@ export const PHOTO = {
   boxHubPairings: 38,
   boxHubSingle: 39,
   boxHubBuildOwn: 40,
+  pastWorkshopCottonGardens: 41,
+  pastWorkshopEdwardAlsop: 42,
 } as const;

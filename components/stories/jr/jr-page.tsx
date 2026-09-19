@@ -190,10 +190,10 @@ export async function JrPage() {
             </div>
             <div className="border-b border-dashed border-bp-text/20 px-4 py-6 md:border-b-0 md:border-r md:py-0 md:px-6">
               <h2 className={`${homeHandClass} text-2xl font-bold uppercase tracking-wide text-bp-accent md:text-3xl`}>
-                {COPY.inMyWords.title}
+                {COPY.makingForward.title}
               </h2>
               <div className="mt-6 space-y-5">
-                {COPY.inMyWords.paragraphs.map((p) => (
+                {COPY.makingForward.paragraphs.map((p) => (
                   <p key={p.slice(0, 40)} className={`${homeHandClass} text-[1.15rem] leading-relaxed text-bp-text/88 md:text-[1.25rem]`}>
                     {p}
                   </p>

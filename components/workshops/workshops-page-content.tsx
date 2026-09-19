@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import clsx from "clsx";
 import { AboutNewsletter } from "components/about/about-newsletter";
 import {
   brushPastIcons,
@@ -26,10 +28,9 @@ import {
 import { LaunchTransparencyBanner } from "components/shared/launch-transparency-banner";
 import { PageHero } from "components/shared/page-hero";
 import { TextureSection } from "components/shared/texture-section";
-import { WorkshopArchiveCard } from "components/workshops/workshop-archive-card";
-import type { PublicWorkshop } from "lib/supabase/workshops";
-import { hasWorkshopPage } from "lib/workshop-display";
+import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
 import {
+  PAST_WORKSHOPS,
   WORKSHOP_CATEGORIES,
   WORKSHOPS_CORE_VALUES,
   WORKSHOPS_MISSION_COLUMNS,
@@ -52,13 +53,7 @@ function HeroButtons({ className }: { className?: string }) {
   );
 }
 
-export function WorkshopsPageContent({
-  workshops,
-}: {
-  workshops: PublicWorkshop[];
-}) {
-  const archiveWorkshops = workshops.filter(hasWorkshopPage);
-
+export function WorkshopsPageContent() {
   return (
     <>
       <PageHero
@@ -107,16 +102,11 @@ export function WorkshopsPageContent({
             Creative workshops for anyone with a story, at any skill level.
           </p>
         </IndexCard>
-        <div
-          className={`${PAGE_HERO_WHISPER_INLINE_CLASS} flex items-center gap-3 !mt-8`}
+        <p
+          className={`${PAGE_HERO_WHISPER_INLINE_CLASS} ${homeHandClass} !mt-8 max-w-xl text-[clamp(1.35rem,2.8vw,1.75rem)] leading-snug text-bp-text`}
         >
-          <BrushPastIconBadge
-            icon={brushPastIcons.workshopsPage.safeSpace}
-            size="sm"
-            className="!h-10 !w-10"
-          />
-          Everyone is welcome. Exactly as you are.
-        </div>
+          Everyone is welcome exactly as you are.
+        </p>
       </PageHero>
 
       <TextureSection
@@ -131,14 +121,35 @@ export function WorkshopsPageContent({
             Workshop types
           </h2>
           <ul className="mt-8 flex flex-wrap gap-3">
-            {WORKSHOP_CATEGORIES.map((name) => (
-              <li
-                key={name}
-                className={`${bpBodyClass} border border-bp-text/15 bg-bp-canvas/80 px-5 py-2.5 text-bp-text shadow-[2px_2px_0_rgba(1,2,0,0.06)]`}
-              >
-                {name}
-              </li>
-            ))}
+            {WORKSHOP_CATEGORIES.map((category) => {
+              const chipClass = clsx(
+                bpBodyClass,
+                "border px-5 py-2.5 shadow-[2px_2px_0_rgba(1,2,0,0.06)] transition-colors",
+                category.active
+                  ? "border-bp-text/15 bg-bp-canvas/80 text-bp-text hover:border-bp-accent/50 hover:text-bp-accent"
+                  : "cursor-not-allowed border-bp-text/8 bg-bp-text/[0.04] text-bp-text/35",
+              );
+
+              return (
+                <li key={category.id}>
+                  {category.active ? (
+                    <a
+                      href={`#past-${category.id}`}
+                      className={chipClass}
+                    >
+                      {category.name}
+                    </a>
+                  ) : (
+                    <span className={chipClass} aria-disabled="true">
+                      {category.name}
+                      <span className="ml-2 text-[0.7em] uppercase tracking-wider">
+                        Soon
+                      </span>
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </TextureSection>
@@ -197,6 +208,61 @@ export function WorkshopsPageContent({
       >
         <div className="mx-auto max-w-[1400px]">
           <HomeSectionTitle
+            eyebrow="Inside the room"
+            title="What happens in our workshops"
+            eyebrowVariant="workshop"
+          />
+
+          <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            {WORKSHOPS_PROCESS.map((step, index) => {
+              const StepIcon = brushPastIcons.workshopProcess[step.icon];
+              return (
+                <li key={step.title}>
+                  <div className="flex flex-col items-center lg:items-start">
+                    <BrushPastIconBadge
+                      icon={StepIcon}
+                      size="sm"
+                      className="mb-3"
+                    />
+                    <p
+                      className={`${bpTitleClass} ${bpTitleUtility} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
+                    >
+                      {step.title}
+                    </p>
+                  </div>
+                  <PolaroidFrame
+                    index={index + 1}
+                    tilt={index % 2 === 0}
+                    className="mt-3"
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
+                      <Image
+                        src={step.image}
+                        alt={step.title}
+                        fill
+                        className="object-cover"
+                        sizes="25vw"
+                      />
+                    </div>
+                  </PolaroidFrame>
+                  <p
+                    className={`${workshopBodySmClass} mt-3 text-center lg:text-left`}
+                  >
+                    {step.caption}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </TextureSection>
+
+      <TextureSection
+        texture="primary"
+        className="px-4 py-14 md:px-10 md:py-20"
+      >
+        <div className="mx-auto max-w-[1400px]">
+          <HomeSectionTitle
             eyebrow="Why it matters"
             title="What you get"
             eyebrowVariant="workshop"
@@ -209,7 +275,7 @@ export function WorkshopsPageContent({
                 <li key={item.title}>
                   <IndexCard
                     className="flex h-full flex-col text-center lg:text-left"
-                    panelTexture="primary"
+                    panelTexture="secondary"
                   >
                     <BrushPastIconBadge
                       icon={Icon}
@@ -238,86 +304,116 @@ export function WorkshopsPageContent({
       >
         <div className="mx-auto max-w-[1400px]">
           <HomeSectionTitle
-            eyebrow="Inside the room"
-            title="What happens in our workshops?"
+            eyebrow="From the archive"
+            title="Past workshops"
+            align="left"
             eyebrowVariant="workshop"
           />
-
-          <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-            {WORKSHOPS_PROCESS.map((step, index) => {
-              const StepIcon = brushPastIcons.workshopProcess[step.icon];
-              return (
-                <li key={step.title}>
-                  <div className="flex flex-col items-center lg:items-start">
-                    <BrushPastIconBadge
-                      icon={StepIcon}
-                      size="sm"
-                      className="mb-3"
-                    />
-                    <p
-                      className={`${bpTitleClass} ${bpTitleUtility} text-center text-2xl font-bold text-bp-text md:text-3xl lg:text-left`}
-                    >
-                      {step.title}
-                    </p>
-                  </div>
-                  <PolaroidFrame
-                    index={index + 1}
-                    tilt={index % 2 === 0}
-                    className="mt-3"
-                  >
-                    <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
-                      <Image
-                        src={step.image}
-                        alt={step.title}
-                        fill
-                        className="object-cover"
-                        sizes="20vw"
-                      />
+          <ul className="mt-12 flex flex-col gap-12">
+            {PAST_WORKSHOPS.map((workshop, index) => (
+              <li
+                key={workshop.categoryId}
+                id={`past-${workshop.categoryId}`}
+                className="scroll-mt-28"
+              >
+                <IndexCard
+                  panelTexture={index % 2 === 0 ? "primary" : "secondary"}
+                  className="!overflow-visible"
+                >
+                  <div className="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+                    <PolaroidFrame index={index} tilt={index % 2 === 0}>
+                      {workshop.photoNumber != null ? (
+                        <BoxImagePlaceholder
+                          alt={
+                            workshop.imageAlt ?? workshop.title
+                          }
+                          note={workshop.imageNote}
+                          labelNumber={workshop.photoNumber}
+                          className="aspect-[4/3] min-h-[220px]"
+                        />
+                      ) : (
+                        <div className="relative aspect-[4/3] overflow-hidden bg-bp-surface">
+                          <Image
+                            src={workshop.image ?? "/workshops.png"}
+                            alt={workshop.title}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 1024px) 100vw, 40vw"
+                          />
+                        </div>
+                      )}
+                    </PolaroidFrame>
+                    <div>
+                      <p
+                        className={`${homeHandClass} ${bpWhisperUtility} text-lg text-bp-accent md:text-xl`}
+                      >
+                        {workshop.categoryLabel}
+                      </p>
+                      <h3
+                        className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(1.75rem,4vw,2.5rem)] font-bold leading-tight text-bp-text`}
+                      >
+                        {workshop.title}
+                      </h3>
+                      <dl className={`${workshopBodySmClass} mt-4 space-y-1`}>
+                        <div>
+                          <dt className="inline font-semibold text-bp-text">
+                            Location:{" "}
+                          </dt>
+                          <dd className="inline">{workshop.location}</dd>
+                        </div>
+                        <div>
+                          <dt className="inline font-semibold text-bp-text">
+                            Partner:{" "}
+                          </dt>
+                          <dd className="inline">{workshop.partner}</dd>
+                        </div>
+                        {workshop.facilitator ? (
+                          <div>
+                            <dt className="inline font-semibold text-bp-text">
+                              Facilitator:{" "}
+                            </dt>
+                            <dd className="inline">{workshop.facilitator}</dd>
+                          </div>
+                        ) : null}
+                      </dl>
+                      <div className={`${workshopBodyClass} mt-5 space-y-4`}>
+                        {workshop.body.map((paragraph) => (
+                          <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                        ))}
+                      </div>
+                      {workshop.quote ? (
+                        <blockquote
+                          className={`${homeHandClass} mt-6 border-l-[3px] border-bp-accent pl-4 text-[1.35rem] leading-snug text-bp-text md:text-[1.5rem]`}
+                        >
+                          &ldquo;{workshop.quote.text}&rdquo;
+                          <footer
+                            className={`${bpBodySmClass} mt-3 not-italic text-bp-text/65`}
+                          >
+                            — {workshop.quote.attribution}
+                          </footer>
+                        </blockquote>
+                      ) : null}
+                      {workshop.href ? (
+                        <Link
+                          href={workshop.href}
+                          className={`${bpBodyClass} mt-6 inline-block font-bold text-bp-accent hover:underline`}
+                        >
+                          View workshop →
+                        </Link>
+                      ) : null}
                     </div>
-                  </PolaroidFrame>
-                  <p
-                    className={`${workshopBodySmClass} mt-3 text-center lg:text-left`}
-                  >
-                    {step.caption}
-                  </p>
-                </li>
-              );
-            })}
+                  </div>
+                </IndexCard>
+              </li>
+            ))}
           </ul>
         </div>
       </TextureSection>
 
-      {archiveWorkshops.length > 0 ? (
-        <TextureSection
-          texture="primary"
-          className="px-4 py-14 md:px-10 md:py-20"
-        >
-          <div className="mx-auto max-w-[1400px]">
-            <HomeSectionTitle
-              eyebrow="From the archive"
-              title="Past workshops"
-              align="left"
-              eyebrowVariant="workshop"
-            />
-            <ul className="mt-12 flex flex-col gap-8">
-              {archiveWorkshops.map((workshop, index) => (
-                <li key={workshop.id}>
-                  <WorkshopArchiveCard
-                    workshop={workshop}
-                    index={index}
-                    panelTexture="secondary"
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </TextureSection>
-      ) : null}
-
       <LaunchTransparencyBanner />
 
       <TextureSection
-        texture="secondary"
+        texture="primary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-center">
@@ -335,19 +431,6 @@ export function WorkshopsPageContent({
             Come as you are.
             <br />
             <span className="text-bp-accent">Leave differently.</span>
-            <svg
-              className="absolute -left-2 top-1/2 hidden h-12 w-16 text-bp-accent lg:block lg:-translate-x-full"
-              viewBox="0 0 64 48"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                d="M60 8C40 28 20 38 4 42"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
           </p>
         </div>
       </TextureSection>

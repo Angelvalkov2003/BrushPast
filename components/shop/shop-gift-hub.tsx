@@ -93,7 +93,7 @@ function ShopGiftStories() {
           title="Stories from our community"
           align="left"
         />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SHOP_STORY_CARDS.map((card, index) => (
             <Link key={card.title} href={card.href} className="group block">
               <PolaroidFrame index={index} className="group-hover:rotate-0">

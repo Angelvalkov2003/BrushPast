@@ -170,22 +170,6 @@ export const SHOP_STORY_CARDS = [
     imageNote: "IMAGE NEEDED: Workshop session photograph.",
     photoNumber: PHOTO.shopStoryWorkshops,
   },
-  {
-    title: "Studio Journal",
-    snippet: "Notes from the making.",
-    href: "/journal",
-    imageAlt: "Studio journal pages and materials",
-    imageNote: "IMAGE NEEDED: Studio still life for the journal.",
-    photoNumber: PHOTO.shopStoryJournal,
-  },
-  {
-    title: "Exhibitions",
-    snippet: "Work shown in real spaces.",
-    href: "/stories",
-    imageAlt: "Exhibition wall of Brush Past prints",
-    imageNote: "IMAGE NEEDED: Exhibition or hanging of prints.",
-    photoNumber: PHOTO.shopStoryExhibitions,
-  },
 ] as const;
 
 export const SHOP_MOBILE_BOX_CARDS = [

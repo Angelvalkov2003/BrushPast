@@ -30,6 +30,13 @@ function imagesForPath(path: string): string[] {
   return [];
 }
 
+function eventElement(target: EventTarget | null): Element | null {
+  if (!target) return null;
+  if (target instanceof Element) return target;
+  if (target instanceof Text) return target.parentElement;
+  return null;
+}
+
 /**
  * Warms critical photos early:
  * - on current route mount
@@ -44,7 +51,8 @@ export function CriticalImageWarmer() {
 
   useEffect(() => {
     const onIntent = (event: Event) => {
-      const anchor = (event.target as Element | null)?.closest("a");
+      const el = eventElement(event.target);
+      const anchor = el?.closest?.("a");
       if (!anchor) return;
       const href = anchor.getAttribute("href");
       if (!href) return;
@@ -59,7 +67,10 @@ export function CriticalImageWarmer() {
 
     document.addEventListener("pointerenter", onIntent, true);
     document.addEventListener("focusin", onIntent, true);
-    document.addEventListener("touchstart", onIntent, { capture: true, passive: true });
+    document.addEventListener("touchstart", onIntent, {
+      capture: true,
+      passive: true,
+    });
 
     return () => {
       document.removeEventListener("pointerenter", onIntent, true);

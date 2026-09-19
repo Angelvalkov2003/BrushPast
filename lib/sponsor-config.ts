@@ -17,29 +17,28 @@ export type SponsorTier = {
 export const SPONSOR_TIERS: SponsorTier[] = [
   {
     id: "supporter",
-    amountGbp: 100,
+    amountGbp: 20,
     name: "Supporter",
     description: "Helps cover materials for a workshop participant.",
     icon: "heart",
   },
   {
     id: "creative_ally",
-    amountGbp: 250,
+    amountGbp: 50,
     name: "Creative Ally",
     description: "Contributes to an artist's project and production costs.",
     icon: "spray",
   },
   {
     id: "project_backer",
-    amountGbp: 500,
+    amountGbp: 100,
     name: "Project Backer",
     description: "Supports larger projects, exhibitions and community events.",
     icon: "people",
   },
   {
     id: "visionary",
-    amountGbp: 1000,
-    plus: true,
+    amountGbp: 500,
     name: "Visionary",
     description: "Helps sustain our mission and grow our impact.",
     icon: "star",
