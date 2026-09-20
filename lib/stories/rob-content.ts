@@ -33,7 +33,8 @@ export const ROB_STORY = {
   tags: "Writing. Art. Recovery.",
   heroQuote: "I am just a glitch in your perfect system.",
   heroQuoteHighlight: "glitch",
-  heroImage: "/stories/ROB'S-POEM/1i2.png",
+  heroImage: "/stories/ROB'S-POEM/1.png",
+  artworkCaption: "Artwork by Rob",
   poemIntro: '"There has been a…"',
   poemStanzas: [
     {

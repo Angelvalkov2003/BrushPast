@@ -1,13 +1,16 @@
 /** Hand-coded copy for /workshops/workshop-no-1 - Edward Alsop */
 
+const BASE = "/workshops/workshop-no-1";
+
 export const WORKSHOP_NO_1 = {
   slug: "workshop-no-1",
   title: "T-Shirt Workshop at Edward Alsop",
   headline: "T-Shirt Workshop at Edward Alsop",
   location: "Edward Alsop homeless hostel, Victoria, London",
+  partner: "Evolve",
   tagline:
     "We worked with Evolve so people could design their own T-shirts—and begin to see the value in their own work.",
-  heroImage: "/workshops/workshop-no-1/hero.jpg",
+  heroImage: `${BASE}/hero.jpg`,
   narrativeColumns: [
     {
       title: "With Evolve",
@@ -22,16 +25,44 @@ export const WORKSHOP_NO_1 = {
       body: "The idea is to encourage people to recognise the value in their own work, stories, lived experience, creativity, and self-expression. We are following up with an arranged marketing workshop to help participants put their designs out into the world.",
     },
   ],
+  moments: [
+    {
+      title: "Create",
+      caption: "Markers down. Ideas up. No pressure to perform.",
+      image: `${BASE}/create.jpg`,
+    },
+    {
+      title: "Connect",
+      caption: "A shared table. Shared stories. Shared confidence.",
+      image: `${BASE}/connect.jpg`,
+    },
+    {
+      title: "Capture",
+      caption: "Designs take shape — colour, character, and voice.",
+      image: `${BASE}/capture.jpg`,
+    },
+    {
+      title: "Share",
+      caption: "Proud moments. Work you can hold and wear.",
+      image: `${BASE}/share.jpg`,
+    },
+    {
+      title: "Opportunity",
+      caption: "A path to put designs into the world — if you choose.",
+      image: `${BASE}/opportunity.jpg`,
+    },
+  ],
   processTitle: "From sketch to shirt",
+  processIntro:
+    "One afternoon. Real people. Original work made by hand — from first mark to finished tee.",
   processSteps: [
-    { label: "Let's begin", image: "/workshops/workshop-no-1/process/01-lets-begin.jpg" },
-    { label: "First ideas", image: "/workshops/workshop-no-1/process/02-first-ideas.jpg" },
-    { label: "Taking shape", image: "/workshops/workshop-no-1/process/03-taking-shape.jpg" },
-    { label: "Sharing & creating", image: "/workshops/workshop-no-1/process/04-sharing-creating.jpg" },
-    { label: "The tools", image: "/workshops/workshop-no-1/process/05-the-tools.jpg" },
-    { label: "Colour & character", image: "/workshops/workshop-no-1/process/06-colour-character.jpg" },
-    { label: "Finished design", image: "/workshops/workshop-no-1/process/07-finished-design.jpg" },
-    { label: "Proud moment", image: "/workshops/workshop-no-1/process/08-proud-moment.jpg" },
+    { label: "Let's begin", image: `${BASE}/process/01.webp` },
+    { label: "First ideas", image: `${BASE}/process/02.webp` },
+    { label: "Taking shape", image: `${BASE}/process/03.webp` },
+    { label: "Sharing & creating", image: `${BASE}/process/04.jpg` },
+    { label: "The tools", image: `${BASE}/process/05.jpg` },
+    { label: "Colour & character", image: `${BASE}/process/06.jpg` },
+    { label: "Proud moment", image: `${BASE}/process/07.jpg` },
   ],
   archive: {
     title: "A living archive",
@@ -46,20 +77,20 @@ export const WORKSHOP_NO_1 = {
     footerLine: "Partner: Evolve — logo available.",
   },
   collectionTitle: "The collection",
+  collectionIntro:
+    "Each design is evidence — not of talent reserved for studios, but of creativity showing up in an ordinary afternoon.",
   collection: [
-    { number: "01", title: "Kites", image: "/workshops/workshop-no-1/collection/01-kites.jpg" },
-    { number: "02", title: "Fishing trip", image: "/workshops/workshop-no-1/collection/02-fishing-trip.jpg" },
-    { number: "03", title: "Pattern cross", image: "/workshops/workshop-no-1/collection/03-pattern-cross.jpg" },
-    { number: "04", title: "Rave on", image: "/workshops/workshop-no-1/collection/04-rave-on.jpg" },
-    { number: "05", title: "Faces", image: "/workshops/workshop-no-1/collection/05-faces.jpg" },
-    { number: "06", title: "Mighty culture", image: "/workshops/workshop-no-1/collection/06-mighty-culture.jpg" },
-    { number: "07", title: "Eyes", image: "/workshops/workshop-no-1/collection/07-eyes.jpg" },
-    { number: "08", title: "Rangers crest", image: "/workshops/workshop-no-1/collection/08-rangers-crest.jpg" },
-    { number: "09", title: "Workshop cross", image: "/workshops/workshop-no-1/collection/09-workshop-cross.jpg" },
+    { number: "01", title: "Design 01", image: `${BASE}/collection/01.jpg` },
+    { number: "02", title: "Design 02", image: `${BASE}/collection/02.jpg` },
+    { number: "03", title: "Design 03", image: `${BASE}/collection/03.jpg` },
+    { number: "04", title: "Design 04", image: `${BASE}/collection/04.jpg` },
+    { number: "05", title: "Design 05", image: `${BASE}/collection/05.jpg` },
   ],
   closing: {
     left: "Every collection starts with people recognising the value in their own work.",
     right:
       "65% of profits are reinvested into creators, workshops and programmes that create new opportunities through creativity.",
+    cta: "Back to workshops",
+    href: "/workshops",
   },
 } as const;

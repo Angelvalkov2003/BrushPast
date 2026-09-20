@@ -12,8 +12,8 @@ import { JAMIE_STORY } from "lib/stories/jamie-content";
 import { JEREMY_STORY } from "lib/stories/jeremy-content";
 import { LITTLE_GEORGE_STORY } from "lib/stories/little-george-content";
 import { JR_STORY } from "lib/stories/jr-content";
+import { KARL_STORY } from "lib/stories/karl-content";
 import {
-  KARL_STORY,
   JED_STORY,
   SANDRA_STORY,
 } from "lib/stories/portrait-stories-content";
@@ -33,6 +33,7 @@ const STORY_IMAGE_FALLBACKS: Record<string, string> = {
   [LITTLE_GEORGE_STORY.slug]: LITTLE_GEORGE_STORY.heroImage,
   [JR_STORY.slug]: JR_STORY.heroImage,
   [DAVID_STORY.slug]: DAVID_STORY.heroImage,
+  [KARL_STORY.slug]: KARL_STORY.heroImage,
 };
 
 /** Hand-coded story routes that may not yet have DB rows */
@@ -46,7 +47,7 @@ export const STATIC_STORY_LISTING: {
     slug: KARL_STORY.slug,
     title: KARL_STORY.title,
     page_url: `/stories/${KARL_STORY.slug}`,
-    short_description: KARL_STORY.heroQuote ?? "",
+    short_description: KARL_STORY.heroQuote,
   },
   {
     slug: JED_STORY.slug,

@@ -1,18 +1,27 @@
-import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
-import { ShopProductCard } from "components/shop/shop-product-card";
+import { HomeCta } from "components/home/home-decor";
+import {
+  bpBodyClass,
+  bpBodySmClass,
+  bpTitleClass,
+  bpTitleUtility,
+  homeHandClass,
+  PAGE_HERO_H1_STORY_CLASS,
+} from "components/home/home-typography";
+import { RevealSection } from "components/shared/reveal-section";
+import { StoryPageShell } from "components/stories/story-texture";
 import { displayImageUrl } from "lib/image-url";
-import type { RobParagraph, RobPoemLine } from "lib/stories/rob-content";
+import type { RobPoemLine } from "lib/stories/rob-content";
 import { ROB_STORY } from "lib/stories/rob-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
+import { ShopProductCard } from "components/shop/shop-product-card";
 
 const COPY = ROB_STORY;
+const bodyClass = `${bpBodyClass} text-[0.98rem] leading-relaxed text-bp-text/88 md:text-[1.05rem]`;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -39,58 +48,24 @@ function renderHighlight(text: string, highlight?: string) {
   );
 }
 
-function PoemLine({ line, dark }: { line: RobPoemLine; dark?: boolean }) {
-  if (line.pull) {
-    return (
-      <p
-        className={`${homeHandClass} my-4 text-[1.85rem] font-bold leading-snug md:text-[2.1rem] ${
-          dark ? "text-bp-canvas" : "text-bp-text"
-        }`}
-      >
-        {renderHighlight(line.text, line.highlight)}
-      </p>
-    );
-  }
+function PoemLine({ line }: { line: RobPoemLine }) {
+  const className = line.pull
+    ? `${homeHandClass} my-3 text-[1.35rem] font-bold leading-snug text-bp-canvas md:text-[1.5rem]`
+    : line.emphasis
+      ? `${homeHandClass} text-[1.15rem] font-bold leading-snug text-bp-canvas/95 md:text-[1.25rem]`
+      : `${bpBodyClass} text-[0.95rem] italic leading-relaxed text-bp-canvas/80 md:text-[1.02rem]`;
 
-  return (
-    <p
-      className={`${homeHandClass} ${
-        line.emphasis
-          ? "text-[1.7rem] font-bold leading-snug md:text-[1.95rem]"
-          : "text-[1.35rem] leading-relaxed md:text-[1.5rem]"
-      } ${dark ? "text-bp-canvas/95" : "text-bp-text/90"}`}
-    >
-      {renderHighlight(line.text, line.highlight)}
-    </p>
-  );
+  return <p className={className}>{renderHighlight(line.text, line.highlight)}</p>;
 }
 
-function StoryParagraph({ block }: { block: RobParagraph }) {
-  if (block.pull) {
-    return (
-      <blockquote
-        className={`${homeHandClass} relative my-6 border-l-[3px] border-bp-accent py-1 pl-5 text-[1.65rem] leading-snug text-bp-text md:text-[1.85rem]`}
-      >
-        <span className="absolute -left-2 top-2 text-2xl text-bp-accent/40" aria-hidden>
-          ❝
-        </span>
-        {renderHighlight(block.text, block.highlight)}
-      </blockquote>
-    );
-  }
-
-  const sizeClass = block.emphasis
-    ? "text-[1.3rem] leading-snug md:text-[1.45rem]"
-    : "text-[1.15rem] leading-relaxed md:text-[1.25rem]";
-
-  return (
-    <p className={`${homeHandClass} ${sizeClass} text-bp-text/92`}>
-      {renderHighlight(block.text, block.highlight)}
-    </p>
-  );
+/** Flatten stanzas into two balanced columns for the dark poem band */
+function splitPoemColumns(
+  stanzas: readonly { readonly lines: readonly RobPoemLine[] }[],
+): [RobPoemLine[], RobPoemLine[]] {
+  const lines: RobPoemLine[] = stanzas.flatMap((s) => [...s.lines]);
+  const mid = Math.ceil(lines.length / 2);
+  return [lines.slice(0, mid), lines.slice(mid)];
 }
-
-const COLUMN_MARKERS = ["I", "II", "III"];
 
 export async function RobPage() {
   const [story, products] = await Promise.all([
@@ -99,188 +74,168 @@ export async function RobPage() {
   ]);
 
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
-  const highlightIdx = COPY.heroQuote.toLowerCase().indexOf(COPY.heroQuoteHighlight.toLowerCase());
-  const quoteBefore = highlightIdx >= 0 ? COPY.heroQuote.slice(0, highlightIdx) : COPY.heroQuote;
-  const quoteAfter =
-    highlightIdx >= 0 ? COPY.heroQuote.slice(highlightIdx + COPY.heroQuoteHighlight.length) : "";
+  const storyParagraphs = COPY.storyColumns.flatMap((c) => c.paragraphs);
+  const [poemLeft, poemRight] = splitPoemColumns([...COPY.poemStanzas]);
 
   return (
     <StoryPageShell>
-      <div className="px-4 py-4 md:px-10">
-        <div className="mx-auto max-w-[1400px]">
-          <Link
-            href="/stories"
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-bp-text/70 hover:text-bp-accent hover:underline"
-          >
-            ← Back to stories
-          </Link>
-        </div>
-      </div>
-
+      {/* Upper: story + single artwork */}
       <RevealSection className="border-b border-bp-text/10">
-        <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2 lg:items-stretch">
-          <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-bp-accent">
+        <div className="mx-auto grid max-w-[1100px] gap-10 px-4 py-8 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.75fr)] md:items-start md:gap-12 md:px-10 md:py-12 lg:gap-16">
+          <div>
+            <Link
+              href="/stories"
+              className="text-[10px] font-semibold uppercase tracking-[0.2em] text-bp-text/55 hover:text-bp-accent hover:underline"
+            >
+              ← Back to stories
+            </Link>
+
+            <p className="mt-6 text-[10px] font-semibold uppercase tracking-[0.28em] text-bp-accent">
               {COPY.poemTitle}
             </p>
-            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
+            <h1
+              className={`${PAGE_HERO_H1_STORY_CLASS} mt-2 text-[clamp(3rem,8vw,5.25rem)]`}
+            >
               {COPY.title}
             </h1>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-bp-text/60">
+            <p className="mt-2 text-[10px] font-semibold uppercase italic tracking-[0.16em] text-bp-text/50">
               {COPY.credits.words} · {COPY.credits.photography}
             </p>
-            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-bp-text/75`}>
+            <p
+              className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-[10px] font-bold uppercase tracking-[0.18em] text-bp-text/70`}
+            >
               {COPY.tags}
             </p>
-            <div className="relative mt-8 max-w-lg rotate-[-0.4deg] border border-bp-text/25 bg-bp-dark p-6 shadow-[6px_6px_0_rgba(191,50,1,0.15)] md:p-8">
+
+            {/* Quote box */}
+            <div className="mt-8 max-w-lg border border-bp-text/15 bg-bp-canvas/40 px-5 py-5 md:px-6 md:py-6">
               <p
-                className={`${homeHandClass} text-[1.55rem] leading-snug text-bp-canvas md:text-[1.75rem]`}
+                className={`${homeHandClass} text-[1.45rem] leading-snug text-bp-text md:text-[1.65rem]`}
               >
-                {quoteBefore}
-                {highlightIdx >= 0 ? (
-                  <BrushUnderline>{COPY.heroQuoteHighlight}</BrushUnderline>
-                ) : null}
-                {quoteAfter}
+                &ldquo;I am just a{" "}
+                <BrushUnderline>{COPY.heroQuoteHighlight}</BrushUnderline> in
+                your perfect system.&rdquo;
               </p>
+              <span
+                className="mt-4 block h-1 w-12 bg-bp-accent"
+                aria-hidden
+              />
+            </div>
+
+            <div className="mt-10 max-w-xl">
+              <h2
+                className={`${bpTitleClass} ${bpTitleUtility} text-sm font-bold uppercase tracking-[0.18em] text-bp-accent`}
+              >
+                {COPY.storyHeading}
+              </h2>
+              <div className="mt-5 space-y-4">
+                {storyParagraphs.map((block) => (
+                  <p
+                    key={block.text.slice(0, 40)}
+                    className={
+                      block.pull
+                        ? `${homeHandClass} text-[1.25rem] leading-snug text-bp-text md:text-[1.35rem]`
+                        : bodyClass
+                    }
+                  >
+                    {renderHighlight(block.text, block.highlight)}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="relative min-h-[420px] lg:min-h-[560px]">
-            <Image
-              src={heroImage}
-              alt="Rob - Glitch"
-              fill
-              className="object-cover object-center"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+          {/* Single image — compact, editorial */}
+          <aside className="md:sticky md:top-28 md:justify-self-end">
+            <figure className="mx-auto w-full max-w-[300px] md:mx-0 md:max-w-[320px]">
+              <div className="border border-bp-text/10 bg-bp-canvas p-2.5 shadow-[4px_5px_0_rgba(1,2,0,0.05)] sm:p-3">
+                <div className="relative aspect-[3/4] overflow-hidden bg-bp-text/5">
+                  <Image
+                    src={heroImage}
+                    alt="Artwork by Rob"
+                    fill
+                    className="object-cover object-center"
+                    priority
+                    sizes="320px"
+                  />
+                </div>
+              </div>
+              <figcaption
+                className={`${bpBodySmClass} mt-3 text-center text-[10px] uppercase tracking-[0.18em] text-bp-text/45`}
+              >
+                {COPY.artworkCaption}
+              </figcaption>
+            </figure>
+          </aside>
         </div>
       </RevealSection>
 
-      <RevealSection className="border-b border-bp-text/10">
-        <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-10 md:py-12">
+      {/* Poem — dark two-column band */}
+      <RevealSection className="bg-bp-text text-bp-canvas">
+        <div className="mx-auto max-w-[1100px] px-4 py-14 md:px-10 md:py-16">
+          <p className="text-center text-[10px] font-semibold uppercase italic tracking-[0.28em] text-bp-canvas/45">
+            [{COPY.title}&apos;s poem]
+          </p>
           <p
-            className={`${homeHandClass} text-center text-2xl text-bp-text/80 md:text-3xl`}
+            className={`${homeHandClass} mt-4 text-center text-lg text-bp-canvas/70 md:text-xl`}
           >
             {COPY.poemIntro}
           </p>
-        </div>
 
-        <div className="mx-auto max-w-[1400px] space-y-0 px-4 pb-14 md:px-10 md:pb-16">
-          {COPY.poemStanzas.map((stanza, i) => {
-            const dark = i % 2 === 1;
-            return (
-              <div
-                key={i}
-                className={`px-6 py-10 md:px-12 md:py-12 ${
-                  dark ? "bg-bp-dark text-bp-canvas" : "border border-bp-text/12"
-                }`}
+          <div className="relative mt-10 grid gap-10 md:grid-cols-2 md:gap-12 lg:gap-16">
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-bp-canvas/15 md:block"
+              aria-hidden
+            />
+            <div className="space-y-1.5 md:pr-4">
+              <span className="text-3xl text-bp-accent/80" aria-hidden>
+                &ldquo;
+              </span>
+              {poemLeft.map((line, i) => (
+                <PoemLine key={`l-${i}-${line.text.slice(0, 24)}`} line={line} />
+              ))}
+            </div>
+            <div className="space-y-1.5 md:pl-4">
+              {poemRight.map((line, i) => (
+                <PoemLine key={`r-${i}-${line.text.slice(0, 24)}`} line={line} />
+              ))}
+              <span
+                className="mt-2 block text-right text-3xl text-bp-accent/80"
+                aria-hidden
               >
-                <div className="mx-auto max-w-2xl space-y-2">
-                  {stanza.lines.map((line) => (
-                    <PoemLine key={line.text} line={line} dark={dark} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+                &rdquo;
+              </span>
+            </div>
+          </div>
         </div>
       </RevealSection>
 
-      <RevealSection className="relative overflow-hidden border-b border-bp-text/10">
-        <div className="mx-auto max-w-[1400px] px-4 py-12 md:px-10 md:py-16">
-          <h2 className="text-center text-[clamp(2rem,6vw,3.5rem)] font-black uppercase tracking-tight">
-            {COPY.storyHeading}
-          </h2>
+      {/* Closing */}
+      <RevealSection>
+        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-10">
           <p
-            className={`${homeHandClass} mx-auto mt-6 max-w-2xl text-center text-xl text-bp-text/75 md:text-2xl`}
+            className={`${bpTitleClass} ${bpTitleUtility} text-xs font-bold uppercase tracking-[0.18em] text-bp-text/60`}
           >
-            {COPY.storyIntro}
+            Real stories. Real change.
           </p>
-        </div>
-
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.15]"
-          aria-hidden
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(transparent, transparent 31px, #d4c9bc 31px, #d4c9bc 32px)",
-          }}
-        />
-        <div className="relative mx-auto max-w-[1400px] px-4 pb-14 md:px-10 md:pb-20">
-          <div
-            className={`grid gap-12 lg:gap-10 ${
-              COPY.storyColumns.length > 1 ? "lg:grid-cols-3" : "lg:grid-cols-1 lg:max-w-3xl lg:mx-auto"
-            }`}
-          >
-            {COPY.storyColumns.map((column, colIdx) => (
-              <StoryPanel
-                key={colIdx}
-                className="relative border-t-2 border-bp-text/10 px-5 py-8 md:px-6 md:py-10"
-              >
-                <span
-                  className={`${homeHandClass} absolute -top-5 left-4 bg-[#faf6f0]/95 px-2 text-3xl text-bp-accent md:text-4xl`}
-                  aria-hidden
-                >
-                  {COLUMN_MARKERS[colIdx]}
-                </span>
-                <div className="space-y-5">
-                  {column.paragraphs.map((block) => (
-                    <StoryParagraph key={block.text.slice(0, 32)} block={block} />
-                  ))}
-                </div>
-              </StoryPanel>
-            ))}
-          </div>
-        </div>
-      </RevealSection>
-
-      <RevealSection className="border-b border-bp-text/10 px-4 py-12 md:px-10 md:py-16">
-        <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-3 lg:gap-8">
-          <StoryPanel className="flex flex-col border border-bp-text/15">
-            <div className="bg-bp-text px-4 py-3">
-              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas">
-                {COPY.glitchNote.title}
-              </h2>
-            </div>
-            <div className="flex flex-1 items-center p-6 md:p-8">
-              <p
-                className={`${homeHandClass} text-[2rem] leading-tight text-bp-text md:text-[2.35rem]`}
-              >
-                <BrushUnderline>{COPY.glitchNote.quote}</BrushUnderline>
-              </p>
-            </div>
-          </StoryPanel>
-
-          <div className="relative flex min-h-[280px] items-center justify-center overflow-hidden border border-bp-text/15 bg-[#ebe4d8] p-8">
-            <p
-              className={`${homeHandClass} relative z-10 max-w-sm text-center text-[1.5rem] leading-snug text-bp-text/90 md:text-[1.75rem]`}
-            >
-              {COPY.notebookQuote}
-            </p>
-          </div>
-
-          <div className="flex min-h-[280px] items-center justify-center bg-bp-text p-8 md:p-10">
-            <p
-              className={`${homeHandClass} text-center text-[1.65rem] leading-snug text-bp-canvas md:text-[1.95rem]`}
-            >
-              <BrushUnderline>{COPY.closingQuote}</BrushUnderline>
-            </p>
-          </div>
+          <HomeCta href="/stories" variant="primary" className="shrink-0">
+            Explore more stories →
+          </HomeCta>
         </div>
       </RevealSection>
 
       {products.length > 0 ? (
-        <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-          <div className="mx-auto max-w-[1400px]">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
+        <RevealSection className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16">
+          <div className="mx-auto max-w-[1100px]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-bp-accent">
               From this story
             </p>
-            <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide md:text-3xl">
+            <h2
+              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-2xl font-bold uppercase tracking-wide`}
+            >
               Take a piece home
             </h2>
-            <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product) => (
                 <li key={product.id}>
                   <ShopProductCard product={product} />

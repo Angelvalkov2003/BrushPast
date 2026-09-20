@@ -1,4 +1,6 @@
-/** Hand-coded copy for /stories/jr - artist story layout */
+/** Hand-coded copy for /stories/jr — artist story */
+
+const BASE = "/stories/jr";
 
 export type JrStoryLine = {
   text: string;
@@ -20,7 +22,15 @@ export const JR_STORY = {
   location: "London",
   year: "2023",
   organisation: "London Coffee Factory",
-  heroImage: "/jr.png",
+  /** Unique images from /public/stories/jr — each used once */
+  images: {
+    hero: `${BASE}/hero.jpg`,
+    study: `${BASE}/study-blue.jpg`,
+    forest: `${BASE}/forest.jpg`,
+    windows: `${BASE}/windows.jpg`,
+    dog: `${BASE}/dog.jpg`,
+  },
+  heroImage: `${BASE}/hero.jpg`,
   myStory: {
     title: "My story",
     lines: [
@@ -48,31 +58,12 @@ export const JR_STORY = {
       "Creating gives me somewhere to put what I'm feeling. It keeps my mind occupied, gives me something to work towards, and reminds me that I can still make something positive.",
     ],
   },
-  inMyWords: {
-    title: "In my words",
-    paragraphs: [
-      "Creating gives me somewhere to put what I'm feeling. It keeps my mind occupied, gives me something to work towards, and reminds me that I can still make something positive.",
-    ],
-  },
   aboutTheArtwork: {
     title: "About the artwork",
     paragraphs: [
       "The LOVE painting is a reminder—why it hurts, why it was worth the fight, and why I had to go on.",
       "The sketches alongside it—dogs, music, street art, graphic work—are how I practise staying present.",
     ],
-  },
-  gallery: {
-    main: "/jr.png",
-    grid: [
-      "/stories/jr/hero.jpg",
-      "/stories/jr/hero.jpg",
-      "/stories/jr/hero.jpg",
-      "/stories/jr/hero.jpg",
-      "/stories/jr/hero.jpg",
-      "/stories/jr/hero.jpg",
-    ],
-    portrait: "/stories/jr/hero.jpg",
-    portraitCaption: "Reiley Love Dad",
   },
   fragments: {
     title: "Fragments",

@@ -1,11 +1,13 @@
-import { PortraitStoryPage } from "components/stories/portrait-story-page";
-import { KARL_STORY } from "lib/stories/portrait-stories-content";
+import { KarlPage } from "components/stories/karl/karl-page";
+import { KARL_STORY } from "lib/stories/karl-content";
 
 export const metadata = {
-  title: `${KARL_STORY.title} — ${KARL_STORY.location ?? "Story"}`,
+  title: `${KARL_STORY.title} — ${KARL_STORY.location}`,
   description: KARL_STORY.heroQuote,
 };
 
+export const dynamic = "force-dynamic";
+
 export default function Page() {
-  return <PortraitStoryPage story={KARL_STORY} />;
+  return <KarlPage />;
 }

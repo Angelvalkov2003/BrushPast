@@ -1,18 +1,25 @@
-import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserGroupIcon } from "@heroicons/react/24/outline";
-import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
+import { HomeCta } from "components/home/home-decor";
+import {
+  bpBodyClass,
+  bpTitleClass,
+  bpTitleUtility,
+  homeHandClass,
+  PAGE_HERO_H1_STORY_CLASS,
+} from "components/home/home-typography";
+import { RevealSection } from "components/shared/reveal-section";
+import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import { ShopProductCard } from "components/shop/shop-product-card";
-import { displayImageUrl } from "lib/image-url";
 import { BOBBY_STORY } from "lib/stories/bobby-content";
 import { getStoryProductsBySlug } from "lib/supabase/story-products";
-import { getPublicStoryBySlug } from "lib/supabase/stories";
-import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
 const COPY = BOBBY_STORY;
+const IMG = COPY.images;
+const bodyClass = `${bpBodyClass} text-[1rem] leading-relaxed text-bp-text/88 md:text-[1.05rem]`;
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -26,30 +33,47 @@ function BrushUnderline({ children }: { children: ReactNode }) {
   );
 }
 
-function FragmentCard({ title, quote, rotate }: { title: string; quote: string; rotate: string }) {
+function FragmentCard({
+  title,
+  quote,
+  rotate,
+}: {
+  title: string;
+  quote: string;
+  rotate: string;
+}) {
   return (
-    <StoryPanel as="article"
-      className={`border border-bp-text/12 p-5 shadow-[2px_3px_0_rgba(0,0,0,0.05)] ${rotate}`}
+    <StoryPanel
+      as="article"
+      className={`relative border border-bp-text/12 p-5 shadow-[2px_3px_0_rgba(0,0,0,0.05)] ${rotate}`}
     >
-      <h3 className={`${homeHandClass} text-xl font-bold text-bp-accent`}>{title}</h3>
-      <p className={`${homeHandClass} mt-3 text-lg leading-snug text-bp-text/88`}>{quote}</p>
+      <h3 className={`${homeHandClass} text-xl font-bold text-bp-accent`}>
+        {title}
+      </h3>
+      <p className={`${homeHandClass} mt-3 text-lg leading-snug text-bp-text/85`}>
+        &ldquo;{quote}&rdquo;
+      </p>
+      <p className={`${homeHandClass} mt-3 text-sm text-bp-text/55`}>- Bobby</p>
     </StoryPanel>
   );
 }
 
 export async function BobbyPage() {
-  const [story, products] = await Promise.all([
-    getPublicStoryBySlug(COPY.slug),
-    getStoryProductsBySlug(COPY.slug),
-  ]);
-
-  const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
-  const shopHref = products.length > 0 ? `/shop` : "/shop";
+  const products = await getStoryProductsBySlug(COPY.slug);
+  const highlight = COPY.heroQuoteHighlight;
+  const heroQuote = COPY.heroQuote;
+  const highlightIdx = heroQuote.toLowerCase().indexOf(highlight.toLowerCase());
+  const quoteBefore =
+    highlightIdx >= 0 ? heroQuote.slice(0, highlightIdx) : heroQuote;
+  const quoteAfter =
+    highlightIdx >= 0
+      ? heroQuote.slice(highlightIdx + highlight.length)
+      : "";
 
   return (
     <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
-        <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-[1200px]">
           <Link
             href="/stories"
             className="text-xs font-semibold uppercase tracking-[0.2em] text-bp-text/70 hover:text-bp-accent hover:underline"
@@ -59,141 +83,268 @@ export async function BobbyPage() {
         </div>
       </div>
 
-      {/* Hero */}
+      {/* Hero — Suicide painting once */}
       <RevealSection className="border-b border-bp-text/10">
-        <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-4 py-10 md:px-10 md:py-14 lg:py-16">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">Story</p>
-            <h1 className={`${PAGE_HERO_H1_STORY_CLASS} mt-2`}>
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-10 md:grid-cols-2 md:items-stretch md:gap-12 md:px-10 md:py-12">
+          <div className="flex flex-col justify-center">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-bp-accent">
+              Artist story
+            </p>
+            <h1
+              className={`${PAGE_HERO_H1_STORY_CLASS} mt-2 text-[clamp(3.25rem,8vw,5.5rem)]`}
+            >
               {COPY.headline}
             </h1>
-            <p className="mt-2 text-sm font-bold uppercase tracking-[0.18em] text-bp-text/70 md:text-base">
+            <span
+              className="mt-3 block h-1 w-20 bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]"
+              aria-hidden
+            />
+            <p className="mt-3 text-sm font-bold uppercase tracking-[0.18em] text-bp-text/70">
               {COPY.subtitle}
             </p>
-            <p className={`${homeHandClass} mt-8 max-w-xl text-2xl leading-snug md:text-[1.75rem]`}>
-              &ldquo;{COPY.heroQuote}&rdquo;
-            </p>
-            <p className={`${homeHandClass} ${bpWhisperUtility} mt-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-text/60 md:text-xs`}>
+            <div className="relative mt-8 max-w-xl">
+              <span
+                className="absolute -left-0.5 -top-1 text-4xl text-bp-accent/70"
+                aria-hidden
+              >
+                &ldquo;
+              </span>
+              <p
+                className={`${homeHandClass} pl-5 text-[1.6rem] leading-snug text-bp-text md:text-[1.9rem]`}
+              >
+                {quoteBefore}
+                {highlightIdx >= 0 ? (
+                  <BrushUnderline>{highlight}</BrushUnderline>
+                ) : null}
+                {quoteAfter}
+              </p>
+            </div>
+            <p
+              className={`${homeHandClass} mt-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-text/60 md:text-xs`}
+            >
               {COPY.tags.join(" • ")}
             </p>
           </div>
-          <div className="relative min-h-[420px] lg:min-h-[560px]">
-            <Image
-              src={heroImage}
-              alt="Bobby - portrait"
-              fill
-              className="object-cover object-center"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
-        </div>
-      </RevealSection>
 
-      {/* Intro */}
-      <RevealSection id="story-body" className="scroll-mt-24 border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-start">
           <div>
-            <p className={`${homeHandClass} text-[1.65rem] leading-snug text-bp-text md:text-[1.9rem]`}>
-              &ldquo;<BrushUnderline>{COPY.introPullQuote}</BrushUnderline>&rdquo;
-            </p>
-          </div>
-          <div className="space-y-4 text-base leading-relaxed text-bp-text/85 md:text-lg">
-            {COPY.introBody.map((p) => (
-              <p key={p.slice(0, 48)}>{p}</p>
-            ))}
-          </div>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-bp-text/5 shadow-sm">
-            <Image
-              src={COPY.introArtwork}
-              alt="Bobby artwork - storefront scene"
-              fill
-              className="object-cover object-center"
-              sizes="33vw"
-            />
-          </div>
-        </div>
-      </RevealSection>
-
-      {/* In his words */}
-      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-bp-accent">In his words</p>
-            <p className={`${homeHandClass} mt-6 text-[1.45rem] leading-snug text-bp-text md:text-[1.65rem]`}>
-              <span className="text-4xl leading-none text-bp-accent/80">&ldquo;</span>
-              {COPY.inHisWords.quote}
-            </p>
-          </div>
-          <div className="space-y-4 text-base leading-relaxed text-bp-text/85 md:text-lg">
-            {COPY.inHisWords.paragraphs.map((p) => (
-              <p key={p.slice(0, 48)}>{p}</p>
-            ))}
-          </div>
-        </div>
-      </RevealSection>
-
-      {/* Fragments + support */}
-      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto max-w-[1400px]">
-          <h2 className={`${homeHandClass} text-center text-3xl font-bold uppercase tracking-[0.2em] text-bp-accent`}>
-            {COPY.fragments.title}
-          </h2>
-          <div className="mt-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-start">
-            <div className="grid gap-5 sm:grid-cols-2">
-              {COPY.fragments.items.map((item, i) => (
-                <FragmentCard
-                  key={item.title}
-                  title={item.title}
-                  quote={item.quote}
-                  rotate={["rotate-[-0.5deg]", "rotate-[1deg]", "rotate-[-1deg]", "rotate-[0.5deg]"][i] ?? ""}
+            <div className="relative min-h-[400px] md:min-h-[540px]">
+              <div className="absolute inset-0 overflow-hidden border border-bp-text/12 bg-bp-canvas shadow-[6px_8px_0_rgba(1,2,0,0.06)]">
+                <Image
+                  src={IMG.hero}
+                  alt="Bobby — Suicide painting"
+                  fill
+                  priority
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
+              </div>
+            </div>
+            <p
+              className={`${homeHandClass} mt-3 text-center text-base text-bp-text/50 md:text-right`}
+            >
+              Suicide
+            </p>
+          </div>
+        </div>
+      </RevealSection>
+
+      {/* Intro + mohawk */}
+      <RevealSection
+        id="story-body"
+        className="scroll-mt-24 border-b border-bp-text/10"
+      >
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-14 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-start md:gap-12 md:px-10 md:py-16">
+          <div>
+            <p
+              className={`${homeHandClass} text-[1.45rem] leading-snug text-bp-text md:text-[1.7rem]`}
+            >
+              &ldquo;
+              <BrushUnderline>{COPY.introPullQuote}</BrushUnderline>
+              &rdquo;
+            </p>
+            <div className="mt-6 space-y-4">
+              {COPY.introBody.map((p) => (
+                <p key={p.slice(0, 48)} className={bodyClass}>
+                  {p}
+                </p>
               ))}
             </div>
-            <StoryPanel className="border border-bp-text/15 p-6 md:p-8">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-bp-accent">Support the story</h3>
-              <p className="mt-4 text-sm leading-relaxed text-bp-text/80">
-                Bobby&apos;s artwork is available on selected prints and apparel. Every purchase helps support
-                artists, workshops and second chances.
-              </p>
-              <Link
-                href={shopHref}
-                className="mt-6 inline-flex border-2 border-bp-text px-6 py-2.5 text-xs font-bold uppercase tracking-[0.15em] hover:bg-bp-text hover:text-bp-canvas"
-              >
-                View artwork →
-              </Link>
-            </StoryPanel>
+          </div>
+          <figure className="mx-auto w-full max-w-[380px] md:mx-0 md:max-w-none">
+            <div className="relative aspect-[4/5] overflow-hidden border border-bp-text/12 bg-bp-canvas shadow-[4px_5px_0_rgba(1,2,0,0.05)]">
+              <Image
+                src={IMG.mohawk}
+                alt="Bobby — mohawk portrait"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 90vw, 40vw"
+              />
+            </div>
+            <figcaption
+              className={`${homeHandClass} mt-3 text-center text-sm text-bp-text/50 md:text-left`}
+            >
+              Portrait
+            </figcaption>
+          </figure>
+        </div>
+      </RevealSection>
+
+      {/* In his words + human-beans */}
+      <RevealSection className="border-b border-bp-text/10">
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-14 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-12 md:px-10 md:py-16">
+          <figure className="order-2 md:order-1">
+            <div className="relative mx-auto aspect-[3/4] max-w-[400px] overflow-hidden border border-bp-text/12 bg-bp-canvas shadow-[4px_5px_0_rgba(1,2,0,0.05)] md:mx-0 md:max-w-none">
+              <Image
+                src={IMG.humanBeans}
+                alt="Bobby — Human Beans / Man in a Can"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 90vw, 40vw"
+              />
+            </div>
+            <figcaption
+              className={`${homeHandClass} mt-3 text-center text-sm text-bp-text/50 md:text-left`}
+            >
+              Human Beans
+            </figcaption>
+          </figure>
+          <div className="order-1 md:order-2">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-bp-accent">
+              {COPY.inHisWords.title}
+            </p>
+            <p
+              className={`${homeHandClass} mt-5 text-[1.45rem] leading-snug text-bp-text md:text-[1.65rem]`}
+            >
+              <span className="text-4xl leading-none text-bp-accent/80">
+                &ldquo;
+              </span>
+              {COPY.inHisWords.quote}
+            </p>
+            <div className="mt-6 space-y-4">
+              {COPY.inHisWords.paragraphs.map((p) => (
+                <p key={p.slice(0, 48)} className={bodyClass}>
+                  {p}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </RevealSection>
 
-      {/* CTA */}
+      {/* About artwork + systema */}
       <RevealSection className="border-b border-bp-text/10">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between md:px-10 md:py-12">
-          <div className="flex items-start gap-4">
-            <UserGroupIcon className="h-9 w-9 shrink-0 text-bp-accent/80" strokeWidth={1.2} />
-            <div>
-              <p className="max-w-lg text-sm leading-relaxed text-bp-text/85 md:text-base">
-                {COPY.cta.left} <BrushUnderline>{COPY.cta.highlight}</BrushUnderline> {COPY.cta.right}
-              </p>
-              <p className="mt-2 text-xs text-bp-text/60 md:text-sm">{COPY.cta.aside}</p>
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-14 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-start md:gap-12 md:px-10 md:py-16">
+          <div>
+            <h2
+              className={`${bpTitleClass} ${bpTitleUtility} text-[clamp(1.75rem,3.5vw,2.35rem)] font-bold uppercase tracking-wide text-bp-accent`}
+            >
+              {COPY.aboutArtwork.title}
+            </h2>
+            <div className="mt-6 space-y-4">
+              {COPY.aboutArtwork.paragraphs.map((p) => (
+                <p key={p.slice(0, 40)} className={bodyClass}>
+                  {p}
+                </p>
+              ))}
             </div>
           </div>
-          <Link
-            href={COPY.cta.href}
-            className="shrink-0 border-2 border-bp-accent px-8 py-3 text-center text-xs font-bold uppercase tracking-[0.15em] text-bp-accent hover:bg-bp-accent hover:text-bp-canvas"
+          <figure className="mx-auto w-full max-w-[400px] md:mx-0 md:max-w-none">
+            <div className="relative aspect-[3/4] overflow-hidden border border-bp-text/12 bg-bp-canvas shadow-[4px_5px_0_rgba(1,2,0,0.05)]">
+              <Image
+                src={IMG.systema}
+                alt="Bobby — Systema Non Laborad"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 90vw, 40vw"
+              />
+            </div>
+            <figcaption
+              className={`${homeHandClass} mt-3 text-center text-sm text-bp-text/50 md:text-left`}
+            >
+              Systema Non Laborad
+            </figcaption>
+          </figure>
+        </div>
+      </RevealSection>
+
+      {/* Fragments — text only, no repeated photos */}
+      <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-16">
+        <div className="mx-auto max-w-[1200px]">
+          <h2
+            className={`${homeHandClass} text-center text-3xl font-bold uppercase tracking-[0.18em] text-bp-accent`}
           >
-            {COPY.cta.button}
-          </Link>
+            {COPY.fragments.title}
+          </h2>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {COPY.fragments.items.map((item, i) => (
+              <FragmentCard
+                key={item.title}
+                title={item.title}
+                quote={item.quote}
+                rotate={
+                  [
+                    "rotate-[-0.6deg]",
+                    "rotate-[0.7deg]",
+                    "rotate-[-0.4deg]",
+                    "rotate-[0.5deg]",
+                  ][i] ?? ""
+                }
+              />
+            ))}
+          </div>
+        </div>
+      </RevealSection>
+
+      {/* Closing + CTA */}
+      <RevealSection className="border-b border-bp-text/10">
+        <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-12 md:flex-row md:items-center md:justify-between md:px-10 md:py-14">
+          <div>
+            <p
+              className={`${homeHandClass} max-w-xl text-[1.55rem] leading-snug text-bp-text md:text-[1.85rem]`}
+            >
+              &ldquo;{COPY.closingQuote}&rdquo;
+              <span className="mt-2 block text-base text-bp-text/55">
+                - Bobby
+              </span>
+            </p>
+            <div className="mt-6 flex items-start gap-3">
+              <UserGroupIcon
+                className="mt-0.5 h-7 w-7 shrink-0 text-bp-accent/80"
+                strokeWidth={1.2}
+              />
+              <div>
+                <p className="max-w-md text-sm leading-relaxed text-bp-text/85">
+                  {COPY.cta.left}{" "}
+                  <BrushUnderline>{COPY.cta.highlight}</BrushUnderline>{" "}
+                  {COPY.cta.right}
+                </p>
+                <p className="mt-1 text-xs text-bp-text/55">{COPY.cta.aside}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <HomeCta href={COPY.cta.href} variant="primary">
+              {COPY.cta.button}
+            </HomeCta>
+            <HomeCta href="/stories" variant="outline">
+              Explore more stories →
+            </HomeCta>
+          </div>
         </div>
       </RevealSection>
 
       {products.length > 0 ? (
-        <RevealSection className="px-4 py-14 md:px-10 md:py-20">
-          <div className="mx-auto max-w-[1400px]">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">From this story</p>
-            <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide md:text-3xl">Take a piece home</h2>
-            <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealSection className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16">
+          <div className="mx-auto max-w-[1200px]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-bp-accent">
+              From this story
+            </p>
+            <h2
+              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-2xl font-bold uppercase tracking-wide`}
+            >
+              Take a piece home
+            </h2>
+            <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product) => (
                 <li key={product.id}>
                   <ShopProductCard product={product} />

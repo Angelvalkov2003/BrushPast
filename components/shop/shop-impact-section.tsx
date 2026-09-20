@@ -9,8 +9,6 @@ import {
   bpDisplayUtility,
   bpTitleClass,
   bpTitleUtility,
-  bpWhisperUtility,
-  homeHandClass,
   PAGE_HERO_SECTION_CLASS,
 } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
@@ -41,13 +39,13 @@ export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
             <div className="min-w-0">
               <SectionEyebrow>{SHOP_IMPACT.eyebrow}</SectionEyebrow>
               <p
-                className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-[clamp(3.25rem,9vw,4.75rem)] font-bold leading-none text-bp-accent`}
+                className={`${bpDisplayClass} ${bpDisplayUtility} mt-2 text-[clamp(3.25rem,9vw,4.75rem)] font-bold leading-none text-bp-accent`}
                 aria-hidden
               >
                 65%
               </p>
               <h1
-                className={`${bpDisplayClass} ${bpDisplayUtility} mt-4 text-lg font-bold uppercase leading-snug text-bp-text md:text-xl`}
+                className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-lg font-bold uppercase leading-snug text-bp-text md:text-xl`}
               >
                 {SHOP_IMPACT.headline}
               </h1>

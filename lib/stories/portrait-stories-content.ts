@@ -1,4 +1,4 @@
-/** Shared portrait / subject story shape for Karl, Jed, Sandra */
+/** Shared portrait stubs for Jed / Sandra (subjects also featured on /stories/karl) */
 
 export type PortraitStoryBlock =
   | { type: "lead"; text: string }
@@ -14,43 +14,8 @@ export type PortraitStory = {
   tags: string;
   heroQuote?: string;
   blocks: PortraitStoryBlock[];
-  /** Optional known image; otherwise page shows a ready slot */
   heroImage?: string;
   artSlots: { label: string; note: string }[];
-};
-
-export const KARL_STORY: PortraitStory = {
-  slug: "karl",
-  title: "Karl",
-  location: "Portsmouth",
-  metaNote: "6",
-  tags: "Portraiture. Community. Conversation.",
-  heroQuote: "Every portrait begins with a conversation.",
-  blocks: [
-    { type: "lead", text: "Every portrait begins with a conversation." },
-    { type: "body", text: "Karl's work asks us to slow down." },
-    {
-      type: "pair",
-      lines: [
-        "Behind every portrait is a person.",
-        "Behind every person is a story.",
-      ],
-    },
-    {
-      type: "body",
-      text: "Through years of working alongside people experiencing homelessness, social-care challenges, and mental-health challenges, Karl has used portraiture to question first impressions and encourage conversations that might otherwise never happen.",
-    },
-  ],
-  artSlots: [
-    {
-      label: "Portrait 1",
-      note: "IMAGE NEEDED: Karl portrait / related artwork",
-    },
-    {
-      label: "Portrait 2",
-      note: "IMAGE NEEDED: Supporting photograph or painting",
-    },
-  ],
 };
 
 export const JED_STORY: PortraitStory = {
@@ -58,6 +23,7 @@ export const JED_STORY: PortraitStory = {
   title: "Jed",
   tags: "Portraiture. Care. First impressions.",
   heroQuote: "Portraits don't change people. They change how we see.",
+  heroImage: "/stories/KARL/jed.jpg",
   blocks: [
     {
       type: "body",
@@ -79,11 +45,7 @@ export const JED_STORY: PortraitStory = {
   artSlots: [
     {
       label: "Jed portrait",
-      note: "IMAGE NEEDED: Jed portrait painting",
-    },
-    {
-      label: "Detail",
-      note: "IMAGE NEEDED: Detail or process photograph",
+      note: "See /stories/karl for the full portrait story.",
     },
   ],
 };
@@ -94,6 +56,7 @@ export const SANDRA_STORY: PortraitStory = {
   location: "Somerstown, Portsmouth",
   tags: "Portraiture. Culture. Community.",
   heroQuote: "Once I met Sandra, I knew I had to paint her.",
+  heroImage: "/stories/KARL/sandra.jpg",
   blocks: [
     {
       type: "body",
@@ -115,11 +78,7 @@ export const SANDRA_STORY: PortraitStory = {
   artSlots: [
     {
       label: "Sandra portrait",
-      note: "IMAGE NEEDED: Sandra portrait painting",
-    },
-    {
-      label: "Project photo",
-      note: "IMAGE NEEDED: We Don't Need Culture project photograph",
+      note: "See /stories/karl for the full portrait story.",
     },
   ],
 };
