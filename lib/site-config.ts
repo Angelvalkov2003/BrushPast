@@ -37,6 +37,41 @@ export const PROFIT_REINVESTMENT =
   "65% of profits are reinvested directly with creators and partner organisations.";
 
 /** UK shipping - prices in GBP; paid by the customer */
+export type ShippingMethodId = "dpd" | "event_pickup";
+
 export const SHIPPING_UK = {
-  dpd: { label: "DPD", price: 8.0, days: "2–4 working days" },
+  dpd: {
+    id: "dpd" as const,
+    label: "DPD",
+    price: 8.0,
+    days: "2–4 working days",
+    courier: "DPD",
+  },
+  event_pickup: {
+    id: "event_pickup" as const,
+    label: "Pick up at event",
+    price: 0,
+    days: "Collect at the event — no delivery charge",
+    courier: "Event pickup",
+  },
 } as const;
+
+/**
+ * Temporary test option. Hide on Vercel with:
+ * NEXT_PUBLIC_SHOW_EVENT_PICKUP=false
+ * (default: shown when unset)
+ */
+export const SHOW_EVENT_PICKUP =
+  process.env.NEXT_PUBLIC_SHOW_EVENT_PICKUP !== "false";
+
+export function shippingMethodsForCheckout() {
+  const methods: (typeof SHIPPING_UK)[ShippingMethodId][] = [SHIPPING_UK.dpd];
+  if (SHOW_EVENT_PICKUP) {
+    methods.push(SHIPPING_UK.event_pickup);
+  }
+  return methods;
+}
+
+export function shippingMethodById(id: ShippingMethodId) {
+  return SHIPPING_UK[id] ?? SHIPPING_UK.dpd;
+}

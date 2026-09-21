@@ -7,7 +7,7 @@ import { useCart } from "components/cart/cart-context";
 import Price from "components/price";
 import { createOrder } from "app/checkout/actions";
 import LoadingDots from "components/loading-dots";
-import { SHIPPING_UK } from "lib/site-config";
+import { shippingMethodById, shippingMethodsForCheckout, type ShippingMethodId } from "lib/site-config";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import { CheckoutContribution } from "components/checkout/checkout-contribution";
@@ -47,15 +47,13 @@ const labelClass = `${bpBodySmClass} mb-1 block font-medium text-bp-text/80`;
 const radioCardClass =
   "flex cursor-pointer items-center border border-bp-text/15 p-4 transition-colors hover:border-bp-accent/40";
 
-function ukShippingPrice() {
-  return SHIPPING_UK.dpd.price;
-}
-
 export default function CheckoutPage() {
   const { cart } = useCart();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [shippingMethodId, setShippingMethodId] =
+    useState<ShippingMethodId>("dpd");
   const [contributionPreset, setContributionPreset] = useState<number | null>(
     null,
   );
@@ -86,6 +84,13 @@ export default function CheckoutPage() {
     privacy_policy_accepted: false,
   });
 
+  const shippingOptions = useMemo(() => shippingMethodsForCheckout(), []);
+  const selectedShipping = shippingMethodById(
+    shippingOptions.some((m) => m.id === shippingMethodId)
+      ? shippingMethodId
+      : "dpd",
+  );
+
   const contributionGbp = useMemo(() => {
     if (contributionCustomRaw.trim()) {
       return parseContributionAmount(contributionCustomRaw);
@@ -115,7 +120,7 @@ export default function CheckoutPage() {
     );
   }
 
-  const shippingCost = ukShippingPrice();
+  const shippingCost = selectedShipping.price;
   const contributionAmount =
     contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
   const orderTotal = cart.subtotal + shippingCost + contributionAmount;
@@ -152,7 +157,7 @@ export default function CheckoutPage() {
 
     try {
       const delivery = deliveryResult.values;
-      const shipping_total = ukShippingPrice();
+      const shipping_total = selectedShipping.price;
       const contribution =
         contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
       const grand_total = cart.subtotal + shipping_total + contribution;
@@ -173,9 +178,9 @@ export default function CheckoutPage() {
         city: delivery.city,
         county: delivery.county || undefined,
         country: "GB",
-        shipping_method_name: SHIPPING_UK.dpd.label,
+        shipping_method_name: selectedShipping.label,
         shipping_price: shipping_total,
-        courier_name: "DPD",
+        courier_name: selectedShipping.courier,
         payment_method: formData.payment_method,
         customer_note: formData.comment || undefined,
         gift_message: giftMessage || undefined,
@@ -279,13 +284,38 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <label className={labelClass}>UK delivery *</label>
-                  <p
-                    className={`${bpBodySmClass} mt-2 border border-bp-text/15 p-4 text-bp-text/80`}
-                  >
-                    {SHIPPING_UK.dpd.label} — £{SHIPPING_UK.dpd.price.toFixed(2)}{" "}
-                    ({SHIPPING_UK.dpd.days}). Shipping is paid by the customer.
-                  </p>
+                  <label className={`${labelClass} mb-3`}>UK delivery *</label>
+                  <div className="space-y-2">
+                    {shippingOptions.map((method) => (
+                      <label key={method.id} className={radioCardClass}>
+                        <input
+                          type="radio"
+                          name="shipping_method"
+                          value={method.id}
+                          checked={selectedShipping.id === method.id}
+                          onChange={() => setShippingMethodId(method.id)}
+                          className="mr-3 accent-bp-accent"
+                        />
+                        <div className="flex-1">
+                          <div
+                            className={`${bpBodyClass} font-medium text-bp-text`}
+                          >
+                            {method.label}
+                          </div>
+                          <div className={`${bpBodySmClass} text-bp-text/60`}>
+                            {method.days}
+                          </div>
+                        </div>
+                        <div
+                          className={`${bpBodyClass} font-medium text-bp-text`}
+                        >
+                          {method.price === 0
+                            ? "£0.00"
+                            : `£${method.price.toFixed(2)}`}
+                        </div>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 <CheckoutContribution
@@ -447,7 +477,11 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-bp-text/65">Delivery (DPD)</span>
+                  <span className="text-bp-text/65">
+                    {selectedShipping.id === "event_pickup"
+                      ? "Pick up at event"
+                      : `Delivery (${selectedShipping.label})`}
+                  </span>
                   <Price
                     amount={shippingCost.toString()}
                     currencyCode={cart.currency}

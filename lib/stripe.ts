@@ -52,6 +52,7 @@ export async function createCheckoutSession(
       quantity: 1,
     });
   }
+  // £0 methods (e.g. Pick up at event) omit a shipping line on purpose.
 
   if (contributionGbp > 0) {
     lineItems.push({
