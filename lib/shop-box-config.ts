@@ -135,7 +135,7 @@ export const BOX_TYPE_RULES: Record<BoxTypeId, BoxTypeRules> = {
     maxTotal: 1,
     maxPerCategory: 1,
     distinctCategories: false,
-    priceMode: "category-fixed",
+    priceMode: "category-fixed", // resolved as product sku sum (actual item price)
     minTotal: 1,
   },
   d: {

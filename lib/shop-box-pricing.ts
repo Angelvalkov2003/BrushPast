@@ -72,10 +72,9 @@ export function priceOfBox(
       }
       return categoryRetailSum(items);
     }
-    case "category-fixed": {
-      const first = items[0];
-      return first ? singlePriceForCategory(first.categoryKey) * first.quantity : 0;
-    }
+    case "category-fixed":
+      // Single Collection: box price = selected product price(s).
+      return skuSum(items);
     case "sku-sum-discount":
       return byoDiscountedPrice(items);
     default:

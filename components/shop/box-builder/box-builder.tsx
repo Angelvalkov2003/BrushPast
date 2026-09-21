@@ -52,6 +52,7 @@ import type { ProductVariant } from "lib/types";
 function selectionFromProduct(
   product: BoxCatalogProduct,
   variant: ProductVariant,
+  boxType: BoxTypeId,
 ): BoxSelectionItem {
   return {
     id: `${product.id}-${variant.id}-${Date.now()}`,
@@ -66,7 +67,12 @@ function selectionFromProduct(
       variant.title,
     ),
     sku: variant.sku,
-    unitPrice: singlePriceForCategory(product.categoryKey),
+    // Single Collection charges the real product price; other boxes keep
+    // category/pair/fixed retail used by their price modes.
+    unitPrice:
+      boxType === "c"
+        ? variant.price
+        : singlePriceForCategory(product.categoryKey),
     quantity: 1,
     maxQuantity: variant.maxQuantity,
   };
@@ -140,14 +146,14 @@ export function BoxBuilder({
     const variant = defaultVariantForProduct(product);
     if (!variant?.available) return;
     setDraft((current) =>
-      applySelection(current, selectionFromProduct(product, variant)),
+      applySelection(current, selectionFromProduct(product, variant, boxType)),
     );
   };
 
   const handleConfirmVariant = (variant: ProductVariant) => {
     if (!sizeProduct) return;
     setDraft((current) =>
-      applySelection(current, selectionFromProduct(sizeProduct, variant)),
+      applySelection(current, selectionFromProduct(sizeProduct, variant, boxType)),
     );
     setSizeProduct(null);
   };
