@@ -54,13 +54,13 @@ export function HomeHero() {
       <ul
         className={`${bpTitleClass} ${bpTitleUtility} mt-8 space-y-2 text-lg font-bold uppercase tracking-[0.06em] text-bp-text md:text-xl`}
       >
-        <li>You create it.</li>
+        <li>We create it.</li>
         <li>You own it.</li>
-        <li className="text-bp-accent">You benefit from it.</li>
+        <li className="text-bp-accent">We all benefit.</li>
       </ul>
       <p className={`${bpBodyClass} mt-8 max-w-xl font-semibold text-bp-text`}>
-        65% of profits go back to the creators and organisations supporting
-        them.
+        65% of profits go back into supporting the people behind the work
+        through creative workshops, mentoring and partner organisations.
       </p>
     </PageHero>
   );

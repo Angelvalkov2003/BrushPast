@@ -187,12 +187,12 @@ export function categoryStatusLabel(
  * After a cart edit, infer the correct box type + optional pairing combo.
  *
  * Confirmed (BYO):
- * - 3 → 2 items: stay Build Your Own (−7%)
- * - 1 item: Single Collection at full category price
+ * - 3 → 2 items: stay Build Your Own Gift Box (−5%)
+ * - 1 item: One Piece Gift Box at full category price
  *
  * Fixed journeys (a/b):
- * - 2 items matching an official pair → Curated Pairings
- * - 1 item → Single Collection
+ * - 2 items matching an official pair → Two Piece Gift Boxes
+ * - 1 item → One Piece Gift Boxes
  */
 export function inferBoxFromContents(
   items: BoxSelectionItem[],

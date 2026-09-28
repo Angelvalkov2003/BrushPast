@@ -58,6 +58,7 @@ export const PHOTO = {
   shopStoryJournal: 21,
   shopStoryExhibitions: 22,
   aboutWorkshopMoments: 23,
+  aboutFoundersPath: 43,
   contactPeckham: 24,
   contactJoinWorkshop: 25,
   contactCollaborate: 26,

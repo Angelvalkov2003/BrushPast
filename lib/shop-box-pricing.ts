@@ -10,13 +10,12 @@ import {
 } from "./shop-box-config";
 
 /**
- * Curated Pairings fixed prices (GBP).
- * Matches box_pair_prices seed / Alexandra brief.
+ * Two Piece Gift Boxes fixed prices (GBP).
  */
 export const PAIR_PRICES_GBP: Record<BoxPairComboId, number> = {
   "print-coffee": 40,
-  "tshirt-coffee": 47,
-  "print-tshirt": 58,
+  "tshirt-coffee": 50,
+  "print-tshirt": 60,
 };
 
 function countItems(items: BoxSelectionItem[]): number {
@@ -50,7 +49,10 @@ export function byoDiscountedPrice(items: BoxSelectionItem[]): number {
   if (count === 2) {
     return Math.round(retail * (1 - BYO_DISCOUNT.twoItems) * 100) / 100;
   }
-  return Math.round(retail * (1 - BYO_DISCOUNT.threeItems) * 100) / 100;
+  if (count === 3) {
+    return Math.round(retail * (1 - BYO_DISCOUNT.threeItems) * 100) / 100;
+  }
+  return Math.round(retail * (1 - BYO_DISCOUNT.moreThanThree) * 100) / 100;
 }
 
 export function priceOfBox(

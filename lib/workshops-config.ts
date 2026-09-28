@@ -7,7 +7,7 @@ import type {
 import { PHOTO } from "./photo-placeholder";
 
 export const WORKSHOPS_HERO_INTRO =
-  "A space to breathe, make something, and be yourself - without pressure to perform or explain. Creative workshops for anyone with a story, at any skill level.";
+  "We began by working alongside people affected by homelessness, addiction and the criminal justice system. We run workshops with partner organisations and adapt each session to the people taking part. Our workshops bring people together through art, photography, writing and design: a place to breathe, make something and be yourself without pressure to perform or explain. No previous experience is needed.";
 
 export type WorkshopCategory = {
   name: string;
@@ -21,19 +21,9 @@ export const WORKSHOP_CATEGORIES: WorkshopCategory[] = [
   { name: "T-Shirt Design", id: "t-shirt-design", active: true },
   { name: "Photography", id: "photography", active: true },
   { name: "Storytelling", id: "storytelling", active: false },
-  { name: "Creative Recovery", id: "creative-recovery", active: false },
   { name: "Business Mentoring", id: "business-mentoring", active: false },
   { name: "Beyond the Gate", id: "beyond-the-gate", active: false },
 ];
-
-export const WORKSHOPS_MISSION_COLUMNS = {
-  origin:
-    "BrushPast began working with people in recovery, homelessness and incarceration - using creativity to rebuild identity and confidence.",
-  originHighlight: "But the model works for anyone.",
-  choiceLead: "You choose your path.",
-  choiceBody:
-    "Share your work, sell your work, or keep it private. It's your choice. Always.",
-} as const;
 
 export const WORKSHOPS_CORE_VALUES: {
   title: string;
@@ -55,17 +45,6 @@ export const WORKSHOPS_CORE_VALUES: {
     title: "Connect",
     description: "Meet others, build confidence and community in real rooms.",
     icon: "connect",
-  },
-  {
-    title: "Opportunity",
-    description:
-      "Exhibitions, products and platforms when you're ready to share.",
-    icon: "opportunity",
-  },
-  {
-    title: "Ownership",
-    description: "Your work, your rights - we never take that away from you.",
-    icon: "ownership",
   },
 ];
 
@@ -133,7 +112,7 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
     facilitator: "George Ponza, filmmaker and photographer",
     body: [
       'We ran a "day in the life" photography workshop at the Cotton Gardens Community Centre in Kennington, working with the Residents\' Association.',
-      "George Ponza—the filmmaker and photographer behind The Hard Stop—facilitated the workshop. We gave everyone a digital camera and invited them to capture moments that meant something in their lives.",
+      "George Ponza, the filmmaker and photographer behind The Hard Stop, facilitated the workshop. We gave everyone a digital camera and invited them to capture moments that meant something in their lives.",
       "We then produced their work, and everybody took home a photograph they had created, printed on the day.",
     ],
     quote: {
@@ -151,9 +130,9 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
     categoryLabel: "T-Shirt Design",
     title: "T-Shirt Workshop at Edward Alsop",
     location: "Edward Alsop homeless hostel, Victoria, London",
-    partner: "Evolve — logo available",
+    partner: "Look Ahead",
     body: [
-      "We worked with Evolve to create a workshop where people could design their own T-shirts, with the possibility of developing longer-term collaborations.",
+      "We worked with Look Ahead to create a workshop where people could design their own T-shirts, with the possibility of developing longer-term collaborations.",
       "Participants can have the opportunity to feature their T-shirts on the Brushpast website while learning about social media marketing and basic business principles.",
       "The idea is to encourage people to recognise the value in their own work, stories, lived experience, creativity, and self-expression.",
       "We are following up with an arranged marketing workshop to help participants put their designs out into the world.",

@@ -3,8 +3,6 @@ import {
   SectionEyebrow,
 } from "components/home/home-decor";
 import {
-  bpBodyClass,
-  bpBodySmClass,
   bpDisplayClass,
   bpDisplayUtility,
   bpTitleClass,
@@ -13,7 +11,7 @@ import {
 } from "components/home/home-typography";
 import { TextureSection } from "components/shared/texture-section";
 import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
-import { SHOP_IMPACT, SHOP_VALUE_PROPS } from "lib/shop-hub-config";
+import { SHOP_IMPACT } from "lib/shop-hub-config";
 
 type ShopImpactSectionProps = {
   /** Use as page opening on /shop */
@@ -49,27 +47,6 @@ export function ShopImpactSection({ as = "section" }: ShopImpactSectionProps) {
               >
                 {SHOP_IMPACT.headline}
               </h1>
-              <p className={`${bpBodyClass} mt-3 max-w-lg text-sm text-bp-text/75 md:text-base`}>
-                {SHOP_IMPACT.body}
-              </p>
-
-              <div className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-3">
-                {SHOP_VALUE_PROPS.map((item) => (
-                  <div
-                    key={item.title}
-                    className="border border-bp-text/10 bg-bp-canvas/55 px-3 py-3 text-center"
-                  >
-                    <p
-                      className={`${bpTitleClass} ${bpTitleUtility} text-[0.65rem] font-bold uppercase tracking-wide text-bp-text sm:text-xs`}
-                    >
-                      {item.title}
-                    </p>
-                    <p className={`${bpBodySmClass} mt-1 text-[0.7rem] text-bp-text/60 sm:text-xs`}>
-                      {item.note}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </div>
 
             {/* Frameless media — height capped to the copy column on desktop */}

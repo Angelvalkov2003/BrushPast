@@ -10,7 +10,7 @@ import { bpFontVariables } from "components/home/home-typography";
 export const metadata = {
   title: "The Archive Shop",
   description:
-    "Curated gifts featuring coffee, wearable art and limited-edition prints that support artists and creative projects.",
+    "Curated gifts featuring coffee, wearable art and limited-edition prints that support people.",
 };
 
 export const dynamic = "force-dynamic";

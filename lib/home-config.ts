@@ -12,10 +12,10 @@ export const HOME_SHOP_WAYS = SHOP_COLLECTIONS.map((c, i) => ({
 }));
 
 export const HOME_HOW_IT_WORKS: { title: string; icon: HomepageIconKey }[] = [
-  { title: "Stories are shared", icon: "storiesAreShared" },
-  { title: "Stories become collections", icon: "storiesBecomeCollections" },
-  { title: "Profits create change", icon: "profitsCreateChange" },
-  { title: "You keep a story close", icon: "keepAStoryClose" },
+  { title: "People create", icon: "storiesAreShared" },
+  { title: "We support their ideas", icon: "storiesBecomeCollections" },
+  { title: "Their work reaches you", icon: "keepAStoryClose" },
+  { title: "Profits go back", icon: "profitsCreateChange" },
 ];
 
 export const HOME_IMPACT_PILLARS: { title: string; icon: HomepageIconKey }[] = [

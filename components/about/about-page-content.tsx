@@ -4,12 +4,12 @@ import {
   BrushPastIconBadge,
 } from "components/icons/brush-past-icons";
 import {
+  ABOUT_FOUNDERS_PATH,
   ABOUT_HERO_IMAGE,
-  ABOUT_MENTORING_POINTS,
-  ABOUT_PROCESS,
+  ABOUT_MISSION,
+  ABOUT_ON_THE_GROUND,
+  ABOUT_ORGANISATIONS,
   ABOUT_QUOTE,
-  ABOUT_ROOTED,
-  ABOUT_SPACES,
   ABOUT_VALUES,
 } from "lib/about-config";
 import { MISSION_SUMMARY } from "lib/site-config";
@@ -24,7 +24,6 @@ import {
 import {
   bpBodyClass,
   bpBodySmClass,
-  bpEmphasisUtility,
   PAGE_HERO_POLAROID_WRAP_CLASS,
   PAGE_HERO_WHISPER_INLINE_CLASS,
   bpTitleClass,
@@ -83,18 +82,7 @@ export function AboutPageContent() {
           }
         >
           <IndexCard className="mt-6 max-w-xl" panelTexture="secondary">
-            <p className={aboutBodyClass}>
-              BrushPast exists to{" "}
-              <span className="text-bp-accent">
-                unlock overlooked creativity
-              </span>{" "}
-              in people rebuilding from homelessness, addiction,
-              incarceration and life&apos;s hardest chapters. Through art,
-              writing, photography and design, we help people{" "}
-              <span className="text-bp-accent">rebuild identity</span>, gain
-              confidence and connect with community - while a social
-              enterprise model funds the next opportunity.
-            </p>
+            <p className={aboutBodyClass}>{ABOUT_MISSION}</p>
           </IndexCard>
           <p className={PAGE_HERO_WHISPER_INLINE_CLASS}>
             Not spoken about.{" "}
@@ -107,9 +95,9 @@ export function AboutPageContent() {
         texture="secondary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3 lg:items-stretch">
           <Reveal>
-            <IndexCard panelTexture="primary">
+            <IndexCard panelTexture="primary" className="h-full">
               <SectionEyebrow>Where it began</SectionEyebrow>
               <blockquote
                 className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-[clamp(1.85rem,4.5vw,2.75rem)] font-bold leading-snug text-bp-text`}
@@ -134,6 +122,22 @@ export function AboutPageContent() {
               </p>
             </IndexCard>
           </Reveal>
+          <Reveal delay={REVEAL_STAGGER_MS * 2}>
+            <IndexCard className="h-full" panelTexture="primary">
+              <SectionEyebrow>{ABOUT_FOUNDERS_PATH.title}</SectionEyebrow>
+              <p className={`${aboutBodyClass} mt-4`}>
+                {ABOUT_FOUNDERS_PATH.body}
+              </p>
+              <div className="mt-6">
+                <BoxImagePlaceholder
+                  alt={ABOUT_FOUNDERS_PATH.photo.alt}
+                  note={ABOUT_FOUNDERS_PATH.photo.note}
+                  labelNumber={ABOUT_FOUNDERS_PATH.photo.photoNumber}
+                  className="aspect-[4/3] min-h-[160px]"
+                />
+              </div>
+            </IndexCard>
+          </Reveal>
         </div>
       </TextureSection>
 
@@ -141,67 +145,17 @@ export function AboutPageContent() {
         texture="primary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-3">
+        <div className="mx-auto max-w-3xl">
           <Reveal>
-            <PolaroidFrame index={1} className="h-fit">
-              <BoxImagePlaceholder
-                alt={ABOUT_ROOTED.photo.alt}
-                note={ABOUT_ROOTED.photo.note}
-                labelNumber={ABOUT_ROOTED.photo.photoNumber}
-                className="aspect-[4/3] min-h-[240px] lg:aspect-auto lg:min-h-[280px]"
-              />
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-lg text-bp-text/70`}
-              >
-                {ABOUT_ROOTED.caption}
-              </p>
-            </PolaroidFrame>
-          </Reveal>
-
-          <Reveal delay={REVEAL_STAGGER_MS}>
-            <div className="flex flex-col justify-center">
-              <SectionEyebrow>{ABOUT_ROOTED.eyebrow}</SectionEyebrow>
+            <IndexCard panelTexture="secondary">
+              <SectionEyebrow>{ABOUT_ORGANISATIONS.eyebrow}</SectionEyebrow>
               <h2
-                className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-[clamp(2rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
+                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-tight text-bp-text`}
               >
-                {ABOUT_ROOTED.title}
+                {ABOUT_ORGANISATIONS.title}
               </h2>
-              <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {ABOUT_SPACES.map((item) => {
-                  const Icon = brushPastIcons.contactPage[item.icon];
-                  return (
-                    <li
-                      key={item.label}
-                      className="flex flex-col items-center rounded-sm border border-dashed border-bp-text/15 bg-bp-canvas/60 px-2 py-4 text-center"
-                    >
-                      <BrushPastIconBadge
-                        icon={Icon}
-                        size="sm"
-                        className="mb-2"
-                      />
-                      <span
-                        className={`${bpWhisperUtility} text-base text-bp-text/75`}
-                      >
-                        {item.label}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </Reveal>
-
-          <Reveal delay={REVEAL_STAGGER_MS * 2}>
-            <IndexCard className="flex items-center">
-              <p className={`${aboutBodyClass} ${bpEmphasisUtility}`}>
-                We&apos;re building this{" "}
-                <span className="text-bp-accent">in public</span> - with honesty,
-                creativity and care.
-              </p>
-              <p
-                className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-lg italic text-bp-text/70`}
-              >
-                - {ABOUT_ROOTED.quoteAttribution}
+              <p className={`${aboutBodyClass} mt-5`}>
+                {ABOUT_ORGANISATIONS.body}
               </p>
             </IndexCard>
           </Reveal>
@@ -253,18 +207,19 @@ export function AboutPageContent() {
             <div>
               <HomeSectionTitle
                 eyebrow="On the ground"
-                title="Intervention & mentoring"
+                title="Workshops & support"
                 align="left"
                 className="!text-left"
               />
-              <ul className="mt-8 space-y-5">
-                {ABOUT_MENTORING_POINTS.map((point) => (
-                  <li key={point} className={`${aboutBodyClass} flex gap-3`}>
-                    <span className="shrink-0 text-bp-accent">✦</span>
-                    {point}
-                  </li>
-                ))}
-              </ul>
+              <p className={`${aboutBodyClass} mt-8`}>{ABOUT_ON_THE_GROUND}</p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <HomeCta href="/shop" variant="primary">
+                  Visit the shop →
+                </HomeCta>
+                <HomeCta href="/stories" variant="outline">
+                  Read the stories →
+                </HomeCta>
+              </div>
             </div>
           </Reveal>
 
@@ -301,53 +256,6 @@ export function AboutPageContent() {
                 {MISSION_SUMMARY}
               </p>
             </IndexCard>
-          </Reveal>
-        </div>
-      </TextureSection>
-
-      <TextureSection
-        texture="secondary"
-        className="px-4 py-14 md:px-10 md:py-20"
-      >
-        <div className="mx-auto max-w-[1400px]">
-          <Reveal>
-            <HomeSectionTitle
-              eyebrow="The model"
-              title="How we create change"
-            />
-          </Reveal>
-
-          <ol className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-stretch lg:grid-cols-3">
-            {ABOUT_PROCESS.map((step, index) => {
-              const Icon = brushPastIcons.howWeCreateChange[step.icon];
-
-              return (
-                <li key={step.title} className="h-full min-h-0">
-                  <Reveal delay={index * REVEAL_STAGGER_MS} className="h-full">
-                    <IndexCard className="flex h-full min-h-[14rem] flex-col sm:min-h-[15.5rem]">
-                      <BrushPastIconBadge icon={Icon} size="md" />
-                      <h3 className="mt-4 text-2xl font-bold text-bp-text md:text-3xl">
-                        {step.title}
-                      </h3>
-                      <p className={`${aboutBodySmClass} mt-3 flex-1`}>
-                        {step.description}
-                      </p>
-                    </IndexCard>
-                  </Reveal>
-                </li>
-              );
-            })}
-          </ol>
-
-          <Reveal delay={REVEAL_STAGGER_MS}>
-            <div className="mt-12 flex flex-wrap justify-center gap-4">
-              <HomeCta href="/shop" variant="primary">
-                Visit the shop →
-              </HomeCta>
-              <HomeCta href="/stories" variant="outline">
-                Read the stories →
-              </HomeCta>
-            </div>
           </Reveal>
         </div>
       </TextureSection>

@@ -24,6 +24,7 @@ import {
 import { useCart } from "components/cart/cart-context";
 import {
   BOX_GIFT_MESSAGE_MAX,
+  BOX_TYPE_RULES,
   PAIR_COMBO_META,
   boxTypeIntro,
   boxTypeLabel,
@@ -272,12 +273,14 @@ export function BoxBuilder({
           </p>
           {boxType === "d" ? (
             <p className={`${bpBodyClass} mt-2 text-bp-accent`}>
-              {selectedCount} of 3 pieces selected
+              {selectedCount} of {BOX_TYPE_RULES.d.maxTotal ?? 6} pieces selected
               {selectedCount === 2
-                ? " · 7% off"
+                ? " · 5% off"
                 : selectedCount === 3
                   ? " · 10% off"
-                  : ""}
+                  : selectedCount > 3
+                    ? " · 15% off"
+                    : ""}
             </p>
           ) : null}
 

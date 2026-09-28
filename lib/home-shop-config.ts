@@ -5,15 +5,15 @@ export const HOME_GIFT_BOX_PROCESS = {
   eyebrow: "The archive",
   title: "How a Brush Past gift comes together",
   intro:
-    "Four journeys — one checkout. Pick coffee, wearable art or prints; we pack every order as a gift box with your message inside.",
+    "Choose coffee, wearable art or a fine art print. Pick your pieces and add a personal message at checkout if you’d like.",
   steps: [
     {
       title: "Choose your journey",
-      note: "Single Collection, Curated Pairings, Next Chapter, or Build Your Own.",
+      note: "One Piece Gift Boxes, Two Piece Gift Boxes, The Next Chapter Box, or Build Your Own Gift Box.",
     },
     {
       title: "Pick the pieces",
-      note: "Designs and sizes for tees; fixed pairings from £40; Next Chapter £70.",
+      note: "Choose designs and sizes for tees; pick your pairing or mix your own box.",
     },
     {
       title: "Write your message",

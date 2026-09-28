@@ -27,10 +27,7 @@ import {
   bpWhisperUtility,
   homeHandClass,
 } from "components/home/home-typography";
-import {
-  TEXTURE_IMAGES,
-  TextureSection,
-} from "components/shared/texture-section";
+import { TextureSection } from "components/shared/texture-section";
 import { PageHero } from "components/shared/page-hero";
 import { ContactForm } from "./contact-form";
 import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
@@ -102,7 +99,7 @@ export function ContactPageContent() {
         <div className="mx-auto max-w-[1400px]">
           <HomeSectionTitle
             eyebrow="Get involved"
-            title="How you can connect"
+            title="Ways to Connect"
             eyebrowVariant="workshop"
           />
 
@@ -123,16 +120,18 @@ export function ContactPageContent() {
                   <p
                     className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-center font-bold text-bp-text`}
                   >
-                    {card.title}
+                    {card.imageCaption}
                   </p>
                 </PolaroidFrame>
-                <p
-                  className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-center text-base italic leading-relaxed text-bp-text/75 md:text-lg`}
+                <h3
+                  className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-center text-xl font-bold uppercase tracking-wide text-bp-text`}
                 >
-                  {card.description}{" "}
-                  <span className="font-medium text-bp-text not-italic">
-                    {card.descriptionAccent}
-                  </span>
+                  {card.title}
+                </h3>
+                <p
+                  className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-base italic leading-relaxed text-bp-text/75 md:text-lg`}
+                >
+                  {card.description}
                 </p>
                 <p
                   className={`${bpWhisperUtility} mt-3 text-center text-xl text-bp-accent opacity-0 transition-opacity group-hover:opacity-100 md:text-2xl`}
@@ -152,15 +151,15 @@ export function ContactPageContent() {
       >
         <div className="mx-auto max-w-3xl text-center">
           <HomeSectionTitle
-            eyebrow="Sponsor"
+            eyebrow="Foundation"
             title="Help creativity reach further"
           />
           <p className={`${bpBodyClass} mt-5 text-bp-text/75`}>
             One-off contributions, custom amounts and partnership enquiries —
-            all on the Sponsor page.
+            all on the Support the Work page.
           </p>
           <HomeCta href="/sponsor" className="mt-8" variant="primary">
-            Become a sponsor →
+            Support the work →
           </HomeCta>
         </div>
       </TextureSection>
@@ -252,43 +251,6 @@ export function ContactPageContent() {
           <ContactForm />
         </div>
       </TextureSection>
-
-      <section className="relative overflow-hidden border-t border-bp-text/10 bg-bp-dark px-4 py-14 text-bp-canvas md:px-10 md:py-16">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-25"
-          style={{ backgroundImage: `url(${TEXTURE_IMAGES.secondary})` }}
-          aria-hidden
-        />
-        <div className="absolute inset-0 bg-bp-dark/80" aria-hidden />
-
-        <div className="relative mx-auto max-w-[1400px] text-center">
-          <p
-            className={`${homeHandClass} ${bpWhisperUtility} text-2xl leading-snug md:text-3xl`}
-          >
-            You don&apos;t need to have it all figured out to{" "}
-            <span className="text-bp-accent">get in touch</span>.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <HomeCta href={`mailto:${PUBLIC_CONTACT_EMAIL}`} variant="outline">
-              Email us →
-            </HomeCta>
-            <HomeCta href="/sponsor" variant="outline">
-              Become a sponsor →
-            </HomeCta>
-            <HomeCta href="#contact-form" variant="primary">
-              Send a message →
-            </HomeCta>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${bpBodyClass} ${bpLinkUtility} inline-flex items-center px-7 py-3 font-bold text-bp-canvas/85 transition-colors hover:text-bp-accent`}
-            >
-              Follow the journey →
-            </a>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

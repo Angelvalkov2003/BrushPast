@@ -75,20 +75,20 @@ export const BOX_CATEGORY_ROWS: {
   key: BoxCategoryKey;
   slug: string;
   label: string;
-  /** Fixed Single Collection retail price (GBP). */
+  /** Fixed One Piece Gift Box retail price (GBP). */
   singlePriceGbp: number;
 }[] = [
   {
     key: "coffee",
     slug: SHOP_COLLECTIONS[1].slug,
     label: "Coffee",
-    singlePriceGbp: 15,
+    singlePriceGbp: 16,
   },
   {
     key: "tshirt",
     slug: SHOP_COLLECTIONS[0].slug,
     label: "T-Shirt",
-    singlePriceGbp: 35,
+    singlePriceGbp: 39,
   },
   {
     key: "print",
@@ -139,21 +139,23 @@ export const BOX_TYPE_RULES: Record<BoxTypeId, BoxTypeRules> = {
     minTotal: 1,
   },
   d: {
-    maxTotal: 3,
-    maxPerCategory: 3,
+    // Allow 4+ so the “15% off more than three” offer can apply.
+    maxTotal: 6,
+    maxPerCategory: 6,
     distinctCategories: false,
     priceMode: "sku-sum-discount",
     minTotal: 2,
   },
 };
 
-/** Next Chapter fixed price (GBP). */
-export const NEXT_CHAPTER_PRICE_GBP = 70;
+/** The Next Chapter Box fixed price (GBP). */
+export const NEXT_CHAPTER_PRICE_GBP = 75;
 
-/** Build Your Own discounts on combined retail. */
+/** Build Your Own Gift Box discounts on combined retail. */
 export const BYO_DISCOUNT = {
-  twoItems: 0.07,
+  twoItems: 0.05,
   threeItems: 0.1,
+  moreThanThree: 0.15,
 } as const;
 
 export const PAIR_COMBO_META: Record<
@@ -177,23 +179,23 @@ export const PAIR_COMBO_META: Record<
 export const BOX_HUB_CARDS: BoxHubCard[] = [
   {
     type: "a",
-    name: "Next Chapter",
+    name: "The Next Chapter Box",
     eyebrow: "All three",
     description:
-      "One coffee, one t-shirt and one art print — the main Brush Past gift box.",
+      "Coffee, a T-shirt and a fine art print together in one gift box.",
     cta: "Build this box →",
     href: "/shop/box/a",
     available: true,
     comingSoon: false,
     imageAlt:
-      "Photograph of a sealed Brush Past gift box tied with twine, representing Next Chapter",
+      "Photograph of a sealed Brush Past gift box tied with twine, representing The Next Chapter Box",
     imageNote:
-      "IMAGE NEEDED: Photograph of a sealed Brush Past gift box tied with twine, representing Next Chapter.",
+      "IMAGE NEEDED: Photograph of a sealed Brush Past gift box tied with twine, representing The Next Chapter Box.",
     photoNumber: PHOTO.boxHubNextChapter,
   },
   {
     type: "b",
-    name: "Curated Pairings",
+    name: "Two Piece Gift Boxes",
     eyebrow: "Choose two",
     description:
       "Three fixed pairings — coffee + print, coffee + t-shirt, or t-shirt + print.",
@@ -202,14 +204,14 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
     available: true,
     comingSoon: false,
     imageAlt:
-      "Two gifts paired together — a print stacked with a coffee bag — representing Curated Pairings",
+      "Two gifts paired together — a print stacked with a coffee bag — representing Two Piece Gift Boxes",
     imageNote:
-      "IMAGE NEEDED: Two gifts paired together (a print stacked with a coffee bag), representing Curated Pairings.",
+      "IMAGE NEEDED: Two gifts paired together (a print stacked with a coffee bag), representing Two Piece Gift Boxes.",
     photoNumber: PHOTO.boxHubPairings,
   },
   {
     type: "c",
-    name: "Single Collection",
+    name: "One Piece Gift Boxes",
     eyebrow: "Choose one",
     description:
       "One piece packed as a Brush Past gift box — coffee, t-shirt or print.",
@@ -217,25 +219,25 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
     href: "/shop/box/c",
     available: true,
     comingSoon: false,
-    imageAlt: "A single wrapped gift on a table, representing Single Collection",
+    imageAlt: "A single wrapped gift on a table, representing One Piece Gift Boxes",
     imageNote:
-      "IMAGE NEEDED: A single wrapped gift on a table, representing Single Collection.",
+      "IMAGE NEEDED: A single wrapped gift on a table, representing One Piece Gift Boxes.",
     photoNumber: PHOTO.boxHubSingle,
   },
   {
     type: "d",
-    name: "Build Your Own",
+    name: "Build Your Own Gift Box",
     eyebrow: "Pick and mix",
     description:
-      "Choose exactly two or three pieces — any mix, including duplicates. Automatic discount applied.",
+      "Mix any pieces, including duplicates. 5% off two, 10% off three, 15% off more than three.",
     cta: "Mix your box →",
     href: "/shop/box/d",
     available: true,
     comingSoon: false,
     imageAlt:
-      "An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own",
+      "An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own Gift Box",
     imageNote:
-      "IMAGE NEEDED: An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own.",
+      "IMAGE NEEDED: An open gift box with a t-shirt, a print and a coffee bag mixed together, representing Build Your Own Gift Box.",
     photoNumber: PHOTO.boxHubBuildOwn,
   },
 ];
@@ -261,13 +263,13 @@ export function isBoxCategoryKey(value: string): value is BoxCategoryKey {
 export function boxTypeLabel(type: BoxTypeId | string | null | undefined): string {
   switch (type) {
     case "a":
-      return "Next Chapter";
+      return "The Next Chapter Box";
     case "b":
-      return "Curated Pairings";
+      return "Two Piece Gift Boxes";
     case "c":
-      return "Single Collection";
+      return "One Piece Gift Boxes";
     case "d":
-      return "Build Your Own";
+      return "Build Your Own Gift Box";
     default:
       return type ? String(type) : "Box";
   }
@@ -319,25 +321,25 @@ export function boxTypeIntro(type: BoxTypeId): { lead: string; choose: string } 
   switch (type) {
     case "a":
       return {
-        lead: "Next Chapter — one coffee, one t-shirt and one art print. Choose each design, add a gift message, and we pack it as a gift box.",
+        lead: "The Next Chapter Box — coffee, a T-shirt and a fine art print together. Choose each design, add a gift message, and we pack it as a gift box.",
         choose:
           "Pick one piece in every collection. Choosing another in the same collection replaces it.",
       };
     case "c":
       return {
-        lead: "Single Collection — one piece packed as a Brush Past gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
+        lead: "One Piece Gift Boxes — one piece packed as a Brush Past gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
         choose: "Choose one design from this collection.",
       };
     case "b":
       return {
-        lead: "Curated Pairings — a fixed two-piece gift. Choose the design for each piece in the pair, add a gift message, and checkout.",
+        lead: "Two Piece Gift Boxes — a fixed two-piece gift. Choose the design for each piece in the pair, add a gift message, and checkout.",
         choose: "Choose one design for each piece in this pairing.",
       };
     case "d":
       return {
-        lead: "Build Your Own — choose exactly two or three pieces from any collection. Duplicates are welcome. Two pieces save 7%; three save 10%.",
+        lead: "Build Your Own Gift Box — mix any pieces from any collection. Duplicates are welcome. 5% off any two, 10% off any three, 15% off more than three.",
         choose:
-          "Add two or three pieces. You can pick the same category more than once. A fourth pick is not allowed.",
+          "Add at least two pieces (up to six). You can pick the same category more than once.",
       };
   }
 }

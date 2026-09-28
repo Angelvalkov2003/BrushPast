@@ -3,7 +3,6 @@
 import type {
   AboutValuesIconKey,
   ContactSpaceIconKey,
-  HowWeCreateChangeIconKey,
 } from "components/icons/brush-past-icons";
 import { PHOTO } from "./photo-placeholder";
 
@@ -11,6 +10,9 @@ export const ABOUT_HERO_IMAGE = {
   src: "/about1.png",
   alt: "Brush Past founders - Jeremy and David",
 } as const;
+
+export const ABOUT_MISSION =
+  "Brush Past works alongside people whose creativity and stories are too often overlooked. Through workshops, mentoring and opportunities to share their work, we help people turn ideas into art, products and new possibilities. People decide what to share and what to keep for themselves.";
 
 export const ABOUT_VALUES: {
   title: string;
@@ -43,39 +45,24 @@ export const ABOUT_VALUES: {
   },
 ];
 
-export const ABOUT_MENTORING_POINTS = [
-  "Early intervention where creativity meets recovery",
-  "One-to-one mentoring with people who understand the journey",
-  "Workshops in art, writing, photography and design",
-  "Exhibitions and platforms that publish overlooked voices",
-  "Partnerships with housing, recovery and community organisations",
-] as const;
+export const ABOUT_FOUNDERS_PATH = {
+  title: "How Brush Past began",
+  body: "Jeremy and David met in rooms of recovery. Volunteering with Groundswell brought them into conversation with people whose stories changed the way they saw the world. Those conversations led to Brush Past: a place where people can create, develop skills and be heard on their own terms.",
+  photo: {
+    alt: "Jeremy and David — founders of Brush Past",
+    note: "IMAGE NEEDED: Founders photo for the Groundswell / recovery story box.",
+    photoNumber: PHOTO.aboutFoundersPath,
+  },
+} as const;
 
-export const ABOUT_PROCESS: {
-  step: number;
-  title: string;
-  description: string;
-  icon: HowWeCreateChangeIconKey;
-}[] = [
-  {
-    step: 1,
-    title: "Share a story",
-    description: "Workshops and safe spaces where lived experience becomes creative work.",
-    icon: "shareAStory",
-  },
-  {
-    step: 2,
-    title: "Create the work",
-    description: "Stories become art, apparel, prints and products people can hold.",
-    icon: "createTheWork",
-  },
-  {
-    step: 3,
-    title: "Fund the next opportunity",
-    description: "Shop sales and collaborations reinvest in creators and future workshops.",
-    icon: "fundTheNextOpportunity",
-  },
-];
+export const ABOUT_ON_THE_GROUND =
+  "We run creative workshops with partner organisations and support people who want to develop their ideas further. Some work is shared through exhibitions or products with the creator’s agreement.";
+
+export const ABOUT_ORGANISATIONS = {
+  eyebrow: "Structure",
+  title: "How the Two Organisations Work",
+  body: "Brush Past Community Arts CIC is the trading organisation behind the shop and its products. Brush Past Foundation is the registered charity that receives donations to support workshops and mentoring. Together, they help more people create, connect and develop what comes next.",
+} as const;
 
 export const ABOUT_IMPACT_STATS = [
   { value: "43", label: "people published as artists", icon: "people" as const },
@@ -95,21 +82,6 @@ export const ABOUT_QUOTE =
 
 export const ABOUT_QUOTE_ASIDE =
   "A chance conversation between two people with very different backgrounds became a shared belief: creativity can rebuild identity, confidence and connection - and that belief became Brush Past.";
-
-/** Rooted-in spaces block (moved from Contact / Get in Touch). */
-export const ABOUT_ROOTED = {
-  eyebrow: "Rooted in real spaces",
-  title: "London Coffee Factory",
-  caption: "Peckham, London",
-  quote:
-    "We're building this in public - with honesty, creativity and care.",
-  quoteAttribution: "Jeremy & David",
-  photo: {
-    alt: "London Coffee Factory space in Peckham",
-    note: "Peckham, London — London Coffee Factory space.",
-    photoNumber: PHOTO.contactPeckham,
-  },
-} as const;
 
 export const ABOUT_SPACES: { label: string; icon: ContactSpaceIconKey }[] = [
   { label: "Conversations", icon: "conversations" },

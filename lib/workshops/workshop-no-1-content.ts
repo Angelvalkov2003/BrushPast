@@ -7,14 +7,14 @@ export const WORKSHOP_NO_1 = {
   title: "T-Shirt Workshop at Edward Alsop",
   headline: "T-Shirt Workshop at Edward Alsop",
   location: "Edward Alsop homeless hostel, Victoria, London",
-  partner: "Evolve",
+  partner: "Look Ahead",
   tagline:
-    "We worked with Evolve so people could design their own T-shirts—and begin to see the value in their own work.",
+    "We worked with Look Ahead so people could design their own T-shirts—and begin to see the value in their own work.",
   heroImage: `${BASE}/hero.jpg`,
   narrativeColumns: [
     {
-      title: "With Evolve",
-      body: "We worked with Evolve to create a workshop where people could design their own T-shirts, with the possibility of developing longer-term collaborations.",
+      title: "With Look Ahead",
+      body: "We worked with Look Ahead to create a workshop where people could design their own T-shirts, with the possibility of developing longer-term collaborations.",
     },
     {
       title: "Learning as you make",
@@ -68,13 +68,13 @@ export const WORKSHOP_NO_1 = {
     title: "A living archive",
     body: "This Edward Alsop workshop marks a chapter of the BrushPast archive—creativity shared in a hostel, with room for longer collaborations to grow.",
     statsTitle: "Edward Alsop",
-    statsLocation: "Victoria • London · Partner: Evolve",
+    statsLocation: "Victoria • London · Partner: Look Ahead",
     stats: [
       { value: "9", label: "creators", icon: "people" as const },
       { value: "9", label: "original designs", icon: "shirt" as const },
       { value: "1", label: "shared experience", icon: "heart" as const },
     ],
-    footerLine: "Partner: Evolve — logo available.",
+    footerLine: "Partner: Look Ahead.",
   },
   collectionTitle: "The collection",
   collectionIntro:

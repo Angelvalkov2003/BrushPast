@@ -34,8 +34,8 @@ export async function generateMetadata({
   const locked =
     category && isBoxCategoryKey(category) ? category : undefined;
   const title = locked
-    ? `Single Collection — ${locked === "tshirt" ? "T-Shirt" : locked === "coffee" ? "Coffee" : "Print"}`
-    : "Single Collection — Choose a collection";
+    ? `One Piece Gift Boxes — ${locked === "tshirt" ? "T-Shirt" : locked === "coffee" ? "Coffee" : "Print"}`
+    : "One Piece Gift Boxes — Choose a collection";
   return {
     title,
     description:
@@ -72,12 +72,12 @@ export default async function ShopBoxCPage({
             >
               ← Choose a box type
             </Link>
-            <SectionEyebrow className="mt-8">Single Collection</SectionEyebrow>
+            <SectionEyebrow className="mt-8">One Piece Gift Boxes</SectionEyebrow>
             <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mt-2 uppercase`}>
               Choose one collection
             </h1>
             <p className={`${bpBodyClass} mt-4 max-w-xl text-bp-text/75`}>
-              Each Single Collection is packed as a Brush Past gift box. Pick
+              Each One Piece Gift Box is packed as a Brush Past gift box. Pick
               coffee, t-shirt or print — then choose the design.
             </p>
             <div className="mt-10 grid gap-8 sm:grid-cols-3">

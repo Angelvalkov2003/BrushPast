@@ -26,7 +26,7 @@ import {
 const JOURNEYS = [
   {
     key: "single",
-    title: "Single Collection",
+    title: "One Piece Gift Boxes",
     note: "One piece — coffee, t-shirt or print — packed as a gift box.",
     href: "/shop/box/c",
     imageAlt: SHOP_SINGLE_OPTIONS[0].imageAlt,
@@ -35,8 +35,8 @@ const JOURNEYS = [
   },
   {
     key: "pair",
-    title: "Curated Pairings",
-    note: `Three fixed pairs from ${SHOP_PAIR_OPTIONS.map((p) => p.priceLabel).join(" · ")}.`,
+    title: "Two Piece Gift Boxes",
+    note: "Three fixed two-piece gifts. Choose the designs.",
     href: "/shop#choose-box",
     imageAlt: SHOP_PAIR_OPTIONS[0].imageAlt,
     imageNote: SHOP_PAIR_OPTIONS[0].imageNote,
@@ -44,7 +44,7 @@ const JOURNEYS = [
   },
   {
     key: "next",
-    title: "Next Chapter",
+    title: "The Next Chapter Box",
     note: SHOP_SIGNATURE.description,
     href: SHOP_SIGNATURE.href,
     imageAlt: SHOP_SIGNATURE.imageAlt,
@@ -53,7 +53,7 @@ const JOURNEYS = [
   },
   {
     key: "byo",
-    title: "Build Your Own",
+    title: "Build Your Own Gift Box",
     note: SHOP_BUILD_OWN.description,
     href: SHOP_BUILD_OWN.href,
     imageAlt: SHOP_BUILD_OWN.imageAlt,
@@ -73,8 +73,9 @@ export function HomeGiftBoxes() {
           align="left"
         />
         <p className={`${bpBodyClass} mt-4 max-w-2xl text-bp-text/75`}>
-          Choose a Single Collection, a Curated Pairing, Next Chapter, or Build
-          Your Own. Every purchase is packed as a Brush Past gift box.
+          Choose One Piece Gift Boxes, Two Piece Gift Boxes, The Next Chapter
+          Box, or Build Your Own Gift Box. Every purchase is packed as a Brush
+          Past gift box.
         </p>
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -112,8 +113,8 @@ export function HomeGiftBoxes() {
         <IndexCard className="mt-12 !p-6 md:!p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <p className={`${bpBodyClass} max-w-xl text-bp-text/80`}>
-              65% of profits are reinvested into creators, workshops and partner
-              organisations. Your purchase already gives back.
+              65% of profits are reinvested in supporting creators, workshops
+              and partner organisations.
             </p>
             <HomeCta href="/shop" variant="primary" className="shrink-0">
               Explore the shop →

@@ -167,7 +167,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
             <ChooserHeading
               compact={compact}
               number="01"
-              title="Single Collection (choose one)"
+              title="One Piece Gift Boxes (choose one)"
             />
             <div className="grid gap-5 sm:grid-cols-3">
               {SHOP_SINGLE_OPTIONS.map((option, index) => (
@@ -209,7 +209,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
             <ChooserHeading
               compact={compact}
               number="02"
-              title="Curated Pairings (choose two)"
+              title="Two Piece Gift Boxes (choose two)"
             />
             <div className="grid gap-4 sm:grid-cols-3">
               {SHOP_PAIR_OPTIONS.map((option, index) => (
@@ -257,7 +257,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
               <ChooserHeading
                 compact={compact}
                 number="03"
-                title="Next Chapter (all three)"
+                title="The Next Chapter Box (all three)"
               />
               <Link
                 href={SHOP_SIGNATURE.href}
@@ -322,7 +322,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
               <ChooserHeading
                 compact={compact}
                 number="04"
-                title="Build Your Own (pick & mix)"
+                title="Build Your Own Gift Box (pick & mix)"
               />
               <div className="grid gap-5 md:grid-cols-2 md:items-center">
                 <div>

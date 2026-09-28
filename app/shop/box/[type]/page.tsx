@@ -40,7 +40,7 @@ export async function generateMetadata({
     title: `${boxTypeLabel(type)} — Build your box`,
     description:
       type === "a"
-        ? "Next Chapter — one coffee, one t-shirt and one print. Fixed £70 gift box with a gift message."
+        ? "The Next Chapter Box — coffee, a T-shirt and a fine art print. Fixed £75 gift box with a gift message."
         : `Build a ${boxTypeLabel(type).toLowerCase()} with a gift message.`,
   };
 }
@@ -117,7 +117,7 @@ export default async function ShopBoxTypePage({
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <HomeCta href="/shop/box/c" variant="primary">
-              Try Single Collection →
+              Try One Piece Gift Boxes →
             </HomeCta>
             <HomeCta href="/shop" variant="outline">
               Back to shop

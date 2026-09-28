@@ -7,7 +7,6 @@ import {
   BrushPastIconBadge,
 } from "components/icons/brush-past-icons";
 import {
-  BrushUnderline,
   HomeCta,
   HomeSectionTitle,
   IndexCard,
@@ -17,9 +16,7 @@ import {
 import {
   bpBodyClass,
   bpBodySmClass,
-  PAGE_HERO_GRID_SPLIT_CLASS,
   PAGE_HERO_POLAROID_WRAP_CLASS,
-  PAGE_HERO_WHISPER_INLINE_CLASS,
   PAGE_HERO_MEDIA_FRAMELESS_CLASS,
   bpTitleClass,
   bpTitleUtility,
@@ -34,7 +31,7 @@ import {
   PAST_WORKSHOPS,
   WORKSHOP_CATEGORIES,
   WORKSHOPS_CORE_VALUES,
-  WORKSHOPS_MISSION_COLUMNS,
+  WORKSHOPS_HERO_INTRO,
   WORKSHOPS_PROCESS,
 } from "lib/workshops-config";
 
@@ -96,25 +93,8 @@ export function WorkshopsPageContent() {
           panelTexture="secondary"
           panelTone="cream"
         >
-          <p className={workshopBodyClass}>
-            A space to{" "}
-            <span className="text-bp-accent">breathe, make something</span>,
-            and be yourself - without pressure to perform or explain.
-            Creative workshops for anyone with a story, at any skill level.
-          </p>
+          <p className={workshopBodyClass}>{WORKSHOPS_HERO_INTRO}</p>
         </IndexCard>
-        <div
-          className={`${PAGE_HERO_WHISPER_INLINE_CLASS} flex max-w-xl items-start gap-3 !mt-8`}
-        >
-          <BrushPastIconBadge
-            icon={brushPastIcons.workshopsPage.safeSpace}
-            size="sm"
-            className="!h-10 !w-10 shrink-0"
-          />
-          <p className="min-w-0 text-pretty leading-snug">
-            Everyone is welcome exactly as you&nbsp;are.
-          </p>
-        </div>
       </PageHero>
 
       <TextureSection
@@ -159,75 +139,6 @@ export function WorkshopsPageContent() {
               );
             })}
           </ul>
-        </div>
-      </TextureSection>
-
-      <TextureSection
-        texture="primary"
-        className="px-4 py-14 md:px-10 md:py-20"
-      >
-        <div className={`mx-auto max-w-[1400px] ${PAGE_HERO_GRID_SPLIT_CLASS}`}>
-          <IndexCard
-            className="max-w-xl"
-            panelTexture="secondary"
-            panelTone="cream"
-          >
-            <p className={workshopBodyClass}>
-              BrushPast began working with people in recovery, homelessness and
-              incarceration - using creativity to{" "}
-              <span className="text-bp-accent">
-                rebuild identity and confidence
-              </span>
-              .{" "}
-              <span className="font-bold">
-                {WORKSHOPS_MISSION_COLUMNS.originHighlight}
-              </span>
-            </p>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-8 text-[1.45rem] leading-snug text-bp-text md:text-[1.75rem]`}
-            >
-              <BrushUnderline>If</BrushUnderline> you have a story.{" "}
-              <BrushUnderline>If</BrushUnderline> you can make something.{" "}
-              <span className="text-bp-accent">You belong here.</span>
-            </p>
-            <div className="mt-8 border-t border-bp-text/10 pt-8">
-              <BrushPastIconBadge
-                icon={brushPastIcons.workshopsPage.ownership}
-                size="md"
-                className="mb-1"
-              />
-              <p
-                className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-2xl font-bold text-bp-text md:text-3xl`}
-              >
-                {WORKSHOPS_MISSION_COLUMNS.choiceLead}
-              </p>
-              <p className={`${workshopBodyClass} mt-3`}>
-                Share your work, sell your work, or keep it private.{" "}
-                <span className="text-bp-accent">
-                  It&apos;s your choice. Always.
-                </span>
-              </p>
-            </div>
-          </IndexCard>
-
-          <PolaroidFrame index={1} className={PAGE_HERO_POLAROID_WRAP_CLASS}>
-            <div
-              className={`relative overflow-hidden bg-bp-surface ${PAGE_HERO_MEDIA_FRAMELESS_CLASS}`}
-            >
-              <Image
-                src="/workshops-hero.png"
-                alt="People creating together in a Brush Past workshop"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
-            >
-              Come as you are ★
-            </p>
-          </PolaroidFrame>
         </div>
       </TextureSection>
 
@@ -297,7 +208,7 @@ export function WorkshopsPageContent() {
             eyebrowVariant="workshop"
           />
 
-          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {WORKSHOPS_CORE_VALUES.map((item) => {
               const Icon = brushPastIcons.workshopsPage[item.icon];
               return (
@@ -412,13 +323,13 @@ export function WorkshopsPageContent() {
                       </div>
                       {workshop.quote ? (
                         <blockquote
-                          className={`${homeHandClass} mt-6 border-l-[3px] border-bp-accent pl-4 text-[1.35rem] leading-snug text-bp-text md:text-[1.5rem]`}
+                          className={`${workshopBodyClass} mt-6 border-l-[3px] border-bp-accent pl-4 leading-snug text-bp-text`}
                         >
                           &ldquo;{workshop.quote.text}&rdquo;
                           <footer
-                            className={`${bpBodySmClass} mt-3 not-italic text-bp-text/65`}
+                            className={`${bpBodySmClass} mt-3 text-bp-text/65`}
                           >
-                            — {workshop.quote.attribution}
+                            {workshop.quote.attribution}
                           </footer>
                         </blockquote>
                       ) : null}

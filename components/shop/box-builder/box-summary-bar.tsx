@@ -14,6 +14,7 @@ import { formatPrice } from "lib/currency";
 import { isValidImageUrl } from "lib/image-url";
 import {
   BOX_CATEGORY_ROWS,
+  BOX_TYPE_RULES,
   type BoxDraft,
 } from "lib/shop-box-config";
 import { priceOfDraft } from "lib/shop-box-pricing";
@@ -95,8 +96,15 @@ export function BoxCartPanel({
 }) {
   const count = totalItemCount(draft.items);
   const price = priceOfDraft(draft);
+  const byoMax = BOX_TYPE_RULES.d.maxTotal ?? 6;
   const needed =
-    draft.type === "a" ? 3 : draft.type === "b" ? 2 : draft.type === "d" ? 3 : 1;
+    draft.type === "a"
+      ? 3
+      : draft.type === "b"
+        ? 2
+        : draft.type === "d"
+          ? byoMax
+          : 1;
   const minNeeded = draft.type === "d" ? 2 : needed;
   const item = draft.items[0] ?? null;
   const multi = needed > 1;
@@ -111,10 +119,10 @@ export function BoxCartPanel({
           ? needed === 1
             ? "Waiting for a piece"
             : draft.type === "d"
-              ? "Waiting for 2–3 pieces"
+              ? "Waiting for at least 2 pieces"
               : `Waiting for ${needed === 2 ? "two" : "three"} pieces`
           : draft.type === "d"
-            ? `${count} of 3 in your box${count >= minNeeded ? "" : " · add one more"}`
+            ? `${count} of ${byoMax} in your box${count >= minNeeded ? "" : " · add one more"}`
             : multi
               ? `${count} of ${needed} in your box`
               : "1 piece in your box"}
@@ -270,7 +278,8 @@ export function BoxMobileCtaBar({
   const item = draft.items[0];
   const needed =
     draft.type === "a" ? 3 : draft.type === "b" || draft.type === "d" ? 2 : 1;
-  const maxPieces = draft.type === "d" ? 3 : needed;
+  const maxPieces =
+    draft.type === "d" ? (BOX_TYPE_RULES.d.maxTotal ?? 6) : needed;
 
   return (
     <div className="sticky bottom-0 z-20 max-w-full overflow-x-clip border-t border-bp-text/12 bg-[#faf6f0]/95 px-4 py-3 shadow-[0_-8px_24px_rgba(1,2,0,0.08)] backdrop-blur-sm lg:hidden">
@@ -290,7 +299,7 @@ export function BoxMobileCtaBar({
           <p className={`${bpBodySmClass} truncate text-bp-text/70`}>
             {draft.type === "d"
               ? count === 0
-                ? "Pick 2–3 pieces"
+                ? "Pick at least 2 pieces"
                 : `${count} of ${maxPieces} in your box`
               : needed > 1
                 ? count === 0
