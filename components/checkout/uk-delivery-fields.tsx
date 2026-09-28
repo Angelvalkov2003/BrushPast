@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import clsx from "clsx";
 import {
   bpBodyClass,
@@ -27,6 +27,22 @@ const phoneKindClass = (selected: boolean) =>
       : "border-bp-text/20 bg-bp-canvas text-bp-text/70 hover:border-bp-accent/40",
   );
 
+/** Pull leading house/flat number so the street can be selected separately. */
+function streetNameFromLine1(line1: string): string {
+  const trimmed = line1.trim();
+  const match = trimmed.match(
+    /^(?:flat\s+\w+[a-z]?[, ]+|unit\s+\w+[, ]+|apt\.?\s+\w+[, ]+)?(\d+[a-z]?\s+)?(.+)$/i,
+  );
+  if (!match) return trimmed;
+  return (match[2] ?? trimmed).replace(/^,\s*/, "").trim();
+}
+
+function houseNumberFromLine1(line1: string): string {
+  const trimmed = line1.trim();
+  const match = trimmed.match(/^(\d+[a-z]?)\b/i);
+  return match?.[1] ?? "";
+}
+
 export function UkDeliveryFields({
   value,
   onChange,
@@ -41,14 +57,34 @@ export function UkDeliveryFields({
   const [lookupAddresses, setLookupAddresses] = useState<PostcodeLookupAddress[]>(
     [],
   );
+  const [selectedStreet, setSelectedStreet] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
 
   const patch = (partial: Partial<UkDeliveryFormData>) => {
     onChange({ ...value, ...partial });
   };
 
+  const streets = useMemo(() => {
+    const unique = new Set<string>();
+    for (const address of lookupAddresses) {
+      const street = streetNameFromLine1(address.line1);
+      if (street) unique.add(street);
+    }
+    return Array.from(unique).sort((a, b) => a.localeCompare(b));
+  }, [lookupAddresses]);
+
+  const composeLine1 = (number: string, street: string) => {
+    const n = number.trim();
+    const s = street.trim();
+    if (n && s) return `${n} ${s}`;
+    return s || n;
+  };
+
   const runPostcodeLookup = async () => {
     setLookupError(null);
     setLookupAddresses([]);
+    setSelectedStreet("");
+    setHouseNumber("");
     const postcode = normalizeUkPostcode(value.postcode);
     if (!postcode) {
       setLookupError("Enter a postcode first.");
@@ -83,17 +119,23 @@ export function UkDeliveryFields({
 
       if (!data.addresses?.length) {
         setLookupError(
-          "Postcode confirmed. Enter your street number and name below.",
+          "Postcode found. Choose a street below if listed, or type your house number and street.",
         );
       }
     } catch {
-      setLookupError("Address lookup failed. Try again or enter details manually.");
+      setLookupError(
+        "Address lookup failed. Try again or enter details manually.",
+      );
     } finally {
       setLookupLoading(false);
     }
   };
 
-  const applyAddress = (address: PostcodeLookupAddress) => {
+  const applyFullAddress = (address: PostcodeLookupAddress) => {
+    const street = streetNameFromLine1(address.line1);
+    const number = houseNumberFromLine1(address.line1);
+    setSelectedStreet(street);
+    setHouseNumber(number);
     patch({
       address_line_1: address.line1,
       address_line_2: address.line2 ?? value.address_line_2,
@@ -101,8 +143,15 @@ export function UkDeliveryFields({
       county: address.county ?? value.county,
       postcode: address.postcode || value.postcode,
     });
-    setLookupAddresses([]);
     setLookupError(null);
+  };
+
+  const applyStreetAndNumber = (street: string, number: string) => {
+    setSelectedStreet(street);
+    setHouseNumber(number);
+    patch({
+      address_line_1: composeLine1(number, street),
+    });
   };
 
   return (
@@ -185,7 +234,7 @@ export function UkDeliveryFields({
           required
           maxLength={UK_PHONE_MAX_LENGTH[value.phone_kind]}
           placeholder={
-            value.phone_kind === "mobile" ? "07710 022 677" : "01234 567890"
+            value.phone_kind === "mobile" ? "07123456789" : "01234567890"
           }
           value={value.phone}
           onChange={(e) => patch({ phone: e.target.value })}
@@ -193,7 +242,7 @@ export function UkDeliveryFields({
         />
         <p className={`${bpBodySmClass} mt-1 text-bp-text/55`}>
           {value.phone_kind === "mobile"
-            ? "UK mobile — up to 11 digits (07…)."
+            ? "UK mobile — e.g. 07123456789"
             : "UK landline — starts with 01, 02, or 03."}
         </p>
         {fieldErrors?.phone ? (
@@ -205,10 +254,11 @@ export function UkDeliveryFields({
         <h3
           className={`${bpTitleClass} ${bpTitleUtility} mb-1 text-sm font-bold uppercase tracking-[0.12em] text-bp-text`}
         >
-          UK address
+          Shipping address
         </h3>
         <p className={`${bpBodySmClass} mb-4 text-bp-text/60`}>
-          Delivery to UK addresses only.
+          Find your street with the postcode search, then type only your house
+          number. UK addresses only.
         </p>
 
         <div className="space-y-4">
@@ -239,10 +289,6 @@ export function UkDeliveryFields({
                 {lookupLoading ? "Finding…" : "Find address"}
               </button>
             </div>
-            <p className={`${bpBodySmClass} mt-1 text-bp-text/55`}>
-              Try postcode finder — we&apos;ll suggest town and county, or pick
-              your address when available.
-            </p>
             {lookupError ? (
               <p
                 className={`mt-1 text-xs ${lookupAddresses.length ? "text-bp-text/60" : "text-red-700"}`}
@@ -258,14 +304,14 @@ export function UkDeliveryFields({
           {lookupAddresses.length > 0 ? (
             <div>
               <label htmlFor="delivery_address_pick" className={labelClass}>
-                Select your address
+                Or pick a full address
               </label>
               <select
                 id="delivery_address_pick"
                 defaultValue=""
                 onChange={(e) => {
                   const picked = lookupAddresses[Number(e.target.value)];
-                  if (picked) applyAddress(picked);
+                  if (picked) applyFullAddress(picked);
                 }}
                 className={inputClass}
               >
@@ -281,25 +327,77 @@ export function UkDeliveryFields({
             </div>
           ) : null}
 
-          <div>
-            <label htmlFor="delivery_address_line_1" className={labelClass}>
-              Street number &amp; name *
-            </label>
-            <input
-              id="delivery_address_line_1"
-              type="text"
-              autoComplete="address-line1"
-              required
-              value={value.address_line_1}
-              onChange={(e) => patch({ address_line_1: e.target.value })}
-              placeholder="12 Example Street"
-              className={inputClass}
-            />
-            {fieldErrors?.address_line_1 ? (
-              <p className="mt-1 text-xs text-red-700">
-                {fieldErrors.address_line_1}
-              </p>
-            ) : null}
+          {streets.length > 0 ? (
+            <div>
+              <label htmlFor="delivery_street" className={labelClass}>
+                Street name *
+              </label>
+              <select
+                id="delivery_street"
+                value={selectedStreet}
+                onChange={(e) =>
+                  applyStreetAndNumber(e.target.value, houseNumber)
+                }
+                className={inputClass}
+              >
+                <option value="" disabled>
+                  Choose your street…
+                </option>
+                {streets.map((street) => (
+                  <option key={street} value={street}>
+                    {street}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+
+          <div className="grid gap-4 sm:grid-cols-[minmax(0,0.35fr)_minmax(0,1fr)]">
+            <div>
+              <label htmlFor="delivery_house_number" className={labelClass}>
+                House / flat no. *
+              </label>
+              <input
+                id="delivery_house_number"
+                type="text"
+                inputMode="text"
+                autoComplete="address-line1"
+                value={houseNumber}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  if (selectedStreet) {
+                    applyStreetAndNumber(selectedStreet, next);
+                  } else {
+                    setHouseNumber(next);
+                    patch({
+                      address_line_1: composeLine1(next, value.address_line_1),
+                    });
+                  }
+                }}
+                placeholder="12"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="delivery_address_line_1" className={labelClass}>
+                Street number &amp; name *
+              </label>
+              <input
+                id="delivery_address_line_1"
+                type="text"
+                autoComplete="address-line1"
+                required
+                value={value.address_line_1}
+                onChange={(e) => patch({ address_line_1: e.target.value })}
+                placeholder="12 Example Street"
+                className={inputClass}
+              />
+              {fieldErrors?.address_line_1 ? (
+                <p className="mt-1 text-xs text-red-700">
+                  {fieldErrors.address_line_1}
+                </p>
+              ) : null}
+            </div>
           </div>
 
           <div>

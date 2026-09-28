@@ -25,20 +25,19 @@ export function BoxMessage({
         Add a gift message
       </h2>
       <p className={`${bpBodyClass} mt-2 max-w-lg text-bp-text/70`}>
-        Every box includes a note. This is required — tell them why this story
-        is for them.
+        Optional — if you want, tell them why this story deserves their time and
+        attention.
       </p>
       <label htmlFor="box-gift-message" className="sr-only">
-        Gift message
+        Gift message (optional)
       </label>
       <textarea
         id="box-gift-message"
-        required
         rows={7}
         maxLength={BOX_GIFT_MESSAGE_MAX}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder="Write your message…"
+        placeholder="Write a short note… or leave blank"
         className={`${bpBodyClass} mt-6 w-full border border-bp-text/20 bg-bp-canvas/80 px-4 py-3 text-bp-text shadow-[2px_3px_0_rgba(1,2,0,0.04)] focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`}
       />
       <div className="mt-2 flex justify-between gap-4">
@@ -48,7 +47,7 @@ export function BoxMessage({
           </p>
         ) : (
           <p className={`${bpBodySmClass} text-bp-text/50`}>
-            Packed with the box. Shown to you at checkout.
+            You can skip this and continue to checkout.
           </p>
         )}
         <p className={`${bpBodySmClass} shrink-0 text-bp-text/45`}>

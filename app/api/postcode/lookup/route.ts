@@ -16,11 +16,24 @@ type PostcodesIoResponse = {
   };
 };
 
+type GetAddressExpanded = {
+  line_1?: string;
+  line_2?: string;
+  line_3?: string;
+  line_4?: string;
+  locality?: string;
+  town_or_city?: string;
+  county?: string;
+  thoroughfare?: string;
+  building_number?: string;
+  building_name?: string;
+  sub_building_name?: string;
+  formatted_address?: string[];
+};
+
 type GetAddressResponse = {
-  addresses?: string[];
+  addresses?: Array<string | GetAddressExpanded>;
   postcode?: string;
-  latitude?: number;
-  longitude?: number;
 };
 
 function parseGetAddressLine(line: string): PostcodeLookupAddress {
@@ -38,6 +51,34 @@ function parseGetAddressLine(line: string): PostcodeLookupAddress {
   };
 }
 
+function parseGetAddressExpanded(item: GetAddressExpanded): PostcodeLookupAddress {
+  const number = [item.sub_building_name, item.building_number, item.building_name]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  const street = (item.thoroughfare ?? "").trim();
+  const composed =
+    item.line_1?.trim() ||
+    (number && street ? `${number} ${street}` : street || number);
+  const line2 = [item.line_2, item.line_3, item.line_4, item.locality]
+    .filter(Boolean)
+    .join(", ");
+  const town = item.town_or_city?.trim() ?? "";
+  const county = item.county?.trim() || undefined;
+  const label =
+    item.formatted_address?.filter(Boolean).join(", ") ||
+    [composed, line2, town, county].filter(Boolean).join(", ");
+
+  return {
+    label,
+    line1: composed,
+    line2: line2 || undefined,
+    town,
+    county,
+    postcode: "",
+  };
+}
+
 async function lookupViaGetAddress(
   postcode: string,
 ): Promise<PostcodeLookupAddress[] | null> {
@@ -46,7 +87,7 @@ async function lookupViaGetAddress(
 
   const encoded = encodeURIComponent(postcode.replace(/\s+/g, ""));
   const response = await fetch(
-    `https://api.getAddress.io/find/${encoded}?api-key=${apiKey}&expand=false`,
+    `https://api.getAddress.io/find/${encoded}?api-key=${apiKey}&expand=true`,
     { next: { revalidate: 86400 } },
   );
 
@@ -55,8 +96,10 @@ async function lookupViaGetAddress(
   const data = (await response.json()) as GetAddressResponse;
   if (!data.addresses?.length) return [];
 
-  return data.addresses.map((line) => ({
-    ...parseGetAddressLine(line),
+  return data.addresses.map((entry) => ({
+    ...(typeof entry === "string"
+      ? parseGetAddressLine(entry)
+      : parseGetAddressExpanded(entry)),
     postcode,
   }));
 }

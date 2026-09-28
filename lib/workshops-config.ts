@@ -109,17 +109,11 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
     title: "The Estate We're In: Cotton Gardens Photography",
     location: "Cotton Gardens Community Centre, Kennington, London",
     partner: "Residents' Association",
-    facilitator: "George Ponza, filmmaker and photographer",
     body: [
       'We ran a "day in the life" photography workshop at the Cotton Gardens Community Centre in Kennington, working with the Residents\' Association.',
-      "George Ponza, the filmmaker and photographer behind The Hard Stop, facilitated the workshop. We gave everyone a digital camera and invited them to capture moments that meant something in their lives.",
-      "We then produced their work, and everybody took home a photograph they had created, printed on the day.",
+      "Everyone left with a photograph they had created, printed on the day.",
     ],
-    quote: {
-      attribution:
-        "Michael, Chair of the Residents' Association",
-      text: "This was a unique experience for the residents, which brought everyone together and gave us the opportunity to capture the simple aspects of our lives that really matter to us.",
-    },
+    href: "/workshops/photography",
     photoNumber: PHOTO.pastWorkshopCottonGardens,
     imageAlt: "Cotton Gardens photography workshop — The Estate We're In",
     imageNote:
@@ -133,9 +127,7 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
     partner: "Look Ahead",
     body: [
       "We worked with Look Ahead to create a workshop where people could design their own T-shirts, with the possibility of developing longer-term collaborations.",
-      "Participants can have the opportunity to feature their T-shirts on the Brushpast website while learning about social media marketing and basic business principles.",
       "The idea is to encourage people to recognise the value in their own work, stories, lived experience, creativity, and self-expression.",
-      "We are following up with an arranged marketing workshop to help participants put their designs out into the world.",
     ],
     href: "/workshops/workshop-no-1",
     image: "/workshops/workshop-no-1/hero.jpg",

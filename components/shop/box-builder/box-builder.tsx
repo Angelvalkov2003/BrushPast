@@ -50,6 +50,10 @@ import { formatVariantLabel, optionsFromVariant } from "lib/product-variants";
 import type { BoxCatalog, BoxCatalogProduct } from "lib/supabase/shop-box-products";
 import type { ProductVariant } from "lib/types";
 
+function trimmedCheckoutLabel(giftMessage: string) {
+  return giftMessage.trim() ? "Checkout →" : "Skip message & checkout →";
+}
+
 function selectionFromProduct(
   product: BoxCatalogProduct,
   variant: ProductVariant,
@@ -128,7 +132,8 @@ export function BoxBuilder({
   });
 
   const complete = isBoxComplete(draft);
-  const messageOk = draft.giftMessage.trim().length > 0;
+  const messageWithinLimit =
+    draft.giftMessage.trim().length <= BOX_GIFT_MESSAGE_MAX;
   const pendingVariantProduct = sizeProduct;
   const selectedCount = totalItemCount(draft.items);
 
@@ -174,10 +179,6 @@ export function BoxBuilder({
 
   const handleCheckout = () => {
     const trimmed = draft.giftMessage.trim();
-    if (!trimmed) {
-      setMessageError("A gift message is required.");
-      return;
-    }
     if (trimmed.length > BOX_GIFT_MESSAGE_MAX) {
       setMessageError(
         `Keep the message under ${BOX_GIFT_MESSAGE_MAX} characters.`,
@@ -210,8 +211,8 @@ export function BoxBuilder({
     if (step === "choose") return "Review your box →";
     if (step === "review")
       return complete ? "Add a message →" : "Choose a piece →";
-    return "Checkout →";
-  }, [step, complete]);
+    return trimmedCheckoutLabel(draft.giftMessage);
+  }, [step, complete, draft.giftMessage]);
 
   const onSummaryContinue = () => {
     if (step === "choose") goReview();
@@ -229,7 +230,7 @@ export function BoxBuilder({
       ? complete
       : step === "review"
         ? true
-        : complete && messageOk;
+        : complete && messageWithinLimit;
 
   const headingExtra =
     boxType === "b" && comboId
@@ -290,7 +291,7 @@ export function BoxBuilder({
             <BoxStepIndicator
               current={step}
               complete={complete}
-              messageOk={messageOk}
+              messageOk={messageWithinLimit}
               onStepSelect={setStep}
             />
           </div>

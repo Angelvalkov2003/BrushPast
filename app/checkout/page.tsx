@@ -7,10 +7,13 @@ import { useCart } from "components/cart/cart-context";
 import Price from "components/price";
 import { createOrder } from "app/checkout/actions";
 import LoadingDots from "components/loading-dots";
-import { shippingMethodById, shippingMethodsForCheckout, type ShippingMethodId } from "lib/site-config";
+import {
+  shippingMethodById,
+  shippingMethodsForCheckout,
+  type ShippingMethodId,
+} from "lib/site-config";
 import { UK_SHIPPING_SUMMARY, UK_RETURNS_SUMMARY, UK_VAT_NOTE } from "lib/uk-copy";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
-import { CheckoutContribution } from "components/checkout/checkout-contribution";
 import { UkDeliveryFields } from "components/checkout/uk-delivery-fields";
 import {
   validateUkDeliveryFields,
@@ -23,24 +26,13 @@ import {
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
+import { boxComboIdToDb, categoryLabel } from "lib/shop-box-config";
 import {
-  boxComboIdToDb,
-  categoryLabel,
-} from "lib/shop-box-config";
-import {
-  boxStripeName,
   collectGiftMessages,
   flattenCartItemToOrderLines,
   isBoxCartItem,
   primaryBoxFromCart,
 } from "lib/shop-box-cart";
-import {
-  CONTRIBUTION_COPY,
-  contributionAllocationLabel,
-  parseContributionAmount,
-  validateContributionAmount,
-  type ContributionAllocationId,
-} from "lib/checkout-contribution";
 
 const inputClass = `${bpBodyClass} w-full border border-bp-text/20 bg-bp-canvas px-4 py-2.5 text-bp-text focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`;
 const labelClass = `${bpBodySmClass} mb-1 block font-medium text-bp-text/80`;
@@ -54,13 +46,6 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
   const [shippingMethodId, setShippingMethodId] =
     useState<ShippingMethodId>("dpd");
-  const [contributionPreset, setContributionPreset] = useState<number | null>(
-    null,
-  );
-  const [contributionCustomRaw, setContributionCustomRaw] = useState("");
-  const [allocation, setAllocation] = useState<ContributionAllocationId | "">(
-    "",
-  );
   const [formData, setFormData] = useState<{
     delivery: UkDeliveryFormData;
     payment_method: "cash_on_delivery" | "card";
@@ -91,13 +76,6 @@ export default function CheckoutPage() {
       : "dpd",
   );
 
-  const contributionGbp = useMemo(() => {
-    if (contributionCustomRaw.trim()) {
-      return parseContributionAmount(contributionCustomRaw);
-    }
-    return contributionPreset;
-  }, [contributionCustomRaw, contributionPreset]);
-
   if (!cart || cart.items.length === 0) {
     return (
       <div className="bp-surface flex min-h-screen flex-col items-center justify-center px-4">
@@ -121,9 +99,7 @@ export default function CheckoutPage() {
   }
 
   const shippingCost = selectedShipping.price;
-  const contributionAmount =
-    contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
-  const orderTotal = cart.subtotal + shippingCost + contributionAmount;
+  const orderTotal = cart.subtotal + shippingCost;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,19 +108,6 @@ export default function CheckoutPage() {
     if (!formData.privacy_policy_accepted) {
       setError("Please accept the Privacy Policy to continue.");
       return;
-    }
-
-    if (contributionCustomRaw.trim()) {
-      const parsed = parseContributionAmount(contributionCustomRaw);
-      if (parsed == null) {
-        setError("Enter a valid contribution amount, or clear Other amount.");
-        return;
-      }
-      const valid = validateContributionAmount(parsed);
-      if (!valid.ok) {
-        setError(valid.error);
-        return;
-      }
     }
 
     const deliveryResult = validateUkDeliveryFields(formData.delivery);
@@ -158,13 +121,10 @@ export default function CheckoutPage() {
     try {
       const delivery = deliveryResult.values;
       const shipping_total = selectedShipping.price;
-      const contribution =
-        contributionGbp != null && contributionGbp > 0 ? contributionGbp : 0;
-      const grand_total = cart.subtotal + shipping_total + contribution;
+      const grand_total = cart.subtotal + shipping_total;
 
       const giftMessage = collectGiftMessages(cart.items);
       const primaryBox = primaryBoxFromCart(cart.items);
-      const allocationLabel = contributionAllocationLabel(allocation);
 
       const order = await createOrder({
         delivery,
@@ -186,8 +146,6 @@ export default function CheckoutPage() {
         gift_message: giftMessage || undefined,
         box_type: primaryBox?.type,
         box_combo_id: boxComboIdToDb(primaryBox?.comboId),
-        optional_contribution_gbp: contribution || undefined,
-        contribution_allocation: allocation || undefined,
         privacy_policy_accepted: true,
         items: cart.items.flatMap((item) => flattenCartItemToOrderLines(item)),
         subtotal: cart.subtotal,
@@ -196,10 +154,6 @@ export default function CheckoutPage() {
       });
 
       if (formData.payment_method === "card") {
-        const stripeContributionName = allocationLabel
-          ? `${CONTRIBUTION_COPY.stripeName} — ${allocationLabel}`
-          : CONTRIBUTION_COPY.stripeName;
-
         const response = await fetch("/api/checkout/create-session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -207,8 +161,7 @@ export default function CheckoutPage() {
             orderId: order.id,
             cart,
             shippingTotal: shipping_total,
-            contributionGbp: contribution,
-            contributionLabel: stripeContributionName,
+            contributionGbp: 0,
           }),
         });
 
@@ -235,7 +188,9 @@ export default function CheckoutPage() {
   return (
     <div className="bp-surface min-h-screen px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
-        <h1 className={`${PAGE_HERO_H1_MINIMAL_CLASS} mb-8 uppercase tracking-wide`}>
+        <h1
+          className={`${PAGE_HERO_H1_MINIMAL_CLASS} mb-8 uppercase tracking-wide`}
+        >
           Checkout
         </h1>
 
@@ -318,17 +273,10 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <CheckoutContribution
-                  presetGbp={contributionPreset}
-                  customRaw={contributionCustomRaw}
-                  allocation={allocation}
-                  onPreset={setContributionPreset}
-                  onCustomRaw={setContributionCustomRaw}
-                  onAllocation={setAllocation}
-                />
-
                 <div>
-                  <label className={`${labelClass} mb-3`}>Payment method *</label>
+                  <label className={`${labelClass} mb-3`}>
+                    Payment method *
+                  </label>
                   <div className="space-y-2">
                     <label className={radioCardClass}>
                       <input
@@ -342,7 +290,9 @@ export default function CheckoutPage() {
                         className="mr-3 accent-bp-accent"
                       />
                       <div>
-                        <div className={`${bpBodyClass} font-medium text-bp-text`}>
+                        <div
+                          className={`${bpBodyClass} font-medium text-bp-text`}
+                        >
                           Card payment
                         </div>
                         <div className={`${bpBodySmClass} text-bp-text/60`}>
@@ -367,7 +317,9 @@ export default function CheckoutPage() {
                         className="mr-3 accent-bp-accent"
                       />
                       <div>
-                        <div className={`${bpBodyClass} font-medium text-bp-text`}>
+                        <div
+                          className={`${bpBodyClass} font-medium text-bp-text`}
+                        >
                           Pay on delivery
                         </div>
                         <div className={`${bpBodySmClass} text-bp-text/60`}>
@@ -378,54 +330,44 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <div className="pt-4">
-                  <PrivacyPolicyCheckbox
-                    checked={formData.privacy_policy_accepted}
-                    onChange={(checked) =>
-                      setFormData({
-                        ...formData,
-                        privacy_policy_accepted: checked,
-                      })
-                    }
-                    id="checkout-privacy"
-                    suffix="for processing my data for this order"
-                  />
-                </div>
+                <PrivacyPolicyCheckbox
+                  checked={formData.privacy_policy_accepted}
+                  onChange={(privacy_policy_accepted) =>
+                    setFormData({ ...formData, privacy_policy_accepted })
+                  }
+                />
 
                 <button
                   type="submit"
-                  disabled={isSubmitting || !formData.privacy_policy_accepted}
-                  className={`${bpTitleClass} ${bpTitleUtility} flex w-full items-center justify-center bg-bp-accent px-6 py-3.5 text-lg font-bold uppercase tracking-[0.08em] text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0`}
+                  disabled={isSubmitting}
+                  className={`${bpTitleClass} ${bpTitleUtility} flex w-full items-center justify-center bg-bp-accent px-6 py-3.5 text-sm font-bold uppercase tracking-[0.16em] text-bp-canvas transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60`}
                 >
-                  {isSubmitting ? (
-                    <LoadingDots className="bg-white" />
-                  ) : (
-                    "Place order"
-                  )}
+                  {isSubmitting ? <LoadingDots className="bg-bp-canvas" /> : null}
+                  {isSubmitting ? "Placing order…" : "Place order"}
                 </button>
               </div>
             </form>
           </div>
 
           <div className="lg:col-span-1">
-            <div className="sticky top-28 border border-bp-text/10 bg-bp-canvas p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)]">
+            <div className="sticky top-8 border border-bp-text/10 bg-bp-canvas p-6 shadow-[2px_3px_0_rgba(1,2,0,0.06)]">
               <h2
-                className={`${bpTitleClass} ${bpTitleUtility} mb-4 text-xl font-bold uppercase tracking-wide text-bp-text`}
+                className={`${bpTitleClass} ${bpTitleUtility} mb-4 text-lg font-bold uppercase tracking-wide`}
               >
                 Order summary
               </h2>
 
-              <div className="mb-6 space-y-4">
+              <div className="mb-4 space-y-3">
                 {cart.items.map((item) => {
                   const box = isBoxCartItem(item);
                   return (
                     <div
-                      key={item.id}
-                      className="flex items-start justify-between border-b border-bp-text/10 pb-3"
+                      key={`${item.productId}-${item.variantId}`}
+                      className="flex justify-between gap-3 border-b border-bp-text/8 pb-3"
                     >
-                      <div className="min-w-0 flex-1 pr-3">
+                      <div className="min-w-0">
                         <p className={`${bpBodySmClass} font-medium text-bp-text`}>
-                          {box ? boxStripeName(item) : item.product.title}
+                          {item.product.title}
                         </p>
                         {box && item.box ? (
                           <ul className="mt-1 space-y-0.5 text-xs text-bp-text/55">
@@ -488,21 +430,6 @@ export default function CheckoutPage() {
                     className="text-bp-text"
                   />
                 </div>
-                {contributionAmount > 0 ? (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-bp-text/65">
-                      Contribution
-                      {allocation
-                        ? ` · ${contributionAllocationLabel(allocation)}`
-                        : ""}
-                    </span>
-                    <Price
-                      amount={contributionAmount.toString()}
-                      currencyCode={cart.currency}
-                      className="text-bp-text"
-                    />
-                  </div>
-                ) : null}
                 <div className="flex justify-between pt-2 text-lg font-bold">
                   <span className="text-bp-text">Total</span>
                   <Price

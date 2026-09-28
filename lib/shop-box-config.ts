@@ -67,7 +67,7 @@ export type BoxHubCard = {
 export const BOX_BUILDER_STEPS: { id: BoxBuilderStep; label: string }[] = [
   { id: "choose", label: "Choose Items" },
   { id: "review", label: "Review Box" },
-  { id: "message", label: "Add Message" },
+  { id: "message", label: "Message (optional)" },
 ];
 
 /** Config-driven category list — extend here when new product families launch. */

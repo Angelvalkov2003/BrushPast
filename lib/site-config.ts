@@ -43,7 +43,7 @@ export const SHIPPING_UK = {
   dpd: {
     id: "dpd" as const,
     label: "DPD",
-    price: 8.0,
+    price: 3.5,
     days: "2–4 working days",
     courier: "DPD",
   },

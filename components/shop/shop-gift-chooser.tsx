@@ -73,12 +73,6 @@ function ChooserHeading({
 
 export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
   const cardPad = compact ? "!p-4 md:!p-5" : undefined;
-  const singleImageClass = compact
-    ? "aspect-[4/5] min-h-[140px]"
-    : "aspect-[4/5] min-h-[220px]";
-  const pairImageClass = compact
-    ? "aspect-square min-h-[120px]"
-    : "aspect-square min-h-[160px]";
   const signatureImageClass = compact
     ? "aspect-[5/3] min-h-[160px]"
     : "aspect-[5/3] min-h-[220px]";
@@ -169,37 +163,36 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
               number="01"
               title="One Piece Gift Boxes (choose one)"
             />
-            <div className="grid gap-5 sm:grid-cols-3">
-              {SHOP_SINGLE_OPTIONS.map((option, index) => (
-                <Link key={option.key} href={option.href} className="group block">
-                  <PolaroidFrame index={index} className="group-hover:rotate-0">
-                    <BoxImagePlaceholder
-                      alt={option.imageAlt}
-                      note={option.imageNote}
-                      labelNumber={option.photoNumber}
-                      className={singleImageClass}
-                    />
-                  </PolaroidFrame>
-                  <h4
-                    className={clsx(
-                      bpTitleClass,
-                      bpTitleUtility,
-                      "mt-3 font-bold text-bp-text",
-                      compact ? "text-lg" : "text-2xl",
-                    )}
-                  >
-                    {option.title}
-                  </h4>
-                  <p
-                    className={clsx(
-                      bpBodyClass,
-                      "mt-1 text-bp-text/75",
-                      compact && "text-sm",
-                    )}
-                  >
-                    {option.description}
-                  </p>
-                  <GiftThis compact={compact} />
+            <div className="grid grid-cols-3 gap-1 sm:gap-2">
+              {SHOP_SINGLE_OPTIONS.map((option) => (
+                <Link
+                  key={option.key}
+                  href={option.href}
+                  className="group relative block overflow-hidden bg-bp-text/5"
+                >
+                  <BoxImagePlaceholder
+                    alt={option.imageAlt}
+                    note={option.imageNote}
+                    labelNumber={option.photoNumber}
+                    className="aspect-square min-h-0"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-text/85 via-bp-text/40 to-transparent px-2 pb-2 pt-8 sm:px-3 sm:pb-3">
+                    <h4
+                      className={clsx(
+                        bpTitleClass,
+                        bpTitleUtility,
+                        "font-bold uppercase tracking-wide text-bp-canvas",
+                        compact ? "text-[10px] sm:text-xs" : "text-xs sm:text-sm",
+                      )}
+                    >
+                      {option.title}
+                    </h4>
+                    {!compact ? (
+                      <p className="mt-0.5 hidden text-[11px] text-bp-canvas/80 sm:block">
+                        {option.description}
+                      </p>
+                    ) : null}
+                  </div>
                 </Link>
               ))}
             </div>
@@ -211,37 +204,34 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
               number="02"
               title="Two Piece Gift Boxes (choose two)"
             />
-            <div className="grid gap-4 sm:grid-cols-3">
-              {SHOP_PAIR_OPTIONS.map((option, index) => (
-                <Link key={option.key} href={option.href} className="group block">
-                  <PolaroidFrame index={index + 1} className="group-hover:rotate-0">
-                    <BoxImagePlaceholder
-                      alt={option.imageAlt}
-                      note={option.imageNote}
-                      labelNumber={option.photoNumber}
-                      className={pairImageClass}
-                    />
-                  </PolaroidFrame>
-                  <h4
-                    className={clsx(
-                      bpTitleClass,
-                      bpTitleUtility,
-                      "mt-3 font-bold text-bp-text",
-                      compact ? "text-base" : "text-xl",
-                    )}
-                  >
-                    {option.title}
-                  </h4>
-                  <p
-                    className={clsx(
-                      bpBodySmClass,
-                      "mt-1 font-bold text-bp-accent",
-                      compact && "text-xs",
-                    )}
-                  >
-                    {option.priceLabel}
-                  </p>
-                  <GiftThis compact={compact} />
+            <div className="grid grid-cols-3 gap-1 sm:gap-2">
+              {SHOP_PAIR_OPTIONS.map((option) => (
+                <Link
+                  key={option.key}
+                  href={option.href}
+                  className="group relative block overflow-hidden bg-bp-text/5"
+                >
+                  <BoxImagePlaceholder
+                    alt={option.imageAlt}
+                    note={option.imageNote}
+                    labelNumber={option.photoNumber}
+                    className="aspect-square min-h-0"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-text/85 via-bp-text/40 to-transparent px-2 pb-2 pt-8 sm:px-3 sm:pb-3">
+                    <h4
+                      className={clsx(
+                        bpTitleClass,
+                        bpTitleUtility,
+                        "font-bold uppercase tracking-wide text-bp-canvas",
+                        compact ? "text-[10px] sm:text-xs" : "text-xs sm:text-sm",
+                      )}
+                    >
+                      {option.title}
+                    </h4>
+                    <p className="mt-0.5 text-[10px] font-bold text-bp-accent sm:text-xs">
+                      {option.priceLabel}
+                    </p>
+                  </div>
                 </Link>
               ))}
             </div>
