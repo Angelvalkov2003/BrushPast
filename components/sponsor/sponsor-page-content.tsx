@@ -1,18 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import clsx from "clsx";
-import {
-  ArchiveBoxIcon,
-  ArrowPathIcon,
-  HeartIcon,
-  LightBulbIcon,
-  LockClosedIcon,
-  SparklesIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/outline";
-import { BrushPastIconBadge } from "components/icons/brush-past-icons";
 import {
   HomeCta,
   HomeSectionTitle,
@@ -42,82 +31,6 @@ import {
   type SponsorTier,
 } from "lib/sponsor-config";
 import { SPONSOR_HERO_PHOTOS, SPONSOR_PAGE } from "lib/sponsor-page-config";
-
-function SprayCanIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
-      className={className}
-      aria-hidden
-    >
-      <path d="M10 3h4v2h-4z" />
-      <path d="M11 5h2v2h-2z" />
-      <rect x="8" y="7" width="8" height="13" rx="1.5" />
-      <path d="M16.5 4.5c1.2-.4 2.4.1 3 1.2" />
-      <path d="M18.2 3.2c.15-.6.7-1 1.3-.9" />
-    </svg>
-  );
-}
-
-function LeafIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
-      className={className}
-      aria-hidden
-    >
-      <path d="M5 19c8-1 12-7 13-14-7 1-13 5-14 13z" />
-      <path d="M8 16c2-3 5-5 9-7" />
-    </svg>
-  );
-}
-
-function HandIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
-      className={className}
-      aria-hidden
-    >
-      <path d="M8 13V7a1.5 1.5 0 013 0v4" />
-      <path d="M11 11V5.5a1.5 1.5 0 013 0V11" />
-      <path d="M14 10.5V6.5a1.5 1.5 0 013 0V14" />
-      <path d="M8 13v2a5 5 0 0010 0v-3.5" />
-      <path d="M8 13l-1.5-1.2a1.8 1.8 0 00-2.5.2 1.8 1.8 0 00.2 2.5L8 17" />
-    </svg>
-  );
-}
-
-const VALUE_ICONS = {
-  heart: HeartIcon,
-  leaf: LeafIcon,
-  people: UserGroupIcon,
-  sparkle: SparklesIcon,
-  gift: ArchiveBoxIcon,
-} as const;
-
-const TIER_ICONS = {
-  heart: HeartIcon,
-  spray: SprayCanIcon,
-  people: UserGroupIcon,
-  star: SparklesIcon,
-} as const;
-
-const CYCLE_ICONS = {
-  create: LightBulbIcon,
-  produce: HandIcon,
-  share: ArchiveBoxIcon,
-  reinvest: ArrowPathIcon,
-} as const;
 
 const inputClass = `mt-1.5 w-full border border-bp-text/20 bg-bp-canvas/50 px-3 py-2.5 ${bpBodySmClass} focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`;
 
@@ -234,9 +147,8 @@ function SponsorPledgePanel() {
 
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         {SPONSOR_TIERS.map((tier) => {
-          const Icon = TIER_ICONS[tier.icon];
           const selected = selectedTierId === tier.id && !thanked;
           return (
             <button
@@ -244,44 +156,48 @@ function SponsorPledgePanel() {
               type="button"
               onClick={() => pickTier(tier)}
               aria-pressed={selected}
-              className="h-full text-left focus-visible:outline-offset-4"
+              className={clsx(
+                "h-full border bg-bp-canvas/80 p-4 text-left transition-colors md:p-5",
+                selected
+                  ? "border-bp-text shadow-[3px_3px_0_rgba(1,2,0,0.12)]"
+                  : "border-bp-text/15 hover:border-bp-accent/50",
+              )}
             >
-              <IndexCard
-                className={clsx(
-                  "flex h-full flex-col !p-5 transition-shadow md:!p-6",
-                  selected
-                    ? "!border-bp-accent ring-2 ring-inset ring-bp-accent"
-                    : "hover:border-bp-accent/40",
-                )}
-              >
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <p
                   className={clsx(
-                    `${bpTitleClass} ${bpTitleUtility} text-3xl font-bold`,
+                    `${bpTitleClass} ${bpTitleUtility} text-[1.75rem] font-bold leading-none md:text-3xl`,
                     selected ? "text-bp-accent" : "text-bp-text",
                   )}
                 >
                   {formatSponsorAmount(tier.amountGbp, tier.plus)}
                 </p>
                 <p
-                  className={`${bpTitleClass} ${bpTitleUtility} mt-3 text-lg font-bold uppercase tracking-[0.06em] text-bp-text`}
+                  className={`${bpTitleClass} ${bpTitleUtility} text-sm font-bold uppercase tracking-[0.06em] text-bp-text md:text-base`}
                 >
                   {tier.name}
                 </p>
-                <p
-                  className={`${bpBodyClass} mt-3 flex-1 text-sm leading-relaxed text-bp-text/75`}
-                >
-                  {tier.description}
-                </p>
-                <BrushPastIconBadge icon={Icon} size="sm" className="mt-6" />
-              </IndexCard>
+              </div>
+              <p
+                className={`${bpBodyClass} mt-2 text-sm leading-relaxed text-bp-text/70`}
+              >
+                {tier.description}
+              </p>
             </button>
           );
         })}
       </div>
 
-      <div className="mt-5">
-        <label htmlFor="sponsor-custom-amount" className="sr-only">
-          Or enter your own amount
+      <p className={`${bpBodySmClass} mt-5 text-bp-text/60`}>
+        {SPONSOR_PAGE.chooseImpact.disclaimer}
+      </p>
+
+      <div className="mt-4">
+        <label
+          htmlFor="sponsor-custom-amount"
+          className={`${bpBodySmClass} mb-1.5 block font-medium text-bp-text/75`}
+        >
+          Or enter your own amount £
         </label>
         <div className="relative">
           <span
@@ -306,8 +222,8 @@ function SponsorPledgePanel() {
                 pickCustom();
               }
             }}
-            placeholder="Or enter your own amount"
-            className={`${bpBodyClass} w-full border border-bp-text/20 bg-bp-canvas/70 py-3.5 pl-10 pr-4 text-bp-text placeholder:text-bp-text/40 focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`}
+            placeholder="0"
+            className={`${bpBodyClass} w-full border border-bp-text/20 bg-bp-canvas py-3.5 pl-10 pr-4 text-bp-text placeholder:text-bp-text/35 focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`}
           />
         </div>
         {customHint ? (
@@ -328,21 +244,18 @@ function SponsorPledgePanel() {
           if (tier) pickTier(tier);
           else pickCustom();
         }}
-        className={`${bpTitleClass} ${bpTitleUtility} mt-5 w-full bg-bp-accent px-7 py-3.5 text-lg font-bold uppercase tracking-[0.08em] text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none`}
+        className={`${bpTitleClass} ${bpTitleUtility} mt-5 w-full bg-bp-text px-7 py-3.5 text-base font-bold uppercase tracking-[0.1em] text-bp-canvas shadow-[3px_3px_0_rgba(191,50,1,0.25)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:bg-bp-accent hover:shadow-none`}
       >
-        Become a sponsor
+        {SPONSOR_PAGE.chooseImpact.cta}
       </button>
-      <p
-        className={`${bpBodySmClass} mt-3 flex items-center gap-2 text-bp-text/50`}
-      >
-        <LockClosedIcon className="h-4 w-4 shrink-0" aria-hidden />
-        Secure payments. Your details are safe with us.
+      <p className={`${bpBodySmClass} mt-3 text-bp-text/50`}>
+        {SPONSOR_PAGE.chooseImpact.note}
       </p>
 
       <Modal
         open={pledge != null}
         onClose={closeModal}
-        title={thanked ? "Thank you." : "Become a sponsor"}
+        title={thanked ? "Thank you." : "Donate to the charity"}
         panelClassName="max-w-lg bg-[#faf6f0]"
       >
         {pledge && thanked ? (
@@ -419,7 +332,7 @@ function SponsorPledgePanel() {
                 id="sponsor-privacy"
                 checked={privacy}
                 onChange={setPrivacy}
-                suffix="for processing this sponsorship"
+                suffix="for processing this donation"
               />
             </div>
             {error ? (
@@ -432,7 +345,7 @@ function SponsorPledgePanel() {
               disabled={submitting}
               className={`${bpTitleClass} ${bpTitleUtility} mt-6 w-full bg-bp-accent px-7 py-3 text-lg font-bold uppercase tracking-[0.08em] text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none`}
             >
-              {submitting ? "Please wait…" : "Confirm sponsorship"}
+              {submitting ? "Please wait…" : "Confirm donation"}
             </button>
           </form>
         ) : null}
@@ -496,24 +409,68 @@ export function SponsorPageContent() {
         }
       />
 
-      <TextureSection texture="primary" className="px-4 py-12 md:px-10 md:py-16">
-        <div className="mx-auto grid max-w-[1400px] gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {page.values.map((item) => {
-            const Icon = VALUE_ICONS[item.icon];
-            return (
-              <div key={item.title} className="min-w-0 text-center lg:text-left">
-                <BrushPastIconBadge icon={Icon} size="md" className="mx-auto lg:mx-0" />
-                <p
-                  className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-sm font-bold uppercase tracking-[0.12em] text-bp-text`}
-                >
-                  {item.title}
-                </p>
-                <p className={`${bpBodySmClass} mt-2 text-bp-text/65`}>
-                  {item.note}
-                </p>
-              </div>
-            );
-          })}
+      <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="max-w-3xl">
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
+            >
+              One mission.
+            </p>
+            <h2
+              className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-[clamp(1.85rem,4.5vw,3rem)] font-bold uppercase leading-[1.05] tracking-wide text-bp-text`}
+            >
+              Two organisations.
+            </h2>
+            <span
+              className="mt-4 block h-1 w-24 bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]"
+              aria-hidden
+            />
+          </div>
+
+          <div className="mt-10 grid gap-6 md:mt-12 md:grid-cols-2 md:gap-8">
+            <article className="relative border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:p-8">
+              <p
+                className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-accent/35`}
+              >
+                01
+              </p>
+              <p
+                className={`${bpBodySmClass} mt-3 font-bold uppercase tracking-[0.18em] text-bp-accent`}
+              >
+                Charity
+              </p>
+              <h3
+                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
+              >
+                {page.organisations.foundation.name}
+              </h3>
+              <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
+                {page.organisations.foundation.body}
+              </p>
+            </article>
+
+            <article className="relative border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:p-8">
+              <p
+                className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-text/20`}
+              >
+                02
+              </p>
+              <p
+                className={`${bpBodySmClass} mt-3 font-bold uppercase tracking-[0.18em] text-bp-text/50`}
+              >
+                Trading
+              </p>
+              <h3
+                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
+              >
+                {page.organisations.cic.name}
+              </h3>
+              <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
+                {page.organisations.cic.body}
+              </p>
+            </article>
+          </div>
         </div>
       </TextureSection>
 
@@ -563,9 +520,7 @@ export function SponsorPageContent() {
             >
               {page.chooseImpact.title}
             </h2>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-xl text-bp-text/75`}
-            >
+            <p className={`${bpBodyClass} mt-3 max-w-xl text-bp-text/75`}>
               {page.chooseImpact.whisper}
             </p>
             <div className="mt-8">
@@ -603,32 +558,41 @@ export function SponsorPageContent() {
         texture="secondary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto max-w-[1400px]">
-          <HomeSectionTitle title={page.cycle.title} />
-          <p
-            className={`${bpBodyClass} mx-auto mt-4 max-w-2xl text-center text-bp-text/75`}
-          >
-            {page.cycle.intro}
-          </p>
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {page.cycle.steps.map((step) => {
-              const Icon = CYCLE_ICONS[step.icon];
-              return (
-                <div key={step.title} className="text-center">
-                  <div className="flex justify-center">
-                    <BrushPastIconBadge icon={Icon} size="lg" />
-                  </div>
-                  <p
-                    className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-xl font-bold uppercase tracking-wide text-bp-text`}
-                  >
-                    {step.title}
-                  </p>
-                  <p className={`${bpBodySmClass} mt-2 text-bp-text/65`}>
-                    {step.note}
-                  </p>
-                </div>
-              );
-            })}
+        <div className="mx-auto grid max-w-[1400px] items-end gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:gap-16">
+          <div className="min-w-0">
+            <SectionEyebrow>{page.partnership.eyebrow}</SectionEyebrow>
+            <h2
+              className={`${bpTitleClass} ${bpTitleUtility} mt-2 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold uppercase leading-[1.02] tracking-wide text-bp-text`}
+            >
+              {page.partnership.title}
+            </h2>
+            <span
+              className="mt-4 block h-1 w-20 bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]"
+              aria-hidden
+            />
+            <p
+              className={`${bpBodyClass} mt-6 max-w-2xl leading-relaxed text-bp-text/80 md:text-lg`}
+            >
+              {page.partnership.body}
+            </p>
+            <HomeCta
+              href={page.partnership.ctaHref}
+              variant="primary"
+              className="mt-8"
+            >
+              {page.partnership.cta} →
+            </HomeCta>
+          </div>
+
+          <div className="min-w-0 lg:pb-2">
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} max-w-sm text-2xl leading-snug text-bp-text/70 md:text-3xl lg:ml-auto lg:text-right`}
+            >
+              Workshops. Wear. Gift boxes.
+              <span className="mt-2 block text-bp-accent">
+                Built with the CIC.
+              </span>
+            </p>
           </div>
         </div>
       </TextureSection>
@@ -671,21 +635,6 @@ export function SponsorPageContent() {
           </div>
         </div>
       </section>
-
-      <TextureSection texture="primary" className="px-4 py-10 md:px-10">
-        <div className="mx-auto max-w-[1400px] text-center">
-          <p className={`${bpBodyClass} text-bp-text/70`}>
-            Looking for a partnership or organisational sponsorship?{" "}
-            <Link
-              href="/contact#contact-form"
-              className="font-bold text-bp-accent underline-offset-2 hover:underline"
-            >
-              Send an enquiry
-            </Link>
-            .
-          </p>
-        </div>
-      </TextureSection>
     </>
   );
 }

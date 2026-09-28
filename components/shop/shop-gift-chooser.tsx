@@ -20,7 +20,6 @@ import { BoxImagePlaceholder } from "./box-image-placeholder";
 import {
   SHOP_BUILD_OWN,
   SHOP_GIFT_CHOOSER,
-  SHOP_MOBILE_BOX_CARDS,
   SHOP_PAIR_OPTIONS,
   SHOP_SIGNATURE,
   SHOP_SINGLE_OPTIONS,
@@ -51,7 +50,7 @@ function ChooserHeading({
   compact?: boolean;
 }) {
   return (
-    <div className={compact ? "mb-4" : "mb-6"}>
+    <div className={compact ? "mb-3" : "mb-5"}>
       <p
         className={`${bpBodySmClass} font-bold uppercase tracking-[0.18em] text-bp-text/45`}
       >
@@ -62,7 +61,9 @@ function ChooserHeading({
           bpTitleClass,
           bpTitleUtility,
           "mt-1 font-bold uppercase tracking-wide text-bp-text",
-          compact ? "text-lg md:text-xl" : "text-2xl md:text-3xl",
+          compact
+            ? "text-base sm:text-lg md:text-xl"
+            : "text-lg sm:text-xl md:text-3xl",
         )}
       >
         {title}
@@ -71,21 +72,79 @@ function ChooserHeading({
   );
 }
 
+function TrioTile({
+  href,
+  imageAlt,
+  imageNote,
+  photoNumber,
+  title,
+  subtitle,
+  accentSubtitle,
+  compact,
+}: {
+  href: string;
+  imageAlt: string;
+  imageNote?: string;
+  photoNumber: number;
+  title: string;
+  subtitle?: string;
+  accentSubtitle?: string;
+  compact?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group relative block min-w-0 overflow-hidden bg-bp-text/5"
+    >
+      <BoxImagePlaceholder
+        alt={imageAlt}
+        note={imageNote}
+        labelNumber={photoNumber}
+        className="aspect-square min-h-0"
+      />
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-text/90 via-bp-text/45 to-transparent px-1.5 pb-1.5 pt-6 sm:px-2.5 sm:pb-2.5 sm:pt-8">
+        <h4
+          className={clsx(
+            bpTitleClass,
+            bpTitleUtility,
+            "font-bold uppercase leading-tight tracking-wide text-bp-canvas",
+            compact
+              ? "text-[9px] sm:text-[10px] md:text-xs"
+              : "text-[10px] sm:text-xs md:text-sm",
+          )}
+        >
+          {title}
+        </h4>
+        {accentSubtitle ? (
+          <p className="mt-0.5 text-[9px] font-bold text-bp-accent sm:text-[10px] md:text-xs">
+            {accentSubtitle}
+          </p>
+        ) : null}
+        {subtitle && !compact ? (
+          <p className="mt-0.5 hidden text-[11px] leading-snug text-bp-canvas/80 md:block">
+            {subtitle}
+          </p>
+        ) : null}
+      </div>
+    </Link>
+  );
+}
+
 export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
-  const cardPad = compact ? "!p-4 md:!p-5" : undefined;
+  const cardPad = compact ? "!p-3 sm:!p-4 md:!p-5" : "!p-4 md:!p-6";
   const signatureImageClass = compact
-    ? "aspect-[5/3] min-h-[160px]"
-    : "aspect-[5/3] min-h-[220px]";
-  const buildImageClass = compact
     ? "aspect-[5/3] min-h-[140px]"
-    : "aspect-[5/3] min-h-[180px]";
+    : "aspect-[5/3] min-h-[160px] md:min-h-[220px]";
+  const buildImageClass = compact
+    ? "aspect-[5/3] min-h-[120px]"
+    : "aspect-[5/3] min-h-[140px] md:min-h-[180px]";
 
   return (
     <TextureSection
       texture="primary"
       className={clsx(
         "px-4 md:px-10",
-        compact ? "py-10 md:py-12" : "py-14 md:py-20",
+        compact ? "py-10 md:py-12" : "py-12 md:py-20",
       )}
     >
       <div
@@ -110,53 +169,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
           {SHOP_GIFT_CHOOSER.subtitle}
         </p>
 
-        <div className={clsx(compact ? "mt-8 md:hidden" : "mt-12 md:hidden")}>
-          <div className={clsx("grid gap-6", compact ? "grid-cols-2" : "gap-8")}>
-            {SHOP_MOBILE_BOX_CARDS.map((option, index) => (
-              <Link key={option.type} href={option.href} className="group block min-w-0">
-                <PolaroidFrame index={index} className="group-hover:rotate-0">
-                  <BoxImagePlaceholder
-                    alt={option.imageAlt}
-                    note={option.imageNote}
-                    labelNumber={option.photoNumber}
-                    className={
-                      compact
-                        ? "aspect-[4/5] min-h-[120px]"
-                        : "aspect-[4/5] min-h-[240px]"
-                    }
-                  />
-                </PolaroidFrame>
-                <h3
-                  className={clsx(
-                    bpTitleClass,
-                    bpTitleUtility,
-                    "mt-3 font-bold uppercase tracking-wide text-bp-text",
-                    compact ? "text-base" : "text-3xl",
-                  )}
-                >
-                  {option.title}
-                </h3>
-                {!compact ? (
-                  <>
-                    <p className={`${bpBodyClass} mt-2 text-bp-text/75`}>
-                      {option.description}
-                    </p>
-                    <GiftThis />
-                  </>
-                ) : (
-                  <GiftThis compact />
-                )}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div
-          className={clsx(
-            "hidden space-y-6 md:block",
-            compact ? "mt-8" : "mt-12 space-y-8",
-          )}
-        >
+        <div className={clsx("space-y-5 md:space-y-8", compact ? "mt-8" : "mt-10 md:mt-12")}>
           <IndexCard className={cardPad}>
             <ChooserHeading
               compact={compact}
@@ -165,35 +178,16 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
             />
             <div className="grid grid-cols-3 gap-1 sm:gap-2">
               {SHOP_SINGLE_OPTIONS.map((option) => (
-                <Link
+                <TrioTile
                   key={option.key}
                   href={option.href}
-                  className="group relative block overflow-hidden bg-bp-text/5"
-                >
-                  <BoxImagePlaceholder
-                    alt={option.imageAlt}
-                    note={option.imageNote}
-                    labelNumber={option.photoNumber}
-                    className="aspect-square min-h-0"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-text/85 via-bp-text/40 to-transparent px-2 pb-2 pt-8 sm:px-3 sm:pb-3">
-                    <h4
-                      className={clsx(
-                        bpTitleClass,
-                        bpTitleUtility,
-                        "font-bold uppercase tracking-wide text-bp-canvas",
-                        compact ? "text-[10px] sm:text-xs" : "text-xs sm:text-sm",
-                      )}
-                    >
-                      {option.title}
-                    </h4>
-                    {!compact ? (
-                      <p className="mt-0.5 hidden text-[11px] text-bp-canvas/80 sm:block">
-                        {option.description}
-                      </p>
-                    ) : null}
-                  </div>
-                </Link>
+                  imageAlt={option.imageAlt}
+                  imageNote={option.imageNote}
+                  photoNumber={option.photoNumber}
+                  title={option.title}
+                  subtitle={option.description}
+                  compact={compact}
+                />
               ))}
             </div>
           </IndexCard>
@@ -206,43 +200,21 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
             />
             <div className="grid grid-cols-3 gap-1 sm:gap-2">
               {SHOP_PAIR_OPTIONS.map((option) => (
-                <Link
+                <TrioTile
                   key={option.key}
                   href={option.href}
-                  className="group relative block overflow-hidden bg-bp-text/5"
-                >
-                  <BoxImagePlaceholder
-                    alt={option.imageAlt}
-                    note={option.imageNote}
-                    labelNumber={option.photoNumber}
-                    className="aspect-square min-h-0"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bp-text/85 via-bp-text/40 to-transparent px-2 pb-2 pt-8 sm:px-3 sm:pb-3">
-                    <h4
-                      className={clsx(
-                        bpTitleClass,
-                        bpTitleUtility,
-                        "font-bold uppercase tracking-wide text-bp-canvas",
-                        compact ? "text-[10px] sm:text-xs" : "text-xs sm:text-sm",
-                      )}
-                    >
-                      {option.title}
-                    </h4>
-                    <p className="mt-0.5 text-[10px] font-bold text-bp-accent sm:text-xs">
-                      {option.priceLabel}
-                    </p>
-                  </div>
-                </Link>
+                  imageAlt={option.imageAlt}
+                  imageNote={option.imageNote}
+                  photoNumber={option.photoNumber}
+                  title={option.title}
+                  accentSubtitle={option.priceLabel}
+                  compact={compact}
+                />
               ))}
             </div>
           </IndexCard>
 
-          <div
-            className={clsx(
-              "grid gap-6",
-              compact ? "lg:grid-cols-2" : "gap-8",
-            )}
-          >
+          <div className="grid gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
             <IndexCard className={cardPad}>
               <ChooserHeading
                 compact={compact}
@@ -251,7 +223,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
               />
               <Link
                 href={SHOP_SIGNATURE.href}
-                className="group grid gap-5 md:grid-cols-2 md:items-center"
+                className="group grid gap-4 sm:grid-cols-2 sm:items-center sm:gap-5"
               >
                 <PolaroidFrame index={2} className="group-hover:rotate-0">
                   <BoxImagePlaceholder
@@ -267,7 +239,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                       homeHandClass,
                       bpWhisperUtility,
                       "text-bp-accent",
-                      compact ? "text-lg" : "text-2xl",
+                      compact ? "text-base sm:text-lg" : "text-lg sm:text-2xl",
                     )}
                   >
                     {SHOP_SIGNATURE.proposition}
@@ -278,8 +250,8 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                       bpTitleUtility,
                       "mt-2 font-bold uppercase leading-tight text-bp-text",
                       compact
-                        ? "text-xl md:text-2xl"
-                        : "text-[clamp(1.85rem,4vw,2.75rem)]",
+                        ? "text-lg sm:text-xl"
+                        : "text-xl sm:text-[clamp(1.85rem,4vw,2.75rem)]",
                     )}
                   >
                     {SHOP_SIGNATURE.title}
@@ -288,7 +260,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                     className={clsx(
                       bpBodyClass,
                       "mt-2 text-bp-text/75",
-                      compact && "text-sm",
+                      compact ? "text-sm" : "text-sm sm:text-base",
                     )}
                   >
                     {SHOP_SIGNATURE.description}
@@ -298,7 +270,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                       bpTitleClass,
                       bpTitleUtility,
                       "mt-3 font-bold text-bp-accent",
-                      compact ? "text-xl" : "text-3xl",
+                      compact ? "text-lg" : "text-2xl sm:text-3xl",
                     )}
                   >
                     {SHOP_SIGNATURE.priceLabel}
@@ -314,7 +286,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                 number="04"
                 title="Build Your Own Gift Box (pick & mix)"
               />
-              <div className="grid gap-5 md:grid-cols-2 md:items-center">
+              <div className="grid gap-4 sm:grid-cols-2 sm:items-center sm:gap-5">
                 <div>
                   <h4
                     className={clsx(
@@ -322,8 +294,8 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                       bpTitleUtility,
                       "font-bold uppercase leading-tight text-bp-text",
                       compact
-                        ? "text-xl md:text-2xl"
-                        : "text-[clamp(1.85rem,4vw,2.75rem)]",
+                        ? "text-lg sm:text-xl"
+                        : "text-xl sm:text-[clamp(1.85rem,4vw,2.75rem)]",
                     )}
                   >
                     {SHOP_BUILD_OWN.title}
@@ -332,23 +304,23 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                     className={clsx(
                       bpBodyClass,
                       "mt-3 text-bp-text/75",
-                      compact && "text-sm",
+                      compact ? "text-sm" : "text-sm sm:text-base",
                     )}
                   >
                     {SHOP_BUILD_OWN.description}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-3">
+                  <div className="mt-3 flex flex-wrap gap-2 sm:mt-4 sm:gap-3">
                     {SHOP_BUILD_OWN.checks.map((label) => (
                       <span
                         key={label}
                         className={clsx(
                           bpBodySmClass,
                           "flex items-center gap-2 text-bp-text/70",
-                          compact && "text-xs",
+                          "text-[11px] sm:text-xs",
                         )}
                       >
                         <span
-                          className="inline-block h-3.5 w-3.5 border border-bp-text/40 bg-bp-canvas/70"
+                          className="inline-block h-3 w-3 border border-bp-text/40 bg-bp-canvas/70 sm:h-3.5 sm:w-3.5"
                           aria-hidden
                         />
                         {label}
@@ -357,7 +329,7 @@ export function ShopGiftChooser({ compact = false }: { compact?: boolean }) {
                   </div>
                   <HomeCta
                     href={SHOP_BUILD_OWN.href}
-                    className={compact ? "mt-5" : "mt-8"}
+                    className={compact ? "mt-5" : "mt-6 sm:mt-8"}
                     variant="primary"
                   >
                     Build your box →

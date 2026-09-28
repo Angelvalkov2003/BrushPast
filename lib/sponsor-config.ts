@@ -18,36 +18,37 @@ export const SPONSOR_TIERS: SponsorTier[] = [
   {
     id: "supporter",
     amountGbp: 20,
-    name: "Supporter",
-    description: "Helps cover materials for a workshop participant.",
+    name: "Workshop Supporter",
+    description: "Helps fund creative materials for a participant.",
     icon: "heart",
   },
   {
     id: "creative_ally",
     amountGbp: 50,
     name: "Creative Ally",
-    description: "Contributes to an artist's project and production costs.",
+    description: "Helps fund mentoring and creative activity.",
     icon: "spray",
   },
   {
     id: "project_backer",
     amountGbp: 100,
     name: "Project Backer",
-    description: "Supports larger projects, exhibitions and community events.",
+    description:
+      "Helps fund workshops and opportunities to share the work.",
     icon: "people",
   },
   {
     id: "visionary",
     amountGbp: 500,
-    name: "Visionary",
-    description: "Helps sustain our mission and grow our impact.",
+    name: "Programme Supporter",
+    description: "Helps sustain and develop our charitable programmes.",
     icon: "star",
   },
 ];
 
 export const SPONSOR_CUSTOM_CARD = {
   name: "Your amount",
-  description: "Write what feels right. Every gift is a conversation.",
+  description: "Enter what feels right to support the Foundation.",
 } as const;
 
 export const SPONSOR_MIN_GBP = 1;

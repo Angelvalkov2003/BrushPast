@@ -7,42 +7,26 @@ import { PHOTO } from "./photo-placeholder";
 
 export const SPONSOR_PAGE = {
   hero: {
-    eyebrow: "Support Brush Past",
-    title: "Become a Sponsor.",
-    whisper: "Help creativity reach further.",
-    body: "Your support funds artists, workshops and the next chapter of community storytelling. Every contribution helps creativity reach further.",
-    primaryCta: "Become a sponsor",
+    eyebrow: "Support the Foundation",
+    title: "Make creativity possible.",
+    whisper: "Give someone space to create.",
+    body: "Donate to Brush Past Foundation, our registered charity. Your gift supports creative workshops, mentoring and opportunities for people whose voices are too often brushed past.",
+    primaryCta: "Make a donation",
     primaryHref: "#choose-your-impact",
     secondaryCta: "Other ways to give",
     secondaryHref: "/contact#contact-form",
   },
-  values: [
-    {
-      title: "Direct Impact",
-      note: "Funding that reaches projects and people.",
-      icon: "heart" as const,
+  organisations: {
+    title: "One mission. Two organisations.",
+    foundation: {
+      name: "Brush Past Foundation",
+      body: "Receives charitable donations and funds charitable work.",
     },
-    {
-      title: "Sustainable Creative Ecosystem",
-      note: "Support that keeps creativity cycling.",
-      icon: "leaf" as const,
+    cic: {
+      name: "Brush Past CIC",
+      body: "Makes and sells products and handles commercial partnerships.",
     },
-    {
-      title: "Community & Connection",
-      note: "Workshops, events and shared spaces.",
-      icon: "people" as const,
-    },
-    {
-      title: "Transparency",
-      note: "Regular updates on where support goes.",
-      icon: "sparkle" as const,
-    },
-    {
-      title: "Meaningful Change",
-      note: "Stories and opportunities that last.",
-      icon: "gift" as const,
-    },
-  ],
+  },
   whereSupportGoes: {
     title: "Where Your Support Goes",
     items: [
@@ -80,8 +64,12 @@ export const SPONSOR_PAGE = {
   },
   chooseImpact: {
     eyebrow: "Choose your impact",
-    title: "Choose your impact",
-    whisper: "Every amount funds workshops, artists and the next story.",
+    title: "Make a donation",
+    whisper: "Choose an amount to support the Foundation's charitable work.",
+    disclaimer:
+      "Your donation goes to Brush Past Foundation. No product or service is included.",
+    cta: "Donate to the charity",
+    note: "Payment preview only. Connect to the Foundation's donation account before publishing.",
   },
   testimonial: {
     eyebrow: "Real stories. Real impact.",
@@ -91,32 +79,12 @@ export const SPONSOR_PAGE = {
     imageNote: "IMAGE NEEDED: Artwork / sketchbook still life.",
     photoNumber: PHOTO.sponsorTestimonial,
   },
-  cycle: {
-    title: "The Cycle of Creativity",
-    intro:
-      "Sponsorship keeps a living loop of making, sharing and reinvesting — so the next story can begin.",
-    steps: [
-      {
-        title: "Create",
-        note: "Ideas are born in community.",
-        icon: "create" as const,
-      },
-      {
-        title: "Produce",
-        note: "Working with artists to bring ideas to life.",
-        icon: "produce" as const,
-      },
-      {
-        title: "Share",
-        note: "Gifts and exhibitions that inspire.",
-        icon: "share" as const,
-      },
-      {
-        title: "Reinvest",
-        note: "Support returns to creators and programmes.",
-        icon: "reinvest" as const,
-      },
-    ],
+  partnership: {
+    eyebrow: "For organisations",
+    title: "Partner with Brush Past CIC",
+    body: "Commission a workshop, T-shirts or gift boxes for your staff, stakeholders or events. This is a commercial partnership with the CIC.",
+    cta: "Discuss a partnership",
+    ctaHref: "/contact#contact-form",
   },
   closing: {
     title: "Be part of something creative.",

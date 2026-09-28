@@ -21,7 +21,6 @@ import {
   bpEmphasisUtility,
   bpLinkUtility,
   bpStoryVoiceUtility,
-  PAGE_HERO_POLAROID_WRAP_CLASS,
   bpTitleClass,
   bpTitleUtility,
   bpWhisperUtility,
@@ -45,20 +44,22 @@ export function ContactPageContent() {
           </>
         }
         media={
-          <PolaroidFrame index={0} className={PAGE_HERO_POLAROID_WRAP_CLASS}>
-            <div className="relative aspect-[4/5] overflow-hidden bg-bp-surface">
+          <PolaroidFrame
+            index={0}
+            className="mx-auto w-full max-w-[280px] sm:max-w-sm md:max-w-[400px] lg:max-w-[440px]"
+          >
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-bp-surface">
               <Image
                 src={CONTACT_HERO_IMAGE.src}
                 alt={CONTACT_HERO_IMAGE.alt}
                 fill
-                className="object-cover"
-                style={{ objectPosition: "50% 42%" }}
+                className="object-cover object-[50%_20%]"
                 priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 768px) 280px, 440px"
               />
             </div>
             <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
+              className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-center text-base text-bp-text/75 md:text-lg`}
             >
               Real people, real spaces · Social Impact Coffee
             </p>
