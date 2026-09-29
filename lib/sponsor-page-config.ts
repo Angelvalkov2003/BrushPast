@@ -27,41 +27,6 @@ export const SPONSOR_PAGE = {
       body: "Makes and sells products and handles commercial partnerships.",
     },
   },
-  whereSupportGoes: {
-    title: "Where Your Support Goes",
-    items: [
-      {
-        title: "Artist Projects",
-        note: "Materials, mentoring and time to make new work.",
-        imageNote: "IMAGE NEEDED: Artist working in studio.",
-        photoNumber: PHOTO.sponsorArtistProjects,
-      },
-      {
-        title: "Workshops & Education",
-        note: "Safe creative spaces for people rebuilding identity.",
-        imageNote: "IMAGE NEEDED: Workshop session.",
-        photoNumber: PHOTO.sponsorWorkshopsEducation,
-      },
-      {
-        title: "Exhibitions & Events",
-        note: "Public moments where stories meet community.",
-        imageNote: "IMAGE NEEDED: Exhibition or mural.",
-        photoNumber: PHOTO.sponsorExhibitionsEvents,
-      },
-      {
-        title: "Studio & Resources",
-        note: "Tools, space and support for making.",
-        imageNote: "IMAGE NEEDED: Studio resources / blueprints.",
-        photoNumber: PHOTO.sponsorStudioResources,
-      },
-      {
-        title: "Community Initiatives",
-        note: "Partnerships that open new doors.",
-        imageNote: "IMAGE NEEDED: Community gathering.",
-        photoNumber: PHOTO.sponsorCommunityInitiatives,
-      },
-    ],
-  },
   chooseImpact: {
     eyebrow: "Choose your impact",
     title: "Make a donation",
@@ -71,29 +36,12 @@ export const SPONSOR_PAGE = {
     cta: "Donate to the charity",
     note: "Payment preview only. Connect to the Foundation's donation account before publishing.",
   },
-  testimonial: {
-    eyebrow: "Real stories. Real impact.",
-    quote:
-      "Thanks to our sponsors, I had the time, materials and space to finally create the work I've been dreaming about.",
-    attribution: "— Brush Past Artist",
-    imageNote: "IMAGE NEEDED: Artwork / sketchbook still life.",
-    photoNumber: PHOTO.sponsorTestimonial,
-  },
   partnership: {
     eyebrow: "For organisations",
     title: "Partner with Brush Past CIC",
     body: "Commission a workshop, T-shirts or gift boxes for your staff, stakeholders or events. This is a commercial partnership with the CIC.",
     cta: "Discuss a partnership",
     ctaHref: "/contact#contact-form",
-  },
-  closing: {
-    title: "Be part of something creative.",
-    thankYou: "Thank you.",
-    cta: "Become a sponsor",
-    ctaHref: "#choose-your-impact",
-    note: "Art of empowerment.",
-    imageNote: "IMAGE NEEDED: Hand holding Brush Past mug.",
-    photoNumber: PHOTO.sponsorClosingMug,
   },
 } as const;
 

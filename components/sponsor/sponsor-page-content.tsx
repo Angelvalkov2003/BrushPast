@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import {
   HomeCta,
-  HomeSectionTitle,
   IndexCard,
   PolaroidFrame,
   SectionEyebrow,
@@ -478,42 +477,11 @@ export function SponsorPageContent() {
         texture="secondary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto max-w-[1400px]">
-          <HomeSectionTitle title={page.whereSupportGoes.title} align="left" />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {page.whereSupportGoes.items.map((item, index) => (
-              <div key={item.title} className="min-w-0">
-                <PolaroidFrame index={index} tilt={false} className="pb-6">
-                  <BoxImagePlaceholder
-                    alt={item.title}
-                    note={item.imageNote}
-                    labelNumber={item.photoNumber}
-                    className="aspect-[4/3] min-h-[120px]"
-                  />
-                </PolaroidFrame>
-                <h3
-                  className={`${bpTitleClass} ${bpTitleUtility} mt-4 text-lg font-bold uppercase tracking-wide text-bp-text`}
-                >
-                  {item.title}
-                </h3>
-                <p className={`${bpBodySmClass} mt-2 text-bp-text/70`}>
-                  {item.note}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </TextureSection>
-
-      <TextureSection
-        texture="primary"
-        className="px-4 py-14 md:px-10 md:py-20"
-      >
         <div
           id="choose-your-impact"
-          className="mx-auto grid max-w-[1400px] scroll-mt-28 gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16"
+          className="mx-auto max-w-[1400px] scroll-mt-28"
         >
-          <div className="min-w-0">
+          <div className="min-w-0 max-w-2xl">
             <SectionEyebrow>{page.chooseImpact.eyebrow}</SectionEyebrow>
             <h2
               className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2rem,5vw,3.25rem)] font-bold uppercase leading-[1.05] text-bp-text`}
@@ -526,30 +494,6 @@ export function SponsorPageContent() {
             <div className="mt-8">
               <SponsorPledgePanel />
             </div>
-          </div>
-
-          <div className="min-w-0">
-            <p
-              className={`${bpTitleClass} ${bpTitleUtility} text-sm font-bold uppercase tracking-[0.18em] text-bp-text/45`}
-            >
-              {page.testimonial.eyebrow}
-            </p>
-            <PolaroidFrame index={2} className="mt-4" tilt={false}>
-              <BoxImagePlaceholder
-                alt="Sponsor testimonial artwork"
-                note={page.testimonial.imageNote}
-                labelNumber={page.testimonial.photoNumber}
-                className="aspect-[4/3] min-h-[200px]"
-              />
-            </PolaroidFrame>
-            <blockquote
-              className={`${bpBodyClass} mt-6 text-xl italic leading-relaxed text-bp-text/80`}
-            >
-              “{page.testimonial.quote}”
-            </blockquote>
-            <p className={`${bpBodySmClass} mt-3 text-bp-text/55`}>
-              {page.testimonial.attribution}
-            </p>
           </div>
         </div>
       </TextureSection>
@@ -596,45 +540,6 @@ export function SponsorPageContent() {
           </div>
         </div>
       </TextureSection>
-
-      <section className="relative overflow-hidden border-t border-bp-text/10 bg-bp-dark text-bp-canvas">
-        <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-10 md:py-20">
-          <div>
-            <h2
-              className={`${bpTitleClass} ${bpTitleUtility} text-[clamp(2rem,5vw,3.5rem)] font-bold uppercase leading-[1.05]`}
-            >
-              {page.closing.title}{" "}
-              <span
-                className={`${homeHandClass} ${bpWhisperUtility} text-bp-accent normal-case`}
-              >
-                {page.closing.thankYou}
-              </span>
-            </h2>
-            <HomeCta
-              href={page.closing.ctaHref}
-              variant="primary"
-              className="mt-8"
-            >
-              {page.closing.cta}
-            </HomeCta>
-          </div>
-          <div className="relative min-w-0">
-            <PolaroidFrame index={3} tilt={false}>
-              <BoxImagePlaceholder
-                alt="Brush Past branded mug"
-                note={page.closing.imageNote}
-                labelNumber={page.closing.photoNumber}
-                className="aspect-[4/3] min-h-[200px]"
-              />
-            </PolaroidFrame>
-            <div className="absolute -bottom-3 right-4 max-w-[12rem] rotate-[-3deg] border border-bp-text/10 bg-bp-accent px-4 py-3 text-bp-canvas shadow-[3px_3px_0_rgba(0,0,0,0.2)] md:right-8">
-              <p className={`${homeHandClass} ${bpWhisperUtility} text-lg`}>
-                {page.closing.note}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
