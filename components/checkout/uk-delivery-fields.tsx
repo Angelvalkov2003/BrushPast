@@ -54,6 +54,7 @@ export function UkDeliveryFields({
 }) {
   const [lookupLoading, setLookupLoading] = useState(false);
   const [lookupError, setLookupError] = useState<string | null>(null);
+  const [lookupHint, setLookupHint] = useState<string | null>(null);
   const [lookupAddresses, setLookupAddresses] = useState<PostcodeLookupAddress[]>(
     [],
   );
@@ -82,6 +83,7 @@ export function UkDeliveryFields({
 
   const runPostcodeLookup = async () => {
     setLookupError(null);
+    setLookupHint(null);
     setLookupAddresses([]);
     setSelectedStreet("");
     setHouseNumber("");
@@ -115,11 +117,16 @@ export function UkDeliveryFields({
         city: data.town ?? value.city,
         county: data.county ?? value.county,
       });
-      setLookupAddresses(data.addresses ?? []);
+      const addresses = data.addresses ?? [];
+      setLookupAddresses(addresses);
 
-      if (!data.addresses?.length) {
-        setLookupError(
-          "Postcode found. Choose a street below if listed, or type your house number and street.",
+      if (addresses.length > 0) {
+        setLookupHint(
+          "Postcode found. Pick an address or street below, then confirm your house / flat number.",
+        );
+      } else {
+        setLookupHint(
+          "Postcode found. Enter your house number and street below.",
         );
       }
     } catch {
@@ -144,6 +151,7 @@ export function UkDeliveryFields({
       postcode: address.postcode || value.postcode,
     });
     setLookupError(null);
+    setLookupHint(null);
   };
 
   const applyStreetAndNumber = (street: string, number: string) => {
@@ -290,11 +298,10 @@ export function UkDeliveryFields({
               </button>
             </div>
             {lookupError ? (
-              <p
-                className={`mt-1 text-xs ${lookupAddresses.length ? "text-bp-text/60" : "text-red-700"}`}
-              >
-                {lookupError}
-              </p>
+              <p className="mt-1 text-xs text-red-700">{lookupError}</p>
+            ) : null}
+            {!lookupError && lookupHint ? (
+              <p className="mt-1 text-xs text-bp-text/60">{lookupHint}</p>
             ) : null}
             {fieldErrors?.postcode ? (
               <p className="mt-1 text-xs text-red-700">{fieldErrors.postcode}</p>

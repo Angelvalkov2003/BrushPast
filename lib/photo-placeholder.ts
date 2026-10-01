@@ -20,13 +20,22 @@ export const PHOTO_SRC: Partial<Record<number, string>> = {
   10: "/mainphotos/10.jpg",
   11: "/mainphotos/11.jpg",
   12: "/mainphotos/12.png",
+  13: "/mainphotos/13.png",
   18: "/mainphotos/18.webp",
+  19: "/mainphotos/19.jpg",
+  20: "/mainphotos/20.jpg",
+  23: "/mainphotos/23.jpg",
+  25: "/mainphotos/25.jpg",
+  26: "/mainphotos/26.jpg",
+  27: "/mainphotos/27.jpg",
   28: "/mainphotos/28.jpg",
   29: "/mainphotos/29.jpg",
   31: "/mainphotos/31.jpg",
   32: "/mainphotos/32.jpg",
   34: "/mainphotos/34.jpg",
   35: "/mainphotos/35.jpg",
+  41: "/mainphotos/41.jpeg",
+  43: "/mainphotos/43.jpg",
 };
 
 export function photoSrcForNumber(number: number): string | undefined {

@@ -16,92 +16,84 @@ type PostcodesIoResponse = {
   };
 };
 
-type GetAddressExpanded = {
+type IdealPostcodesResult = {
   line_1?: string;
   line_2?: string;
   line_3?: string;
-  line_4?: string;
-  locality?: string;
-  town_or_city?: string;
+  post_town?: string;
   county?: string;
+  postcode?: string;
   thoroughfare?: string;
   building_number?: string;
   building_name?: string;
   sub_building_name?: string;
-  formatted_address?: string[];
+  organisation_name?: string;
 };
 
-type GetAddressResponse = {
-  addresses?: Array<string | GetAddressExpanded>;
-  postcode?: string;
+type IdealPostcodesResponse = {
+  code?: number;
+  message?: string;
+  result?: IdealPostcodesResult[];
 };
 
-function parseGetAddressLine(line: string): PostcodeLookupAddress {
-  const parts = line.split(",").map((part) => part.trim()).filter(Boolean);
-  const line1 = parts[0] ?? line.trim();
-  const town = parts[parts.length - 2] ?? parts[parts.length - 1] ?? "";
-  const county = parts.length > 2 ? parts[parts.length - 1] : undefined;
-
-  return {
-    label: line.trim(),
-    line1,
-    town,
-    county,
-    postcode: "",
-  };
-}
-
-function parseGetAddressExpanded(item: GetAddressExpanded): PostcodeLookupAddress {
-  const number = [item.sub_building_name, item.building_number, item.building_name]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
-  const street = (item.thoroughfare ?? "").trim();
-  const composed =
+function parseIdealAddress(
+  item: IdealPostcodesResult,
+  fallbackPostcode: string,
+): PostcodeLookupAddress {
+  const line1 =
     item.line_1?.trim() ||
-    (number && street ? `${number} ${street}` : street || number);
-  const line2 = [item.line_2, item.line_3, item.line_4, item.locality]
+    [
+      item.organisation_name,
+      item.sub_building_name,
+      item.building_number,
+      item.building_name,
+      item.thoroughfare,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+  const line2 = [item.line_2, item.line_3].filter(Boolean).join(", ").trim();
+  const town = item.post_town?.trim() ?? "";
+  const county = item.county?.trim() || undefined;
+  const postcode = item.postcode?.trim() || fallbackPostcode;
+  const label = [line1, line2, town, county, postcode]
     .filter(Boolean)
     .join(", ");
-  const town = item.town_or_city?.trim() ?? "";
-  const county = item.county?.trim() || undefined;
-  const label =
-    item.formatted_address?.filter(Boolean).join(", ") ||
-    [composed, line2, town, county].filter(Boolean).join(", ");
 
   return {
     label,
-    line1: composed,
+    line1,
     line2: line2 || undefined,
     town,
     county,
-    postcode: "",
+    postcode,
   };
 }
 
-async function lookupViaGetAddress(
+async function lookupViaIdealPostcodes(
   postcode: string,
 ): Promise<PostcodeLookupAddress[] | null> {
-  const apiKey = process.env.GETADDRESS_API_KEY?.trim();
-  if (!apiKey) return null;
+  const apiKey =
+    process.env.IDEAL_POSTCODES_API_KEY?.trim() ||
+    // Public Ideal Postcodes test key — limited postcodes; replace in production.
+    "ak_test";
 
-  const encoded = encodeURIComponent(postcode.replace(/\s+/g, ""));
+  const encoded = encodeURIComponent(postcode);
   const response = await fetch(
-    `https://api.getAddress.io/find/${encoded}?api-key=${apiKey}&expand=true`,
+    `https://api.ideal-postcodes.co.uk/v1/postcodes/${encoded}?api_key=${apiKey}`,
     { next: { revalidate: 86400 } },
   );
 
-  if (!response.ok) return null;
+  if (response.status === 404) return [];
+  if (!response.ok) {
+    console.error("ideal-postcodes lookup failed:", response.status);
+    return null;
+  }
 
-  const data = (await response.json()) as GetAddressResponse;
-  if (!data.addresses?.length) return [];
+  const data = (await response.json()) as IdealPostcodesResponse;
+  if (!data.result?.length) return [];
 
-  return data.addresses.map((entry) => ({
-    ...(typeof entry === "string"
-      ? parseGetAddressLine(entry)
-      : parseGetAddressExpanded(entry)),
-    postcode,
-  }));
+  return data.result.map((item) => parseIdealAddress(item, postcode));
 }
 
 async function lookupViaPostcodesIo(postcode: string): Promise<{
@@ -145,23 +137,30 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const [addressesFromGetAddress, postcodesIo] = await Promise.all([
-      lookupViaGetAddress(postcode),
+    const [addressesFromIdeal, postcodesIo] = await Promise.all([
+      lookupViaIdealPostcodes(postcode),
       lookupViaPostcodesIo(postcode),
     ]);
 
-    if (!postcodesIo && addressesFromGetAddress === null) {
+    if (!postcodesIo && addressesFromIdeal === null) {
       return NextResponse.json(
         { error: "Could not look up that postcode. Check it and try again." },
         { status: 404 },
       );
     }
 
-    const addresses = addressesFromGetAddress ?? [];
+    if (!postcodesIo && addressesFromIdeal !== null && addressesFromIdeal.length === 0) {
+      return NextResponse.json(
+        { error: "Could not find that postcode. Check it and try again." },
+        { status: 404 },
+      );
+    }
+
+    const addresses = addressesFromIdeal ?? [];
     const result: PostcodeLookupResult = {
       postcode,
-      town: postcodesIo?.town ?? addresses[0]?.town ?? null,
-      county: postcodesIo?.county ?? addresses[0]?.county ?? null,
+      town: addresses[0]?.town || postcodesIo?.town || null,
+      county: addresses[0]?.county || postcodesIo?.county || null,
       addresses: addresses.map((item) => ({ ...item, postcode })),
     };
 
