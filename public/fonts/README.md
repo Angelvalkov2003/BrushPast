@@ -6,5 +6,5 @@ Place licensed DIN webfont files here when available:
 - `DIN-Medium.woff2`
 - `DIN-Bold.woff2`
 
-Until then, the site falls back to Inter (`--font-bp-subtitle`) via `globals.css`.
+Until then, the site falls back to Geist / system UI (`--font-bp-subtitle`) via `globals.css`.
 Stick No Bills and Oswald load from `next/font/google`.

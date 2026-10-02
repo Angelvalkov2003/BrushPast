@@ -26,6 +26,8 @@
   --bp-accent: #bf3201;
   --bp-accent-bg: #c8a67a;
   --bp-dark: #131312;
+  /* Body face — Geist (local) when present, else system stack. No Google Inter. */
+  --font-bp-subtitle: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -73,6 +75,7 @@ body.bp-site .bp-display {
   font-family: var(--font-bp-display), var(--font-bp-title), sans-serif;
 }
 
+body.bp-site .bp-subtitle-face,
 body.bp-site .bp-subtitle,
 body.bp-site .bp-body {
   font-family:

@@ -1,12 +1,12 @@
-import { Caveat, Inter, Oswald, Stick_No_Bills } from "next/font/google";
+import { Caveat, Oswald, Stick_No_Bills } from "next/font/google";
 
 /**
  * Public site typography (admin excluded via body.bp-site):
  * - Oswald: primary headings / CTAs (bp-title) — used widely
  * - Stick No Bills: selected display headings (bp-display)
  * - DIN: supporting / subtitle font when local files are present in
- *   public/fonts/DIN-*.woff2 — otherwise falls back to Inter (see globals.css)
- * - Inter: body UI until DIN files are supplied
+ *   public/fonts/DIN-*.woff2 — otherwise falls back to Geist / system
+ * - Body UI uses Geist (local package) — avoid Google Inter fetch on CI
  * - Caveat: story voice only (bp-story-voice) — reduced sitewide use
  */
 export const homeHand = Caveat({
@@ -22,6 +22,7 @@ export const bpTitle = Oswald({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-bp-title",
+  display: "swap",
 });
 
 /** Selected hero / section display headings — Stick No Bills */
@@ -32,12 +33,15 @@ export const bpDisplay = Stick_No_Bills({
   display: "swap",
 });
 
-/** Body / supporting — Inter (DIN when font files are added) */
-export const bpSubtitle = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-bp-subtitle",
-});
+/**
+ * Body / supporting face class.
+ * `--font-bp-subtitle` is set in globals.css from Geist (already on <html>).
+ * Kept as a stable API so call sites don't need Geist imports.
+ */
+export const bpSubtitle = {
+  className: "bp-subtitle-face",
+  variable: "",
+} as const;
 
 export const homeHandClass = homeHand.className;
 export const bpTitleClass = bpTitle.className;
@@ -98,7 +102,7 @@ export const PAGE_HERO_MEDIA_FRAMELESS_CLASS =
 export const PAGE_HERO_POLAROID_WRAP_CLASS =
   "mx-auto w-full max-w-md md:max-w-none";
 
-export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpDisplay.variable} ${bpSubtitle.variable}`;
+export const bpFontVariables = `${homeHand.variable} ${bpTitle.variable} ${bpDisplay.variable}`;
 
 /** @deprecated Use bpSubtitle */
 export const homeSerif = bpSubtitle;

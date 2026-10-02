@@ -14,6 +14,7 @@ export function BoxImagePlaceholder({
   className,
   labelNumber,
   objectFit = "cover",
+  objectPosition = "center",
   priority = false,
 }: {
   alt: string;
@@ -21,6 +22,8 @@ export function BoxImagePlaceholder({
   className?: string;
   labelNumber: number;
   objectFit?: "cover" | "contain";
+  /** CSS object-position value, e.g. "center top" or "50% 20%". */
+  objectPosition?: string;
   priority?: boolean;
 }) {
   const displayLabel = formatPhotoPlaceholderLabel(labelNumber);
@@ -43,10 +46,10 @@ export function BoxImagePlaceholder({
           alt={alt}
           fill
           priority={priority}
-          className={clsx(
-            "object-center",
-            objectFit === "contain" ? "object-contain" : "object-cover",
-          )}
+          className={
+            objectFit === "contain" ? "object-contain" : "object-cover"
+          }
+          style={{ objectPosition }}
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>

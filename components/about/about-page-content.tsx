@@ -134,6 +134,7 @@ export function AboutPageContent() {
                   note={ABOUT_FOUNDERS_PATH.photo.note}
                   labelNumber={ABOUT_FOUNDERS_PATH.photo.photoNumber}
                   className="aspect-[4/3] min-h-[160px]"
+                  objectPosition="center 18%"
                 />
               </div>
             </IndexCard>
@@ -230,6 +231,7 @@ export function AboutPageContent() {
                 note="Workshop moments photograph for the about page."
                 labelNumber={PHOTO.aboutWorkshopMoments}
                 className="min-h-[240px] lg:min-h-[300px]"
+                objectPosition="center 18%"
               />
               <p
                 className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/70 md:text-2xl`}
