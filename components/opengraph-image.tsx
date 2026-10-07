@@ -17,15 +17,13 @@ export default async function OpengraphImage(
   const title = props?.title ?? SITE_NAME;
   const subtitle = props?.subtitle ?? SITE_TAGLINE;
 
-  const [fontFile, heroFile, logoFile] = await Promise.all([
+  const [fontFile, heroFile] = await Promise.all([
     readFile(join(process.cwd(), "./fonts/Inter-Bold.ttf")),
     readFile(join(process.cwd(), "./public/home-hero.png")),
-    readFile(join(process.cwd(), "./public/logosmall.png")),
   ]);
 
   const font = Uint8Array.from(fontFile).buffer;
   const heroSrc = Uint8Array.from(heroFile).buffer;
-  const logoSrc = Uint8Array.from(logoFile).buffer;
 
   return new ImageResponse(
     (
@@ -73,19 +71,19 @@ export default async function OpengraphImage(
           }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={logoSrc as unknown as string}
-              alt=""
-              width={72}
-              height={72}
+            <p
               style={{
-                width: 72,
-                height: 72,
-                objectFit: "contain",
-                borderRadius: 8,
+                margin: 0,
+                fontSize: 28,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "#f3ede6",
+                fontFamily: "Inter",
               }}
-            />
+            >
+              {SITE_NAME}
+            </p>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", maxWidth: 900 }}>

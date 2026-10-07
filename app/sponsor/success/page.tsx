@@ -68,7 +68,7 @@ export default async function SponsorSuccessPage({
           )}
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <HomeCta href="/sponsor" variant="primary">
-              Back to Sponsor
+              Back to Support Us
             </HomeCta>
             <HomeCta href="/" variant="outline">
               Home

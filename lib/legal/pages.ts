@@ -16,7 +16,7 @@ export const legalPages: Record<string, LegalPageContent> = {
       {
         title: "Who we are",
         paragraphs: [
-          "Brush Past is a Community Interest Company (CIC) based in the United Kingdom. We operate brushpast.org - a creative platform and social enterprise combining storytelling, workshops, and The Archive Shop.",
+          "Brush Past Community Arts CIC is a Community Interest Company based in the United Kingdom. We operate brushpast.org - a creative platform and social enterprise combining storytelling, workshops, and The Archive Shop.",
           "We are the data controller for personal data collected through this website. Our activities are focused on supporters, customers, and partners in the UK.",
           contactBlock,
         ],

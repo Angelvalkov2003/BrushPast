@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import clsx from "clsx";
+import BrandLogo from "components/brand-logo";
 import {
   HomeCta,
   IndexCard,
-  PolaroidFrame,
   SectionEyebrow,
 } from "components/home/home-decor";
 import {
@@ -20,7 +21,6 @@ import { PageHero } from "components/shared/page-hero";
 import { TextureSection } from "components/shared/texture-section";
 import { PrivacyPolicyCheckbox } from "components/legal/privacy-policy-checkbox";
 import { Modal } from "components/ui/modal";
-import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
 import {
   SPONSOR_CUSTOM_CARD,
   SPONSOR_TIERS,
@@ -29,7 +29,11 @@ import {
   validateSponsorAmount,
   type SponsorTier,
 } from "lib/sponsor-config";
-import { SPONSOR_HERO_PHOTOS, SPONSOR_PAGE } from "lib/sponsor-page-config";
+import {
+  DONATIONS_CHECKOUT_ENABLED,
+  SPONSOR_PAGE,
+} from "lib/sponsor-page-config";
+import { CHARITY_LEGAL_NAME } from "lib/site-config";
 
 const inputClass = `mt-1.5 w-full border border-bp-text/20 bg-bp-canvas/50 px-3 py-2.5 ${bpBodySmClass} focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`;
 
@@ -55,8 +59,10 @@ function SponsorPledgePanel() {
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   const thanked = Boolean(checkoutUrl);
+  const checkoutEnabled = DONATIONS_CHECKOUT_ENABLED;
 
   const openPledge = (next: Pledge) => {
+    if (!checkoutEnabled) return;
     const valid = validateSponsorAmount(next.amountGbp);
     if (!valid.ok) {
       setCustomHint(valid.error);
@@ -112,7 +118,7 @@ function SponsorPledgePanel() {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!pledge) return;
+    if (!pledge || !checkoutEnabled) return;
     if (!privacy) {
       setError("Please accept the privacy policy to continue.");
       return;
@@ -146,17 +152,35 @@ function SponsorPledgePanel() {
 
   return (
     <>
+      {!checkoutEnabled ? (
+        <IndexCard panelTexture="primary" className="mb-6">
+          <p
+            className={`${bpTitleClass} ${bpTitleUtility} text-lg font-bold uppercase tracking-wide text-bp-text`}
+          >
+            Donations go to {CHARITY_LEGAL_NAME}
+          </p>
+          <p className={`${bpBodyClass} mt-3 text-bp-text/80`}>
+            {SPONSOR_PAGE.chooseImpact.disabledNote}
+          </p>
+          <HomeCta href="/contact#contact-form" variant="primary" className="mt-6">
+            Get in touch to donate →
+          </HomeCta>
+        </IndexCard>
+      ) : null}
+
       <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
         {SPONSOR_TIERS.map((tier) => {
-          const selected = selectedTierId === tier.id && !thanked;
+          const selected = selectedTierId === tier.id && !thanked && checkoutEnabled;
           return (
             <button
               key={tier.id}
               type="button"
               onClick={() => pickTier(tier)}
+              disabled={!checkoutEnabled}
               aria-pressed={selected}
               className={clsx(
                 "h-full border bg-bp-canvas/80 p-4 text-left transition-colors md:p-5",
+                !checkoutEnabled && "cursor-not-allowed opacity-50",
                 selected
                   ? "border-bp-text shadow-[3px_3px_0_rgba(1,2,0,0.12)]"
                   : "border-bp-text/15 hover:border-bp-accent/50",
@@ -198,155 +222,111 @@ function SponsorPledgePanel() {
         >
           Or enter your own amount £
         </label>
-        <div className="relative">
-          <span
-            className={`${bpTitleClass} ${bpTitleUtility} absolute left-4 top-1/2 -translate-y-1/2 text-xl text-bp-text/45`}
-            aria-hidden
-          >
-            £
-          </span>
+        <div className="flex flex-wrap gap-3">
           <input
             ref={customInputRef}
             id="sponsor-custom-amount"
+            type="text"
             inputMode="decimal"
             value={customRaw}
-            onChange={(event) => {
-              setCustomRaw(event.target.value);
+            disabled={!checkoutEnabled}
+            onChange={(e) => {
+              setCustomRaw(e.target.value);
               setCustomHint(null);
-              setSelectedTierId("custom");
             }}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                pickCustom();
-              }
-            }}
-            placeholder="0"
-            className={`${bpBodyClass} w-full border border-bp-text/20 bg-bp-canvas py-3.5 pl-10 pr-4 text-bp-text placeholder:text-bp-text/35 focus:border-bp-accent focus:outline-none focus:ring-1 focus:ring-bp-accent/30`}
+            className={clsx(inputClass, "max-w-[12rem]", !checkoutEnabled && "opacity-50")}
+            placeholder="e.g. 75"
           />
+          <button
+            type="button"
+            onClick={pickCustom}
+            disabled={!checkoutEnabled}
+            className={`${bpTitleClass} ${bpTitleUtility} border border-bp-text/20 bg-bp-canvas px-4 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-bp-text transition-colors hover:border-bp-accent disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            Use this amount
+          </button>
         </div>
         {customHint ? (
-          <p className={`${bpBodySmClass} mt-2 text-red-700`} role="alert">
-            {customHint}
-          </p>
+          <p className={`${bpBodySmClass} mt-2 text-bp-accent`}>{customHint}</p>
         ) : null}
       </div>
 
-      <button
-        type="button"
-        onClick={() => {
-          if (selectedTierId === "custom" || customRaw.trim()) {
-            pickCustom();
-            return;
-          }
-          const tier = SPONSOR_TIERS.find((item) => item.id === selectedTierId);
-          if (tier) pickTier(tier);
-          else pickCustom();
-        }}
-        className={`${bpTitleClass} ${bpTitleUtility} mt-5 w-full bg-bp-text px-7 py-3.5 text-base font-bold uppercase tracking-[0.1em] text-bp-canvas shadow-[3px_3px_0_rgba(191,50,1,0.25)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:bg-bp-accent hover:shadow-none`}
-      >
-        {SPONSOR_PAGE.chooseImpact.cta}
-      </button>
-      <p className={`${bpBodySmClass} mt-3 text-bp-text/50`}>
-        {SPONSOR_PAGE.chooseImpact.note}
-      </p>
-
       <Modal
-        open={pledge != null}
+        open={Boolean(pledge)}
         onClose={closeModal}
         title={thanked ? "Thank you." : "Donate to the charity"}
-        panelClassName="max-w-lg bg-[#faf6f0]"
       >
-        {pledge && thanked ? (
-          <div className="text-center">
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent`}
-            >
-              You&apos;re special to this cause.
+        {pledge && !thanked ? (
+          <form onSubmit={submit} className="space-y-4">
+            <p className={`${bpBodyClass} text-bp-text/80`}>
+              {formatSponsorAmount(pledge.amountGbp)} — {pledge.title}
             </p>
-            <p className={`${bpBodyClass} mt-4 text-bp-text/80`}>
-              Thank you for standing with the work. We&apos;ll be in touch
-              personally — this gift deserves a conversation, not just a
-              receipt.
+            <p className={`${bpBodySmClass} text-bp-text/60`}>
+              Payment goes to {CHARITY_LEGAL_NAME}.
             </p>
-            <p
-              className={`${bpTitleClass} ${bpTitleUtility} mt-6 text-3xl font-bold text-bp-text`}
-            >
-              {formatSponsorAmount(pledge.amountGbp)}
-            </p>
-            <p
-              className={`${bpBodySmClass} mt-1 uppercase tracking-[0.14em] text-bp-text/50`}
-            >
-              {pledge.title}
-            </p>
-            <a
-              href={checkoutUrl ?? "#"}
-              className={`${bpTitleClass} ${bpTitleUtility} mt-8 inline-flex bg-bp-accent px-7 py-3 text-lg font-bold uppercase tracking-[0.08em] text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none`}
-            >
-              Continue to secure payment →
-            </a>
-          </div>
-        ) : pledge ? (
-          <form onSubmit={submit}>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} text-xl text-bp-accent`}
-            >
-              {pledge.title}
-            </p>
-            <p
-              className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-4xl font-bold text-bp-text`}
-            >
-              {formatSponsorAmount(pledge.amountGbp)}
-            </p>
-            <p className={`${bpBodyClass} mt-3 text-sm text-bp-text/75`}>
-              {pledge.description}
-            </p>
-            <div className="mt-6 space-y-4">
-              <label className={`block ${bpBodyClass}`}>
-                Name *
-                <input
-                  required
-                  name="full_name"
-                  autoComplete="name"
-                  value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
-                  className={inputClass}
-                />
+            <div>
+              <label
+                htmlFor="sponsor-full-name"
+                className={`${bpBodySmClass} font-medium text-bp-text/80`}
+              >
+                Full name
               </label>
-              <label className={`block ${bpBodyClass}`}>
-                Email *
-                <input
-                  required
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  className={inputClass}
-                />
-              </label>
-            </div>
-            <div className="mt-5">
-              <PrivacyPolicyCheckbox
-                id="sponsor-privacy"
-                checked={privacy}
-                onChange={setPrivacy}
-                suffix="for processing this donation"
+              <input
+                id="sponsor-full-name"
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className={inputClass}
+                autoComplete="name"
               />
             </div>
+            <div>
+              <label
+                htmlFor="sponsor-email"
+                className={`${bpBodySmClass} font-medium text-bp-text/80`}
+              >
+                Email address
+              </label>
+              <input
+                id="sponsor-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputClass}
+                autoComplete="email"
+              />
+            </div>
+            <PrivacyPolicyCheckbox
+              checked={privacy}
+              onChange={setPrivacy}
+              id="sponsor-privacy"
+            />
             {error ? (
-              <p className="mt-4 text-sm text-red-700" role="alert">
-                {error}
-              </p>
+              <p className={`${bpBodySmClass} text-bp-accent`}>{error}</p>
             ) : null}
             <button
               type="submit"
               disabled={submitting}
-              className={`${bpTitleClass} ${bpTitleUtility} mt-6 w-full bg-bp-accent px-7 py-3 text-lg font-bold uppercase tracking-[0.08em] text-bp-canvas shadow-[3px_3px_0_rgba(1,2,0,0.2)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none`}
+              className={`${bpTitleClass} ${bpTitleUtility} w-full bg-bp-accent px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-bp-canvas hover:opacity-90 disabled:opacity-60`}
             >
-              {submitting ? "Please wait…" : "Confirm donation"}
+              {submitting ? "Starting…" : SPONSOR_PAGE.chooseImpact.cta}
             </button>
           </form>
+        ) : null}
+        {thanked && checkoutUrl ? (
+          <div className="space-y-4">
+            <p className={`${bpBodyClass} text-bp-text/80`}>
+              Continue to secure payment for{" "}
+              {pledge ? formatSponsorAmount(pledge.amountGbp) : "your gift"}.
+            </p>
+            <a
+              href={checkoutUrl}
+              className={`${bpTitleClass} ${bpTitleUtility} inline-flex bg-bp-accent px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-bp-canvas hover:opacity-90`}
+            >
+              Continue to payment →
+            </a>
+          </div>
         ) : null}
       </Modal>
     </>
@@ -375,34 +355,24 @@ export function SponsorPageContent() {
           </>
         }
         media={
-          <div className="grid min-w-0 grid-cols-2 gap-4">
-            <PolaroidFrame index={0} tilt={false}>
-              <BoxImagePlaceholder
-                alt={SPONSOR_HERO_PHOTOS.workshop.alt}
-                note={SPONSOR_HERO_PHOTOS.workshop.note}
-                labelNumber={SPONSOR_HERO_PHOTOS.workshop.photoNumber}
-                className="aspect-[4/5] min-h-[160px]"
+          <div className="flex min-h-[280px] items-center justify-center md:min-h-[360px]">
+            <div className="relative flex w-full max-w-sm flex-col items-center justify-center border border-bp-text/10 bg-bp-canvas/70 px-8 py-14 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:py-16">
+              <Image
+                src="/background2.webp"
+                alt=""
+                fill
+                className="object-cover opacity-40"
+                sizes="400px"
+                aria-hidden
               />
-            </PolaroidFrame>
-            <div className="flex flex-col gap-4 pt-6">
-              <IndexCard
-                panelTexture={null}
-                className="!bg-bp-dark !p-5 text-bp-canvas"
+              <div className="relative z-10">
+                <BrandLogo size="hero" priority />
+              </div>
+              <p
+                className={`${homeHandClass} ${bpWhisperUtility} relative z-10 mt-6 text-center text-xl text-bp-text/70`}
               >
-                <p
-                  className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-canvas`}
-                >
-                  Art of empowerment
-                </p>
-              </IndexCard>
-              <PolaroidFrame index={1} tilt={false}>
-                <BoxImagePlaceholder
-                  alt={SPONSOR_HERO_PHOTOS.sketchbook.alt}
-                  note={SPONSOR_HERO_PHOTOS.sketchbook.note}
-                  labelNumber={SPONSOR_HERO_PHOTOS.sketchbook.photoNumber}
-                  className="aspect-square min-h-[140px]"
-                />
-              </PolaroidFrame>
+                Art of empowerment
+              </p>
             </div>
           </div>
         }
@@ -427,49 +397,21 @@ export function SponsorPageContent() {
             />
           </div>
 
-          <div className="mt-10 grid gap-6 md:mt-12 md:grid-cols-2 md:gap-8">
-            <article className="relative border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:p-8">
-              <p
-                className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-accent/35`}
-              >
-                01
-              </p>
-              <p
-                className={`${bpBodySmClass} mt-3 font-bold uppercase tracking-[0.18em] text-bp-accent`}
-              >
-                Charity
-              </p>
-              <h3
-                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
-              >
-                {page.organisations.foundation.name}
-              </h3>
-              <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
-                {page.organisations.foundation.body}
-              </p>
-            </article>
-
-            <article className="relative border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:p-8">
-              <p
-                className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-text/20`}
-              >
-                02
-              </p>
-              <p
-                className={`${bpBodySmClass} mt-3 font-bold uppercase tracking-[0.18em] text-bp-text/50`}
-              >
-                Trading
-              </p>
-              <h3
-                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
-              >
-                {page.organisations.cic.name}
-              </h3>
-              <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
-                {page.organisations.cic.body}
-              </p>
-            </article>
-          </div>
+          <article className="relative mt-10 max-w-3xl border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:mt-12 md:p-8">
+            <p
+              className={`${bpBodySmClass} font-bold uppercase tracking-[0.18em] text-bp-accent`}
+            >
+              Charity &amp; CIC
+            </p>
+            <h3
+              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
+            >
+              {page.organisations.title}
+            </h3>
+            <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
+              {page.organisations.body}
+            </p>
+          </article>
         </div>
       </TextureSection>
 
@@ -499,45 +441,38 @@ export function SponsorPageContent() {
       </TextureSection>
 
       <TextureSection
-        texture="secondary"
+        texture="primary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto grid max-w-[1400px] items-end gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:gap-16">
-          <div className="min-w-0">
-            <SectionEyebrow>{page.partnership.eyebrow}</SectionEyebrow>
-            <h2
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-bold uppercase leading-[1.02] tracking-wide text-bp-text`}
-            >
-              {page.partnership.title}
-            </h2>
-            <span
-              className="mt-4 block h-1 w-20 bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]"
-              aria-hidden
-            />
-            <p
-              className={`${bpBodyClass} mt-6 max-w-2xl leading-relaxed text-bp-text/80 md:text-lg`}
-            >
-              {page.partnership.body}
-            </p>
-            <HomeCta
-              href={page.partnership.ctaHref}
-              variant="primary"
-              className="mt-8"
-            >
-              {page.partnership.cta} →
-            </HomeCta>
-          </div>
-
-          <div className="min-w-0 lg:pb-2">
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} max-w-sm text-2xl leading-snug text-bp-text/70 md:text-3xl lg:ml-auto lg:text-right`}
-            >
-              Workshops. Wear. Gift boxes.
-              <span className="mt-2 block text-bp-accent">
-                Built with the CIC.
-              </span>
-            </p>
-          </div>
+        <div className="mx-auto max-w-3xl">
+          <SectionEyebrow>{page.partnership.eyebrow}</SectionEyebrow>
+          <h2
+            className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2rem,5vw,3.25rem)] font-bold uppercase leading-[1.05] tracking-wide text-bp-text`}
+          >
+            {page.partnership.title}
+          </h2>
+          <span
+            className="mt-4 block h-1 w-20 bg-bp-accent/90 [clip-path:polygon(0_0,100%_20%,98%_100%,2%_80%)]"
+            aria-hidden
+          />
+          <p
+            className={`${bpBodyClass} mt-6 leading-relaxed text-bp-text/80 md:text-lg`}
+          >
+            {page.partnership.body}
+          </p>
+          <p
+            className={`${homeHandClass} ${bpWhisperUtility} mt-6 text-2xl leading-snug text-bp-text/70 md:text-3xl`}
+          >
+            Workshops. Wear. Gift boxes.{" "}
+            <span className="text-bp-accent">Built with the CIC.</span>
+          </p>
+          <HomeCta
+            href={page.partnership.ctaHref}
+            variant="primary"
+            className="mt-8"
+          >
+            {page.partnership.cta} →
+          </HomeCta>
         </div>
       </TextureSection>
     </>

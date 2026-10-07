@@ -29,9 +29,9 @@ export const SHOP_SINGLE_OPTIONS = [
     title: "Coffee Box",
     description: "Speciality coffee, beautifully presented. £16.",
     href: "/shop/box/c?category=coffee",
-    imageAlt: "Lifestyle photo of a Brush Past coffee gift box",
+    imageAlt: "Brush Past coffee gift box with a question-mark window",
     imageNote:
-      "IMAGE NEEDED: Lifestyle photograph of a specialty coffee bag in a gift box.",
+      "Coffee gift box photograph — question-mark window showing the bag inside.",
     photoNumber: PHOTO.shopSingleCoffee,
   },
   {
@@ -131,11 +131,11 @@ export const SHOP_IMPACT = {
 
 export const SHOP_STORY_CARDS = [
   {
-    title: "Meet the Artist",
+    title: "Meet the Creator",
     snippet: "The people behind the work.",
     href: "/stories",
-    imageAlt: "Portrait of a Brush Past artist in the studio",
-    imageNote: "IMAGE NEEDED: Portrait of a community artist.",
+    imageAlt: "Portrait of a Brush Past creator in the studio",
+    imageNote: "IMAGE NEEDED: Portrait of a community creator.",
     photoNumber: PHOTO.shopStoryMeetArtist,
   },
   {
@@ -199,8 +199,8 @@ export const SHOP_MOBILE_BOX_CARDS = [
 
 export const SHOP_VALUE_PROPS = [
   {
-    title: "Supporting artists",
-    note: "Empowering independent artists.",
+    title: "Supporting Creators",
+    note: "Empowering independent creators.",
   },
   {
     title: "Sustainable & ethical",

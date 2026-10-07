@@ -1,5 +1,5 @@
-import { PageLoadingScreen } from "components/layout/page-loading-screen";
+import { PageLoadingGate } from "components/layout/page-loading-gate";
 
 export default function ShopLoading() {
-  return <PageLoadingScreen texture="secondary" fixed={false} />;
+  return <PageLoadingGate texture="secondary" />;
 }

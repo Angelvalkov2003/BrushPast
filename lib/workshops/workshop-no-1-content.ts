@@ -18,7 +18,7 @@ export const WORKSHOP_NO_1 = {
     },
     {
       title: "Learning as you make",
-      body: "Participants can have the opportunity to feature their T-shirts on the Brushpast website while learning about social media marketing and basic business principles.",
+      body: "Participants can have the opportunity to feature their T-shirts on the Brush Past website while learning about social media marketing and basic business principles.",
     },
     {
       title: "Value in your own work",
@@ -66,7 +66,7 @@ export const WORKSHOP_NO_1 = {
   ],
   archive: {
     title: "A living archive",
-    body: "This Edward Alsop workshop marks a chapter of the BrushPast archive—creativity shared in a hostel, with room for longer collaborations to grow.",
+    body: "This Edward Alsop workshop marks a chapter of the Brush Past archive—creativity shared in a hostel, with room for longer collaborations to grow.",
     statsTitle: "Edward Alsop",
     statsLocation: "Victoria • London · Partner: Look Ahead",
     stats: [

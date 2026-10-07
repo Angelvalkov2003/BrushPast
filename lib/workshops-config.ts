@@ -75,7 +75,7 @@ export const WORKSHOPS_PROCESS: {
   },
   {
     title: "Share",
-    caption: "Publish on BrushPast, exhibit, or keep it private.",
+    caption: "Publish on Brush Past, exhibit, or keep it private.",
     image: "/workshops/workshop-no-1/share.jpg",
     icon: "share",
   },
@@ -130,7 +130,9 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
       "The idea is to encourage people to recognise the value in their own work, stories, lived experience, creativity, and self-expression.",
     ],
     href: "/workshops/workshop-no-1",
-    image: "/workshops/workshop-no-1/hero.jpg",
+    photoNumber: PHOTO.pastWorkshopEdwardAlsop,
+    imageAlt: "T-shirt workshop at Edward Alsop hostel",
+    imageNote: "Photograph from the Edward Alsop T-shirt workshop.",
   },
 ];
 

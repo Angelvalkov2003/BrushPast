@@ -14,14 +14,16 @@ import type { TextureVariant } from "components/shared/texture-section";
 import { NavigationLoadingScreen } from "./navigation-loading-screen";
 
 const SHOW_DELAY_MS = 80;
-const MIN_VISIBLE_MS = 350;
-const MAX_WAIT_MS = 15000;
+const MIN_VISIBLE_MS = 280;
+const MAX_WAIT_MS = 8000;
+const FIRST_VISIT_KEY = "bp-cardboard-seen";
 
 type NavigationLoadingContextValue = {
   startLoading: (texture?: TextureVariant) => void;
 };
 
-const NavigationLoadingContext = createContext<NavigationLoadingContextValue | null>(null);
+const NavigationLoadingContext =
+  createContext<NavigationLoadingContextValue | null>(null);
 
 export function useNavigationLoading() {
   const context = useContext(NavigationLoadingContext);
@@ -33,9 +35,22 @@ function textureForPath(path: string): TextureVariant {
   return "primary";
 }
 
-function shouldShowLoadingForPath(path: string): boolean {
-  // Show cardboard+logo on all public navigations including home & shop hubs.
-  return true;
+/** Full cardboard overlay only on first visit this session. */
+function shouldShowFullCardboard(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return sessionStorage.getItem(FIRST_VISIT_KEY) !== "1";
+  } catch {
+    return true;
+  }
+}
+
+function markCardboardSeen() {
+  try {
+    sessionStorage.setItem(FIRST_VISIT_KEY, "1");
+  } catch {
+    // ignore
+  }
 }
 
 export function NavigationLoading({ children }: { children?: ReactNode }) {
@@ -71,32 +86,38 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
       hideTimerRef.current = null;
       setVisible(false);
       shownAtRef.current = null;
+      markCardboardSeen();
     }, delay);
   }, []);
 
-  const startLoading = useCallback((nextTexture: TextureVariant = "primary") => {
-    if (isAdmin) return;
+  const startLoading = useCallback(
+    (nextTexture: TextureVariant = "primary") => {
+      if (isAdmin) return;
+      if (!shouldShowFullCardboard()) return;
 
-    setTexture(nextTexture);
+      setTexture(nextTexture);
 
-    if (hideTimerRef.current) {
-      clearTimeout(hideTimerRef.current);
-      hideTimerRef.current = null;
-    }
-    if (showTimerRef.current) clearTimeout(showTimerRef.current);
-    if (maxWaitRef.current) clearTimeout(maxWaitRef.current);
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = null;
+      }
+      if (showTimerRef.current) clearTimeout(showTimerRef.current);
+      if (maxWaitRef.current) clearTimeout(maxWaitRef.current);
 
-    showTimerRef.current = setTimeout(() => {
-      showTimerRef.current = null;
-      shownAtRef.current = Date.now();
-      setVisible(true);
-      maxWaitRef.current = setTimeout(() => {
-        maxWaitRef.current = null;
-        setVisible(false);
-        shownAtRef.current = null;
-      }, MAX_WAIT_MS);
-    }, SHOW_DELAY_MS);
-  }, [isAdmin]);
+      showTimerRef.current = setTimeout(() => {
+        showTimerRef.current = null;
+        shownAtRef.current = Date.now();
+        setVisible(true);
+        maxWaitRef.current = setTimeout(() => {
+          maxWaitRef.current = null;
+          setVisible(false);
+          shownAtRef.current = null;
+          markCardboardSeen();
+        }, MAX_WAIT_MS);
+      }, SHOW_DELAY_MS);
+    },
+    [isAdmin],
+  );
 
   useEffect(() => {
     finishLoading();
@@ -107,7 +128,8 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
 
     const onClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0) return;
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
 
       const target = event.target;
       const el =
@@ -121,7 +143,12 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
       if (anchor.target === "_blank" || anchor.hasAttribute("download")) return;
 
       const href = anchor.getAttribute("href");
-      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+      if (
+        !href ||
+        href.startsWith("#") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:")
+      ) {
         return;
       }
 
@@ -132,8 +159,6 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
         const samePath = url.pathname === pathname;
         const sameSearch = url.search === window.location.search;
         if (samePath && sameSearch) return;
-
-        if (!shouldShowLoadingForPath(url.pathname)) return;
 
         startLoading(textureForPath(url.pathname));
       } catch {
@@ -157,7 +182,9 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
   return (
     <NavigationLoadingContext.Provider value={{ startLoading }}>
       {children}
-      {visible && !isAdmin ? <NavigationLoadingScreen texture={texture} /> : null}
+      {visible && !isAdmin ? (
+        <NavigationLoadingScreen texture={texture} />
+      ) : null}
     </NavigationLoadingContext.Provider>
   );
 }

@@ -4,16 +4,17 @@ export function formatPhotoPlaceholderLabel(number: number): string {
 }
 
 /**
- * Public URLs for numbered site photos in /public/mainphotos.
+ * Public URLs for numbered site photos in /public/mainphotos (and a few shop assets).
  * Missing numbers stay placeholders until assets are added.
- * Position 2 reuses the high-quality снимка 12 artwork.
  */
 export const PHOTO_SRC: Partial<Record<number, string>> = {
   1: "/mainphotos/1i2.png",
-  2: "/mainphotos/12.png",
+  2: "/mainphotos/2.jpg",
   3: "/mainphotos/3.jpg",
+  4: "/mainphotos/photo1.png",
   5: "/mainphotos/5.jpg",
-  6: "/mainphotos/6.jpg",
+  /** Coffee gift box with question-mark window (shop one-piece coffee). */
+  6: "/shop1.png",
   7: "/mainphotos/7.jpg",
   8: "/mainphotos/8.jpg",
   9: "/mainphotos/9.jpg",
@@ -25,6 +26,7 @@ export const PHOTO_SRC: Partial<Record<number, string>> = {
   19: "/mainphotos/19.jpg",
   20: "/mainphotos/20.jpg",
   23: "/mainphotos/23.jpg",
+  24: "/mainphotos/35.jpg",
   25: "/mainphotos/25.jpg",
   26: "/mainphotos/26.jpg",
   27: "/mainphotos/27.jpg",
@@ -34,7 +36,13 @@ export const PHOTO_SRC: Partial<Record<number, string>> = {
   32: "/mainphotos/32.jpg",
   34: "/mainphotos/34.jpg",
   35: "/mainphotos/35.jpg",
+  37: "/mainphotos/31.jpg",
+  38: "/mainphotos/32.jpg",
+  /** One-piece hub — coffee box with question mark. */
+  39: "/shop1.png",
+  40: "/mainphotos/34.jpg",
   41: "/mainphotos/41.jpeg",
+  42: "/workshops/workshop-no-1/hero.jpg",
   43: "/mainphotos/43.jpg",
 };
 
@@ -68,6 +76,8 @@ export const PHOTO = {
   shopStoryExhibitions: 22,
   aboutWorkshopMoments: 23,
   aboutFoundersPath: 43,
+  /** Middle About section — “Two paths” card */
+  aboutTwoPaths: 32,
   contactPeckham: 24,
   contactJoinWorkshop: 25,
   contactCollaborate: 26,
@@ -80,4 +90,5 @@ export const PHOTO = {
   boxHubBuildOwn: 40,
   pastWorkshopCottonGardens: 41,
   pastWorkshopEdwardAlsop: 42,
+  workshopsHero: 20,
 } as const;

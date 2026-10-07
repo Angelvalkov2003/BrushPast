@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import BrandLogo from "components/brand-logo";
 import {
   bpBodySmClass,
   bpLinkUtility,
@@ -8,10 +8,13 @@ import {
 } from "components/home/home-typography";
 import { HomeLink } from "components/layout/home-link";
 import {
+  CHARITY_LEGAL_NAME,
+  CHARITY_NUMBER,
+  CIC_LEGAL_NAME,
+  CIC_NUMBER,
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
   INSTAGRAM_URL,
-  LEGAL_ENTITY,
   PUBLIC_CONTACT_EMAIL,
   SITE_NAME,
   SITE_TAGLINE,
@@ -30,6 +33,7 @@ const navLinks = [
   { title: "Shop", href: "/shop" },
   { title: "Workshops", href: "/workshops" },
   { title: "Journal", href: "/journal" },
+  { title: "Support Us", href: "/sponsor" },
   { title: "Contact", href: "/contact" },
 ];
 
@@ -87,6 +91,11 @@ function FooterLinkList({
   );
 }
 
+function legalLine(name: string, number: string, numberLabel: string) {
+  if (!number) return name;
+  return `${name} (${numberLabel} ${number})`;
+}
+
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
@@ -95,19 +104,17 @@ export function SiteFooter() {
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-4 min-[1320px]:px-0">
         <div className="lg:col-span-1">
           <HomeLink className="mb-4 inline-block">
-            <Image
-              src="/logosmall.png"
-              alt={`${SITE_NAME} logo`}
-              width={160}
-              height={48}
-              className="h-10 w-auto max-w-[160px] object-contain object-left md:h-11"
-              sizes="160px"
-            />
+            <BrandLogo size="sm" className="brightness-0 invert" />
           </HomeLink>
           <p className={`${bpBodySmClass} text-bp-canvas/70`}>{SITE_TAGLINE}</p>
-          <p className={`${bpBodySmClass} mt-4 text-bp-canvas/50`}>
-            {LEGAL_ENTITY}
-          </p>
+          <ul className={`${bpBodySmClass} mt-4 space-y-1.5 text-bp-canvas/50`}>
+            <li>
+              {legalLine(CIC_LEGAL_NAME, CIC_NUMBER, "Company no.")}
+            </li>
+            <li>
+              {legalLine(CHARITY_LEGAL_NAME, CHARITY_NUMBER, "Charity no.")}
+            </li>
+          </ul>
         </div>
 
         <FooterColumn title="Explore">
@@ -163,8 +170,8 @@ export function SiteFooter() {
           className={`${bpBodySmClass} mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 text-bp-canvas/50 md:flex-row min-[1320px]:px-0`}
         >
           <p>
-            &copy; {year} {SITE_NAME}. Community Interest Company (UK). All
-            rights reserved. Prices in GBP.
+            &copy; {year} {SITE_NAME}. {CIC_LEGAL_NAME}. All rights reserved.
+            Prices in GBP.
           </p>
           <ul className="flex flex-wrap justify-center gap-4">
             {infoLinks.map((link) => (

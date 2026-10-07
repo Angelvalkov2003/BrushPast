@@ -1,5 +1,5 @@
-import { NavigationLoadingScreen } from "components/layout/navigation-loading-screen";
+import { PageLoadingGate } from "components/layout/page-loading-gate";
 
 export default function ProductLoading() {
-  return <NavigationLoadingScreen />;
+  return <PageLoadingGate texture="secondary" />;
 }

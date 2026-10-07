@@ -4,8 +4,8 @@ import { bpFontVariables } from "components/home/home-typography";
 import { SITE_NAME } from "lib/site-config";
 
 export const metadata = {
-  title: "Sponsor",
-  description: `Become a sponsor of ${SITE_NAME}. Support artists, workshops and the next chapter of community storytelling.`,
+  title: "Support Us",
+  description: `Support ${SITE_NAME}. Donate to Brush Past Foundation or partner with Brush Past Community Arts CIC.`,
 };
 
 export default function SponsorPage() {

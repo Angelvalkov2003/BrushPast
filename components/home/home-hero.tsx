@@ -42,20 +42,21 @@ export function HomeHero() {
       media={<HomeHeroCollage />}
     >
       <p className={PAGE_HERO_BODY_CLASS}>
-        Brushpast works alongside people whose stories and creativity are too
+        Brush Past works alongside people whose stories and creativity are too
         often brushed past—including those affected by homelessness, addiction
         and recovery, the criminal justice system, and other life challenges.
       </p>
       <p className={PAGE_HERO_BODY_CLASS}>
         Through workshops, mentoring, and a platform to share and sell, we help
-        people turn their creativity into art, products, and enterprises they
-        can own and benefit from.
+        people turn their creativity into art, products, and enterprises. The
+        creators keep ownership of their work; we help it reach people who want
+        to support it.
       </p>
       <ul
-        className={`${bpTitleClass} ${bpTitleUtility} mt-8 space-y-2 text-lg font-bold uppercase tracking-[0.06em] text-bp-text md:text-xl`}
+        className={`${bpTitleClass} ${bpTitleUtility} mt-8 space-y-2.5 text-lg font-bold uppercase tracking-[0.06em] text-bp-text md:text-xl`}
       >
-        <li>We create it.</li>
-        <li>You own it.</li>
+        <li>Creators make it.</li>
+        <li>Creators own it.</li>
         <li className="text-bp-accent">We all benefit.</li>
       </ul>
       <p className={`${bpBodyClass} mt-8 max-w-xl font-semibold text-bp-text`}>

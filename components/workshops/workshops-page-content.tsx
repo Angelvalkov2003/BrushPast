@@ -64,7 +64,7 @@ export function WorkshopsPageContent() {
             <span className="text-bp-accent">Find</span> your people.
           </>
         }
-        titleClassName="leading-[0.92]"
+        titleClassName="leading-[1.08]"
         actions={<HeroButtons />}
         media={
           <PolaroidFrame index={0} className={PAGE_HERO_POLAROID_WRAP_CLASS}>
@@ -72,7 +72,7 @@ export function WorkshopsPageContent() {
               className={`relative overflow-hidden bg-bp-surface ${PAGE_HERO_MEDIA_FRAMELESS_CLASS}`}
             >
               <Image
-                src="/workshops.png"
+                src="/workshops-hero.png"
                 alt="Brush Past creative workshop"
                 fill
                 className="object-cover object-center"

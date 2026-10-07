@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: "/logo.avif", type: "image/avif" }],
-    apple: [{ url: "/logosmall.png" }],
+    apple: [{ url: "/logo.avif", type: "image/avif" }],
   },
 };
 

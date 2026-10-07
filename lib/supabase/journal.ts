@@ -98,6 +98,11 @@ export function journalPostHref(slug: string | null): string | null {
   return `/journal/${slug.trim()}`;
 }
 
+/**
+ * Formats a journal date for display (en-GB).
+ * Prefer a future `published_at` column when available; until then callers
+ * pass `created_at` (seed imports often share one timestamp).
+ */
 export function formatJournalDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-GB", {
     day: "numeric",

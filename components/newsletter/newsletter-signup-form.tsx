@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { toast } from "sonner";
 import clsx from "clsx";
 import {
@@ -25,6 +25,11 @@ const inputClass: Record<Variant, string> = {
   light: `w-full border border-bp-text/15 bg-bp-canvas px-4 py-3 ${bpBodySmClass} text-bp-text placeholder:text-bp-text/40 focus:border-bp-accent focus:outline-none`,
 };
 
+const labelClass: Record<Variant, string> = {
+  dark: `${bpBodySmClass} mb-1.5 block font-medium text-bp-canvas/80`,
+  light: `${bpBodySmClass} mb-1.5 block font-medium text-bp-text/80`,
+};
+
 export function NewsletterSignupForm({
   source,
   buttonLabel = "Join us",
@@ -34,6 +39,7 @@ export function NewsletterSignupForm({
   const [email, setEmail] = useState("");
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const emailId = useId();
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,24 +85,30 @@ export function NewsletterSignupForm({
 
   return (
     <form onSubmit={submit} className={clsx("max-w-md space-y-3", className)}>
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Your email"
-          disabled={loading}
-          className={inputClass[variant]}
-          autoComplete="email"
-        />
-        <button
-          type="submit"
-          disabled={loading || !privacyAccepted}
-          className={`${bpTitleClass} ${bpTitleUtility} shrink-0 bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:self-start`}
-        >
-          {loading ? "Joining…" : buttonLabel}
-        </button>
+      <div>
+        <label htmlFor={emailId} className={labelClass[variant]}>
+          Email address
+        </label>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <input
+            id={emailId}
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            disabled={loading}
+            className={inputClass[variant]}
+            autoComplete="email"
+          />
+          <button
+            type="submit"
+            disabled={loading || !privacyAccepted}
+            className={`${bpTitleClass} ${bpTitleUtility} shrink-0 bg-bp-accent px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-bp-canvas hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:self-end`}
+          >
+            {loading ? "Joining…" : buttonLabel}
+          </button>
+        </div>
       </div>
       <PrivacyPolicyCheckbox
         checked={privacyAccepted}

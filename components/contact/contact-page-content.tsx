@@ -176,16 +176,13 @@ export function ContactPageContent() {
                 className={`${bpTitleClass} ${bpTitleUtility} text-3xl font-bold text-bp-text`}
               >
                 We&apos;re figuring this out{" "}
-                <span className="text-bp-accent">in public</span>
+                <span className="text-bp-accent">in public.</span>
               </h2>
               <p
                 className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
               >
-                Brush Past is not a finished product - it&apos;s a{" "}
-                <span className="font-medium text-bp-text not-italic">
-                  living creative platform
-                </span>
-                .
+                Brush Past is growing in public, shaped by the people, ideas and
+                partnerships around it.
               </p>
               <p className={`${bpBodyClass} mt-4 text-bp-text`}>
                 Reach out with <span className="text-bp-accent">questions</span>

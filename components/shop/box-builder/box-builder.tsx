@@ -72,12 +72,10 @@ function selectionFromProduct(
       variant.title,
     ),
     sku: variant.sku,
-    // Single Collection charges the real product price; other boxes keep
-    // category/pair/fixed retail used by their price modes.
-    unitPrice:
-      boxType === "c"
-        ? variant.price
-        : singlePriceForCategory(product.categoryKey),
+    // One Piece (type c) and other category-priced boxes use config retail
+    // (e.g. coffee £16) so hub, builder and cart stay aligned. DB variant.price
+    // can lag seed data — do not use it for category-fixed boxes.
+    unitPrice: singlePriceForCategory(product.categoryKey),
     quantity: 1,
     maxQuantity: variant.maxQuantity,
   };

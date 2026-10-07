@@ -120,6 +120,15 @@ export function AboutPageContent() {
                 - and that belief became{" "}
                 <span className="font-bold">Brush Past</span>.
               </p>
+              <div className="mt-6">
+                <BoxImagePlaceholder
+                  alt="Brush Past — paths that meet"
+                  note="Supporting photograph for the founders’ shared belief."
+                  labelNumber={PHOTO.aboutTwoPaths}
+                  className="aspect-[4/3] min-h-[160px]"
+                  objectPosition="center 30%"
+                />
+              </div>
             </IndexCard>
           </Reveal>
           <Reveal delay={REVEAL_STAGGER_MS * 2}>

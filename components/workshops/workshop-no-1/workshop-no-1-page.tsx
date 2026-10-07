@@ -127,55 +127,9 @@ export async function WorkshopNo1Page() {
         </div>
       </TextureSection>
 
-      {/* Create / Connect / Capture / Share / Opportunity */}
+      {/* Workshop-specific making photos (Create/Connect/Capture/Share lives on /workshops only) */}
       <TextureSection
         texture="primary"
-        className="px-4 py-14 md:px-10 md:py-20"
-      >
-        <div className="mx-auto max-w-[1400px]">
-          <HomeSectionTitle
-            eyebrow="Inside the room"
-            title="What happened that day"
-            align="left"
-            eyebrowVariant="workshop"
-          />
-          <ul className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-            {COPY.moments.map((moment, index) => (
-              <li key={moment.title}>
-                <p
-                  className={`${bpTitleClass} ${bpTitleUtility} text-center text-2xl font-bold text-bp-text lg:text-left`}
-                >
-                  {moment.title}
-                </p>
-                <PolaroidFrame
-                  index={index}
-                  tilt={index % 2 === 0}
-                  className="mt-3"
-                >
-                  <div className="relative aspect-[3/4] overflow-hidden bg-bp-surface">
-                    <Image
-                      src={moment.image}
-                      alt={moment.title}
-                      fill
-                      className="object-cover"
-                      sizes="20vw"
-                    />
-                  </div>
-                </PolaroidFrame>
-                <p
-                  className={`${bodySmClass} mt-3 text-center lg:text-left`}
-                >
-                  {moment.caption}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </TextureSection>
-
-      {/* Process strip */}
-      <TextureSection
-        texture="secondary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
         <div className="mx-auto max-w-[1400px]">
@@ -217,7 +171,7 @@ export async function WorkshopNo1Page() {
 
       {/* Archive + stats */}
       <TextureSection
-        texture="primary"
+        texture="secondary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
         <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-2 lg:items-center">
@@ -264,7 +218,7 @@ export async function WorkshopNo1Page() {
 
       {/* Collection */}
       <TextureSection
-        texture="secondary"
+        texture="primary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
         <div className="mx-auto max-w-[1400px]">

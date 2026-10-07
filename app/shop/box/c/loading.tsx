@@ -1,5 +1,5 @@
-import { PageLoadingScreen } from "components/layout/page-loading-screen";
+import { PageLoadingGate } from "components/layout/page-loading-gate";
 
-export default function ShopBoxCLoading() {
-  return <PageLoadingScreen texture="secondary" fixed={false} />;
+export default function BoxCLoading() {
+  return <PageLoadingGate texture="secondary" />;
 }

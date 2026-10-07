@@ -1,9 +1,10 @@
-/** BrushPast - site constants from brushpast.org (not env). */
+/** Brush Past — site constants from brushpast.org (not env). */
 
 export { BRAND_COLORS, BRAND_CSS_VARS } from "lib/brand-colors";
 export type { BrandColorKey } from "lib/brand-colors";
 
 export const SITE_NAME = "Brush Past";
+/** Technical / compact ID only — not for user-facing copy. Prefer SITE_NAME. */
 export const SITE_NAME_SHORT = "BrushPast";
 
 export const SITE_URL =
@@ -24,8 +25,24 @@ export const INSTAGRAM_URL = "https://www.instagram.com/brushpast";
 
 export const FACEBOOK_URL = "";
 
+/** Trading company — full legal name for footer / Support Us. */
+export const CIC_LEGAL_NAME = "Brush Past Community Arts CIC";
+/**
+ * Companies House / CIC registration number.
+ * TODO (Angel / Alexandra): fill once confirmed — leave empty until then.
+ */
+export const CIC_NUMBER = "";
+
+/** Registered charity — receives donations. */
+export const CHARITY_LEGAL_NAME = "Brush Past Foundation";
+/**
+ * Charity Commission registration number.
+ * TODO (Angel / Alexandra): fill once confirmed — leave empty until then.
+ */
+export const CHARITY_NUMBER = "";
+
 export const LEGAL_ENTITY =
-  "Brush Past (Community Interest Company), United Kingdom";
+  "Brush Past Community Arts CIC, United Kingdom";
 
 export const SITE_TAGLINE =
   "A creative platform for stories of homelessness, addiction, and life challenges - expressed through art, writing, and photography.";

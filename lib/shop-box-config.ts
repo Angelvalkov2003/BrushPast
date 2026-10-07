@@ -135,7 +135,8 @@ export const BOX_TYPE_RULES: Record<BoxTypeId, BoxTypeRules> = {
     maxTotal: 1,
     maxPerCategory: 1,
     distinctCategories: false,
-    priceMode: "category-fixed", // resolved as product sku sum (actual item price)
+    // Retail from BOX_CATEGORY_ROWS.singlePriceGbp (e.g. coffee £16) — not DB variant.price.
+    priceMode: "category-fixed",
     minTotal: 1,
   },
   d: {

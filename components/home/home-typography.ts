@@ -72,7 +72,7 @@ export const bpBodySmClass = `${bpSubtitleClass} ${bpBodySmUtility}`;
 /** Primary page h1 — Stick No Bills, largest heading on the page */
 export const bpPageTitleClass = `${bpDisplayClass} ${bpDisplayUtility} font-bold text-bp-text`;
 export const bpPageTitleSizeClass =
-  "text-[clamp(2.75rem,7vw,5rem)] leading-[0.92]";
+  "text-[clamp(2.75rem,7vw,5rem)] leading-[1.05]";
 export const bpPageH1Class = `${bpPageTitleClass} ${bpPageTitleSizeClass}`;
 
 /** Shared page-hero layout tokens — keep marketing heroes aligned sitewide */
@@ -91,8 +91,8 @@ export const PAGE_HERO_H1_CLASS = bpPageH1Class;
 export const PAGE_HERO_H1_INDEX_CLASS = PAGE_HERO_H1_CLASS;
 export const PAGE_HERO_H1_STORY_CLASS = `${bpPageH1Class} text-[clamp(3rem,10vw,6.5rem)] uppercase leading-[0.88] tracking-tighter`;
 export const PAGE_HERO_H1_MINIMAL_CLASS = `${bpPageH1Class} text-[clamp(2.25rem,5vw,3.5rem)]`;
-export const PAGE_HERO_TITLE_GAP_CLASS = "mt-3";
-export const PAGE_HERO_HAND_CLASS = `${homeHandClass} mt-3 text-[clamp(1.75rem,4vw,2.35rem)] leading-snug text-bp-accent`;
+export const PAGE_HERO_TITLE_GAP_CLASS = "mt-4";
+export const PAGE_HERO_HAND_CLASS = `${homeHandClass} mt-4 text-[clamp(1.75rem,4vw,2.35rem)] leading-snug text-bp-accent`;
 export const PAGE_HERO_WHISPER_ASIDE_CLASS = `${homeHandClass} ${bpWhisperUtility} max-w-xs text-[clamp(1.75rem,4vw,2.35rem)] leading-snug text-bp-text lg:ml-auto`;
 export const PAGE_HERO_WHISPER_INLINE_CLASS = `${homeHandClass} ${bpWhisperUtility} mt-8 text-[clamp(1.75rem,4vw,2.35rem)] leading-snug text-bp-text`;
 export const PAGE_HERO_INTRO_CLASS = `${bpBodyClass} mt-6 max-w-xl text-bp-text/85`;
