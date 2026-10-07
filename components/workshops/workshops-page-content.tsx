@@ -72,7 +72,7 @@ export function WorkshopsPageContent() {
               className={`relative overflow-hidden bg-bp-surface ${PAGE_HERO_MEDIA_FRAMELESS_CLASS}`}
             >
               <Image
-                src="/workshops-hero.png"
+                src="/create.jpg"
                 alt="Brush Past creative workshop"
                 fill
                 className="object-cover object-center"
