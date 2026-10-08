@@ -1,7 +1,8 @@
-import { stripe } from "lib/stripe";
 import { STRIPE_CURRENCY, toStripeMinorUnits } from "lib/currency";
+import { getDonationsStripe } from "lib/stripe-donations";
 import { sponsorTierLabel, type SponsorTierId } from "lib/sponsor-config";
 
+/** Charity / Foundation Stripe Checkout — not the shop Stripe account. */
 export async function createSponsorCheckoutSession(input: {
   sponsorId: string;
   amountGbp: number;
@@ -11,6 +12,8 @@ export async function createSponsorCheckoutSession(input: {
   successUrl: string;
   cancelUrl: string;
 }) {
+  const stripe = getDonationsStripe();
+
   return stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
@@ -23,8 +26,8 @@ export async function createSponsorCheckoutSession(input: {
         price_data: {
           currency: STRIPE_CURRENCY,
           product_data: {
-            name: `Brush Past sponsorship — ${sponsorTierLabel(input.tier)}`,
-            description: `Thank you, ${input.name}. Your support funds workshops, artists and community programmes.`,
+            name: `Brush Past donation — ${sponsorTierLabel(input.tier)}`,
+            description: `Thank you, ${input.name}. Your gift supports workshops, mentoring and community programmes through Brush Past Foundation.`,
           },
           unit_amount: toStripeMinorUnits(input.amountGbp),
         },

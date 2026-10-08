@@ -11,10 +11,12 @@ import {
 } from "./site-config";
 
 /**
- * Online Stripe for the charity is not wired yet — keep the donation UI disabled
- * until Brush Past Foundation has its own checkout. Contact remains open.
+ * Online donations use the charity Stripe account.
+ * Client UI keys off the public publishable key; checkout needs STRIPE_DONATIONS_SECRET_KEY.
  */
-export const DONATIONS_CHECKOUT_ENABLED = false;
+export const DONATIONS_CHECKOUT_ENABLED = Boolean(
+  process.env.NEXT_PUBLIC_STRIPE_DONATIONS_PUBLISHABLE_KEY?.trim(),
+);
 
 export const SPONSOR_PAGE = {
   hero: {

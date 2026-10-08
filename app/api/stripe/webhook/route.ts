@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "lib/stripe";
 import { getSupabaseServiceClient } from "lib/supabase/service";
-import { completeSponsorFromStripe } from "lib/supabase/sponsors";
-import { sendNewSponsorNotification } from "lib/email";
-import { sponsorTierLabel } from "lib/sponsor-config";
 import type Stripe from "stripe";
 
 async function completeShopOrder(
@@ -29,45 +26,7 @@ async function completeShopOrder(
   }
 }
 
-async function completeSponsorship(
-  session: Stripe.Checkout.Session,
-  eventId: string,
-) {
-  const pi =
-    typeof session.payment_intent === "string"
-      ? session.payment_intent
-      : session.payment_intent?.id ?? null;
-
-  if (session.payment_status && session.payment_status !== "paid") {
-    throw new Error(
-      `Sponsorship session ${session.id} is not paid (${session.payment_status}).`,
-    );
-  }
-
-  const result = await completeSponsorFromStripe({
-    eventId,
-    sessionId: session.id,
-    sponsorId: session.metadata?.sponsorId ?? null,
-    paymentIntentId: pi,
-    email: session.customer_details?.email ?? session.customer_email,
-    name: session.customer_details?.name,
-  });
-
-  if (result.alreadyProcessed || !result.sponsor) return;
-
-  try {
-    await sendNewSponsorNotification({
-      sponsorId: result.sponsor.id,
-      fullName: result.sponsor.full_name || "Sponsor",
-      email: result.sponsor.email || "",
-      amountGbp: Number(result.sponsor.amount_gbp),
-      tierLabel: sponsorTierLabel(result.sponsor.tier),
-    });
-  } catch (emailError) {
-    console.error("sponsor email:", emailError);
-  }
-}
-
+/** Shop Stripe account webhook only. Donations: /api/stripe/donations-webhook */
 export async function POST(request: NextRequest) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret) {
@@ -90,7 +49,10 @@ export async function POST(request: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
     try {
       if (session.metadata?.kind === "sponsorship") {
-        await completeSponsorship(session, event.id);
+        console.warn(
+          "Shop webhook received sponsorship session; ignore (use donations webhook).",
+          session.id,
+        );
       } else {
         await completeShopOrder(session, event.id);
       }

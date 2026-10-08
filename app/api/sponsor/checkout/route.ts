@@ -10,9 +10,20 @@ import {
   deletePendingSponsor,
   setSponsorStripeSession,
 } from "lib/supabase/sponsors";
+import { isDonationsStripeConfigured } from "lib/stripe-donations";
 import { createSponsorCheckoutSession } from "lib/stripe-sponsors";
 
 export async function POST(request: NextRequest) {
+  if (!isDonationsStripeConfigured()) {
+    return NextResponse.json(
+      {
+        error:
+          "Online donations are not configured yet. Please use Contact for other ways to give.",
+      },
+      { status: 503 },
+    );
+  }
+
   try {
     const body = await request.json();
     const fullName = String(body.full_name ?? "").trim();
@@ -64,7 +75,7 @@ export async function POST(request: NextRequest) {
         tier,
         email,
         name: fullName,
-        successUrl: `${baseUrl}/sponsor/success?sponsorId=${sponsor.id}`,
+        successUrl: `${baseUrl}/sponsor/success?sponsorId=${sponsor.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancelUrl: `${baseUrl}/sponsor#choose-your-impact`,
       });
 

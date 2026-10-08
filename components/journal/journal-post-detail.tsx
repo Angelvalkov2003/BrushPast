@@ -66,20 +66,24 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
             texture="secondary"
             className="px-4 py-10 md:px-10 md:py-14"
           >
-            <Reveal variant="fade-scale" className="mx-auto w-full max-w-3xl">
+            <Reveal
+              variant="fade-scale"
+              className="mx-auto flex w-full max-w-3xl justify-center"
+            >
               <JournalLightboxTrigger
                 index={images.indexOf(hero)}
-                className="w-full cursor-zoom-in transition-opacity hover:opacity-95 focus-visible:outline-offset-4"
+                className="inline-block max-w-full cursor-zoom-in transition-opacity hover:opacity-95 focus-visible:outline-offset-4"
               >
-                <PolaroidFrame index={0} className="w-full">
-                  <div className="relative aspect-[16/10] w-full min-h-[12rem] overflow-hidden bg-bp-surface sm:min-h-[16rem]">
+                <PolaroidFrame index={0} className="inline-block max-w-full">
+                  <div className="flex max-h-[min(70vh,640px)] max-w-full items-center justify-center overflow-hidden bg-bp-surface">
                     <Image
                       src={hero}
                       alt=""
-                      fill
-                      className="object-cover object-center"
+                      width={1600}
+                      height={1200}
+                      className="h-auto max-h-[min(70vh,640px)] w-auto max-w-full object-contain"
                       priority
-                      sizes="(max-width: 768px) 100vw, 900px"
+                      sizes="(max-width: 768px) 100vw, 768px"
                     />
                   </div>
                 </PolaroidFrame>
@@ -135,18 +139,23 @@ export function JournalPostDetail({ post }: { post: PublicJournalPost }) {
                       key={url}
                       variant="fade-scale"
                       delay={index * REVEAL_STAGGER_MS}
+                      className="flex justify-center"
                     >
                       <JournalLightboxTrigger
                         index={images.indexOf(url)}
-                        className="w-full"
+                        className="inline-block max-w-full"
                       >
-                        <PolaroidFrame index={index + 1} className="w-full">
-                          <div className="relative aspect-[4/3] w-full min-h-[10rem] overflow-hidden bg-bp-surface">
+                        <PolaroidFrame
+                          index={index + 1}
+                          className="inline-block max-w-full"
+                        >
+                          <div className="flex max-h-[min(50vh,420px)] max-w-full items-center justify-center overflow-hidden bg-bp-surface">
                             <Image
                               src={url}
                               alt=""
-                              fill
-                              className="object-cover"
+                              width={1200}
+                              height={900}
+                              className="h-auto max-h-[min(50vh,420px)] w-auto max-w-full object-contain"
                               sizes="(max-width: 768px) 100vw, 50vw"
                             />
                           </div>
