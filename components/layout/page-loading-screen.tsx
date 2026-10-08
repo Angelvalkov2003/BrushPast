@@ -11,7 +11,7 @@ type PageLoadingScreenProps = {
   fixed?: boolean;
 };
 
-/** Cardboard + logo loading UI — works in SSR route `loading.tsx` and client overlays. */
+/** Cardboard texture washed in brand beige, with a pulsing logo centred. */
 export function PageLoadingScreen({
   texture = "primary",
   fixed = true,
@@ -20,8 +20,8 @@ export function PageLoadingScreen({
     <div
       className={
         fixed
-          ? "fixed inset-0 z-[200] flex min-h-[100dvh] items-center justify-center bg-bp-accent-bg"
-          : "flex min-h-[70vh] w-full items-center justify-center bg-bp-accent-bg"
+          ? "fixed inset-0 z-[200] flex min-h-[100dvh] items-center justify-center bg-bp-canvas"
+          : "relative flex min-h-[70vh] w-full items-center justify-center bg-bp-canvas"
       }
       role="status"
       aria-live="polite"
@@ -32,14 +32,15 @@ export function PageLoadingScreen({
           src={TEXTURE_IMAGES[texture]}
           alt=""
           fill
-          className="object-cover"
+          className="object-cover opacity-55"
           sizes="100vw"
           priority
         />
-        <div className="absolute inset-0 bg-bp-accent-bg/78 backdrop-blur-[1px]" />
+        {/* Main beige wash so cardboard reads as brand canvas */}
+        <div className="absolute inset-0 bg-bp-canvas/72" />
       </div>
-      <div className="navigation-loading-logo relative z-10">
-        <BrandLogo size="hero" priority />
+      <div className="navigation-loading-logo relative z-10 mx-auto">
+        <BrandLogo size="hero" priority className="mx-auto object-center" />
       </div>
     </div>
   );

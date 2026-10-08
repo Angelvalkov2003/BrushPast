@@ -14,9 +14,8 @@ import type { TextureVariant } from "components/shared/texture-section";
 import { NavigationLoadingScreen } from "./navigation-loading-screen";
 
 const SHOW_DELAY_MS = 80;
-const MIN_VISIBLE_MS = 280;
+const MIN_VISIBLE_MS = 320;
 const MAX_WAIT_MS = 8000;
-const FIRST_VISIT_KEY = "bp-cardboard-seen";
 
 type NavigationLoadingContextValue = {
   startLoading: (texture?: TextureVariant) => void;
@@ -33,24 +32,6 @@ export function useNavigationLoading() {
 function textureForPath(path: string): TextureVariant {
   if (path === "/" || path.startsWith("/shop")) return "secondary";
   return "primary";
-}
-
-/** Full cardboard overlay only on first visit this session. */
-function shouldShowFullCardboard(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    return sessionStorage.getItem(FIRST_VISIT_KEY) !== "1";
-  } catch {
-    return true;
-  }
-}
-
-function markCardboardSeen() {
-  try {
-    sessionStorage.setItem(FIRST_VISIT_KEY, "1");
-  } catch {
-    // ignore
-  }
 }
 
 export function NavigationLoading({ children }: { children?: ReactNode }) {
@@ -86,14 +67,12 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
       hideTimerRef.current = null;
       setVisible(false);
       shownAtRef.current = null;
-      markCardboardSeen();
     }, delay);
   }, []);
 
   const startLoading = useCallback(
     (nextTexture: TextureVariant = "primary") => {
       if (isAdmin) return;
-      if (!shouldShowFullCardboard()) return;
 
       setTexture(nextTexture);
 
@@ -112,7 +91,6 @@ export function NavigationLoading({ children }: { children?: ReactNode }) {
           maxWaitRef.current = null;
           setVisible(false);
           shownAtRef.current = null;
-          markCardboardSeen();
         }, MAX_WAIT_MS);
       }, SHOW_DELAY_MS);
     },

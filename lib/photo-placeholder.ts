@@ -8,8 +8,8 @@ export function formatPhotoPlaceholderLabel(number: number): string {
  * Missing numbers stay placeholders until assets are added.
  */
 export const PHOTO_SRC: Partial<Record<number, string>> = {
-  1: "/mainphotos/1i2.png",
-  2: "/mainphotos/2.jpg",
+  1: "/homepage-main.jpg",
+  2: "/homepage2.png",
   3: "/mainphotos/3.jpg",
   4: "/mainphotos/photo1.png",
   5: "/mainphotos/5.jpg",
