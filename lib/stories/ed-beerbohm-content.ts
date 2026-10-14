@@ -21,6 +21,10 @@ export const ED_BEERBOHM_STORY = {
   galleryImages: [
     "/stories/ED-BEERBOHM/2.webp",
     "/stories/ED-BEERBOHM/3.webp",
+    "/stories/ED-BEERBOHM/4.jpg",
+    "/stories/ED-BEERBOHM/5.jpg",
+    "/stories/ED-BEERBOHM/6.jpg",
+    "/stories/ED-BEERBOHM/7.jpg",
   ],
   storyIntro:
     "Disability, isolation, and art that turns walls from barriers into alternative vistas.",

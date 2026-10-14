@@ -130,6 +130,7 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
     ],
     href: "/workshops/workshop-no-1",
     photoNumber: PHOTO.pastWorkshopEdwardAlsop,
+    image: "/workshops/t-shirtworkshopEdwardAlsop.jpg",
     imageAlt: "T-shirt workshop at Edward Alsop hostel",
     imageNote: "Photograph from the Edward Alsop T-shirt workshop.",
   },

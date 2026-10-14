@@ -191,23 +191,26 @@ export async function EdBeerbohmPage() {
 
       <RevealSection className="border-b border-bp-text/10 bg-[#ebe5dc] px-4 py-12 md:px-10 md:py-16">
         <div className="mx-auto grid max-w-[1400px] gap-6 sm:grid-cols-2">
-          {COPY.galleryImages.map((src, i) => (
-            <div
-              key={src}
-              className={`relative aspect-[4/3] overflow-hidden border border-bp-text/15 shadow-[6px_6px_0_rgba(1,2,0,0.06)] ${
-                i === 0 ? "sm:mt-8" : "sm:-mt-4"
-              }`}
-              style={{ transform: `rotate(${i === 0 ? -0.8 : 0.6}deg)` }}
-            >
-              <Image
-                src={src}
-                alt={`Ed Beerbohm - artwork ${i + 2}`}
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-          ))}
+          {COPY.galleryImages.map((src, i) => {
+            const tiltLeft = i % 2 === 0;
+            return (
+              <div
+                key={src}
+                className={`relative aspect-[4/3] overflow-hidden border border-bp-text/15 shadow-[6px_6px_0_rgba(1,2,0,0.06)] ${
+                  tiltLeft ? "sm:mt-8" : "sm:-mt-4"
+                }`}
+                style={{ transform: `rotate(${tiltLeft ? -0.8 : 0.6}deg)` }}
+              >
+                <Image
+                  src={src}
+                  alt={`Ed Beerbohm - artwork ${i + 2}`}
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+            );
+          })}
         </div>
       </RevealSection>
 

@@ -10,7 +10,7 @@ export const WORKSHOP_NO_1 = {
   partner: "Look Ahead",
   tagline:
     "We worked with Look Ahead so people could design their own T-shirts—and begin to see the value in their own work.",
-  heroImage: `${BASE}/hero.jpg`,
+  heroImage: "/workshops/t-shirtworkshopEdwardAlsop.jpg",
   narrativeColumns: [
     {
       title: "With Look Ahead",

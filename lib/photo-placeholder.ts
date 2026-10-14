@@ -35,7 +35,7 @@ export const PHOTO_SRC: Partial<Record<number, string>> = {
   39: "/shop1.png",
   40: "/mainphotos/34.jpg",
   41: "/workshops/workshop-no-1/41.jpeg",
-  42: "/workshops/workshop-no-1/hero.jpg",
+  42: "/workshops/t-shirtworkshopEdwardAlsop.jpg",
   43: "/mainphotos/43.jpg",
 };
 
