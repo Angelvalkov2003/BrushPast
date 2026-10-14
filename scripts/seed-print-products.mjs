@@ -59,42 +59,50 @@ const STORY_STUBS = [
  * Print products — no images (upload later in admin).
  * storySlugs: existing / stub story slugs to link via product_stories.
  */
+/** Jeremy catalogue: story links + known images (Hope = workshop, not Karl). */
 const PRINTS = [
   {
     title: "Hope",
     slug: "hope",
-    storySlugs: ["karl"],
-    short_description: "Print from Karl’s world of portraits and conversations.",
+    storySlugs: [],
+    workshopSlug: "workshop-no-1",
+    short_description:
+      "Print from the Evolve T-shirt workshop (Workshop No.1).",
   },
   {
-    title: "Pollen Ate",
+    title: "Pollen-ate",
     slug: "pollen-ate",
-    storySlugs: [],
-    short_description: "Brush Past print — artwork title awaiting final credit.",
+    storySlugs: ["ed-beerbohm"],
+    short_description: "Print by Ed Beerbohm.",
+    image: "/stories/ED-BEERBOHM/3.webp",
   },
   {
     title: "Human Beans",
     slug: "human-beans",
     storySlugs: ["bobby"],
     short_description: "Print linked to Bobby’s story.",
+    image: "/stories/bobby/human-beans.jpg",
   },
   {
     title: "Chemistry",
     slug: "chemistry",
-    storySlugs: [],
-    short_description: "Brush Past print — artwork title awaiting final credit.",
+    storySlugs: ["maimouna"],
+    short_description: "Print linked to Maimouna / Mighty Culture.",
+    image: "/stories/maimouna/2.webp",
   },
   {
     title: "Fish Out of Water",
     slug: "fish-out-of-water",
-    storySlugs: [],
-    short_description: "Brush Past print — artwork title awaiting final credit.",
+    storySlugs: ["ed-beerbohm"],
+    short_description: "Print by Ed Beerbohm.",
   },
   {
     title: "Sandra",
     slug: "sandra-print",
     storySlugs: ["sandra", "karl"],
-    short_description: "Portrait print — Sandra, from Karl Rudziak’s work.",
+    short_description:
+      "Portrait print — Sandra (not Jess), from Karl Rudziak’s work.",
+    image: "/stories/KARL/sandra.jpg",
   },
   {
     title: "Sons of Anarchy",
@@ -107,12 +115,14 @@ const PRINTS = [
     slug: "mighty-culture",
     storySlugs: ["maimouna"],
     short_description: "Print linked to Maimouna / Mighty Culture.",
+    image: "/stories/maimouna/1.webp",
   },
   {
     title: "Jed",
     slug: "jed-print",
     storySlugs: ["jed", "karl"],
     short_description: "Portrait print — Jed, from Karl Rudziak’s work.",
+    image: "/stories/KARL/jed.jpg",
   },
   {
     title: "Alternative Vista",
@@ -131,6 +141,7 @@ const PRINTS = [
     slug: "glimpse-of-light",
     storySlugs: ["little-george"],
     short_description: "Print by Little George.",
+    image: "/stories/littleGeorge/1.webp",
   },
   {
     title: "Beyond the Walls",
@@ -165,20 +176,27 @@ async function upsertStoryStub(stub) {
   return data;
 }
 
-async function upsertPrint(print, storyIdBySlug) {
+async function upsertPrint(print, storyIdBySlug, workshopIdBySlug) {
+  const qr =
+    print.storySlugs[0] != null
+      ? `https://brushpast.org/stories/${print.storySlugs[0]}`
+      : print.workshopSlug
+        ? `https://brushpast.org/workshops/${print.workshopSlug}`
+        : null;
+
   const payload = {
     title: print.title,
     slug: print.slug,
     short_description: print.short_description,
     full_description: null,
-    main_image_url: null,
+    main_image_url: print.image ?? null,
     price_gbp: PRINT_PRICE,
     product_type: "print",
     medium: "print",
-    qr_story_url:
-      print.storySlugs[0] != null
-        ? `https://brushpast.org/stories/${print.storySlugs[0]}`
-        : null,
+    qr_story_url: qr,
+    workshop_id: print.workshopSlug
+      ? (workshopIdBySlug.get(print.workshopSlug) ?? null)
+      : null,
     inventory_type: "unlimited",
     inventory_quantity: null,
     status: "active",
@@ -203,10 +221,11 @@ async function upsertPrint(print, storyIdBySlug) {
         product_type: payload.product_type,
         medium: payload.medium,
         qr_story_url: payload.qr_story_url,
+        workshop_id: payload.workshop_id,
         status: "active",
         short_description:
           existing.short_description?.trim() || payload.short_description,
-        main_image_url: existing.main_image_url,
+        main_image_url: existing.main_image_url || payload.main_image_url,
       })
       .eq("id", existing.id)
       .select("id, slug")
@@ -341,8 +360,16 @@ async function main() {
   if (storiesErr) throw storiesErr;
   for (const s of stories ?? []) storyIdBySlug.set(s.slug, s.id);
 
+  const { data: workshops, error: workshopsErr } = await supabase
+    .from("workshops")
+    .select("id, slug");
+  if (workshopsErr) throw workshopsErr;
+  const workshopIdBySlug = new Map(
+    (workshops ?? []).map((w) => [w.slug, w.id]),
+  );
+
   for (const print of PRINTS) {
-    await upsertPrint(print, storyIdBySlug);
+    await upsertPrint(print, storyIdBySlug, workshopIdBySlug);
   }
 
   await fixCoffee();

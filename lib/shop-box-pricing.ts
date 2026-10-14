@@ -2,7 +2,9 @@ import {
   BOX_TYPE_RULES,
   BYO_DISCOUNT,
   NEXT_CHAPTER_PRICE_GBP,
+  comboFromCategories,
   singlePriceForCategory,
+  type BoxCategoryKey,
   type BoxDraft,
   type BoxPairComboId,
   type BoxSelectionItem,
@@ -38,6 +40,21 @@ export function categoryRetailSum(items: BoxSelectionItem[]): number {
   );
 }
 
+/**
+ * When BYO holds exactly one of each half of an official Two Piece pair,
+ * charge the same fixed pair price (not the 5% BYO tier).
+ */
+export function byoMatchingPairCombo(
+  items: BoxSelectionItem[],
+): BoxPairComboId | undefined {
+  if (countItems(items) !== 2) return undefined;
+  const keys: BoxCategoryKey[] = items.flatMap((item) =>
+    Array.from({ length: item.quantity }, () => item.categoryKey),
+  );
+  if (keys.length !== 2 || keys[0] === keys[1]) return undefined;
+  return comboFromCategories(keys);
+}
+
 export function byoDiscountedPrice(items: BoxSelectionItem[]): number {
   const count = countItems(items);
   const retail = categoryRetailSum(items);
@@ -46,6 +63,12 @@ export function byoDiscountedPrice(items: BoxSelectionItem[]): number {
     const first = items[0];
     return first ? singlePriceForCategory(first.categoryKey) : 0;
   }
+
+  const pairCombo = byoMatchingPairCombo(items);
+  if (pairCombo) {
+    return PAIR_PRICES_GBP[pairCombo];
+  }
+
   if (count === 2) {
     return Math.round(retail * (1 - BYO_DISCOUNT.twoItems) * 100) / 100;
   }

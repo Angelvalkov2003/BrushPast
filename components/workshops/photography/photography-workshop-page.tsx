@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Footer from "components/layout/footer";
 import {
@@ -17,7 +18,6 @@ import {
 } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import { TextureSection } from "components/shared/texture-section";
-import { BoxImagePlaceholder } from "components/shop/box-image-placeholder";
 import { PHOTOGRAPHY_WORKSHOP } from "lib/workshops/photography-workshop-content";
 
 const COPY = PHOTOGRAPHY_WORKSHOP;
@@ -48,11 +48,15 @@ export function PhotographyWorkshopPage() {
             >
               {COPY.headline}
             </h1>
-            <p className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xl text-bp-accent`}>
+            <p
+              className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-xl text-bp-accent`}
+            >
               {COPY.title}
             </p>
             <p className={`${bodyClass} mt-5 max-w-xl`}>{COPY.tagline}</p>
-            <dl className={`${bpBodyClass} mt-6 space-y-1 text-sm text-bp-text/75`}>
+            <dl
+              className={`${bpBodyClass} mt-6 space-y-1 text-sm text-bp-text/75`}
+            >
               <div>
                 <dt className="inline font-semibold text-bp-text">Location: </dt>
                 <dd className="inline">{COPY.location}</dd>
@@ -70,12 +74,16 @@ export function PhotographyWorkshopPage() {
             </dl>
           </div>
           <PolaroidFrame index={0}>
-            <BoxImagePlaceholder
-              alt={COPY.imageAlt}
-              note={COPY.imageNote}
-              labelNumber={COPY.photoNumber}
-              className="aspect-[4/3] min-h-[260px]"
-            />
+            <div className="relative aspect-[4/3] min-h-[260px] overflow-hidden bg-bp-text/5">
+              <Image
+                src={COPY.heroImage}
+                alt={COPY.imageAlt}
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </PolaroidFrame>
         </div>
       </RevealSection>
@@ -99,6 +107,43 @@ export function PhotographyWorkshopPage() {
       </TextureSection>
 
       <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
+        <div className="mx-auto max-w-[1400px]">
+          <SectionEyebrow>Gallery</SectionEyebrow>
+          <h2
+            className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(1.85rem,4vw,2.75rem)] font-bold uppercase tracking-wide text-bp-text`}
+          >
+            {COPY.galleryTitle}
+          </h2>
+          <p className={`${bodyClass} mt-3 max-w-2xl text-bp-text/75`}>
+            {COPY.galleryIntro}
+          </p>
+          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {COPY.gallery.map((src, index) => {
+              // share.jpg: keep faces/heads in frame — crop from the top
+              const focusTop = src.endsWith("/share.jpg");
+              return (
+                <li key={src}>
+                  <PolaroidFrame index={index}>
+                    <div className="relative aspect-[4/3] overflow-hidden bg-bp-text/5">
+                      <Image
+                        src={src}
+                        alt={`${COPY.imageAlt} — ${index + 1}`}
+                        fill
+                        className={
+                          focusTop ? "object-cover object-top" : "object-cover"
+                        }
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  </PolaroidFrame>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </TextureSection>
+
+      <TextureSection texture="secondary" className="px-4 py-14 md:px-10 md:py-20">
         <div className="mx-auto max-w-3xl">
           <blockquote
             className={`${homeHandClass} text-center text-2xl leading-snug text-bp-text md:text-3xl`}
@@ -112,7 +157,7 @@ export function PhotographyWorkshopPage() {
       </TextureSection>
 
       <TextureSection
-        texture="secondary"
+        texture="primary"
         className="px-4 py-14 md:px-10 md:py-16"
       >
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-center md:justify-between">

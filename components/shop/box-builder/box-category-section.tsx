@@ -18,15 +18,20 @@ export function BoxCategorySection({
   label,
   products,
   selectedProductId,
+  selectedQuantities,
   selected = false,
   onSelectProduct,
+  onRemoveProduct,
 }: {
   categoryKey: BoxCategoryKey;
   label: string;
   products: BoxCatalogProduct[];
   selectedProductId?: string;
+  /** productId → qty in box (Build Your Own) */
+  selectedQuantities?: Record<string, number>;
   selected?: boolean;
   onSelectProduct: (product: BoxCatalogProduct) => void;
+  onRemoveProduct?: (product: BoxCatalogProduct) => void;
 }) {
   /** false = roomy (1–2 cols), true = denser (up to 3) — same idea as Stories toggle */
   const [compactGrid, setCompactGrid] = useState(true);
@@ -97,16 +102,32 @@ export function BoxCategorySection({
               : "grid-cols-1 sm:grid-cols-2",
           )}
         >
-          {products.map((product, index) => (
-            <BoxProductTile
-              key={product.id}
-              product={product}
-              index={index}
-              layout={compactGrid ? "grid" : "stack"}
-              selected={selectedProductId === product.id}
-              onSelect={() => onSelectProduct(product)}
-            />
-          ))}
+          {products.map((product, index) => {
+            const qty = selectedQuantities?.[product.id] ?? 0;
+            return (
+              <BoxProductTile
+                key={product.id}
+                product={product}
+                index={index}
+                layout={compactGrid ? "grid" : "stack"}
+                selected={
+                  selectedQuantities
+                    ? qty > 0
+                    : selectedProductId === product.id
+                }
+                selectedQuantity={qty}
+                onSelect={() => onSelectProduct(product)}
+                onRemove={
+                  onRemoveProduct &&
+                  (selectedQuantities
+                    ? qty > 0
+                    : selectedProductId === product.id)
+                    ? () => onRemoveProduct(product)
+                    : undefined
+                }
+              />
+            );
+          })}
         </div>
       )}
     </section>

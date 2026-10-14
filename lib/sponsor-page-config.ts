@@ -4,8 +4,11 @@
  */
 
 import {
+  CHARITY_COMPANY_NUMBER,
+  CHARITY_DISPLAY_NAME,
   CHARITY_LEGAL_NAME,
   CHARITY_NUMBER,
+  CHARITY_STRUCTURE,
   CIC_LEGAL_NAME,
   CIC_NUMBER,
 } from "./site-config";
@@ -32,7 +35,16 @@ export const SPONSOR_PAGE = {
   organisations: {
     title: "One mission. Two organisations.",
     /** Single combined explanation — CIC + charity. */
-    body: `${CIC_LEGAL_NAME} is the trading organisation behind the shop, products and commercial partnerships.${CIC_NUMBER ? ` Company number ${CIC_NUMBER}.` : ""} ${CHARITY_LEGAL_NAME} is the registered charity that receives donations to fund workshops and mentoring.${CHARITY_NUMBER ? ` Charity number ${CHARITY_NUMBER}.` : ""} Together they share one mission: more people creating, connecting and being heard.`,
+    body: `${CIC_LEGAL_NAME} is the trading organisation behind the shop, products and commercial partnerships.${CIC_NUMBER ? ` Company number ${CIC_NUMBER}.` : ""} ${CHARITY_LEGAL_NAME} is the registered charity that receives donations to fund workshops and mentoring. Together they share one mission: more people creating, connecting and being heard.`,
+    foundationCard: {
+      eyebrow: "The Foundation",
+      name: CHARITY_DISPLAY_NAME,
+      structure: CHARITY_STRUCTURE,
+      charityNumberLabel: "Registered charity number",
+      charityNumber: CHARITY_NUMBER,
+      companyNumberLabel: "Company number",
+      companyNumber: CHARITY_COMPANY_NUMBER,
+    },
   },
   chooseImpact: {
     eyebrow: "Choose your impact",

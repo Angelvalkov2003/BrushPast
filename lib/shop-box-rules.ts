@@ -157,6 +157,17 @@ export function removeSelection(
   return { ...draft, items: draft.items.filter((item) => item.id !== itemId) };
 }
 
+/** Remove every line of a product (all variants / quantities). */
+export function removeProductSelection(
+  draft: BoxDraft,
+  productId: string,
+): BoxDraft {
+  return {
+    ...draft,
+    items: draft.items.filter((item) => item.productId !== productId),
+  };
+}
+
 export function selectedItemInCategory(
   draft: BoxDraft,
   categoryKey: BoxCategoryKey,
@@ -169,6 +180,58 @@ export function isProductSelected(
   productId: string,
 ): boolean {
   return draft.items.some((item) => item.productId === productId);
+}
+
+/** Total quantity of a product already in the draft (all variants). */
+export function quantityForProduct(
+  draft: BoxDraft,
+  productId: string,
+): number {
+  return draft.items
+    .filter((item) => item.productId === productId)
+    .reduce((sum, item) => sum + item.quantity, 0);
+}
+
+/** Expand line items by quantity for “Your box” thumbnails. */
+export function expandItemsForSlots(
+  items: BoxSelectionItem[],
+): BoxSelectionItem[] {
+  return items.flatMap((item) =>
+    Array.from({ length: Math.max(0, item.quantity) }, (_, index) => ({
+      ...item,
+      id: `${item.id}::${index}`,
+      quantity: 1,
+    })),
+  );
+}
+
+/** Map a slot id (`lineId::n`) back to the draft line id. */
+export function sourceLineIdFromSlotId(slotId: string): string {
+  const sep = slotId.lastIndexOf("::");
+  return sep >= 0 ? slotId.slice(0, sep) : slotId;
+}
+
+/** Minimum empty/filled cells shown in Build Your Own “Your box”. */
+export const BYO_MIN_VISIBLE_SLOTS = 6;
+
+/** Decrement qty by 1, or remove the line when qty reaches 0. */
+export function decrementSelection(
+  draft: BoxDraft,
+  itemId: string,
+): BoxDraft {
+  const target = draft.items.find((item) => item.id === itemId);
+  if (!target) return draft;
+  if (target.quantity <= 1) {
+    return removeSelection(draft, itemId);
+  }
+  return {
+    ...draft,
+    items: draft.items.map((item) =>
+      item.id === itemId
+        ? { ...item, quantity: item.quantity - 1 }
+        : item,
+    ),
+  };
 }
 
 export function categoryStatusLabel(

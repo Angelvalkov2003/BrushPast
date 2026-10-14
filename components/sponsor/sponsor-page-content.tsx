@@ -379,8 +379,8 @@ export function SponsorPageContent() {
       />
 
       <TextureSection texture="primary" className="px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto max-w-[1400px]">
-          <div className="max-w-3xl">
+        <div className="mx-auto max-w-4xl">
+          <div>
             <p
               className={`${homeHandClass} ${bpWhisperUtility} text-2xl text-bp-accent md:text-3xl`}
             >
@@ -397,21 +397,68 @@ export function SponsorPageContent() {
             />
           </div>
 
-          <article className="relative mt-10 max-w-3xl border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:mt-12 md:p-8">
-            <p
-              className={`${bpBodySmClass} font-bold uppercase tracking-[0.18em] text-bp-accent`}
+          <div className="mt-10 grid gap-5 md:mt-12 md:gap-6">
+            <article className="relative border border-bp-text/12 bg-bp-canvas/80 p-6 shadow-[4px_5px_0_rgba(1,2,0,0.06)] md:p-8">
+              <p
+                className={`${bpBodySmClass} font-bold uppercase tracking-[0.18em] text-bp-accent`}
+              >
+                Charity &amp; CIC
+              </p>
+              <h3
+                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
+              >
+                {page.organisations.title}
+              </h3>
+              <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
+                {page.organisations.body}
+              </p>
+            </article>
+
+            <aside
+              aria-label="Brush Past Foundation registration details"
+              className="relative border-2 border-bp-accent/35 bg-bp-canvas p-6 shadow-[4px_5px_0_rgba(191,50,1,0.1)] md:p-8"
             >
-              Charity &amp; CIC
-            </p>
-            <h3
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
-            >
-              {page.organisations.title}
-            </h3>
-            <p className={`${bpBodyClass} mt-4 leading-relaxed text-bp-text/80`}>
-              {page.organisations.body}
-            </p>
-          </article>
+              <p
+                className={`${bpBodySmClass} font-bold uppercase tracking-[0.18em] text-bp-accent`}
+              >
+                {page.organisations.foundationCard.eyebrow}
+              </p>
+              <h3
+                className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-xl font-bold uppercase tracking-wide text-bp-text md:text-2xl`}
+              >
+                {page.organisations.foundationCard.name}
+              </h3>
+              <p className={`${bpBodyClass} mt-3 text-bp-text/80`}>
+                {page.organisations.foundationCard.structure}
+              </p>
+              <dl className="mt-5 space-y-3 border-t border-bp-text/10 pt-5">
+                <div>
+                  <dt
+                    className={`${bpBodySmClass} uppercase tracking-[0.14em] text-bp-text/55`}
+                  >
+                    {page.organisations.foundationCard.charityNumberLabel}
+                  </dt>
+                  <dd
+                    className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-lg font-bold text-bp-text md:text-xl`}
+                  >
+                    {page.organisations.foundationCard.charityNumber}
+                  </dd>
+                </div>
+                <div>
+                  <dt
+                    className={`${bpBodySmClass} uppercase tracking-[0.14em] text-bp-text/55`}
+                  >
+                    {page.organisations.foundationCard.companyNumberLabel}
+                  </dt>
+                  <dd
+                    className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-lg font-bold text-bp-text md:text-xl`}
+                  >
+                    {page.organisations.foundationCard.companyNumber}
+                  </dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
         </div>
       </TextureSection>
 
@@ -421,16 +468,16 @@ export function SponsorPageContent() {
       >
         <div
           id="choose-your-impact"
-          className="mx-auto max-w-[1400px] scroll-mt-28"
+          className="mx-auto max-w-4xl scroll-mt-28"
         >
-          <div className="min-w-0 max-w-2xl">
+          <div className="min-w-0">
             <SectionEyebrow>{page.chooseImpact.eyebrow}</SectionEyebrow>
             <h2
               className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2rem,5vw,3.25rem)] font-bold uppercase leading-[1.05] text-bp-text`}
             >
               {page.chooseImpact.title}
             </h2>
-            <p className={`${bpBodyClass} mt-3 max-w-xl text-bp-text/75`}>
+            <p className={`${bpBodyClass} mt-3 max-w-2xl text-bp-text/75`}>
               {page.chooseImpact.whisper}
             </p>
             <div className="mt-8">
@@ -444,7 +491,7 @@ export function SponsorPageContent() {
         texture="primary"
         className="px-4 py-14 md:px-10 md:py-20"
       >
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-4xl">
           <SectionEyebrow>{page.partnership.eyebrow}</SectionEyebrow>
           <h2
             className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-[clamp(2rem,5vw,3.25rem)] font-bold uppercase leading-[1.05] tracking-wide text-bp-text`}
@@ -456,7 +503,7 @@ export function SponsorPageContent() {
             aria-hidden
           />
           <p
-            className={`${bpBodyClass} mt-6 leading-relaxed text-bp-text/80 md:text-lg`}
+            className={`${bpBodyClass} mt-6 max-w-2xl leading-relaxed text-bp-text/80 md:text-lg`}
           >
             {page.partnership.body}
           </p>

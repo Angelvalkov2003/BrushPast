@@ -179,6 +179,9 @@ export default function CartModal() {
                                       <p className="text-bp-text/80">
                                         {categoryLabel(content.categoryKey)}:{" "}
                                         {content.title}
+                                        {content.quantity > 1
+                                          ? ` ×${content.quantity}`
+                                          : ""}
                                       </p>
                                       {content.variantLabel ? (
                                         <p className="text-xs text-bp-text/50">

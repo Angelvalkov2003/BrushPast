@@ -35,12 +35,12 @@ export const HOME_HERO_COLLAGE = {
   ready: true,
   alt: "Brush Past collage — stories, makers and gifts",
   desktop: {
-    src: "/homepage-main.jpg",
+    src: "/homepage/1.jpeg",
     width: 1400,
     height: 1750,
   },
   mobile: {
-    src: "/homepage-main.jpg",
+    src: "/homepage/1.jpeg",
     width: 1200,
     height: 1500,
   },

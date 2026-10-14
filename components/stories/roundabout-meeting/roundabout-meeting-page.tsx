@@ -11,10 +11,13 @@ import {
 import {homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
-import { ShopProductCard } from "components/shop/shop-product-card";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 import { displayImageUrl } from "lib/image-url";
 import { ROUNDABOUT_MEETING } from "lib/stories/the-roundabout-meeting-content";
-import { getStoryArtworkBySlug, getStoryProductsBySlug } from "lib/supabase/story-products";
+import {
+  getStoryArtworkBySlug,
+  getStoryRelatedProduct,
+} from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 import { StoryArtworkCarousel } from "./story-artwork-carousel";
 
@@ -40,8 +43,8 @@ function formatQuote(text: string): string {
 
 export async function RoundaboutMeetingPage() {
   const story = await getPublicStoryBySlug(COPY.slug);
-  const [products, artwork] = await Promise.all([
-    getStoryProductsBySlug(COPY.slug),
+  const [relatedProduct, artwork] = await Promise.all([
+    getStoryRelatedProduct(COPY.slug),
     getStoryArtworkBySlug(COPY.slug),
   ]);
 
@@ -166,33 +169,11 @@ export async function RoundaboutMeetingPage() {
         </div>
       </RevealSection>
 
-      {/* Products */}
-      <RevealSection className="px-4 py-14 md:px-10 md:py-20">
-        <div className="mx-auto max-w-[1400px]">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
-            From this story
-          </p>
-          <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide md:text-3xl">
-            Take a piece home
-          </h2>
-          <p className="mt-3 max-w-xl text-sm text-bp-text/70">
-            Every purchase supports creators and workshops at {COPY.organisation}.
-          </p>
-          {products.length > 0 ? (
-            <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <li key={product.id}>
-                  <ShopProductCard product={product} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-8 text-sm text-bp-text/60">
-              Link products to this story in admin (product ↔ story) to show them here.
-            </p>
-          )}
-        </div>
-      </RevealSection>
+      <StoryRelatedProductSection
+        product={relatedProduct}
+        note={`Every purchase supports creators and workshops at ${COPY.organisation}.`}
+        className="px-4 py-14 md:px-10 md:py-20"
+      />
 
       <Footer />
     </StoryPageShell>

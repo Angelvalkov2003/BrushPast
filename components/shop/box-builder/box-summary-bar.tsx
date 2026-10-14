@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import clsx from "clsx";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { IndexCard, PolaroidFrame } from "components/home/home-decor";
 import {
   bpBodyClass,
@@ -14,11 +15,17 @@ import { formatPrice } from "lib/currency";
 import { isValidImageUrl } from "lib/image-url";
 import {
   BOX_CATEGORY_ROWS,
-  BOX_TYPE_RULES,
   type BoxDraft,
+  type BoxSelectionItem,
 } from "lib/shop-box-config";
 import { priceOfDraft } from "lib/shop-box-pricing";
-import { selectedItemInCategory, totalItemCount } from "lib/shop-box-rules";
+import {
+  BYO_MIN_VISIBLE_SLOTS,
+  countInCategory,
+  expandItemsForSlots,
+  selectedItemInCategory,
+  totalItemCount,
+} from "lib/shop-box-rules";
 
 export function BuilderCta({
   children,
@@ -50,22 +57,47 @@ function SlotThumb({
   title,
   imageUrl,
   emptyLabel,
+  sizeLabel,
+  onRemove,
 }: {
   title?: string;
   imageUrl?: string;
   emptyLabel: string;
+  /** T-shirt size (or other variant) — top-left badge */
+  sizeLabel?: string;
+  onRemove?: () => void;
 }) {
+  const filled = Boolean(title && imageUrl && isValidImageUrl(imageUrl));
+
   return (
     <div className="min-w-0">
-      {title && imageUrl && isValidImageUrl(imageUrl) ? (
+      {filled ? (
         <div className="relative aspect-square overflow-hidden border border-bp-text/10 bg-bp-text/5">
           <Image
-            src={imageUrl}
-            alt={title}
+            src={imageUrl!}
+            alt={title!}
             fill
             className="object-cover"
             sizes="160px"
           />
+          {sizeLabel ? (
+            <span
+              className={`${bpTitleClass} ${bpTitleUtility} absolute left-1 top-1 max-w-[calc(100%-2rem)] truncate rounded-sm bg-bp-canvas/95 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-bp-text shadow-sm`}
+            >
+              {sizeLabel}
+            </span>
+          ) : null}
+          {onRemove ? (
+            <button
+              type="button"
+              onClick={onRemove}
+              className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center border border-bp-text/15 bg-bp-canvas/95 text-bp-text/75 transition-colors hover:border-bp-accent hover:text-bp-accent"
+              aria-label={`Remove ${title} from your box`}
+              title="Remove"
+            >
+              <XMarkIcon className="h-3.5 w-3.5" strokeWidth={2.5} />
+            </button>
+          ) : null}
         </div>
       ) : (
         <div className="flex aspect-square items-center justify-center border border-dashed border-bp-text/25 bg-bp-text/[0.04] px-1 text-center">
@@ -81,33 +113,65 @@ function SlotThumb({
   );
 }
 
+function sizeLabelForSlot(slot: BoxSelectionItem): string | undefined {
+  if (slot.categoryKey !== "tshirt") return undefined;
+  const label = slot.variantLabel?.trim();
+  return label || undefined;
+}
+
+function ByoSlotGrid({
+  draft,
+  onRemoveSlot,
+}: {
+  draft: BoxDraft;
+  onRemoveSlot?: (slotId: string) => void;
+}) {
+  const slots = expandItemsForSlots(draft.items);
+  const slotCount = Math.max(BYO_MIN_VISIBLE_SLOTS, slots.length);
+  return (
+    <div className="mt-5 grid grid-cols-3 gap-3">
+      {Array.from({ length: slotCount }).map((_, index) => {
+        const slot = slots[index];
+        return (
+          <SlotThumb
+            key={slot?.id ?? index}
+            title={slot?.title}
+            imageUrl={slot?.imageUrl}
+            emptyLabel={`Piece ${index + 1}`}
+            sizeLabel={slot ? sizeLabelForSlot(slot) : undefined}
+            onRemove={
+              slot && onRemoveSlot ? () => onRemoveSlot(slot.id) : undefined
+            }
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 export function BoxCartPanel({
   draft,
   canContinue,
   onContinue,
   onChange,
+  onRemoveSlot,
   cta,
 }: {
   draft: BoxDraft;
   canContinue: boolean;
   onContinue: () => void;
   onChange?: () => void;
+  /** BYO: remove one unit from a filled slot (slot id may be `lineId::n`) */
+  onRemoveSlot?: (slotId: string) => void;
   cta: string;
 }) {
   const count = totalItemCount(draft.items);
   const price = priceOfDraft(draft);
-  const byoMax = BOX_TYPE_RULES.d.maxTotal ?? 6;
   const needed =
-    draft.type === "a"
-      ? 3
-      : draft.type === "b"
-        ? 2
-        : draft.type === "d"
-          ? byoMax
-          : 1;
+    draft.type === "a" ? 3 : draft.type === "b" ? 2 : draft.type === "d" ? 2 : 1;
   const minNeeded = draft.type === "d" ? 2 : needed;
   const item = draft.items[0] ?? null;
-  const multi = needed > 1;
+  const multi = draft.type === "a" || draft.type === "b" || draft.type === "d";
 
   return (
     <IndexCard className="p-5 md:p-6">
@@ -122,8 +186,8 @@ export function BoxCartPanel({
               ? "Waiting for at least 2 pieces"
               : `Waiting for ${needed === 2 ? "two" : "three"} pieces`
           : draft.type === "d"
-            ? `${count} of ${byoMax} in your box${count >= minNeeded ? "" : " · add one more"}`
-            : multi
+            ? `${count} in your box${count >= minNeeded ? "" : " · add one more"}`
+            : draft.type === "a" || draft.type === "b"
               ? `${count} of ${needed} in your box`
               : "1 piece in your box"}
       </h2>
@@ -142,12 +206,8 @@ export function BoxCartPanel({
             );
           })}
         </div>
-      ) : draft.type === "b" || draft.type === "d" ? (
-        <div
-          className={`mt-5 grid gap-3 ${
-            draft.type === "d" ? "grid-cols-3" : "grid-cols-2"
-          }`}
-        >
+      ) : draft.type === "b" ? (
+        <div className="mt-5 grid grid-cols-2 gap-3">
           {Array.from({ length: needed }).map((_, index) => {
             const slot = draft.items[index];
             return (
@@ -160,6 +220,8 @@ export function BoxCartPanel({
             );
           })}
         </div>
+      ) : draft.type === "d" ? (
+        <ByoSlotGrid draft={draft} onRemoveSlot={onRemoveSlot} />
       ) : (
         <div className="mt-5">
           {item ? (
@@ -221,7 +283,8 @@ export function BoxCartPanel({
 
       <ul className="mt-5 flex flex-wrap gap-2">
         {BOX_CATEGORY_ROWS.map((row) => {
-          const selected = Boolean(selectedItemInCategory(draft, row.key));
+          const qty = countInCategory(draft.items, row.key);
+          const selected = qty > 0;
           return (
             <li
               key={row.key}
@@ -233,7 +296,11 @@ export function BoxCartPanel({
               )}
             >
               {row.label}
-              {selected ? " · in box" : ""}
+              {selected
+                ? draft.type === "d"
+                  ? ` · ×${qty}`
+                  : " · in box"
+                : ""}
             </li>
           );
         })}
@@ -278,8 +345,6 @@ export function BoxMobileCtaBar({
   const item = draft.items[0];
   const needed =
     draft.type === "a" ? 3 : draft.type === "b" || draft.type === "d" ? 2 : 1;
-  const maxPieces =
-    draft.type === "d" ? (BOX_TYPE_RULES.d.maxTotal ?? 6) : needed;
 
   return (
     <div className="sticky bottom-0 z-20 max-w-full overflow-x-clip border-t border-bp-text/12 bg-[#faf6f0]/95 px-4 py-3 shadow-[0_-8px_24px_rgba(1,2,0,0.08)] backdrop-blur-sm lg:hidden">
@@ -300,7 +365,7 @@ export function BoxMobileCtaBar({
             {draft.type === "d"
               ? count === 0
                 ? "Pick at least 2 pieces"
-                : `${count} of ${maxPieces} in your box`
+                : `${count} in your box`
               : needed > 1
                 ? count === 0
                   ? `Pick ${needed} pieces`

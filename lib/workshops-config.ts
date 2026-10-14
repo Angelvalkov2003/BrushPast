@@ -58,25 +58,25 @@ export const WORKSHOPS_PROCESS: {
   {
     title: "Create",
     caption: "Draw, write, photograph or design - guided, unhurried sessions.",
-    image: "/workshops/workshop-no-1/create.jpg",
+    image: "/workshops/create.jpg",
     icon: "create",
   },
   {
     title: "Connect",
     caption: "Share a table, a conversation and confidence with others.",
-    image: "/workshops/workshop-no-1/connect.jpg",
+    image: "/workshops/connect.jpg",
     icon: "connect",
   },
   {
     title: "Capture",
     caption: "Document your work - digital or print, your choice.",
-    image: "/workshops/workshop-no-1/capture.jpg",
+    image: "/workshops/capture.jpg",
     icon: "capture",
   },
   {
     title: "Share",
     caption: "Publish on Brush Past, exhibit, or keep it private.",
-    image: "/workshops/workshop-no-1/share.jpg",
+    image: "/workshops/share.jpg",
     icon: "share",
   },
 ];
@@ -115,9 +115,8 @@ export const PAST_WORKSHOPS: PastWorkshopDetail[] = [
     ],
     href: "/workshops/photography",
     photoNumber: PHOTO.pastWorkshopCottonGardens,
+    image: "/workshops/workshop-no-1/41.jpeg",
     imageAlt: "Cotton Gardens photography workshop — The Estate We're In",
-    imageNote:
-      "IMAGE NEEDED: Photograph from The Estate We're In — Cotton Gardens photography workshop.",
   },
   {
     categoryId: "t-shirt-design",

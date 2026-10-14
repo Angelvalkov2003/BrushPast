@@ -35,11 +35,14 @@ export const CIC_NUMBER = "";
 
 /** Registered charity — receives donations. */
 export const CHARITY_LEGAL_NAME = "Brush Past Foundation";
-/**
- * Charity Commission registration number.
- * TODO (Angel / Alexandra): fill once confirmed — leave empty until then.
- */
-export const CHARITY_NUMBER = "";
+/** Display name for legal / registration cards (matches letterhead). */
+export const CHARITY_DISPLAY_NAME = "BRUSHPAST FOUNDATION";
+/** Legal form of the Foundation. */
+export const CHARITY_STRUCTURE = "Charitable Incorporated Organisation (CIO)";
+/** Charity Commission registration number. */
+export const CHARITY_NUMBER = "1219527";
+/** Companies House / CIO company number. */
+export const CHARITY_COMPANY_NUMBER = "CE044737";
 
 export const LEGAL_ENTITY =
   "Brush Past Community Arts CIC, United Kingdom";

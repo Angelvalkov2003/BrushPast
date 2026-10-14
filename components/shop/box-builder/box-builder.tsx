@@ -43,7 +43,10 @@ import {
   canSelectInCategory,
   categoryRowsForBuilder,
   isBoxComplete,
+  decrementSelection,
+  removeProductSelection,
   removeSelection,
+  sourceLineIdFromSlotId,
   totalItemCount,
 } from "lib/shop-box-rules";
 import { formatVariantLabel, optionsFromVariant } from "lib/product-variants";
@@ -154,6 +157,17 @@ export function BoxBuilder({
     );
   };
 
+  const handleRemoveProduct = (product: BoxCatalogProduct) => {
+    setSubmitError(null);
+    setDraft((current) => removeProductSelection(current, product.id));
+  };
+
+  const handleRemoveSlot = (slotId: string) => {
+    setSubmitError(null);
+    const lineId = sourceLineIdFromSlotId(slotId);
+    setDraft((current) => decrementSelection(current, lineId));
+  };
+
   const handleConfirmVariant = (variant: ProductVariant) => {
     if (!sizeProduct) return;
     setDraft((current) =>
@@ -243,6 +257,7 @@ export function BoxBuilder({
       canContinue={canContinue}
       onContinue={onSummaryContinue}
       onChange={step !== "choose" ? () => setStep("choose") : undefined}
+      onRemoveSlot={boxType === "d" ? handleRemoveSlot : undefined}
       cta={summaryCta}
     />
   );
@@ -272,7 +287,8 @@ export function BoxBuilder({
           </p>
           {boxType === "d" ? (
             <p className={`${bpBodyClass} mt-2 text-bp-accent`}>
-              {selectedCount} of {BOX_TYPE_RULES.d.maxTotal ?? 6} pieces selected
+              {selectedCount}{" "}
+              {selectedCount === 1 ? "piece" : "pieces"} selected
               {selectedCount === 2
                 ? " · 5% off"
                 : selectedCount === 3
@@ -305,6 +321,16 @@ export function BoxBuilder({
                 const selectedId = draft.items.find(
                   (item) => item.categoryKey === row.key,
                 )?.productId;
+                const selectedQuantities =
+                  boxType === "d"
+                    ? draft.items
+                        .filter((item) => item.categoryKey === row.key)
+                        .reduce<Record<string, number>>((acc, item) => {
+                          acc[item.productId] =
+                            (acc[item.productId] ?? 0) + item.quantity;
+                          return acc;
+                        }, {})
+                    : undefined;
                 return (
                   <BoxCategorySection
                     key={row.key}
@@ -314,6 +340,7 @@ export function BoxBuilder({
                     selectedProductId={
                       boxType === "d" ? undefined : selectedId
                     }
+                    selectedQuantities={selectedQuantities}
                     selected={
                       boxType === "d"
                         ? draft.items.some(
@@ -322,6 +349,9 @@ export function BoxBuilder({
                         : Boolean(selectedId)
                     }
                     onSelectProduct={handlePickProduct}
+                    onRemoveProduct={
+                      boxType === "d" ? handleRemoveProduct : undefined
+                    }
                   />
                 );
               })}

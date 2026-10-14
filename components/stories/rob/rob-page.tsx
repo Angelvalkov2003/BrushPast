@@ -16,9 +16,9 @@ import { StoryPageShell } from "components/stories/story-texture";
 import { displayImageUrl } from "lib/image-url";
 import type { RobPoemLine } from "lib/stories/rob-content";
 import { ROB_STORY } from "lib/stories/rob-content";
-import { getStoryProductsBySlug } from "lib/supabase/story-products";
+import { getStoryRelatedProduct } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
-import { ShopProductCard } from "components/shop/shop-product-card";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 
 const COPY = ROB_STORY;
 const bodyClass = `${bpBodyClass} text-[0.98rem] leading-relaxed text-bp-text/88 md:text-[1.05rem]`;
@@ -68,9 +68,9 @@ function splitPoemColumns(
 }
 
 export async function RobPage() {
-  const [story, products] = await Promise.all([
+  const [story, relatedProduct] = await Promise.all([
     getPublicStoryBySlug(COPY.slug),
-    getStoryProductsBySlug(COPY.slug),
+    getStoryRelatedProduct(COPY.slug),
   ]);
 
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
@@ -224,27 +224,7 @@ export async function RobPage() {
         </div>
       </RevealSection>
 
-      {products.length > 0 ? (
-        <RevealSection className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16">
-          <div className="mx-auto max-w-[1100px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-bp-accent">
-              From this story
-            </p>
-            <h2
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-2xl font-bold uppercase tracking-wide`}
-            >
-              Take a piece home
-            </h2>
-            <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <li key={product.id}>
-                  <ShopProductCard product={product} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </RevealSection>
-      ) : null}
+      <StoryRelatedProductSection product={relatedProduct} className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16" />
 
       <Footer />
     </StoryPageShell>

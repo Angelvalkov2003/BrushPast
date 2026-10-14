@@ -72,8 +72,8 @@ export function WorkshopsPageContent() {
               className={`relative overflow-hidden bg-bp-surface ${PAGE_HERO_MEDIA_FRAMELESS_CLASS}`}
             >
               <Image
-                src="/create.jpg"
-                alt="Brush Past creative workshop"
+                src="/workshops/art-of-empowerment.jpg"
+                alt="Art of Empowerment — Brush Past creative workshop"
                 fill
                 className="object-cover object-center"
                 priority
@@ -83,7 +83,7 @@ export function WorkshopsPageContent() {
             <p
               className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75`}
             >
-              Art of empowerment ★
+              Art of Empowerment ★
             </p>
           </PolaroidFrame>
         }

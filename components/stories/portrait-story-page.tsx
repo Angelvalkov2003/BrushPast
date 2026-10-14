@@ -7,11 +7,13 @@ import {
   PAGE_HERO_H1_STORY_CLASS,
 } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import type {
   PortraitStory,
   PortraitStoryBlock,
 } from "lib/stories/portrait-stories-content";
+import { getStoryRelatedProduct } from "lib/supabase/story-products";
 
 function BrushUnderline({ children }: { children: ReactNode }) {
   return (
@@ -80,7 +82,9 @@ function ArtSlot({ label, note }: { label: string; note: string }) {
   );
 }
 
-export function PortraitStoryPage({ story }: { story: PortraitStory }) {
+export async function PortraitStoryPage({ story }: { story: PortraitStory }) {
+  const relatedProduct = await getStoryRelatedProduct(story.slug);
+
   return (
     <StoryPageShell>
       <div className="px-4 py-4 md:px-10">
@@ -154,6 +158,11 @@ export function PortraitStoryPage({ story }: { story: PortraitStory }) {
           </div>
         </div>
       </RevealSection>
+
+      <StoryRelatedProductSection
+        product={relatedProduct}
+        className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16"
+      />
 
       <Footer />
     </StoryPageShell>

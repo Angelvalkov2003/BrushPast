@@ -1,9 +1,25 @@
-import { sanitizeImageUrl } from "lib/image-url";
+import { isValidImageUrl, sanitizeImageUrl } from "lib/image-url";
 import type { Product } from "lib/types";
 import { createServerClient } from "./server";
 import { transformProduct } from "./products";
 
 export type StoryArtworkImage = { id: string; url: string; title: string };
+
+/**
+ * Preferred single related product under each story page.
+ * All prints remain in the shop / product_stories; this only picks the card.
+ * Jess in Jeremy’s numbered list = Sandra (confirmed).
+ */
+export const STORY_RELATED_PRODUCT_SLUG: Record<string, string> = {
+  "ed-beerbohm": "pollen-ate",
+  bobby: "human-beans",
+  maimouna: "mighty-culture",
+  "little-george": "glimpse-of-light",
+  karl: "sandra-print",
+  sandra: "sandra-print",
+  jed: "jed-print",
+  errol: "errol-peckham-morning",
+};
 
 export async function getStoryProductsBySlug(slug: string): Promise<Product[]> {
   const supabase = await createServerClient();
@@ -49,6 +65,27 @@ export async function getStoryProductsBySlug(slug: string): Promise<Product[]> {
   }
 
   return data.map((p) => transformProduct(p, galleries.get(p.id) ?? []));
+}
+
+/** At most one related product for the story page footer card. */
+export async function getStoryRelatedProduct(
+  slug: string,
+): Promise<Product | null> {
+  const products = await getStoryProductsBySlug(slug);
+  if (!products.length) return null;
+
+  const preferredSlug = STORY_RELATED_PRODUCT_SLUG[slug.trim()];
+  const preferred = preferredSlug
+    ? products.find((p) => p.handle === preferredSlug)
+    : undefined;
+
+  const candidate =
+    preferred && isValidImageUrl(preferred.featuredImage?.url)
+      ? preferred
+      : products.find((p) => isValidImageUrl(p.featuredImage?.url));
+
+  // No image → hide section (card would look broken).
+  return candidate ?? null;
 }
 
 export async function getStoryArtworkBySlug(slug: string): Promise<StoryArtworkImage[]> {

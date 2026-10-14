@@ -18,11 +18,11 @@ import {
 } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
-import { ShopProductCard } from "components/shop/shop-product-card";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 import { displayImageUrl } from "lib/image-url";
 import type { JrStoryLine } from "lib/stories/jr-content";
 import { JR_STORY } from "lib/stories/jr-content";
-import { getStoryProductsBySlug } from "lib/supabase/story-products";
+import { getStoryRelatedProduct } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 
 const COPY = JR_STORY;
@@ -90,9 +90,9 @@ function FragmentCard({
 }
 
 export async function JrPage() {
-  const [story, products] = await Promise.all([
+  const [story, relatedProduct] = await Promise.all([
     getPublicStoryBySlug(COPY.slug),
-    getStoryProductsBySlug(COPY.slug),
+    getStoryRelatedProduct(COPY.slug),
   ]);
 
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
@@ -352,27 +352,7 @@ export async function JrPage() {
         </div>
       </RevealSection>
 
-      {products.length > 0 ? (
-        <RevealSection className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16">
-          <div className="mx-auto max-w-[1200px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-bp-accent">
-              From this story
-            </p>
-            <h2
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-2xl font-bold uppercase tracking-wide`}
-            >
-              Take a piece home
-            </h2>
-            <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <li key={product.id}>
-                  <ShopProductCard product={product} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </RevealSection>
-      ) : null}
+      <StoryRelatedProductSection product={relatedProduct} className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16" />
 
       <Footer />
     </StoryPageShell>

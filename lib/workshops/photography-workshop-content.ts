@@ -2,27 +2,54 @@
 
 import { PHOTO } from "lib/photo-placeholder";
 
+const BASE = "/workshops/workshop-no-1";
+const GALLERY_BASE = `${BASE}/morephotos`;
+
+/** Gallery: estate morephotos + workshop-no-1 session stills. */
+export const PHOTOGRAPHY_GALLERY = [
+  `${GALLERY_BASE}/gallery-01.jpg`,
+  `${GALLERY_BASE}/gallery-02.jpg`,
+  `${GALLERY_BASE}/gallery-03.jpg`,
+  `${GALLERY_BASE}/gallery-04.jpg`,
+  `${GALLERY_BASE}/gallery-05.jpg`,
+  `${GALLERY_BASE}/gallery-06.jpg`,
+  `${GALLERY_BASE}/gallery-07.jpg`,
+  `${GALLERY_BASE}/gallery-08.jpg`,
+  `${GALLERY_BASE}/gallery-09.jpg`,
+  `${GALLERY_BASE}/gallery-10.jpg`,
+  `${BASE}/create.jpg`,
+  `${BASE}/connect.jpg`,
+  `${BASE}/capture.jpg`,
+  `${BASE}/share.jpg`,
+  `${BASE}/hero.jpg`,
+  `${BASE}/opportunity.jpg`,
+] as const;
+
 export const PHOTOGRAPHY_WORKSHOP = {
   slug: "photography",
   title: "The Estate We're In: Cotton Gardens Photography",
   headline: "The Estate We're In",
   location: "Cotton Gardens Community Centre, Kennington, London",
   partner: "Residents' Association",
-  facilitator: "George Ponza, filmmaker and photographer",
+  facilitator: "George Amponsah, filmmaker and photographer",
   tagline:
     "A day-in-the-life photography workshop where residents captured moments that meant something — and took a print home the same day.",
+  /** Main image — Drive “41.jpeg” / Workshops */
+  heroImage: `${BASE}/41.jpeg`,
   photoNumber: PHOTO.pastWorkshopCottonGardens,
   imageAlt: "Cotton Gardens photography workshop — The Estate We're In",
-  imageNote:
-    "IMAGE NEEDED: Photograph from The Estate We're In — Cotton Gardens photography workshop.",
+  gallery: PHOTOGRAPHY_GALLERY,
+  galleryTitle: "From the workshop",
+  galleryIntro:
+    "Moments from the Cotton Gardens photography workshop — cameras in hand, prints on the day.",
   narrativeColumns: [
     {
       title: "At Cotton Gardens",
       body: 'We ran a "day in the life" photography workshop at the Cotton Gardens Community Centre in Kennington, working with the Residents\' Association.',
     },
     {
-      title: "With George Ponza",
-      body: "George Ponza, the filmmaker and photographer behind The Hard Stop, facilitated the workshop. We gave everyone a digital camera and invited them to capture moments that meant something in their lives.",
+      title: "With George Amponsah",
+      body: "George Amponsah, the filmmaker and photographer behind The Hard Stop, facilitated the workshop. We gave everyone a digital camera and invited them to capture moments that meant something in their lives.",
     },
     {
       title: "Printed the same day",

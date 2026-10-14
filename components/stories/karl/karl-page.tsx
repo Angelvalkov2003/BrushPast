@@ -18,9 +18,11 @@ import {
   PAGE_HERO_H1_STORY_CLASS,
 } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
 import { displayImageUrl } from "lib/image-url";
 import { KARL_STORY } from "lib/stories/karl-content";
+import { getStoryRelatedProduct } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 
 const COPY = KARL_STORY;
@@ -95,7 +97,10 @@ function ArtworkFrame({
 }
 
 export async function KarlPage() {
-  const story = await getPublicStoryBySlug(COPY.slug);
+  const [story, relatedProduct] = await Promise.all([
+    getPublicStoryBySlug(COPY.slug),
+    getStoryRelatedProduct(COPY.slug),
+  ]);
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
   const jed = COPY.portraits[0];
   const sandra = COPY.portraits[1];
@@ -387,6 +392,11 @@ export async function KarlPage() {
           </HomeCta>
         </div>
       </RevealSection>
+
+      <StoryRelatedProductSection
+        product={relatedProduct}
+        className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16"
+      />
 
       <Footer />
     </StoryPageShell>

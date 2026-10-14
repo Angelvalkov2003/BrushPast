@@ -55,8 +55,8 @@ export function HomeHero() {
       <ul
         className={`${bpTitleClass} ${bpTitleUtility} mt-8 space-y-2.5 text-lg font-bold uppercase tracking-[0.06em] text-bp-text md:text-xl`}
       >
-        <li>Creators make it.</li>
-        <li>Creators own it.</li>
+        <li>People make it.</li>
+        <li>People own it.</li>
         <li className="text-bp-accent">We all benefit.</li>
       </ul>
       <p className={`${bpBodyClass} mt-8 max-w-xl font-semibold text-bp-text`}>

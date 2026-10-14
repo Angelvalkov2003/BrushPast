@@ -140,9 +140,9 @@ export const BOX_TYPE_RULES: Record<BoxTypeId, BoxTypeRules> = {
     minTotal: 1,
   },
   d: {
-    // Allow 4+ so the “15% off more than three” offer can apply.
-    maxTotal: 6,
-    maxPerCategory: 6,
+    // No hard cap — Your box shows 6 slots and grows when a 7th+ is added.
+    maxTotal: null,
+    maxPerCategory: null,
     distinctCategories: false,
     priceMode: "sku-sum-discount",
     minTotal: 2,
@@ -340,7 +340,7 @@ export function boxTypeIntro(type: BoxTypeId): { lead: string; choose: string } 
       return {
         lead: "Build Your Own Gift Box — mix any pieces from any collection. Duplicates are welcome. 5% off any two, 10% off any three, 15% off more than three.",
         choose:
-          "Add at least two pieces (up to six). You can pick the same category more than once.",
+          "Add at least two pieces. You can pick the same category more than once — Your box grows as you add more.",
       };
   }
 }

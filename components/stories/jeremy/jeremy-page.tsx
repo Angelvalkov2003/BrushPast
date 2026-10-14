@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { RevealSection } from "components/shared/reveal-section";
 import Footer from "components/layout/footer";
-import { ShopProductCard } from "components/shop/shop-product-card";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 import { displayImageUrl } from "lib/image-url";
 import type { JeremyParagraph } from "lib/stories/jeremy-content";
 import { JEREMY_STORY } from "lib/stories/jeremy-content";
-import { getStoryProductsBySlug } from "lib/supabase/story-products";
+import { getStoryRelatedProduct } from "lib/supabase/story-products";
 import { getPublicStoryBySlug } from "lib/supabase/stories";
 import {bpWhisperUtility, homeHandClass, PAGE_HERO_H1_STORY_CLASS } from "components/home/home-typography";
 
@@ -85,9 +85,9 @@ function StoryParagraph({ block }: { block: JeremyParagraph }) {
 const COLUMN_MARKERS = ["I", "II"];
 
 export async function JeremyPage() {
-  const [story, products] = await Promise.all([
+  const [story, relatedProduct] = await Promise.all([
     getPublicStoryBySlug(COPY.slug),
-    getStoryProductsBySlug(COPY.slug),
+    getStoryRelatedProduct(COPY.slug),
   ]);
 
   const heroImage = displayImageUrl(story?.image_url) ?? COPY.heroImage;
@@ -255,25 +255,7 @@ export async function JeremyPage() {
         </div>
       </RevealSection>
 
-      {products.length > 0 ? (
-        <RevealSection className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20">
-          <div className="mx-auto max-w-[1400px]">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-bp-accent">
-              From this story
-            </p>
-            <h2 className="mt-2 text-2xl font-bold uppercase tracking-wide md:text-3xl">
-              Take a piece home
-            </h2>
-            <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <li key={product.id}>
-                  <ShopProductCard product={product} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </RevealSection>
-      ) : null}
+      <StoryRelatedProductSection product={relatedProduct} className="border-b border-bp-text/10 px-4 py-14 md:px-10 md:py-20" />
 
       <Footer />
     </StoryPageShell>

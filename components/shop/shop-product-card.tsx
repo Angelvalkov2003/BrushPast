@@ -14,10 +14,13 @@ export function ShopProductCard({
   product,
   index = 0,
   sizes = [],
+  imageSizes = "(max-width: 640px) 50vw, 25vw",
 }: {
   product: Product;
   index?: number;
   sizes?: SizeAvailability[];
+  /** next/image `sizes` — use a wider value for a single featured card */
+  imageSizes?: string;
 }) {
   const subtitle =
     product.description.length > 80
@@ -44,7 +47,7 @@ export function ShopProductCard({
                 "object-cover transition-transform duration-500 group-hover:scale-[1.03]",
                 outOfStock && "opacity-70",
               )}
-              sizes="(max-width: 640px) 50vw, 25vw"
+              sizes={imageSizes}
             />
           ) : (
             <div

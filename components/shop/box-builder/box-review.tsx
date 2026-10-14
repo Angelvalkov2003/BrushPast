@@ -64,6 +64,7 @@ export function BoxReview({
               </p>
               <p className={`${bpTitleClass} ${bpTitleUtility} mt-1 text-xl font-bold text-bp-text`}>
                 {item.title}
+                {item.quantity > 1 ? ` ×${item.quantity}` : ""}
               </p>
               {item.variantLabel ? (
                 <p className={`${bpBodySmClass} mt-1 text-bp-text/55`}>
@@ -72,6 +73,9 @@ export function BoxReview({
               ) : null}
               <p className={`${bpBodyClass} mt-2 text-bp-text`}>
                 {formatPrice(item.unitPrice)}
+                {item.quantity > 1
+                  ? ` × ${item.quantity} = ${formatPrice(item.unitPrice * item.quantity)}`
+                  : ""}
               </p>
               <div className="mt-4 flex gap-4">
                 <button

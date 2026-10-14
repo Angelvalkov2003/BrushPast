@@ -13,9 +13,9 @@ import {
 } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import { StoryPageShell, StoryPanel } from "components/stories/story-texture";
-import { ShopProductCard } from "components/shop/shop-product-card";
+import { StoryRelatedProductSection } from "components/stories/story-related-product";
 import { BOBBY_STORY } from "lib/stories/bobby-content";
-import { getStoryProductsBySlug } from "lib/supabase/story-products";
+import { getStoryRelatedProduct } from "lib/supabase/story-products";
 
 const COPY = BOBBY_STORY;
 const IMG = COPY.images;
@@ -59,7 +59,7 @@ function FragmentCard({
 }
 
 export async function BobbyPage() {
-  const products = await getStoryProductsBySlug(COPY.slug);
+  const relatedProduct = await getStoryRelatedProduct(COPY.slug);
   const highlight = COPY.heroQuoteHighlight;
   const heroQuote = COPY.heroQuote;
   const highlightIdx = heroQuote.toLowerCase().indexOf(highlight.toLowerCase());
@@ -333,27 +333,7 @@ export async function BobbyPage() {
         </div>
       </RevealSection>
 
-      {products.length > 0 ? (
-        <RevealSection className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16">
-          <div className="mx-auto max-w-[1200px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-bp-accent">
-              From this story
-            </p>
-            <h2
-              className={`${bpTitleClass} ${bpTitleUtility} mt-2 text-2xl font-bold uppercase tracking-wide`}
-            >
-              Take a piece home
-            </h2>
-            <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <li key={product.id}>
-                  <ShopProductCard product={product} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </RevealSection>
-      ) : null}
+      <StoryRelatedProductSection product={relatedProduct} className="border-t border-bp-text/10 px-4 py-14 md:px-10 md:py-16" />
 
       <Footer />
     </StoryPageShell>
