@@ -25,8 +25,6 @@ import {
 } from "components/home/home-typography";
 import { RevealSection } from "components/shared/reveal-section";
 import { TextureSection } from "components/shared/texture-section";
-import { displayImageUrl } from "lib/image-url";
-import { getPublicWorkshopBySlug } from "lib/supabase/workshops";
 import { WORKSHOP_NO_1 } from "lib/workshops/workshop-no-1-content";
 
 const COPY = WORKSHOP_NO_1;
@@ -40,8 +38,7 @@ const bodyClass = `${bpBodyClass} text-bp-text/90`;
 const bodySmClass = `${bpBodySmClass} text-bp-text/80`;
 
 export async function WorkshopNo1Page() {
-  const workshop = await getPublicWorkshopBySlug(COPY.slug);
-  const heroImage = displayImageUrl(workshop?.image_url) ?? COPY.heroImage;
+  const heroImage = COPY.heroImage;
 
   return (
     <div
