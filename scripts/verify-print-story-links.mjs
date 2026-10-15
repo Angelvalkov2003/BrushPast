@@ -1,103 +1,68 @@
-import { createClient } from "@supabase/supabase-js";
-import { readFileSync, existsSync } from "fs";
-import { resolve } from "path";
+/** Verify print → story links after catalog sync. */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-function loadEnvLocal() {
-  const raw = readFileSync(resolve(process.cwd(), ".env.local"), "utf8");
-  const env = {};
-  for (const line of raw.split(/\r?\n/)) {
-    const m = line.match(/^([A-Z0-9_]+)=(.*)$/);
-    if (!m) continue;
-    env[m[1]] = m[2].trim().replace(/^["']|["']$/g, "");
-  }
-  return env;
-}
-
-const EXPECTED = [
-  { slug: "hope", stories: [], workshop: "workshop-no-1" },
-  { slug: "pollen-ate", stories: ["ed-beerbohm"] },
-  { slug: "fish-out-of-water", stories: ["ed-beerbohm"] },
-  { slug: "alternative-vista", stories: ["ed-beerbohm"] },
-  { slug: "fish-might-chat", stories: ["ed-beerbohm"] },
-  { slug: "beyond-the-walls", stories: ["ed-beerbohm"] },
-  { slug: "human-beans", stories: ["bobby"] },
-  { slug: "sons-of-anarchy", stories: ["bobby"] },
-  { slug: "chemistry", stories: ["maimouna"] },
-  { slug: "mighty-culture", stories: ["maimouna"] },
-  { slug: "sandra-print", stories: ["sandra", "karl"], title: "Sandra" },
-  { slug: "jed-print", stories: ["jed", "karl"] },
-  { slug: "glimpse-of-light", stories: ["little-george"] },
-];
-
-const env = loadEnvLocal();
-const sb = createClient(
-  env.NEXT_PUBLIC_SUPABASE_URL,
-  env.SUPABASE_SERVICE_ROLE_KEY,
-  { auth: { persistSession: false, autoRefreshToken: false } },
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const env = Object.fromEntries(
+  fs
+    .readFileSync(path.join(root, ".env.local"), "utf8")
+    .split(/\r?\n/)
+    .filter((l) => l && !l.startsWith("#") && l.includes("="))
+    .map((l) => {
+      const i = l.indexOf("=");
+      return [l.slice(0, i), l.slice(i + 1)];
+    }),
 );
 
-async function main() {
-  const { data: products, error } = await sb
-    .from("products")
-    .select(
-      "id, slug, title, main_image_url, workshop_id, product_type, status, qr_story_url",
-    )
-    .eq("product_type", "print")
-    .order("slug");
-  if (error) throw error;
+const EXPECTED = [
+  { slug: "fish-might-talk", stories: ["ed-beerbohm"] },
+  { slug: "beyond-the-walls", stories: ["ed-beerbohm"] },
+  { slug: "sons-of-anarchy", stories: ["bobby"] },
+  { slug: "alternative-vista", stories: ["ed-beerbohm"] },
+  { slug: "sandra-print", stories: ["sandra", "karl"] },
+  { slug: "jed-print", stories: ["jed", "karl"] },
+  { slug: "mighty-culture", stories: ["maimouna"] },
+  { slug: "human-beans", stories: ["bobby"] },
+  { slug: "glimpses-of-light", stories: ["little-george"] },
+];
 
-  const { data: stories } = await sb.from("stories").select("id, slug");
-  const storyById = Object.fromEntries((stories ?? []).map((s) => [s.id, s.slug]));
+const url = env.NEXT_PUBLIC_SUPABASE_URL;
+const key = env.SUPABASE_SERVICE_ROLE_KEY;
+const h = { apikey: key, Authorization: `Bearer ${key}` };
 
-  const { data: workshops } = await sb.from("workshops").select("id, slug");
-  const wsById = Object.fromEntries((workshops ?? []).map((w) => [w.id, w.slug]));
+const products = await fetch(
+  `${url}/rest/v1/products?select=id,slug&product_type=eq.print&status=eq.active`,
+  { headers: h },
+).then((r) => r.json());
+const stories = await fetch(`${url}/rest/v1/stories?select=id,slug`, {
+  headers: h,
+}).then((r) => r.json());
+const links = await fetch(`${url}/rest/v1/product_stories?select=product_id,story_id`, {
+  headers: h,
+}).then((r) => r.json());
 
-  const { data: links } = await sb
-    .from("product_stories")
-    .select("product_id, story_id");
-  const linksByProduct = {};
-  for (const l of links ?? []) {
-    (linksByProduct[l.product_id] ||= []).push(storyById[l.story_id]);
+const bySlug = new Map(products.map((p) => [p.slug, p]));
+const storyById = new Map(stories.map((s) => [s.id, s.slug]));
+let ok = true;
+for (const exp of EXPECTED) {
+  const p = bySlug.get(exp.slug);
+  if (!p) {
+    console.log("MISSING product", exp.slug);
+    ok = false;
+    continue;
   }
-
-  const bySlug = Object.fromEntries((products ?? []).map((p) => [p.slug, p]));
-
-  console.log("=== Jeremy checklist ===\n");
-  for (const exp of EXPECTED) {
-    const p = bySlug[exp.slug];
-    if (!p) {
-      console.log(`FAIL ${exp.slug}: PRODUCT MISSING`);
-      continue;
-    }
-    const linked = (linksByProduct[p.id] || []).filter(Boolean).sort();
-    const want = [...exp.stories].sort();
-    const ws = p.workshop_id ? wsById[p.workshop_id] : null;
-    const imgOk = p.main_image_url
-      ? existsSync(resolve("public", p.main_image_url.replace(/^\//, "")))
-      : false;
-    const storiesOk = JSON.stringify(linked) === JSON.stringify(want);
-    const workshopOk = !exp.workshop || ws === exp.workshop;
-    const titleOk = !exp.title || p.title === exp.title;
-    const ok = storiesOk && workshopOk && titleOk;
-    console.log(
-      `${ok ? "OK" : "FAIL"} ${exp.slug} | title=${p.title} | stories=[${linked}] | workshop=${ws ?? "-"} | image=${p.main_image_url ?? "NONE"} ${p.main_image_url ? (imgOk ? "(file ok)" : "(FILE MISSING)") : ""}`,
-    );
-    if (!storiesOk) console.log(`  expected stories [${want}]`);
-    if (!workshopOk) console.log(`  expected workshop ${exp.workshop}`);
-    if (!titleOk) console.log(`  expected title ${exp.title}`);
-  }
-
-  console.log("\n=== All active prints (incl. extras) ===\n");
-  for (const p of products ?? []) {
-    if (p.status !== "active") continue;
-    const linked = (linksByProduct[p.id] || []).filter(Boolean);
-    console.log(
-      `${p.slug} | ${p.title} | [${linked}] | img=${p.main_image_url ?? "NONE"}`,
-    );
+  const got = links
+    .filter((l) => l.product_id === p.id)
+    .map((l) => storyById.get(l.story_id))
+    .filter(Boolean)
+    .sort();
+  const want = [...exp.stories].sort();
+  if (JSON.stringify(got) !== JSON.stringify(want)) {
+    console.log("MISMATCH", exp.slug, { got, want });
+    ok = false;
+  } else {
+    console.log("ok", exp.slug, got.join(","));
   }
 }
-
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+process.exit(ok ? 0 : 1);

@@ -27,7 +27,7 @@ export const SHOP_SINGLE_OPTIONS = [
   {
     key: "coffee" as const,
     title: "Coffee Box",
-    description: "Speciality coffee, beautifully presented. £16.",
+    description: "Speciality coffee, beautifully presented. £16.50.",
     href: "/shop/box/c?category=coffee",
     imageAlt: "Brush Past coffee gift box with a question-mark window",
     imageNote:

@@ -82,7 +82,7 @@ export const BOX_CATEGORY_ROWS: {
     key: "coffee",
     slug: SHOP_COLLECTIONS[1].slug,
     label: "Coffee",
-    singlePriceGbp: 16,
+    singlePriceGbp: 16.5,
   },
   {
     key: "tshirt",
@@ -135,7 +135,7 @@ export const BOX_TYPE_RULES: Record<BoxTypeId, BoxTypeRules> = {
     maxTotal: 1,
     maxPerCategory: 1,
     distinctCategories: false,
-    // Retail from BOX_CATEGORY_ROWS.singlePriceGbp (e.g. coffee £16) — not DB variant.price.
+    // Retail from BOX_CATEGORY_ROWS.singlePriceGbp (e.g. coffee £16.50) — not DB variant.price.
     priceMode: "category-fixed",
     minTotal: 1,
   },

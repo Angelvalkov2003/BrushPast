@@ -98,7 +98,7 @@ export function priceOfBox(
       return categoryRetailSum(items);
     }
     case "category-fixed":
-      // One Piece Gift Box: fixed category retail (coffee £16, etc.), not DB variant.price.
+      // One Piece Gift Box: fixed category retail (coffee £16.50, etc.), not DB variant.price.
       return categoryRetailSum(items);
     case "sku-sum-discount":
       return byoDiscountedPrice(items);

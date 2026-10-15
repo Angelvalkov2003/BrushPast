@@ -14,11 +14,11 @@ export const STORY_RELATED_PRODUCT_SLUG: Record<string, string> = {
   "ed-beerbohm": "pollen-ate",
   bobby: "human-beans",
   maimouna: "mighty-culture",
-  "little-george": "glimpse-of-light",
+  "little-george": "glimpses-of-light",
   karl: "sandra-print",
   sandra: "sandra-print",
   jed: "jed-print",
-  errol: "errol-peckham-morning",
+  jeremy: "fish-tee",
 };
 
 export async function getStoryProductsBySlug(slug: string): Promise<Product[]> {
