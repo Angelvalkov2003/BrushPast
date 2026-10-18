@@ -10,7 +10,7 @@ export const legalPages: Record<string, LegalPageContent> = {
     slug: "privacy",
     title: "Privacy Policy",
     description:
-      "How Brush Past collects, uses, and protects your personal data when you shop, share a story, or contact us - in line with UK GDPR.",
+      "How BrushPast collects, uses, and protects your personal data when you shop, share a story, or contact us - in line with UK GDPR.",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
@@ -107,7 +107,7 @@ export const legalPages: Record<string, LegalPageContent> = {
     slug: "cookies",
     title: "Cookies Policy",
     description:
-      "How Brush Past uses cookies and similar technologies on brushpast.org - and how you can control them (UK PECR & UK GDPR).",
+      "How BrushPast uses cookies and similar technologies on brushpast.org - and how you can control them (UK PECR & UK GDPR).",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
@@ -148,7 +148,7 @@ export const legalPages: Record<string, LegalPageContent> = {
   returns: {
     slug: "returns",
     title: "Returns & Refunds",
-    description: "Returns and refunds for Brush Past shop orders (UK).",
+    description: "Returns and refunds for BrushPast shop orders (UK).",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
@@ -201,7 +201,7 @@ export const legalPages: Record<string, LegalPageContent> = {
       {
         title: "Our commitment",
         paragraphs: [
-          "Brush Past exists to amplify voices and support people with lived experience of homelessness, addiction, and other challenges. Everyone interacting with our platform, workshops, and shop is expected to uphold dignity, respect, and safety.",
+          "BrushPast exists to amplify voices and support people with lived experience of homelessness, addiction, and other challenges. Everyone interacting with our platform, workshops, and shop is expected to uphold dignity, respect, and safety.",
         ],
       },
       {
@@ -236,7 +236,7 @@ export const legalPages: Record<string, LegalPageContent> = {
   "modern-slavery": {
     slug: "modern-slavery",
     title: "Modern Slavery Statement",
-    description: "Brush Past commitment under the Modern Slavery Act 2015.",
+    description: "BrushPast commitment under the Modern Slavery Act 2015.",
     lastUpdated: LAST_UPDATED,
     sections: [
       {
@@ -272,7 +272,7 @@ export const legalPages: Record<string, LegalPageContent> = {
   whistleblowing: {
     slug: "whistleblowing",
     title: "Whistleblowing",
-    description: "How to report serious concerns about Brush Past.",
+    description: "How to report serious concerns about BrushPast.",
     lastUpdated: LAST_UPDATED,
     sections: [
       {

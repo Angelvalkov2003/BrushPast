@@ -75,7 +75,7 @@ async function lookupViaIdealPostcodes(
 ): Promise<PostcodeLookupAddress[] | null> {
   const apiKey =
     process.env.IDEAL_POSTCODES_API_KEY?.trim() ||
-    // Public Ideal Postcodes test key — limited postcodes; replace in production.
+    // Public Ideal Postcodes test key — limited coverage; set a live key in production.
     "ak_test";
 
   const encoded = encodeURIComponent(postcode);
@@ -94,6 +94,71 @@ async function lookupViaIdealPostcodes(
   if (!data.result?.length) return [];
 
   return data.result.map((item) => parseIdealAddress(item, postcode));
+}
+
+type GetAddressExpanded = {
+  line_1?: string;
+  line_2?: string;
+  line_3?: string;
+  line_4?: string;
+  town_or_city?: string;
+  county?: string;
+  formatted_address?: string[];
+};
+
+type GetAddressFindResponse = {
+  postcode?: string;
+  addresses?: Array<string | GetAddressExpanded>;
+};
+
+async function lookupViaGetAddress(
+  postcode: string,
+): Promise<PostcodeLookupAddress[] | null> {
+  const apiKey = process.env.GETADDRESS_API_KEY?.trim();
+  if (!apiKey) return null;
+
+  const encoded = encodeURIComponent(postcode.replace(/\s+/g, ""));
+  const response = await fetch(
+    `https://api.getAddress.io/find/${encoded}?api-key=${encodeURIComponent(apiKey)}&expand=true`,
+    { next: { revalidate: 86400 } },
+  );
+
+  if (response.status === 404) return [];
+  if (!response.ok) {
+    console.error("getaddress lookup failed:", response.status);
+    return null;
+  }
+
+  const data = (await response.json()) as GetAddressFindResponse;
+  if (!data.addresses?.length) return [];
+
+  return data.addresses.map((item) => {
+    if (typeof item === "string") {
+      const parts = item.split(",").map((p) => p.trim()).filter(Boolean);
+      const line1 = parts[0] ?? "";
+      const town = parts[parts.length - 2] ?? "";
+      const line2 = parts.slice(1, -2).join(", ");
+      const label = [item, data.postcode || postcode].filter(Boolean).join(", ");
+      return {
+        label,
+        line1,
+        line2: line2 || undefined,
+        town,
+        postcode: data.postcode || postcode,
+      };
+    }
+
+    const line1 = item.line_1?.trim() || item.formatted_address?.[0]?.trim() || "";
+    const line2 = [item.line_2, item.line_3, item.line_4]
+      .filter(Boolean)
+      .join(", ")
+      .trim();
+    const town = item.town_or_city?.trim() ?? "";
+    const county = item.county?.trim() || undefined;
+    const pc = data.postcode || postcode;
+    const label = [line1, line2, town, county, pc].filter(Boolean).join(", ");
+    return { label, line1, line2: line2 || undefined, town, county, postcode: pc };
+  });
 }
 
 async function lookupViaPostcodesIo(postcode: string): Promise<{
@@ -137,26 +202,42 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const [addressesFromIdeal, postcodesIo] = await Promise.all([
-      lookupViaIdealPostcodes(postcode),
-      lookupViaPostcodesIo(postcode),
-    ]);
+    const [addressesFromIdeal, addressesFromGetAddress, postcodesIo] =
+      await Promise.all([
+        lookupViaIdealPostcodes(postcode),
+        lookupViaGetAddress(postcode),
+        lookupViaPostcodesIo(postcode),
+      ]);
 
-    if (!postcodesIo && addressesFromIdeal === null) {
+    // Prefer a provider that returned real address rows.
+    const addresses =
+      (addressesFromGetAddress && addressesFromGetAddress.length > 0
+        ? addressesFromGetAddress
+        : null) ??
+      (addressesFromIdeal && addressesFromIdeal.length > 0
+        ? addressesFromIdeal
+        : null) ??
+      [];
+
+    const providersFailed =
+      addressesFromIdeal === null &&
+      addressesFromGetAddress === null &&
+      !postcodesIo;
+
+    if (providersFailed) {
       return NextResponse.json(
         { error: "Could not look up that postcode. Check it and try again." },
         { status: 404 },
       );
     }
 
-    if (!postcodesIo && addressesFromIdeal !== null && addressesFromIdeal.length === 0) {
+    if (!postcodesIo && addresses.length === 0) {
       return NextResponse.json(
         { error: "Could not find that postcode. Check it and try again." },
         { status: 404 },
       );
     }
 
-    const addresses = addressesFromIdeal ?? [];
     const result: PostcodeLookupResult = {
       postcode,
       town: addresses[0]?.town || postcodesIo?.town || null,

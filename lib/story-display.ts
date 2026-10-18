@@ -13,10 +13,6 @@ import { JEREMY_STORY } from "lib/stories/jeremy-content";
 import { LITTLE_GEORGE_STORY } from "lib/stories/little-george-content";
 import { JR_STORY } from "lib/stories/jr-content";
 import { KARL_STORY } from "lib/stories/karl-content";
-import {
-  JED_STORY,
-  SANDRA_STORY,
-} from "lib/stories/portrait-stories-content";
 import type { PublicStory } from "lib/supabase/stories";
 
 const STORY_IMAGE_FALLBACKS: Record<string, string> = {
@@ -37,6 +33,7 @@ const STORY_IMAGE_FALLBACKS: Record<string, string> = {
 };
 
 /** Hand-coded story routes that may not yet have DB rows */
+/** Extra listing cards for hand-coded stories not yet in the DB. */
 export const STATIC_STORY_LISTING: {
   slug: string;
   title: string;
@@ -49,18 +46,7 @@ export const STATIC_STORY_LISTING: {
     page_url: `/stories/${KARL_STORY.slug}`,
     short_description: KARL_STORY.heroQuote,
   },
-  {
-    slug: JED_STORY.slug,
-    title: JED_STORY.title,
-    page_url: `/stories/${JED_STORY.slug}`,
-    short_description: JED_STORY.heroQuote ?? "",
-  },
-  {
-    slug: SANDRA_STORY.slug,
-    title: SANDRA_STORY.title,
-    page_url: `/stories/${SANDRA_STORY.slug}`,
-    short_description: SANDRA_STORY.heroQuote ?? "",
-  },
+  // Sandra & Jed are part of Karl’s story — not listed as standalone cards.
 ];
 
 export function storyCardImageUrl(story: PublicStory): string | undefined {

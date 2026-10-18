@@ -55,7 +55,7 @@ export function WorkshopsPageContent() {
   return (
     <>
       <PageHero
-        eyebrow="Brush Past workshops"
+        eyebrow="BrushPast workshops"
         title={
           <>
             <span className="text-bp-accent">Safe</span> space.{" "}
@@ -73,7 +73,7 @@ export function WorkshopsPageContent() {
             >
               <Image
                 src="/workshops/art-of-empowerment.jpg"
-                alt="Art of Empowerment — Brush Past creative workshop"
+                alt="Art of Empowerment — BrushPast creative workshop"
                 fill
                 className="object-cover object-center"
                 priority

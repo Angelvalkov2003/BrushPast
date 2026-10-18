@@ -22,7 +22,7 @@ export default async function AdminDashboard() {
       <h1 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
         Dashboard
       </h1>
-      <p className="mb-6 text-sm text-gray-600 sm:mb-8">Brush Past admin</p>
+      <p className="mb-6 text-sm text-gray-600 sm:mb-8">BrushPast admin</p>
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-lg bg-white p-4 shadow sm:p-6">

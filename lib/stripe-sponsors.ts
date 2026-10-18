@@ -26,7 +26,7 @@ export async function createSponsorCheckoutSession(input: {
         price_data: {
           currency: STRIPE_CURRENCY,
           product_data: {
-            name: `Brush Past donation — ${sponsorTierLabel(input.tier)}`,
+            name: `BrushPast donation — ${sponsorTierLabel(input.tier)}`,
             description: `Thank you, ${input.name}. Your gift supports workshops, mentoring and community programmes through Brush Past Foundation.`,
           },
           unit_amount: toStripeMinorUnits(input.amountGbp),

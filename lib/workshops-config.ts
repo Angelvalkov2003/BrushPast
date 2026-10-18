@@ -75,7 +75,7 @@ export const WORKSHOPS_PROCESS: {
   },
   {
     title: "Share",
-    caption: "Publish on Brush Past, exhibit, or keep it private.",
+    caption: "Publish on BrushPast, exhibit, or keep it private.",
     image: "/workshops/share.jpg",
     icon: "share",
   },

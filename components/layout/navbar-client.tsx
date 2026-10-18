@@ -51,7 +51,7 @@ export function NavbarClient() {
       <div className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 md:px-8 md:py-3.5 lg:gap-8 lg:px-10">
         <HomeLink
           className={logoLinkClass}
-          aria-label="Brush Past home"
+          aria-label="BrushPast home"
         >
           <BrandLogo
             size="md"

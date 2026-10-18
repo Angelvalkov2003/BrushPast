@@ -9,7 +9,7 @@ export function JournalHero() {
     <Reveal>
       <PageHero
         variant="index"
-        eyebrow="Brush Past"
+        eyebrow="BrushPast"
         title="Journal"
         intro={JOURNAL_HERO_TAGLINE}
         aside={

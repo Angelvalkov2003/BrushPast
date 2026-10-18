@@ -1,11 +1,6 @@
-import { PortraitStoryPage } from "components/stories/portrait-story-page";
-import { SANDRA_STORY } from "lib/stories/portrait-stories-content";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: `${SANDRA_STORY.title} — ${SANDRA_STORY.location ?? "Story"}`,
-  description: SANDRA_STORY.heroQuote,
-};
-
+/** Sandra is part of Karl’s story — no standalone page. */
 export default function Page() {
-  return <PortraitStoryPage story={SANDRA_STORY} />;
+  redirect("/stories/karl");
 }

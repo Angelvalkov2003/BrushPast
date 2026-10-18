@@ -58,11 +58,6 @@ export function ContactPageContent() {
                 sizes="(max-width: 768px) 280px, 440px"
               />
             </div>
-            <p
-              className={`${homeHandClass} ${bpWhisperUtility} mt-2 text-center text-base text-bp-text/75 md:text-lg`}
-            >
-              Real people, real spaces · Social Impact Coffee
-            </p>
           </PolaroidFrame>
         }
       >
@@ -79,7 +74,7 @@ export function ContactPageContent() {
             love to hear from you.
           </p>
           <p className={`${bpBodyClass} mt-4 text-bp-text/85`}>
-            Brush Past is a{" "}
+            BrushPast is a{" "}
             <span className="text-bp-accent">creative movement</span> for{" "}
             <span className="text-bp-accent">second chances</span>, built in
             public with real people and real spaces.
@@ -181,7 +176,7 @@ export function ContactPageContent() {
               <p
                 className={`${homeHandClass} ${bpWhisperUtility} mt-4 text-base italic leading-relaxed text-bp-text/80 md:text-lg`}
               >
-                Brush Past is growing in public, shaped by the people, ideas and
+                BrushPast is growing in public, shaped by the people, ideas and
                 partnerships around it.
               </p>
               <p className={`${bpBodyClass} mt-4 text-bp-text`}>

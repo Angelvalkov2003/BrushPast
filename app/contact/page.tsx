@@ -5,7 +5,7 @@ import { bpFontVariables } from "components/home/home-typography";
 export const metadata = {
   title: "Get in Touch",
   description:
-    "Contact Brush Past - share a story, collaborate, join a workshop, or start a conversation.",
+    "Contact BrushPast - share a story, collaborate, join a workshop, or start a conversation.",
 };
 
 export default function ContactPage() {

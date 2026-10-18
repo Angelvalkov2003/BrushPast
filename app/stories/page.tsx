@@ -7,7 +7,7 @@ import { getPublicStories, type PublicStory } from "lib/supabase/stories";
 
 export const metadata = {
   title: "Stories",
-  description: "Art. Writing. Photography. Real people. Real voices - Brush Past.",
+  description: "Art. Writing. Photography. Real people. Real voices - BrushPast.",
 };
 
 export const dynamic = "force-dynamic";

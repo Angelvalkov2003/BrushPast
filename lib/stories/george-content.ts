@@ -26,7 +26,7 @@ export const GEORGE_STORY = {
     {
       paragraphs: [
         {
-          text: "When Jeremy and David asked me to create an image that represents me as an artist for the Brush Past project, my first thought was to use a photograph I had taken back in the 1980s or 90s. The problem was that all the successful prints had long since been framed and given away as gifts-leaving only the rejects in my portfolio. So, I ended up rephotographing one of those rejected prints with my iPhone. Interestingly, the phone automatically brightened the photo, correcting what had originally been far too dark.",
+          text: "When Jeremy and David asked me to create an image that represents me as an artist for the BrushPast project, my first thought was to use a photograph I had taken back in the 1980s or 90s. The problem was that all the successful prints had long since been framed and given away as gifts-leaving only the rejects in my portfolio. So, I ended up rephotographing one of those rejected prints with my iPhone. Interestingly, the phone automatically brightened the photo, correcting what had originally been far too dark.",
           pull: true,
           highlight: "rejected prints",
         },
@@ -50,7 +50,7 @@ export const GEORGE_STORY = {
           highlight: "spiritual solutions",
         },
         {
-          text: "Being part of Brush Past has already encouraged me to dig out my old negatives, make new prints, and begin reimagining them with modern tools. I'm even considering an exhibition of these reworked images-past and present in dialogue with each other. I might call it Now and Then.",
+          text: "Being part of BrushPast has already encouraged me to dig out my old negatives, make new prints, and begin reimagining them with modern tools. I'm even considering an exhibition of these reworked images-past and present in dialogue with each other. I might call it Now and Then.",
           highlight: "Now and Then",
         },
       ],

@@ -66,7 +66,7 @@ export function AdminNavbar() {
           <div className="flex min-w-0 items-center gap-2">
             <Link href="/admin" className="truncate text-base font-bold text-gray-900 sm:text-xl">
               <span className="sm:hidden">Admin</span>
-              <span className="hidden sm:inline">Brush Past Admin</span>
+              <span className="hidden sm:inline">BrushPast Admin</span>
             </Link>
             <div className="hidden lg:ml-6 lg:flex lg:gap-5 xl:gap-6">
               {LINKS.map((l) => (

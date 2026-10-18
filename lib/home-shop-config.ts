@@ -3,7 +3,7 @@ import { PHOTO } from "./photo-placeholder";
 /** Homepage gift-box teaser — process copy (full chooser lives on /shop). */
 export const HOME_GIFT_BOX_PROCESS = {
   eyebrow: "The archive",
-  title: "How a Brush Past gift comes together",
+  title: "How a BrushPast gift comes together",
   intro:
     "Choose coffee, wearable art or a fine art print. Pick your pieces and add a personal message at checkout if you’d like.",
   steps: [
@@ -23,7 +23,7 @@ export const HOME_GIFT_BOX_PROCESS = {
   cta: "Choose your gift box",
   ctaHref: "/shop#choose-box",
   photo: {
-    alt: "Brush Past gift box with coffee, tee and print",
+    alt: "BrushPast gift box with coffee, tee and print",
     note: "Gift box lifestyle photograph.",
     photoNumber: PHOTO.homeGiftTeaserOpenBox,
   },

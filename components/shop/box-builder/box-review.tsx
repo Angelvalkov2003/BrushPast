@@ -11,7 +11,7 @@ import {
 import { formatPrice } from "lib/currency";
 import { isValidImageUrl } from "lib/image-url";
 import type { BoxDraft } from "lib/shop-box-config";
-import { priceOfDraft } from "lib/shop-box-pricing";
+import { byoPriceBreakdown, priceOfDraft } from "lib/shop-box-pricing";
 import { categoryLabel } from "lib/shop-box-config";
 
 export function BoxReview({
@@ -24,6 +24,8 @@ export function BoxReview({
   onRemove: (itemId: string) => void;
 }) {
   const total = priceOfDraft(draft);
+  const byo =
+    draft.type === "d" ? byoPriceBreakdown(draft.items) : null;
 
   return (
     <div>
@@ -72,7 +74,7 @@ export function BoxReview({
                 </p>
               ) : null}
               <p className={`${bpBodyClass} mt-2 text-bp-text`}>
-                {formatPrice(item.unitPrice)}
+                Retail {formatPrice(item.unitPrice)}
                 {item.quantity > 1
                   ? ` × ${item.quantity} = ${formatPrice(item.unitPrice * item.quantity)}`
                   : ""}
@@ -103,11 +105,26 @@ export function BoxReview({
           Your box is empty. Go back and choose a piece.
         </p>
       ) : (
-        <p
-          className={`${bpTitleClass} ${bpTitleUtility} mt-6 text-2xl font-bold text-bp-text`}
-        >
-          Box total {formatPrice(total)}
-        </p>
+        <div className="mt-6 space-y-1">
+          {byo && byo.discountGbp > 0 ? (
+            <>
+              <p className={`${bpBodyClass} text-bp-text/65`}>
+                Retail total {formatPrice(byo.retail)}
+              </p>
+              <p className={`${bpBodyClass} text-bp-accent`}>
+                {byo.discountLabel}: −{formatPrice(byo.discountGbp)}
+              </p>
+            </>
+          ) : null}
+          <p
+            className={`${bpTitleClass} ${bpTitleUtility} text-2xl font-bold text-bp-text`}
+          >
+            Box total {formatPrice(total)}
+          </p>
+          <p className={`${bpBodySmClass} text-bp-text/55`}>
+            This box total is what you pay in the bag and at checkout.
+          </p>
+        </div>
       )}
     </div>
   );

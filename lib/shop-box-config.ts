@@ -189,9 +189,9 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
     available: true,
     comingSoon: false,
     imageAlt:
-      "Photograph of a sealed Brush Past gift box tied with twine, representing The Next Chapter Box",
+      "Photograph of a sealed BrushPast gift box tied with twine, representing The Next Chapter Box",
     imageNote:
-      "IMAGE NEEDED: Photograph of a sealed Brush Past gift box tied with twine, representing The Next Chapter Box.",
+      "IMAGE NEEDED: Photograph of a sealed BrushPast gift box tied with twine, representing The Next Chapter Box.",
     photoNumber: PHOTO.boxHubNextChapter,
   },
   {
@@ -215,7 +215,7 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
     name: "One Piece Gift Boxes",
     eyebrow: "Choose one",
     description:
-      "One piece packed as a Brush Past gift box — coffee, t-shirt or print.",
+      "One piece packed as a BrushPast gift box — coffee, t-shirt or print.",
     cta: "Choose one piece →",
     href: "/shop/box/c",
     available: true,
@@ -328,7 +328,7 @@ export function boxTypeIntro(type: BoxTypeId): { lead: string; choose: string } 
       };
     case "c":
       return {
-        lead: "One Piece Gift Boxes — one piece packed as a Brush Past gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
+        lead: "One Piece Gift Boxes — one piece packed as a BrushPast gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
         choose: "Choose one design from this collection.",
       };
     case "b":

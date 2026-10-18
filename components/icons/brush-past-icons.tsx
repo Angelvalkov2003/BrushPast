@@ -52,7 +52,7 @@ export const CoffeeCupIcon = ({ className = "h-6 w-6", ...props }: SVGProps<SVGS
   </svg>
 );
 
-/** Brand icon map — Brush Past Icon Direction v1 */
+/** Brand icon map — BrushPast Icon Direction v1 */
 export const brushPastIcons = {
   homepage: {
     profitsReinvested: ArrowPathIcon,

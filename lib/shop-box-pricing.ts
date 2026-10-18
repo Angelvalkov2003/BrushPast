@@ -55,27 +55,71 @@ export function byoMatchingPairCombo(
   return comboFromCategories(keys);
 }
 
-export function byoDiscountedPrice(items: BoxSelectionItem[]): number {
+export type ByoPriceBreakdown = {
+  count: number;
+  retail: number;
+  total: number;
+  discountGbp: number;
+  discountLabel: string | null;
+  pairCombo?: BoxPairComboId;
+};
+
+export function byoPriceBreakdown(items: BoxSelectionItem[]): ByoPriceBreakdown {
   const count = countItems(items);
   const retail = categoryRetailSum(items);
-  if (count <= 0) return 0;
+  if (count <= 0) {
+    return {
+      count: 0,
+      retail: 0,
+      total: 0,
+      discountGbp: 0,
+      discountLabel: null,
+    };
+  }
   if (count === 1) {
     const first = items[0];
-    return first ? singlePriceForCategory(first.categoryKey) : 0;
+    const total = first ? singlePriceForCategory(first.categoryKey) : 0;
+    return {
+      count,
+      retail: total,
+      total,
+      discountGbp: 0,
+      discountLabel: null,
+    };
   }
 
   const pairCombo = byoMatchingPairCombo(items);
   if (pairCombo) {
-    return PAIR_PRICES_GBP[pairCombo];
+    const total = PAIR_PRICES_GBP[pairCombo];
+    return {
+      count,
+      retail,
+      total,
+      discountGbp: Math.round((retail - total) * 100) / 100,
+      discountLabel: "Two Piece Gift Box price",
+      pairCombo,
+    };
   }
 
-  if (count === 2) {
-    return Math.round(retail * (1 - BYO_DISCOUNT.twoItems) * 100) / 100;
-  }
-  if (count === 3) {
-    return Math.round(retail * (1 - BYO_DISCOUNT.threeItems) * 100) / 100;
-  }
-  return Math.round(retail * (1 - BYO_DISCOUNT.moreThanThree) * 100) / 100;
+  const rate =
+    count === 2
+      ? BYO_DISCOUNT.twoItems
+      : count === 3
+        ? BYO_DISCOUNT.threeItems
+        : BYO_DISCOUNT.moreThanThree;
+  const total = Math.round(retail * (1 - rate) * 100) / 100;
+  const pct = Math.round(rate * 100);
+  return {
+    count,
+    retail,
+    total,
+    discountGbp: Math.round((retail - total) * 100) / 100,
+    discountLabel: `${pct}% Build Your Own discount`,
+  };
+}
+
+export function byoDiscountedPrice(items: BoxSelectionItem[]): number {
+  return byoPriceBreakdown(items).total;
 }
 
 export function priceOfBox(

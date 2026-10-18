@@ -1,11 +1,6 @@
-import { PortraitStoryPage } from "components/stories/portrait-story-page";
-import { JED_STORY } from "lib/stories/portrait-stories-content";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: JED_STORY.title,
-  description: JED_STORY.heroQuote,
-};
-
+/** Jed is part of Karl’s story — no standalone page. */
 export default function Page() {
-  return <PortraitStoryPage story={JED_STORY} />;
+  redirect("/stories/karl");
 }

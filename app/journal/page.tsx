@@ -6,7 +6,7 @@ import { getPublicJournalPosts } from "lib/supabase/journal";
 
 export const metadata = {
   title: "Journal",
-  description: "News, workshops, shop drops and moments from the Brush Past journey.",
+  description: "News, workshops, shop drops and moments from the BrushPast journey.",
 };
 
 export const dynamic = "force-dynamic";

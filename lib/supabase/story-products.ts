@@ -16,8 +16,6 @@ export const STORY_RELATED_PRODUCT_SLUG: Record<string, string> = {
   maimouna: "mighty-culture",
   "little-george": "glimpses-of-light",
   karl: "sandra-print",
-  sandra: "sandra-print",
-  jed: "jed-print",
   jeremy: "fish-tee",
 };
 

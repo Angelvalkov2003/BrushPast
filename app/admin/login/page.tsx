@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8">
       <div className="w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="text-2xl font-bold text-gray-900">Brush Past Admin</h1>
+        <h1 className="text-2xl font-bold text-gray-900">BrushPast Admin</h1>
         <p className="mt-2 text-sm text-gray-600">Enter admin password from .env.local</p>
         <form className="mt-6 space-y-4" onSubmit={handleLogin}>
           <div>

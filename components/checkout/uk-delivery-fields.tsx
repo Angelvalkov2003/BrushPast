@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import {
   bpBodyClass,
@@ -27,21 +27,7 @@ const phoneKindClass = (selected: boolean) =>
       : "border-bp-text/20 bg-bp-canvas text-bp-text/70 hover:border-bp-accent/40",
   );
 
-/** Pull leading house/flat number so the street can be selected separately. */
-function streetNameFromLine1(line1: string): string {
-  const trimmed = line1.trim();
-  const match = trimmed.match(
-    /^(?:flat\s+\w+[a-z]?[, ]+|unit\s+\w+[, ]+|apt\.?\s+\w+[, ]+)?(\d+[a-z]?\s+)?(.+)$/i,
-  );
-  if (!match) return trimmed;
-  return (match[2] ?? trimmed).replace(/^,\s*/, "").trim();
-}
-
-function houseNumberFromLine1(line1: string): string {
-  const trimmed = line1.trim();
-  const match = trimmed.match(/^(\d+[a-z]?)\b/i);
-  return match?.[1] ?? "";
-}
+const MANUAL_VALUE = "__manual__";
 
 export function UkDeliveryFields({
   value,
@@ -58,35 +44,40 @@ export function UkDeliveryFields({
   const [lookupAddresses, setLookupAddresses] = useState<PostcodeLookupAddress[]>(
     [],
   );
-  const [selectedStreet, setSelectedStreet] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
+  /** Index in lookupAddresses, or MANUAL_VALUE, or "" before search. */
+  const [selectedAddressKey, setSelectedAddressKey] = useState("");
+  const [lookupDone, setLookupDone] = useState(false);
 
   const patch = (partial: Partial<UkDeliveryFormData>) => {
     onChange({ ...value, ...partial });
   };
 
-  const streets = useMemo(() => {
-    const unique = new Set<string>();
-    for (const address of lookupAddresses) {
-      const street = streetNameFromLine1(address.line1);
-      if (street) unique.add(street);
-    }
-    return Array.from(unique).sort((a, b) => a.localeCompare(b));
-  }, [lookupAddresses]);
+  const applyFullAddress = (address: PostcodeLookupAddress) => {
+    patch({
+      address_line_1: address.line1,
+      address_line_2: address.line2 ?? "",
+      city: address.town || value.city,
+      county: address.county ?? value.county,
+      postcode: address.postcode || value.postcode,
+    });
+  };
 
-  const composeLine1 = (number: string, street: string) => {
-    const n = number.trim();
-    const s = street.trim();
-    if (n && s) return `${n} ${s}`;
-    return s || n;
+  const clearAddressLines = (keepTownCounty = false) => {
+    patch({
+      address_line_1: "",
+      address_line_2: "",
+      city: keepTownCounty ? value.city : "",
+      county: keepTownCounty ? value.county : "",
+    });
   };
 
   const runPostcodeLookup = async () => {
     setLookupError(null);
     setLookupHint(null);
     setLookupAddresses([]);
-    setSelectedStreet("");
-    setHouseNumber("");
+    setSelectedAddressKey("");
+    setLookupDone(false);
+
     const postcode = normalizeUkPostcode(value.postcode);
     if (!postcode) {
       setLookupError("Enter a postcode first.");
@@ -109,58 +100,75 @@ export function UkDeliveryFields({
 
       if (!response.ok) {
         setLookupError(data.error ?? "Could not find that postcode.");
+        setLookupDone(true);
+        setSelectedAddressKey(MANUAL_VALUE);
         return;
       }
 
-      patch({
-        postcode: data.postcode ?? postcode,
-        city: data.town ?? value.city,
-        county: data.county ?? value.county,
-      });
+      const resolvedPostcode = data.postcode ?? postcode;
       const addresses = data.addresses ?? [];
       setLookupAddresses(addresses);
+      setLookupDone(true);
 
       if (addresses.length > 0) {
+        const first = addresses[0]!;
+        setSelectedAddressKey("0");
+        patch({
+          postcode: resolvedPostcode,
+          address_line_1: first.line1,
+          address_line_2: first.line2 ?? "",
+          city: first.town || data.town || "",
+          county: first.county ?? data.county ?? "",
+        });
         setLookupHint(
-          "Postcode found. Pick an address or street below, then confirm your house / flat number.",
+          addresses.length === 1
+            ? "Address found and filled in. Change it from the list if needed, or choose “Enter address manually”."
+            : `${addresses.length} addresses found — we selected the first. Pick another from the list if needed.`,
         );
       } else {
+        setSelectedAddressKey(MANUAL_VALUE);
+        patch({
+          postcode: resolvedPostcode,
+          city: data.town ?? value.city,
+          county: data.county ?? value.county,
+          address_line_1: "",
+          address_line_2: "",
+        });
         setLookupHint(
-          "Postcode found. Enter your house number and street below.",
+          "Postcode found, but no full address list. Enter your address below.",
         );
       }
     } catch {
       setLookupError(
         "Address lookup failed. Try again or enter details manually.",
       );
+      setLookupDone(true);
+      setSelectedAddressKey(MANUAL_VALUE);
     } finally {
       setLookupLoading(false);
     }
   };
 
-  const applyFullAddress = (address: PostcodeLookupAddress) => {
-    const street = streetNameFromLine1(address.line1);
-    const number = houseNumberFromLine1(address.line1);
-    setSelectedStreet(street);
-    setHouseNumber(number);
-    patch({
-      address_line_1: address.line1,
-      address_line_2: address.line2 ?? value.address_line_2,
-      city: address.town || value.city,
-      county: address.county ?? value.county,
-      postcode: address.postcode || value.postcode,
-    });
-    setLookupError(null);
-    setLookupHint(null);
+  const onAddressSelect = (key: string) => {
+    setSelectedAddressKey(key);
+    if (key === MANUAL_VALUE) {
+      clearAddressLines(true);
+      setLookupHint("Enter your address manually below.");
+      return;
+    }
+    const picked = lookupAddresses[Number(key)];
+    if (picked) {
+      applyFullAddress(picked);
+      setLookupHint("Address updated. You can still edit any field.");
+    }
   };
 
-  const applyStreetAndNumber = (street: string, number: string) => {
-    setSelectedStreet(street);
-    setHouseNumber(number);
-    patch({
-      address_line_1: composeLine1(number, street),
-    });
-  };
+  const showAddressFields =
+    lookupDone ||
+    Boolean(
+      value.address_line_1 || value.address_line_2 || value.city || value.county,
+    );
+  const isManual = selectedAddressKey === MANUAL_VALUE || lookupAddresses.length === 0;
 
   return (
     <div className="space-y-4">
@@ -265,8 +273,8 @@ export function UkDeliveryFields({
           Shipping address
         </h3>
         <p className={`${bpBodySmClass} mb-4 text-bp-text/60`}>
-          Find your street with the postcode search, then type only your house
-          number. UK addresses only.
+          Enter your UK postcode and we&apos;ll find matching addresses — like
+          other UK checkouts. Pick from the list or enter manually.
         </p>
 
         <div className="space-y-4">
@@ -282,16 +290,27 @@ export function UkDeliveryFields({
                 required
                 maxLength={UK_POSTCODE_MAX_LENGTH}
                 value={value.postcode}
-                onChange={(e) =>
-                  patch({ postcode: e.target.value.toUpperCase() })
-                }
+                onChange={(e) => {
+                  setLookupDone(false);
+                  setLookupAddresses([]);
+                  setSelectedAddressKey("");
+                  setLookupHint(null);
+                  setLookupError(null);
+                  patch({ postcode: e.target.value.toUpperCase() });
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    void runPostcodeLookup();
+                  }
+                }}
                 placeholder="SW1A 1AA"
                 className={inputClass}
               />
               <button
                 type="button"
                 disabled={lookupLoading}
-                onClick={runPostcodeLookup}
+                onClick={() => void runPostcodeLookup()}
                 className={`${bpTitleClass} ${bpTitleUtility} shrink-0 border border-bp-text/20 bg-bp-canvas px-4 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-bp-text transition-colors hover:border-bp-accent disabled:cursor-not-allowed disabled:opacity-50`}
               >
                 {lookupLoading ? "Finding…" : "Find address"}
@@ -308,151 +327,125 @@ export function UkDeliveryFields({
             ) : null}
           </div>
 
-          {lookupAddresses.length > 0 ? (
+          {lookupDone && lookupAddresses.length > 0 ? (
             <div>
               <label htmlFor="delivery_address_pick" className={labelClass}>
-                Or pick a full address
+                Select address *
               </label>
               <select
                 id="delivery_address_pick"
-                defaultValue=""
-                onChange={(e) => {
-                  const picked = lookupAddresses[Number(e.target.value)];
-                  if (picked) applyFullAddress(picked);
-                }}
+                value={selectedAddressKey}
+                onChange={(e) => onAddressSelect(e.target.value)}
                 className={inputClass}
               >
-                <option value="" disabled>
-                  Choose an address…
-                </option>
                 {lookupAddresses.map((address, index) => (
-                  <option key={`${address.label}-${index}`} value={index}>
+                  <option key={`${address.label}-${index}`} value={String(index)}>
                     {address.label}
                   </option>
                 ))}
+                <option value={MANUAL_VALUE}>Enter address manually…</option>
               </select>
             </div>
           ) : null}
 
-          {streets.length > 0 ? (
-            <div>
-              <label htmlFor="delivery_street" className={labelClass}>
-                Street name *
-              </label>
-              <select
-                id="delivery_street"
-                value={selectedStreet}
-                onChange={(e) =>
-                  applyStreetAndNumber(e.target.value, houseNumber)
-                }
-                className={inputClass}
-              >
-                <option value="" disabled>
-                  Choose your street…
-                </option>
-                {streets.map((street) => (
-                  <option key={street} value={street}>
-                    {street}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ) : null}
-
-          <div className="grid gap-4 sm:grid-cols-[minmax(0,0.35fr)_minmax(0,1fr)]">
-            <div>
-              <label htmlFor="delivery_house_number" className={labelClass}>
-                House / flat no. *
-              </label>
-              <input
-                id="delivery_house_number"
-                type="text"
-                inputMode="text"
-                autoComplete="address-line1"
-                value={houseNumber}
-                onChange={(e) => {
-                  const next = e.target.value;
-                  if (selectedStreet) {
-                    applyStreetAndNumber(selectedStreet, next);
-                  } else {
-                    setHouseNumber(next);
-                    patch({
-                      address_line_1: composeLine1(next, value.address_line_1),
-                    });
-                  }
-                }}
-                placeholder="12"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label htmlFor="delivery_address_line_1" className={labelClass}>
-                Street number &amp; name *
-              </label>
-              <input
-                id="delivery_address_line_1"
-                type="text"
-                autoComplete="address-line1"
-                required
-                value={value.address_line_1}
-                onChange={(e) => patch({ address_line_1: e.target.value })}
-                placeholder="12 Example Street"
-                className={inputClass}
-              />
-              {fieldErrors?.address_line_1 ? (
-                <p className="mt-1 text-xs text-red-700">
-                  {fieldErrors.address_line_1}
+          {showAddressFields ? (
+            <>
+              {isManual && lookupAddresses.length > 0 ? (
+                <p className={`${bpBodySmClass} text-bp-text/60`}>
+                  Manual entry — type your address below, or pick one from the
+                  list above.
                 </p>
               ) : null}
-            </div>
-          </div>
 
-          <div>
-            <label htmlFor="delivery_address_line_2" className={labelClass}>
-              Flat / building (optional)
-            </label>
-            <input
-              id="delivery_address_line_2"
-              type="text"
-              autoComplete="address-line2"
-              value={value.address_line_2}
-              onChange={(e) => patch({ address_line_2: e.target.value })}
-              className={inputClass}
-            />
-          </div>
+              <div>
+                <label htmlFor="delivery_address_line_1" className={labelClass}>
+                  Address line 1 *
+                </label>
+                <input
+                  id="delivery_address_line_1"
+                  type="text"
+                  autoComplete="address-line1"
+                  required
+                  value={value.address_line_1}
+                  onChange={(e) => patch({ address_line_1: e.target.value })}
+                  placeholder="12 Example Street"
+                  className={inputClass}
+                />
+                {fieldErrors?.address_line_1 ? (
+                  <p className="mt-1 text-xs text-red-700">
+                    {fieldErrors.address_line_1}
+                  </p>
+                ) : null}
+              </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="delivery_city" className={labelClass}>
-                Town *
-              </label>
-              <input
-                id="delivery_city"
-                type="text"
-                autoComplete="address-level2"
-                required
-                value={value.city}
-                onChange={(e) => patch({ city: e.target.value })}
-                className={inputClass}
-              />
-              {fieldErrors?.city ? (
-                <p className="mt-1 text-xs text-red-700">{fieldErrors.city}</p>
-              ) : null}
-            </div>
-            <div>
-              <label htmlFor="delivery_county" className={labelClass}>
-                County
-              </label>
-              <input
-                id="delivery_county"
-                type="text"
-                autoComplete="address-level1"
-                value={value.county}
-                onChange={(e) => patch({ county: e.target.value })}
-                className={inputClass}
-              />
-            </div>
-          </div>
+              <div>
+                <label htmlFor="delivery_address_line_2" className={labelClass}>
+                  Address line 2 (optional)
+                </label>
+                <input
+                  id="delivery_address_line_2"
+                  type="text"
+                  autoComplete="address-line2"
+                  value={value.address_line_2}
+                  onChange={(e) => patch({ address_line_2: e.target.value })}
+                  placeholder="Flat, building, etc."
+                  className={inputClass}
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="delivery_city" className={labelClass}>
+                    Town / city *
+                  </label>
+                  <input
+                    id="delivery_city"
+                    type="text"
+                    autoComplete="address-level2"
+                    required
+                    value={value.city}
+                    onChange={(e) => patch({ city: e.target.value })}
+                    className={inputClass}
+                  />
+                  {fieldErrors?.city ? (
+                    <p className="mt-1 text-xs text-red-700">
+                      {fieldErrors.city}
+                    </p>
+                  ) : null}
+                </div>
+                <div>
+                  <label htmlFor="delivery_county" className={labelClass}>
+                    County (optional)
+                  </label>
+                  <input
+                    id="delivery_county"
+                    type="text"
+                    autoComplete="address-level1"
+                    value={value.county}
+                    onChange={(e) => patch({ county: e.target.value })}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <p className={`${bpBodySmClass} text-bp-text/55`}>
+              Press <span className="font-medium text-bp-text/80">Find address</span>{" "}
+              to fill your details, or{" "}
+              <button
+                type="button"
+                className="font-medium text-bp-accent underline-offset-2 hover:underline"
+                onClick={() => {
+                  setLookupDone(true);
+                  setSelectedAddressKey(MANUAL_VALUE);
+                  setLookupHint("Enter your address manually below.");
+                }}
+              >
+                enter manually
+              </button>
+              .
+            </p>
+          )}
         </div>
       </div>
     </div>

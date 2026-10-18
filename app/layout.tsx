@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
   keywords: [
-    "Brush Past",
+    "BrushPast",
     "UK social enterprise",
     "creative workshops",
     "lived experience stories",

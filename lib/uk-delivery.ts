@@ -121,7 +121,7 @@ export function validateUkDeliveryFields(
   if (!postcodeResult.ok) return postcodeResult;
 
   if (!address_line_1) {
-    return { ok: false, error: "Street number and name are required." };
+    return { ok: false, error: "Address line 1 is required." };
   }
   if (!city) return { ok: false, error: "Town is required." };
 

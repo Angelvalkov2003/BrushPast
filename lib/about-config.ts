@@ -8,11 +8,11 @@ import { PHOTO } from "./photo-placeholder";
 
 export const ABOUT_HERO_IMAGE = {
   src: "/about1.png",
-  alt: "Brush Past founders - Jeremy and David",
+  alt: "BrushPast founders - Jeremy and David",
 } as const;
 
 export const ABOUT_MISSION =
-  "Brush Past works alongside people whose creativity and stories are too often overlooked. Through workshops, mentoring and opportunities to share their work, we help people turn ideas into art, products and new possibilities. People decide what to share and what to keep for themselves.";
+  "BrushPast works alongside people whose creativity and stories are too often overlooked. Through workshops, mentoring and opportunities to share their work, we help people turn ideas into art, products and new possibilities. People decide what to share and what to keep for themselves.";
 
 export const ABOUT_VALUES: {
   title: string;
@@ -46,10 +46,10 @@ export const ABOUT_VALUES: {
 ];
 
 export const ABOUT_FOUNDERS_PATH = {
-  title: "How Brush Past began",
-  body: "Jeremy and David met in rooms of recovery. Volunteering with Groundswell brought them into conversation with people whose stories changed the way they saw the world. Those conversations led to Brush Past: a place where people can create, develop skills and be heard on their own terms.",
+  title: "How BrushPast began",
+  body: "Jeremy and David met in rooms of recovery. Volunteering with Groundswell brought them into conversation with people whose stories changed the way they saw the world. Those conversations led to BrushPast: a place where people can create, develop skills and be heard on their own terms.",
   photo: {
-    alt: "Jeremy and David — founders of Brush Past",
+    alt: "Jeremy and David — founders of BrushPast",
     note: "IMAGE NEEDED: Founders photo for the Groundswell / recovery story box.",
     photoNumber: PHOTO.aboutFoundersPath,
   },
@@ -81,7 +81,7 @@ export const ABOUT_QUOTE =
   "We came from different sides of the street, but met on the same roundabout.";
 
 export const ABOUT_QUOTE_ASIDE =
-  "A chance conversation between two people with very different backgrounds became a shared belief: creativity can rebuild identity, confidence and connection - and that belief became Brush Past.";
+  "A chance conversation between two people with very different backgrounds became a shared belief: creativity can rebuild identity, confidence and connection - and that belief became BrushPast.";
 
 export const ABOUT_SPACES: { label: string; icon: ContactSpaceIconKey }[] = [
   { label: "Conversations", icon: "conversations" },

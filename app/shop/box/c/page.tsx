@@ -39,7 +39,7 @@ export async function generateMetadata({
   return {
     title,
     description:
-      "Choose one coffee, t-shirt or print. Packed as a Brush Past gift box with a gift message.",
+      "Choose one coffee, t-shirt or print. Packed as a BrushPast gift box with a gift message.",
   };
 }
 
@@ -77,7 +77,7 @@ export default async function ShopBoxCPage({
               Choose one collection
             </h1>
             <p className={`${bpBodyClass} mt-4 max-w-xl text-bp-text/75`}>
-              Each One Piece Gift Box is packed as a Brush Past gift box. Pick
+              Each One Piece Gift Box is packed as a BrushPast gift box. Pick
               coffee, t-shirt or print — then choose the design.
             </p>
             <div className="mt-10 grid gap-8 sm:grid-cols-3">

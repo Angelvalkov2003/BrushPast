@@ -42,7 +42,7 @@ export function HomeHero() {
       media={<HomeHeroCollage />}
     >
       <p className={PAGE_HERO_BODY_CLASS}>
-        Brush Past works alongside people whose stories and creativity are too
+        BrushPast works alongside people whose stories and creativity are too
         often brushed past—including those affected by homelessness, addiction
         and recovery, the criminal justice system, and other life challenges.
       </p>

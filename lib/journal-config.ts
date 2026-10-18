@@ -1,7 +1,7 @@
 /** Journal listing page copy */
 
 export const JOURNAL_HERO_TAGLINE =
-  "News, workshops, shop drops and moments from the Brush Past journey.";
+  "News, workshops, shop drops and moments from the BrushPast journey.";
 
 /**
  * Listing dates use `created_at` from Supabase today.

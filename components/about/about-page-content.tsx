@@ -47,7 +47,7 @@ export function AboutPageContent() {
     <>
       <Reveal>
         <PageHero
-          eyebrow="About Brush Past"
+          eyebrow="About BrushPast"
           title={
             <>
               Our mission.
@@ -118,11 +118,11 @@ export function AboutPageContent() {
                   creativity can rebuild identity, confidence and connection
                 </span>{" "}
                 - and that belief became{" "}
-                <span className="font-bold">Brush Past</span>.
+                <span className="font-bold">BrushPast</span>.
               </p>
               <div className="mt-6">
                 <BoxImagePlaceholder
-                  alt="Brush Past — paths that meet"
+                  alt="BrushPast — paths that meet"
                   note="Supporting photograph for the founders’ shared belief."
                   labelNumber={PHOTO.aboutTwoPaths}
                   className="aspect-[4/3] min-h-[160px]"
@@ -236,7 +236,7 @@ export function AboutPageContent() {
           <Reveal variant="fade-scale" delay={REVEAL_STAGGER_MS}>
             <PolaroidFrame index={2} className="h-fit">
               <BoxImagePlaceholder
-                alt="Creative workshop at Brush Past"
+                alt="Creative workshop at BrushPast"
                 note="Workshop moments photograph for the about page."
                 labelNumber={PHOTO.aboutWorkshopMoments}
                 className="min-h-[240px] lg:min-h-[300px]"

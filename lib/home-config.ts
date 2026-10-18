@@ -33,7 +33,7 @@ export const HOME_IMPACT_PILLARS: { title: string; icon: HomepageIconKey }[] = [
  */
 export const HOME_HERO_COLLAGE = {
   ready: true,
-  alt: "Brush Past collage — stories, makers and gifts",
+  alt: "BrushPast collage — stories, makers and gifts",
   desktop: {
     src: "/homepage/1.jpeg",
     width: 1400,

@@ -4,15 +4,15 @@ export const SHOP_GIFT_HERO = {
   eyebrow: "The Archive Shop",
   title: "Every Gift Tells a Story.",
   description:
-    "Curated gifts featuring coffee, wearable art and limited-edition prints that support people. Every purchase is packed as a Brush Past gift box.",
+    "Curated gifts featuring coffee, wearable art and limited-edition prints that support people. Every purchase is packed as a BrushPast gift box.",
   primaryCta: "Build a gift box",
   primaryHref: "#choose-box",
   secondaryCta: "Explore the archive →",
   secondaryHref: "/stories",
   imageAlt:
-    "Open Brush Past gift box with a t-shirt, coffee bag, framed print and a small bottle arranged on a table",
+    "Open BrushPast gift box with a t-shirt, coffee bag, framed print and a small bottle arranged on a table",
   imageNote:
-    "IMAGE NEEDED: Lifestyle photograph of an open cardboard Brush Past box containing a t-shirt, a bag of coffee, a framed print and a small bottle.",
+    "IMAGE NEEDED: Lifestyle photograph of an open cardboard BrushPast box containing a t-shirt, a bag of coffee, a framed print and a small bottle.",
   photoNumber: PHOTO.shopGiftHero,
 } as const;
 
@@ -29,7 +29,7 @@ export const SHOP_SINGLE_OPTIONS = [
     title: "Coffee Box",
     description: "Speciality coffee, beautifully presented. £16.50.",
     href: "/shop/box/c?category=coffee",
-    imageAlt: "Brush Past coffee gift box with a question-mark window",
+    imageAlt: "BrushPast coffee gift box with a question-mark window",
     imageNote:
       "Coffee gift box photograph — question-mark window showing the bag inside.",
     photoNumber: PHOTO.shopSingleCoffee,
@@ -39,7 +39,7 @@ export const SHOP_SINGLE_OPTIONS = [
     title: "T-Shirt Box",
     description: "Premium artist-designed apparel. £39.",
     href: "/shop/box/c?category=tshirt",
-    imageAlt: "Lifestyle photo of a Brush Past t-shirt gift box",
+    imageAlt: "Lifestyle photo of a BrushPast t-shirt gift box",
     imageNote: "IMAGE NEEDED: Folded story t-shirt packed in a gift box.",
     photoNumber: PHOTO.shopSingleTshirt,
   },
@@ -48,7 +48,7 @@ export const SHOP_SINGLE_OPTIONS = [
     title: "Print Box",
     description: "Museum-quality art prints. £28.",
     href: "/shop/box/c?category=print",
-    imageAlt: "Lifestyle photo of a Brush Past print gift box",
+    imageAlt: "Lifestyle photo of a BrushPast print gift box",
     imageNote: "IMAGE NEEDED: Framed or packed print in a gift box.",
     photoNumber: PHOTO.shopSinglePrint,
   },
@@ -122,7 +122,7 @@ export const SHOP_IMPACT = {
   eyebrow: "Your purchase gives back",
   headline:
     "65% of profits are reinvested in supporting creators, workshops and partner organisations.",
-  imageAlt: "Community workshop or artist at work supported by Brush Past",
+  imageAlt: "Community workshop or artist at work supported by BrushPast",
   imageNote:
     "IMAGE NEEDED: Warm photograph of a workshop, artist, or gift moment tied to impact.",
   polaroidCaption: "Creativity that keeps creating",
@@ -134,7 +134,7 @@ export const SHOP_STORY_CARDS = [
     title: "Meet the Creator",
     snippet: "The people behind the work.",
     href: "/stories",
-    imageAlt: "Portrait of a Brush Past creator in the studio",
+    imageAlt: "Portrait of a BrushPast creator in the studio",
     imageNote: "IMAGE NEEDED: Portrait of a community creator.",
     photoNumber: PHOTO.shopStoryMeetArtist,
   },
@@ -162,7 +162,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
     title: "One Piece Gift Boxes",
     description: "One piece — coffee, t-shirt or print — packed as a gift box.",
     href: "/shop/box/c",
-    imageAlt: "A single Brush Past gift box",
+    imageAlt: "A single BrushPast gift box",
     imageNote:
       "IMAGE NEEDED: One gift box with a single piece inside — coffee, a t-shirt or a print.",
     photoNumber: PHOTO.shopMobileSingle,
@@ -172,7 +172,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
     title: "Two Piece Gift Boxes",
     description: "Three fixed two-piece gifts. Choose the designs.",
     href: "/shop#choose-box",
-    imageAlt: "A Brush Past pair gift box",
+    imageAlt: "A BrushPast pair gift box",
     imageNote:
       "IMAGE NEEDED: A gift box styled as a pair — two pieces packed together.",
     photoNumber: PHOTO.shopMobilePairings,

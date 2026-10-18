@@ -5,7 +5,7 @@ import { bpFontVariables } from "components/home/home-typography";
 export const metadata = {
   title: "Workshops",
   description:
-    "Brush Past workshops - safe creative space to make something, connect, and choose your own path.",
+    "BrushPast workshops - safe creative space to make something, connect, and choose your own path.",
 };
 
 export default function WorkshopsPage() {

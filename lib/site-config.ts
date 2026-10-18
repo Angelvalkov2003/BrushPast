@@ -1,10 +1,11 @@
-/** Brush Past — site constants from brushpast.org (not env). */
+/** BrushPast — site constants from brushpast.org (not env). */
 
 export { BRAND_COLORS, BRAND_CSS_VARS } from "lib/brand-colors";
 export type { BrandColorKey } from "lib/brand-colors";
 
-export const SITE_NAME = "Brush Past";
-/** Technical / compact ID only — not for user-facing copy. Prefer SITE_NAME. */
+/** Brand spelling for user-facing copy (joined). Legal entity names keep spaces below. */
+export const SITE_NAME = "BrushPast";
+/** Alias kept for older imports — same as SITE_NAME. */
 export const SITE_NAME_SHORT = "BrushPast";
 
 export const SITE_URL =
@@ -51,7 +52,7 @@ export const SITE_TAGLINE =
   "A creative platform for stories of homelessness, addiction, and life challenges - expressed through art, writing, and photography.";
 
 export const MISSION_SUMMARY =
-  "Brush Past combines storytelling with a social enterprise model: specialty coffee gift boxes, exhibitions, creative workshops, and mentorship, while providing a digital platform to showcase members' work.";
+  "BrushPast combines storytelling with a social enterprise model: specialty coffee gift boxes, exhibitions, creative workshops, and mentorship, while providing a digital platform to showcase members' work.";
 
 export const PROFIT_REINVESTMENT =
   "65% of profits are reinvested directly with creators and partner organisations.";
@@ -62,7 +63,8 @@ export type ShippingMethodId = "dpd" | "event_pickup";
 export const SHIPPING_UK = {
   dpd: {
     id: "dpd" as const,
-    label: "DPD",
+    /** Customer-facing checkout label (courier stays DPD internally). */
+    label: "Delivery",
     price: 3.5,
     days: "2–4 working days",
     courier: "DPD",
