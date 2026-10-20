@@ -111,7 +111,7 @@ export const SHOP_BUILD_OWN = {
   description:
     "Mix any pieces, including duplicates. 5% off any two, 10% off any three, 15% off more than three.",
   href: "/shop/box/d",
-  checks: ["Coffee", "Prints", "T-Shirts", "Duplicates OK"],
+  checks: ["Coffee", "Prints", "T-shirts", "Duplicates OK"],
   imageAlt: "Row of product icons for mixing a custom gift box",
   imageNote:
     "IMAGE NEEDED: Simple illustrations of coffee, a print and a t-shirt in a row.",
@@ -160,7 +160,7 @@ export const SHOP_MOBILE_BOX_CARDS = [
   {
     type: "c" as const,
     title: "One Piece Gift Boxes",
-    description: "One piece — coffee, t-shirt or print — packed as a gift box.",
+    description: "One Piece Gift Boxes: one piece packed as a BrushPast gift box",
     href: "/shop/box/c",
     imageAlt: "A single BrushPast gift box",
     imageNote:

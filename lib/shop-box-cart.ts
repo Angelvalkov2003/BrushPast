@@ -1,4 +1,5 @@
-import type { CartItem } from "./types";
+import { formatCoffeeCartLabel } from "./coffee-format";
+import type { CartItem, ProductVariant } from "./types";
 import {
   categoryLabel,
   boxTypeLabel,
@@ -52,7 +53,7 @@ export function boxStripeDescription(item: CartItem): string | undefined {
   if (!isBoxCartItem(item) || !item.box) return undefined;
   const extras = item.box.contents
     .map((content) => {
-      const variant = content.variantLabel ? ` — ${content.variantLabel}` : "";
+      const variant = content.variantLabel ? ` - ${content.variantLabel}` : "";
       return `${content.title}${variant}`;
     })
     .join("; ");
@@ -105,12 +106,28 @@ export function flattenCartItemToOrderLines(
     }));
   }
 
+  const variantForLabel: ProductVariant = {
+    id: item.variant.id,
+    title: item.variant.title,
+    price: item.price,
+    available: true,
+    sku: item.variant.sku,
+    selectedOptions: item.variant.selectedOptions,
+  };
+  const coffeeLike = /whole\s*bean|ground/i.test(item.variant.title || "");
+  const coffeeLabel = coffeeLike
+    ? formatCoffeeCartLabel(variantForLabel)
+    : "";
+  const singleTitle = coffeeLabel
+    ? `${item.product.title} - ${coffeeLabel}`
+    : item.product.title;
+
   return [
     {
       product_id: item.productId,
       variant_id:
         item.variantId !== item.productId ? item.variantId : undefined,
-      product_title: item.product.title,
+      product_title: singleTitle,
       quantity: item.quantity,
       unit_price: item.price,
       sku: item.variant.sku,

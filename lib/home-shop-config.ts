@@ -17,7 +17,7 @@ export const HOME_GIFT_BOX_PROCESS = {
     },
     {
       title: "Write your message",
-      note: "Thoughtfully packaged — ready to give, with impact built in.",
+      note: "Thoughtfully packaged - ready to give, with impact built in.",
     },
   ],
   cta: "Choose your gift box",

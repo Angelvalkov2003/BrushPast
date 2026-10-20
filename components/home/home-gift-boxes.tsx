@@ -27,7 +27,7 @@ const JOURNEYS = [
   {
     key: "single",
     title: "One Piece Gift Boxes",
-    note: "One piece — coffee, t-shirt or print — packed as a gift box.",
+    note: "One Piece Gift Boxes: one piece packed as a BrushPast gift box",
     href: "/shop/box/c",
     imageAlt: SHOP_SINGLE_OPTIONS[0].imageAlt,
     imageNote: SHOP_SINGLE_OPTIONS[0].imageNote,

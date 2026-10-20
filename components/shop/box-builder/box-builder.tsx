@@ -49,6 +49,7 @@ import {
   sourceLineIdFromSlotId,
   totalItemCount,
 } from "lib/shop-box-rules";
+import { formatCoffeeCartLabel, isCoffeeProduct } from "lib/coffee-format";
 import { formatVariantLabel, optionsFromVariant } from "lib/product-variants";
 import type { BoxCatalog, BoxCatalogProduct } from "lib/supabase/shop-box-products";
 import type { ProductVariant } from "lib/types";
@@ -70,10 +71,9 @@ function selectionFromProduct(
     title: product.title,
     handle: product.handle,
     imageUrl: product.featuredImage?.url ?? "",
-    variantLabel: formatVariantLabel(
-      optionsFromVariant(variant),
-      variant.title,
-    ),
+    variantLabel: isCoffeeProduct(product)
+      ? formatCoffeeCartLabel(variant)
+      : formatVariantLabel(optionsFromVariant(variant), variant.title),
     sku: variant.sku,
     // One Piece (type c) and other category-priced boxes use config retail
     // (e.g. coffee £16) so hub, builder and cart stay aligned. DB variant.price

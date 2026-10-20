@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import { formatCoffeeCartLabel } from "lib/coffee-format";
 import {
   formatVariantLabel,
   getVariantAxes,
@@ -138,9 +139,14 @@ export function VariantPicker({
 
 /** Read-only variant label for cart / checkout summaries. */
 export function VariantLabel({ variant }: { variant: ProductVariant }) {
+  const coffeeText =
+    /whole\s*bean|ground/i.test(variant.title)
+      ? formatCoffeeCartLabel(variant)
+      : "";
   const label = optionsFromVariant(variant);
-  const text =
-    label.length > 0
+  const text = coffeeText
+    ? coffeeText
+    : label.length > 0
       ? label.map((o) => `${o.name} ${o.value}`).join(" · ")
       : variant.title !== "Default"
         ? variant.title

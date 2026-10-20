@@ -7,8 +7,8 @@ import type {
 import { PHOTO } from "./photo-placeholder";
 
 export const ABOUT_HERO_IMAGE = {
-  src: "/about1.png",
-  alt: "BrushPast founders - Jeremy and David",
+  src: "/mainphotos/about-hero.jpg",
+  alt: "BrushPast — people, creativity and community",
 } as const;
 
 export const ABOUT_MISSION =

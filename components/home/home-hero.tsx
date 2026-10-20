@@ -43,7 +43,7 @@ export function HomeHero() {
     >
       <p className={PAGE_HERO_BODY_CLASS}>
         BrushPast works alongside people whose stories and creativity are too
-        often brushed past—including those affected by homelessness, addiction
+        often brushed past, including those affected by homelessness, addiction
         and recovery, the criminal justice system, and other life challenges.
       </p>
       <p className={PAGE_HERO_BODY_CLASS}>

@@ -33,7 +33,7 @@ export const PHOTOGRAPHY_WORKSHOP = {
   partner: "Residents' Association",
   facilitator: "George Amponsah, filmmaker and photographer",
   tagline:
-    "A day-in-the-life photography workshop where residents captured moments that meant something — and took a print home the same day.",
+    "A day-in-the-life photography workshop where residents captured moments that meant something, and took a print home the same day.",
   /** Main image — Drive “41.jpeg” / Workshops */
   heroImage: `${BASE}/41.jpeg`,
   photoNumber: PHOTO.pastWorkshopCottonGardens,

@@ -87,7 +87,7 @@ export const BOX_CATEGORY_ROWS: {
   {
     key: "tshirt",
     slug: SHOP_COLLECTIONS[0].slug,
-    label: "T-Shirt",
+    label: "T-shirts",
     singlePriceGbp: 39,
   },
   {
@@ -215,7 +215,7 @@ export const BOX_HUB_CARDS: BoxHubCard[] = [
     name: "One Piece Gift Boxes",
     eyebrow: "Choose one",
     description:
-      "One piece packed as a BrushPast gift box — coffee, t-shirt or print.",
+      "One Piece Gift Boxes: one piece packed as a BrushPast gift box",
     cta: "Choose one piece →",
     href: "/shop/box/c",
     available: true,
@@ -328,7 +328,7 @@ export function boxTypeIntro(type: BoxTypeId): { lead: string; choose: string } 
       };
     case "c":
       return {
-        lead: "One Piece Gift Boxes — one piece packed as a BrushPast gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
+        lead: "One Piece Gift Boxes: one piece packed as a BrushPast gift box. Choose the design (and size for t-shirts), add a gift message, and checkout.",
         choose: "Choose one design from this collection.",
       };
     case "b":

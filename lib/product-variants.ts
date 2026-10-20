@@ -1,3 +1,4 @@
+import { formatCoffeeCartLabel } from "lib/coffee-format";
 import type { ProductVariant } from "lib/types";
 
 export type VariantOption = { name: string; value: string };
@@ -179,7 +180,10 @@ export function isOptionValueAvailable(
 }
 
 export function orderLineTitle(productTitle: string, variant: ProductVariant): string {
-  const label = formatVariantLabel(optionsFromVariant(variant), variant.title);
+  const coffeeLike = /whole\s*bean|ground/i.test(variant.title);
+  const label = coffeeLike
+    ? formatCoffeeCartLabel(variant)
+    : formatVariantLabel(optionsFromVariant(variant), variant.title);
   return label ? `${productTitle} - ${label}` : productTitle;
 }
 

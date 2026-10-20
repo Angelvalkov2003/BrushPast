@@ -273,13 +273,13 @@ const TEES = [
 ];
 
 const COFFEE_SHORT =
-  "NEW PAGE espresso blend — Brazil & Costa Rica. Dark chocolate, caramelised almonds and red fruits. Roasted in Peckham. £16.50.";
+  "Espresso Blend: Brazil & Costa Rica. Dark chocolate, caramelised almonds and red fruits. Roasted in Peckham. £16.50.";
 
-const COFFEE_FULL = `NEW PAGE
+const COFFEE_FULL = `Espresso Blend
 
 A fresh start. A great cup of coffee.
 
-Rich, smooth and full of character. New Page brings together coffee from Brazil and Costa Rica, with flavours of dark chocolate, caramelised almond and a hint of red fruit.
+Rich, smooth and full of character. Espresso Blend brings together coffee from Brazil and Costa Rica, with flavours of dark chocolate, caramelised almond and a hint of red fruit.
 
 Origins: Brazil & Costa Rica
 Regions: Cerrado Mineiro & San José
@@ -287,9 +287,9 @@ Roast: Medium
 Taste notes: Dark chocolate, caramelised almonds, and red fruits
 Recommended for: AeroPress, cafetière, espresso, moka pot
 
-Options: whole beans, or ground for filter, espresso, or French press / cafetière.
+Options: whole beans, or ground for filter or cafetière.
 
-Every cup carries a story. This isn't just speciality coffee — it's a way to put money, dignity and recognition directly into the hands of people who've been brushed past their whole lives.
+Every cup carries a story. This isn't just speciality coffee - it's a way to put money, dignity and recognition directly into the hands of people who've been brushed past their whole lives.
 
 Each box comes with a randomly selected card featuring one of the creators or organisations we support.
 
@@ -522,7 +522,7 @@ ${IMPACT}`;
     const id = existing?.id ?? randomUUID();
     const row = await upsertProduct(existing, {
       id,
-      title: "New Page — Espresso Blend",
+      title: "Espresso Blend",
       slug: "new-page",
       short_description: COFFEE_SHORT,
       full_description: COFFEE_FULL,
@@ -544,17 +544,12 @@ ${IMPACT}`;
     await replaceVariants(row.id, [
       { name: "Whole beans", sku: "COFFEE-NEW-PAGE-BEANS", status: "active" },
       {
-        name: "Ground — filter",
+        name: "Ground - Filter",
         sku: "COFFEE-NEW-PAGE-FILTER",
         status: "active",
       },
       {
-        name: "Ground — espresso",
-        sku: "COFFEE-NEW-PAGE-ESPRESSO",
-        status: "active",
-      },
-      {
-        name: "Ground — French press / cafetière",
+        name: "Ground - Cafetière",
         sku: "COFFEE-NEW-PAGE-FP",
         status: "active",
       },

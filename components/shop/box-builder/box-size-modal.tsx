@@ -1,14 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal } from "components/ui/modal";
 import { VariantPicker } from "components/product/variant-picker";
+import { CoffeeFormatPicker } from "components/product/coffee-format-picker";
 import {
   bpBodyClass,
   bpBodySmClass,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
+import {
+  coffeeStorefrontVariants,
+  formatCoffeeCartLabel,
+  isCoffeeProduct,
+} from "lib/coffee-format";
 import {
   enrichVariants,
   formatVariantLabel,
@@ -18,6 +24,9 @@ import type { BoxCatalogProduct } from "lib/supabase/shop-box-products";
 import type { ProductVariant } from "lib/types";
 
 export function productNeedsVariantChoice(product: BoxCatalogProduct): boolean {
+  if (isCoffeeProduct(product)) {
+    return coffeeStorefrontVariants(product.variants).length > 1;
+  }
   const available = product.variants.filter((variant) => variant.available);
   return available.length > 1;
 }
@@ -35,6 +44,12 @@ export function defaultVariantForProduct(
       selectedOptions: [],
     };
   }
+  if (isCoffeeProduct(product)) {
+    const beans = coffeeStorefrontVariants(variants).find((v) =>
+      /whole\s*bean/i.test(v.title),
+    );
+    return beans ?? coffeeStorefrontVariants(variants)[0] ?? null;
+  }
   return variants.find((variant) => variant.available) ?? variants[0] ?? null;
 }
 
@@ -49,44 +64,64 @@ export function BoxSizeModal({
   onClose: () => void;
   onConfirm: (variant: ProductVariant) => void;
 }) {
+  const isCoffee = product ? isCoffeeProduct(product) : false;
   const variants = useMemo(
     () => (product ? enrichVariants(product.variants) : []),
     [product],
   );
-  const firstAvailable = variants.find((variant) => variant.available) ?? variants[0];
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selected =
-    variants.find((variant) => variant.id === (selectedId ?? firstAvailable?.id)) ??
-    firstAvailable ??
-    null;
+
+  useEffect(() => {
+    if (!open) setSelectedId(null);
+  }, [open, product?.id]);
+
+  const selected = selectedId
+    ? (variants.find((variant) => variant.id === selectedId) ?? null)
+    : null;
+
   const label = selected
-    ? formatVariantLabel(optionsFromVariant(selected), selected.title)
+    ? isCoffee
+      ? formatCoffeeCartLabel(selected)
+      : formatVariantLabel(optionsFromVariant(selected), selected.title)
     : "";
 
   if (!product) return null;
+
+  const canConfirm = Boolean(selected?.available);
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title={`Choose size — ${product.title}`}
+      title={isCoffee ? product.title : `Choose size - ${product.title}`}
     >
-      <p className={`${bpBodyClass} mb-5 text-sm text-bp-text/70`}>
-        Pick a size before this piece is added to your box.
-      </p>
-      <VariantPicker
-        variants={variants}
-        selectedVariantId={selected?.id ?? null}
-        onVariantChange={(variant) => setSelectedId(variant.id)}
-      />
-      {label ? (
+      {isCoffee ? null : (
+        <p className={`${bpBodyClass} mb-5 text-sm text-bp-text/70`}>
+          Pick a size before this piece is added to your box.
+        </p>
+      )}
+      {isCoffee ? (
+        <CoffeeFormatPicker
+          key={`${product.id}-${open ? "open" : "closed"}`}
+          variants={variants}
+          selectedVariantId={selectedId}
+          onVariantChange={(variant) => setSelectedId(variant?.id ?? null)}
+        />
+      ) : (
+        <VariantPicker
+          variants={variants}
+          selectedVariantId={selected?.id ?? null}
+          onVariantChange={(variant) => setSelectedId(variant.id)}
+        />
+      )}
+      {label && !isCoffee ? (
         <p className={`${bpBodySmClass} mt-4 text-bp-text/60`}>
           Selected: <span className="font-semibold text-bp-text">{label}</span>
         </p>
       ) : null}
       <button
         type="button"
-        disabled={!selected?.available}
+        disabled={!canConfirm}
         onClick={() => {
           if (selected?.available) onConfirm(selected);
         }}

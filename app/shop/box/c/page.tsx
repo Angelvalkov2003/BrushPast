@@ -34,8 +34,8 @@ export async function generateMetadata({
   const locked =
     category && isBoxCategoryKey(category) ? category : undefined;
   const title = locked
-    ? `One Piece Gift Boxes — ${locked === "tshirt" ? "T-Shirt" : locked === "coffee" ? "Coffee" : "Print"}`
-    : "One Piece Gift Boxes — Choose a collection";
+    ? `One Piece Gift Boxes: ${locked === "tshirt" ? "T-shirts" : locked === "coffee" ? "Coffee" : "Print"}`
+    : "One Piece Gift Boxes: Choose a collection";
   return {
     title,
     description:

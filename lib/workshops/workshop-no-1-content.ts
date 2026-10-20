@@ -9,7 +9,7 @@ export const WORKSHOP_NO_1 = {
   location: "Edward Alsop homeless hostel, Victoria, London",
   partner: "Look Ahead",
   tagline:
-    "We worked with Look Ahead so people could design their own T-shirts—and begin to see the value in their own work.",
+    "We worked with Look Ahead so people could design their own T-shirts and begin to see the value in their own work.",
   heroImage: "/workshops/t-shirtworkshopEdwardAlsop.jpg",
   narrativeColumns: [
     {
@@ -66,7 +66,7 @@ export const WORKSHOP_NO_1 = {
   ],
   archive: {
     title: "A living archive",
-    body: "This Edward Alsop workshop marks a chapter of the BrushPast archive—creativity shared in a hostel, with room for longer collaborations to grow.",
+    body: "This Edward Alsop workshop marks a chapter of the BrushPast archive: creativity shared in a hostel, with room for longer collaborations to grow.",
     statsTitle: "Edward Alsop",
     statsLocation: "Victoria • London · Partner: Look Ahead",
     stats: [

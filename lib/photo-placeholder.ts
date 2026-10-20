@@ -9,17 +9,17 @@ export function formatPhotoPlaceholderLabel(number: number): string {
  */
 export const PHOTO_SRC: Partial<Record<number, string>> = {
   1: "/homepage/1.jpeg",
-  2: "/homepage/2.jpg",
+  2: "/homepage/2.png",
   3: "/homepage/3.png",
-  5: "/mainphotos/5.jpg",
+  5: "/mainphotos/5.png",
   /** Coffee gift box with question-mark window (shop one-piece coffee). */
   6: "/shop1.png",
   7: "/mainphotos/7.jpg",
   8: "/mainphotos/8.jpg",
-  9: "/mainphotos/9.jpg",
-  10: "/mainphotos/10.jpg",
+  9: "/mainphotos/9.png",
+  10: "/mainphotos/10.png",
   11: "/mainphotos/11.jpg",
-  12: "/mainphotos/12.png",
+  12: "/mainphotos/12-new.png",
   13: "/mainphotos/13.png",
   18: "/mainphotos/18.webp",
   19: "/mainphotos/19.jpg",

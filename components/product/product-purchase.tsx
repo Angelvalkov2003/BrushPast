@@ -5,11 +5,15 @@ import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Price from "components/price";
 import {
-  bpBodyClass,
   bpBodySmClass,
   bpTitleClass,
   bpTitleUtility,
 } from "components/home/home-typography";
+import {
+  coffeeStorefrontVariants,
+  formatCoffeeCartLabel,
+  isCoffeeProduct,
+} from "lib/coffee-format";
 import {
   enrichVariants,
   formatVariantLabel,
@@ -18,12 +22,13 @@ import {
 import { resolveVariantMaxQuantity } from "lib/cart-stock";
 import type { ProductDetail, ProductVariant } from "lib/types";
 import { useCart } from "components/cart/cart-context";
+import { CoffeeFormatPicker } from "./coffee-format-picker";
 import { VariantPicker } from "./variant-picker";
 
 function pickVariant(
   product: ProductDetail,
   selectedId: string | null,
-): ProductVariant {
+): ProductVariant | null {
   const variants = enrichVariants(product.variants);
   if (variants.length === 0) {
     return {
@@ -34,24 +39,28 @@ function pickVariant(
       selectedOptions: [],
     };
   }
+  if (!selectedId) return null;
   const found = variants.find((v) => v.id === selectedId && v.available);
-  const fallback = variants.find((v) => v.available);
-  return found ?? fallback ?? variants[0]!;
+  return found ?? null;
 }
 
 export function ProductPurchase({ product }: { product: ProductDetail }) {
   const { addCartItem, stockError, clearStockError } = useCart();
   const [justAdded, setJustAdded] = useState(false);
+  const coffee = isCoffeeProduct(product);
   const variants = useMemo(
     () => enrichVariants(product.variants),
     [product.variants],
   );
-  const hasVariants = variants.length > 0;
+  const hasVariants = coffee
+    ? coffeeStorefrontVariants(variants).length > 1
+    : variants.length > 0;
 
-  const defaultVariantId = useMemo(
-    () => variants.find((v) => v.available)?.id ?? variants[0]?.id ?? null,
-    [variants],
-  );
+  const defaultVariantId = useMemo(() => {
+    if (coffee) return null;
+    return variants.find((v) => v.available)?.id ?? variants[0]?.id ?? null;
+  }, [coffee, variants]);
+
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     defaultVariantId,
   );
@@ -67,14 +76,16 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
   }, [justAdded]);
 
   const variant = pickVariant(product, selectedVariantId);
-  const canAdd = variant.available && product.available;
-  const mustPickVariant = hasVariants && variants.length > 1;
-  const selectedLabel = hasVariants
-    ? formatVariantLabel(optionsFromVariant(variant), variant.title)
+  const canAdd = Boolean(variant?.available && product.available);
+  const mustPickVariant = hasVariants && (coffee || variants.length > 1);
+  const selectedLabel = variant
+    ? coffee
+      ? formatCoffeeCartLabel(variant)
+      : formatVariantLabel(optionsFromVariant(variant), variant.title)
     : "";
 
   const handleAdd = () => {
-    if (!canAdd) return;
+    if (!variant || !canAdd) return;
     clearStockError();
     const variantForCart = {
       ...variant,
@@ -95,10 +106,10 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
     <div className="border-t border-bp-text/10 pt-8">
       <div className="mb-6 flex items-baseline gap-3">
         <Price
-          amount={variant.price.toString()}
+          amount={(variant?.price ?? product.price).toString()}
           className={`${bpTitleClass} ${bpTitleUtility} text-4xl font-bold text-bp-text`}
         />
-        {variant.inventory != null && variant.inventory > 0 ? (
+        {variant?.inventory != null && variant.inventory > 0 ? (
           <span className={`${bpBodySmClass} text-bp-accent`}>
             {variant.inventory} left
           </span>
@@ -112,19 +123,29 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
 
       {mustPickVariant ? (
         <div className="mb-6">
-          <VariantPicker
-            variants={variants}
-            selectedVariantId={selectedVariantId}
-            onVariantChange={(v) => setSelectedVariantId(v.id)}
-          />
-          {selectedLabel ? (
-            <p className={`${bpBodySmClass} mt-3 text-bp-text/60`}>
-              Selected:{" "}
-              <span className="font-semibold text-bp-text">
-                {selectedLabel}
-              </span>
-            </p>
-          ) : null}
+          {coffee ? (
+            <CoffeeFormatPicker
+              variants={variants}
+              selectedVariantId={selectedVariantId}
+              onVariantChange={(v) => setSelectedVariantId(v?.id ?? null)}
+            />
+          ) : (
+            <>
+              <VariantPicker
+                variants={variants}
+                selectedVariantId={selectedVariantId}
+                onVariantChange={(v) => setSelectedVariantId(v.id)}
+              />
+              {selectedLabel ? (
+                <p className={`${bpBodySmClass} mt-3 text-bp-text/60`}>
+                  Selected:{" "}
+                  <span className="font-semibold text-bp-text">
+                    {selectedLabel}
+                  </span>
+                </p>
+              ) : null}
+            </>
+          )}
         </div>
       ) : null}
 
@@ -150,11 +171,15 @@ export function ProductPurchase({ product }: { product: ProductDetail }) {
         ) : (
           <>
             <PlusIcon className="absolute left-5 h-5 w-5" aria-hidden />
-            {canAdd ? "Add to bag →" : "Out of stock"}
+            {canAdd
+              ? "Add to bag →"
+              : coffee && !variant
+                ? "Choose your coffee"
+                : "Out of stock"}
           </>
         )}
       </button>
-      {(stockError || (!canAdd && variant.maxQuantity === 0)) && (
+      {(stockError || (!canAdd && variant?.maxQuantity === 0)) && (
         <p className="mt-3 text-sm text-red-700" role="alert">
           {stockError ??
             (selectedLabel

@@ -72,11 +72,6 @@ export function AboutPageContent() {
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                 </div>
-                <p
-                  className={`${homeHandClass} ${bpWhisperUtility} mt-3 text-center text-xl text-bp-text/75 md:text-2xl`}
-                >
-                  Jeremy &amp; David
-                </p>
               </PolaroidFrame>
             </Reveal>
           }
