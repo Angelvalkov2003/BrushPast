@@ -52,7 +52,8 @@ Create a `.env.local` file in the root directory:
 ```env
 # Site Configuration
 SITE_NAME=My Ecommerce Store
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://brushpast.org
+# Local: NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 # Contact Email - Used for contact form submissions and new order notifications
 CONTACT_EMAIL=your-email@example.com

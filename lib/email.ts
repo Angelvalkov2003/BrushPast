@@ -1,5 +1,6 @@
 import { Resend } from "resend";
-import { SITE_NAME, SITE_URL } from "lib/site-config";
+import { SITE_NAME } from "lib/site-config";
+import { baseUrl } from "lib/utils";
 
 if (!process.env.RESEND_API_KEY) {
   throw new Error("RESEND_API_KEY is not set");
@@ -12,7 +13,7 @@ if (!process.env.CONTACT_EMAIL) {
 const resend = new Resend(process.env.RESEND_API_KEY);
 const contactEmail = process.env.CONTACT_EMAIL;
 const siteName = SITE_NAME;
-const siteUrl = SITE_URL;
+const siteUrl = baseUrl;
 
 export interface ContactFormData {
   name: string;

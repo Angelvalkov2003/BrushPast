@@ -8,10 +8,14 @@ export const SITE_NAME = "BrushPast";
 /** Alias kept for older imports — same as SITE_NAME. */
 export const SITE_NAME_SHORT = "BrushPast";
 
+/** Canonical production domain (www redirects to apex). */
+export const SITE_URL_PRODUCTION = "https://brushpast.org";
+
 export const SITE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://brushpast.org"
-    : "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  (process.env.NODE_ENV === "production"
+    ? SITE_URL_PRODUCTION
+    : "http://localhost:3000");
 
 /** Public contact (footer, contact page). Source: brushpast.org */
 export const PUBLIC_CONTACT_EMAIL = "hello@brushpast.org";
