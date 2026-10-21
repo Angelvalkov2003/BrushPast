@@ -3,7 +3,6 @@ import {
   BYO_DISCOUNT,
   NEXT_CHAPTER_PRICE_GBP,
   comboFromCategories,
-  singlePriceForCategory,
   type BoxCategoryKey,
   type BoxDraft,
   type BoxPairComboId,
@@ -31,11 +30,13 @@ export function skuSum(items: BoxSelectionItem[]): number {
   );
 }
 
-/** Retail sum using category-fixed single prices × quantity. */
+/**
+ * Retail sum from each line's unitPrice × quantity.
+ * unitPrice is category retail for normal SKUs, or £1 for test123.
+ */
 export function categoryRetailSum(items: BoxSelectionItem[]): number {
   return items.reduce(
-    (sum, item) =>
-      sum + singlePriceForCategory(item.categoryKey) * item.quantity,
+    (sum, item) => sum + item.unitPrice * item.quantity,
     0,
   );
 }
@@ -78,7 +79,7 @@ export function byoPriceBreakdown(items: BoxSelectionItem[]): ByoPriceBreakdown 
   }
   if (count === 1) {
     const first = items[0];
-    const total = first ? singlePriceForCategory(first.categoryKey) : 0;
+    const total = first ? first.unitPrice * first.quantity : 0;
     return {
       count,
       retail: total,

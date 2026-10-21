@@ -286,6 +286,23 @@ export function singlePriceForCategory(key: BoxCategoryKey): number {
   );
 }
 
+/** £1 checkout probe — keeps catalog retail intact for every other product. */
+export function isCheckoutTestProduct(handle: string | null | undefined): boolean {
+  return handle === "test123";
+}
+
+/** Category retail for box pricing, except the test SKU which uses its DB price (£1). */
+export function boxUnitPriceForProduct(product: {
+  handle: string;
+  categoryKey: BoxCategoryKey;
+  price: number;
+}): number {
+  if (isCheckoutTestProduct(product.handle)) {
+    return Number(product.price) || 1;
+  }
+  return singlePriceForCategory(product.categoryKey);
+}
+
 export function boxComboIdToDb(
   comboId?: BoxPairComboId,
 ): "print_tshirt" | "print_coffee" | "tshirt_coffee" | undefined {

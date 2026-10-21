@@ -29,7 +29,7 @@ import {
   boxTypeIntro,
   boxTypeLabel,
   emptyBoxDraft,
-  singlePriceForCategory,
+  boxUnitPriceForProduct,
   type BoxBuilderStep,
   type BoxCategoryKey,
   type BoxDraft,
@@ -75,10 +75,8 @@ function selectionFromProduct(
       ? formatCoffeeCartLabel(variant)
       : formatVariantLabel(optionsFromVariant(variant), variant.title),
     sku: variant.sku,
-    // One Piece (type c) and other category-priced boxes use config retail
-    // (e.g. coffee £16) so hub, builder and cart stay aligned. DB variant.price
-    // can lag seed data — do not use it for category-fixed boxes.
-    unitPrice: singlePriceForCategory(product.categoryKey),
+    // Category retail for real SKUs; test123 keeps its £1 DB price for checkout probes.
+    unitPrice: boxUnitPriceForProduct(product),
     quantity: 1,
     maxQuantity: variant.maxQuantity,
   };

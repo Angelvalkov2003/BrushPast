@@ -14,7 +14,7 @@ import { OutOfStockPlaque } from "components/shop/out-of-stock-plaque";
 import { ProductSizeRow } from "components/shop/product-size-row";
 import { formatPrice } from "lib/currency";
 import { isValidImageUrl } from "lib/image-url";
-import { singlePriceForCategory } from "lib/shop-box-config";
+import { boxUnitPriceForProduct } from "lib/shop-box-config";
 import { sizeAvailabilityFromVariants } from "lib/product-variants";
 import type { BoxCatalogProduct } from "lib/supabase/shop-box-products";
 
@@ -43,7 +43,7 @@ export function BoxProductTile({
   const inBox = selected || selectedQuantity > 0;
   const imageUrl = product.featuredImage?.url;
   const outOfStock = !product.available;
-  const displayPrice = singlePriceForCategory(product.categoryKey);
+  const displayPrice = boxUnitPriceForProduct(product);
   const sizes =
     product.categoryKey === "tshirt"
       ? sizeAvailabilityFromVariants(product.variants)
