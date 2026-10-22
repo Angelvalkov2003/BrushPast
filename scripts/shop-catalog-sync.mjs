@@ -1,6 +1,5 @@
 /**
  * Sync Brush Past shop catalog from Jeremy/Angel product brief (Oct 2026).
- * - Keeps test123
  * - Does NOT set/overwrite images (main_image_url left as-is on updates; null on creates)
  * - Run: node scripts/shop-catalog-sync.mjs
  */

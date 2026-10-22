@@ -30,10 +30,7 @@ export function skuSum(items: BoxSelectionItem[]): number {
   );
 }
 
-/**
- * Retail sum from each line's unitPrice × quantity.
- * unitPrice is category retail for normal SKUs, or £1 for test123.
- */
+/** Retail sum from each line's unitPrice × quantity (category retail at add time). */
 export function categoryRetailSum(items: BoxSelectionItem[]): number {
   return items.reduce(
     (sum, item) => sum + item.unitPrice * item.quantity,

@@ -83,12 +83,11 @@ export const SHIPPING_UK = {
 } as const;
 
 /**
- * Temporary test option. Hide on Vercel with:
- * NEXT_PUBLIC_SHOW_EVENT_PICKUP=false
- * (default: shown when unset)
+ * Event pickup is off for live shop. Opt in only with:
+ * NEXT_PUBLIC_SHOW_EVENT_PICKUP=true
  */
 export const SHOW_EVENT_PICKUP =
-  process.env.NEXT_PUBLIC_SHOW_EVENT_PICKUP !== "false";
+  process.env.NEXT_PUBLIC_SHOW_EVENT_PICKUP === "true";
 
 export function shippingMethodsForCheckout() {
   const methods: (typeof SHIPPING_UK)[ShippingMethodId][] = [SHIPPING_UK.dpd];

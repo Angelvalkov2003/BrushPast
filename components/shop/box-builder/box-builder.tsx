@@ -75,7 +75,6 @@ function selectionFromProduct(
       ? formatCoffeeCartLabel(variant)
       : formatVariantLabel(optionsFromVariant(variant), variant.title),
     sku: variant.sku,
-    // Category retail for real SKUs; test123 keeps its £1 DB price for checkout probes.
     unitPrice: boxUnitPriceForProduct(product),
     quantity: 1,
     maxQuantity: variant.maxQuantity,
